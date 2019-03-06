@@ -8,8 +8,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- Favicons -->
-	<link rel="shortcut icon" href="images/favicon.ico">
-	<link rel="apple-touch-icon" href="images/icon.png">
+	<link rel="shortcut icon" href="/resources/images/favicon.ico">
+	<link rel="apple-touch-icon" href="/resources/images/icon.png">
 
 	<!-- Google font (font-family: 'Roboto', sans-serif; Poppins ; Satisfy) -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet"> 
@@ -40,8 +40,8 @@
 				<div class="row">
 					<div class="col-md-6 col-sm-6 col-6 col-lg-2">
 						<div class="logo">
-							<a href="index.html">
-								<img src="images/logo/logo.png" alt="logo images">
+							<a href="index.jsp">
+								<img src="/resources/images/logo/logo.png" alt="logo images">
 							</a>
 						</div>
 					</div>
@@ -180,7 +180,7 @@
 											<div class="miniproduct">
 												<div class="item01 d-flex">
 													<div class="thumb">
-														<a href="product-details.html"><img src="images/product/sm-img/1.jpg" alt="product images"></a>
+														<a href="product-details.html"><img src="/resources/images/product/sm-img/1.jpg" alt="product images"></a>
 													</div>
 													<div class="content">
 														<h6><a href="product-details.html">Voyage Yoga Bag</a></h6>
@@ -3012,7 +3012,7 @@
 							<div class="footer__widget footer__menu">
 								<div class="ft__logo">
 									<a href="index.html">
-										<img src="images/logo/3.png" alt="logo">
+										<img src="/resources/images/logo/3.png" alt="logo">
 									</a>
 									<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered duskam alteration variations of passages</p>
 								</div>

@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html class="no-js" lang="zxx">
 <head>
 	<meta charset="utf-8">
@@ -8,24 +8,24 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- Favicons -->
-	<link rel="shortcut icon" href="images/favicon.ico">
-	<link rel="apple-touch-icon" href="images/icon.png">
+	<link rel="shortcut icon" href="/resources/images/favicon.ico">
+	<link rel="apple-touch-icon" href="/resources/images/icon.png">
 
 	<!-- Google font (font-family: 'Roboto', sans-serif; Poppins ; Satisfy) -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet"> 
 	<link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,600,600i,700,700i,800" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet"> 
 
 	<!-- Stylesheets -->
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/plugins.css">
+	<link rel="stylesheet" href="/resources/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/resources/css/plugins.css">
 	<link rel="stylesheet" href="style.css">
 
 	<!-- Cusom css -->
-   <link rel="stylesheet" href="css/custom.css">
+   <link rel="stylesheet" href="/resources/css/custom.css">
 
 	<!-- Modernizer js -->
-	<script src="js/vendor/modernizr-3.5.0.min.js"></script>
+	<script src="/resources/js/vendor/modernizr-3.5.0.min.js"></script>
 </head>
 <body>
 	<!--[if lte IE 9]>
@@ -42,7 +42,7 @@
 					<div class="col-md-4 col-sm-4 col-7 col-lg-2">
 						<div class="logo">
 							<a href="index.html">
-								<img src="images/logo/logo.png" alt="logo images">
+								<img src="/resources/images/logo/logo.png" alt="logo images">
 							</a>
 						</div>
 					</div>
@@ -181,7 +181,7 @@
 											<div class="miniproduct">
 												<div class="item01 d-flex">
 													<div class="thumb">
-														<a href="product-details.html"><img src="images/product/sm-img/1.jpg" alt="product images"></a>
+														<a href="product-details.html"><img src="/resources/images/product/sm-img/1.jpg" alt="product images"></a>
 													</div>
 													<div class="content">
 														<h6><a href="product-details.html">Voyage Yoga Bag</a></h6>
@@ -197,7 +197,7 @@
 												</div>
 												<div class="item01 d-flex mt--20">
 													<div class="thumb">
-														<a href="product-details.html"><img src="images/product/sm-img/3.jpg" alt="product images"></a>
+														<a href="product-details.jsp"><img src="/resources/images/product/sm-img/3.jpg" alt="product images"></a>
 													</div>
 													<div class="content">
 														<h6><a href="product-details.html">Impulse Duffle</a></h6>
@@ -213,7 +213,7 @@
 												</div>
 												<div class="item01 d-flex mt--20">
 													<div class="thumb">
-														<a href="product-details.html"><img src="images/product/sm-img/2.jpg" alt="product images"></a>
+														<a href="product-details.html"><img src="/resources/images/product/sm-img/2.jpg" alt="product images"></a>
 													</div>
 													<div class="content">
 														<h6><a href="product-details.html">Compete Track Tote</a></h6>
@@ -395,7 +395,7 @@
 						<div class="blog-details content">
 							<article class="blog-post-details">
 								<div class="post-thumbnail">
-									<img src="images/blog/big-img/1.jpg" alt="blog images">
+									<img src="/resources/images/blog/big-img/1.jpg" alt="blog images">
 								</div>
 								<div class="post_wrapper">
 									<div class="post_header">
@@ -430,7 +430,7 @@
 									<li>
 										<div class="wn__comment">
 											<div class="thumb">
-												<img src="images/blog/comment/1.jpeg" alt="comment images">
+												<img src="/resources/images/blog/comment/1.jpeg" alt="comment images">
 											</div>
 											<div class="content">
 												<div class="comnt__author d-block d-sm-flex">
@@ -447,7 +447,7 @@
 									<li class="comment_reply">
 										<div class="wn__comment">
 											<div class="thumb">
-												<img src="images/blog/comment/1.jpeg" alt="comment images">
+												<img src="/resources/images/blog/comment/1.jpeg" alt="comment images">
 											</div>
 											<div class="content">
 												<div class="comnt__author d-block d-sm-flex">
@@ -509,7 +509,7 @@
 										<li>
 											<div class="post-wrapper d-flex">
 												<div class="thumb">
-													<a href="blog-details.html"><img src="images/blog/sm-img/1.jpg" alt="blog images"></a>
+													<a href="blog-details.html"><img src="/resources/images/blog/sm-img/1.jpg" alt="blog images"></a>
 												</div>
 												<div class="content">
 													<h4><a href="blog-details.html">Blog image post</a></h4>
@@ -520,7 +520,7 @@
 										<li>
 											<div class="post-wrapper d-flex">
 												<div class="thumb">
-													<a href="blog-details.html"><img src="images/blog/sm-img/2.jpg" alt="blog images"></a>
+													<a href="blog-details.html"><img src="/resources/images/blog/sm-img/2.jpg" alt="blog images"></a>
 												</div>
 												<div class="content">
 													<h4><a href="blog-details.html">Post with Gallery</a></h4>
@@ -531,7 +531,7 @@
 										<li>
 											<div class="post-wrapper d-flex">
 												<div class="thumb">
-													<a href="blog-details.html"><img src="images/blog/sm-img/3.jpg" alt="blog images"></a>
+													<a href="blog-details.html"><img src="/resources/images/blog/sm-img/3.jpg" alt="blog images"></a>
 												</div>
 												<div class="content">
 													<h4><a href="blog-details.html">Post with Video</a></h4>
@@ -542,7 +542,7 @@
 										<li>
 											<div class="post-wrapper d-flex">
 												<div class="thumb">
-													<a href="blog-details.html"><img src="images/blog/sm-img/4.jpg" alt="blog images"></a>
+													<a href="blog-details.html"><img src="/resources/images/blog/sm-img/4.jpg" alt="blog images"></a>
 												</div>
 												<div class="content">
 													<h4><a href="blog-details.html">Maecenas ultricies</a></h4>
@@ -553,7 +553,7 @@
 										<li>
 											<div class="post-wrapper d-flex">
 												<div class="thumb">
-													<a href="blog-details.html"><img src="images/blog/sm-img/5.jpg" alt="blog images"></a>
+													<a href="blog-details.html"><img src="/resources/images/blog/sm-img/5.jpg" alt="blog images"></a>
 												</div>
 												<div class="content">
 													<h4><a href="blog-details.html">Blog image post</a></h4>
@@ -572,7 +572,7 @@
 									<li>
 										<div class="post-wrapper">
 											<div class="thumb">
-												<img src="images/blog/comment/1.jpeg" alt="Comment images">
+												<img src="/resources/images/blog/comment/1.jpeg" alt="Comment images">
 											</div>
 											<div class="content">
 												<p>demo says:</p>
@@ -583,7 +583,7 @@
 									<li>
 										<div class="post-wrapper">
 											<div class="thumb">
-												<img src="images/blog/comment/1.jpeg" alt="Comment images">
+												<img src="/resources/images/blog/comment/1.jpeg" alt="Comment images">
 											</div>
 											<div class="content">
 												<p>Admin says:</p>
@@ -594,7 +594,7 @@
 									<li>
 										<div class="post-wrapper">
 											<div class="thumb">
-												<img src="images/blog/comment/1.jpeg" alt="Comment images">
+												<img src="/resources/images/blog/comment/1.jpeg" alt="Comment images">
 											</div>
 											<div class="content">
 												<p>Irin says:</p>
@@ -605,7 +605,7 @@
 									<li>
 										<div class="post-wrapper">
 											<div class="thumb">
-												<img src="images/blog/comment/1.jpeg" alt="Comment images">
+												<img src="/resources/images/blog/comment/1.jpeg" alt="Comment images">
 											</div>
 											<div class="content">
 												<p>Boighor says:</p>
@@ -616,7 +616,7 @@
 									<li>
 										<div class="post-wrapper">
 											<div class="thumb">
-												<img src="images/blog/comment/1.jpeg" alt="Comment images">
+												<img src="/resources/images/blog/comment/1.jpeg" alt="Comment images">
 											</div>
 											<div class="content">
 												<p>demo says:</p>
@@ -668,7 +668,7 @@
 							<div class="footer__widget footer__menu">
 								<div class="ft__logo">
 									<a href="index.html">
-										<img src="images/logo/3.png" alt="logo">
+										<img src="/resources/images/logo/3.png" alt="logo">
 									</a>
 									<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered duskam alteration variations of passages</p>
 								</div>
@@ -706,7 +706,7 @@
 						</div>
 						<div class="col-lg-6 col-md-6 col-sm-12">
 							<div class="payment text-right">
-								<img src="images/icons/payment.png" alt="" />
+								<img src="/resources/images/icons/payment.png" alt="" />
 							</div>
 						</div>
 					</div>
