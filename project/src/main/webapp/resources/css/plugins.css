@@ -6,22 +6,22 @@
 
 **********************************************************************************/
 
-@import url(plugins/font-awesome.min.css);
-@import url(plugins/bicon.min.css);
-@import url(plugins/pe-icon-7-stroke.css);
-@import url(plugins/slick.min.css);
-@import url(plugins/fakeloader.css);
-@import url(plugins/nivo-slider.css);
-@import url(plugins/nivo-preview-2.css);
+@import url(/resources/css/plugins/font-awesome.min.css);
+@import url(/resources/css/plugins/bicon.min.css);
+@import url(/resources/css/plugins/pe-icon-7-stroke.css);
+@import url(/resources/css/plugins/slick.min.css);
+@import url(/resources/css/plugins/fakeloader.css);
+@import url(/resources/css/plugins/nivo-slider.css);
+@import url(/resources/css/plugins/nivo-preview-2.css);
 
-@import url(plugins/owl.carousel.min.css);
-@import url(plugins/owl.theme.default.min.css);
+@import url(/resources/css/plugins/owl.carousel.min.css);
+@import url(/resources/css/plugins/owl.theme.default.min.css);
 
-@import url(plugins/material-design-iconic-font.min.css);
-@import url(plugins/animation.css);
-@import url(plugins/fancybox.css);
-@import url(plugins/mainmenu.css);
-@import url(plugins/fotorama.css);
-@import url(plugins/simple-line-icons.css);
-@import url(plugins/jquery-ui.min.css);
-@import url(plugins/lightbox.css);
+@import url(/resources/css/plugins/material-design-iconic-font.min.css);
+@import url(/resources/css/plugins/animation.css);
+@import url(/resources/css/plugins/fancybox.css);
+@import url(/resources/css/plugins/mainmenu.css);
+@import url(/resources/css/plugins/fotorama.css);
+@import url(/resources/css/plugins/simple-line-icons.css);
+@import url(/resources/css/plugins/jquery-ui.min.css);
+@import url(/resources/css/plugins/lightbox.css);

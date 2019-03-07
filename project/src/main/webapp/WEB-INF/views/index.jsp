@@ -22,7 +22,7 @@
 	
 	<link rel="stylesheet" href="/resources/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/resources/css/plugins.css">
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="/resources/css/style.css">
 
 	<!-- Cusom css -->
    <link rel="stylesheet" href="/resources/css/custom.css">
