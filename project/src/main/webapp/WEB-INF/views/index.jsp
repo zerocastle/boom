@@ -19,6 +19,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet"> 
 
 	<!-- Stylesheets -->
+	
 	<link rel="stylesheet" href="/resources/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/resources/css/plugins.css">
 	<link rel="stylesheet" href="style.css">
