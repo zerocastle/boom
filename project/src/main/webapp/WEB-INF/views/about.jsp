@@ -1,4 +1,6 @@
-<!doctype jsp>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!doctype html>
 <jsp class="no-js" lang="zxx">
 <head>
 	<meta charset="utf-8">
