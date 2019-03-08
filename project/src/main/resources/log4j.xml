@@ -11,7 +11,7 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.aven.test">
+	<logger name="org.ys.boarder">
 		<level value="info" />
 	</logger>
 	
