@@ -8,5 +8,8 @@
 </head>
 <body>
 상점문의
+<h1 id="inquiry_title">title</h1>
+<hr>
+<p id="inquiry_content"> content</p>
 </body>
 </html>
