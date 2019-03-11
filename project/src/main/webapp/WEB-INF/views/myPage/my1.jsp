@@ -14,145 +14,206 @@
 
 </head>
 <body>
+
+
 	 <div class="album py-5 bg-light">
     <div class="container">
-<!-- 페이지 너비에 따라 자동으로 줄이 바뀐ㅏ. -->
+
       <div class="row">
+<!-- 페이지 너비에 따라 자동으로 줄이 바뀐다 -->
+<!-- 한칸 END -->
+<!-- 한 칸 START -->
         <div class="col-md-4">
           <div class="card mb-4 shadow-sm">
             <img src="img/profile.png" alt="비었다." width="auto" height="225px"><text fill="#eceeef" dy=".3em" x="50%" y="50%"></text>
             <div class="card-body">
               <p class="card-text">판매글제목</p>
               <div class="d-flex justify-content-between align-items-center">
-                <small id="prodlist-price" class="text-muted">30000원</small>
-                <small id="prodlist-time" class="text-muted">3분 전</small> </div><br>
-                <small id="prodlist-address" class="text-muted">대구 북구 복현동</small>
+                <small class="text-muted">30000원</small>
+                <small class="text-muted">3분 전</small>
+                <small class="text-muted">대구 북구 복현동</small>
+              </div>
             </div>
           </div>
         </div>
+<!-- 한칸 END -->
+<!-- 한 칸 START -->
         <div class="col-md-4">
           <div class="card mb-4 shadow-sm">
              <img src="img/moongirl.png" alt="비었다.2" width="auto" height="225px"><text fill="#eceeef" dy=".3em" x="50%" y="50%"></text>
             <div class="card-body">
-              <p class="card-text">판매글 두번째 제목</p>
+              <p class="card-text">병재와근영</p>
               <div class="d-flex justify-content-between align-items-center">
-               <small class="text-muted">9 mins</small>
-               <small class="text-muted">9 mins</small>
-                <small class="text-muted">9 mins</small>
+              <small class="text-muted">1200원</small>
+                <small class="text-muted">30분 전</small>
+                <small class="text-muted">대전 중구 강호동</small><!-- 시간표시 -->
               </div>
             </div>
           </div>
         </div>
+<!-- 한칸 END -->
+<!-- 한 칸 START -->
         <div class="col-md-4">
           <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect fill="#55595c" width="100%" height="100%"/><text fill="#eceeef" dy=".3em" x="50%" y="50%">Thumbnail</text></svg>
+             <img src="img/SSIBA.png" alt="비었다.3" width="auto" height="225px"><text fill="#eceeef" dy=".3em" x="50%" y="50%"></text>
             <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+              <p class="card-text">귀여운 개 SSiBa</p>
               <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
+                <small class="text-muted">980000원</small>
+                <small class="text-muted">2시간 전</small>
+                <small class="text-muted">서울 남구 남포동</small><!-- 시간표시 -->
               </div>
             </div>
           </div>
         </div>
+<!-- 한칸 END -->
+<!-- 줄바뀜 -->
+<!-- 한 칸 START -->
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+            <img src="img/profile.png" alt="비었다." width="auto" height="225px"><text fill="#eceeef" dy=".3em" x="50%" y="50%"></text>
+            <div class="card-body">
+              <p class="card-text">판매글제목</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">30000원</small>
+                <small class="text-muted">3분 전</small>
+                <small class="text-muted">대구 북구 복현동</small>
+              </div>
+            </div>
+          </div>
+        </div>
+<!-- 한칸 END -->
+<!-- 한 칸 START -->
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+             <img src="img/moongirl.png" alt="비었다.2" width="auto" height="225px"><text fill="#eceeef" dy=".3em" x="50%" y="50%"></text>
+            <div class="card-body">
+              <p class="card-text">병재와근영</p>
+              <div class="d-flex justify-content-between align-items-center">
+              <small class="text-muted">1200원</small>
+                <small class="text-muted">30분 전</small>
+                <small class="text-muted">대전 중구 강호동</small><!-- 시간표시 -->
+              </div>
+            </div>
+          </div>
+        </div>
+<!-- 한칸 END -->
+<!-- 한 칸 START -->
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+             <img src="img/SSIBA.png" alt="비었다.3" width="auto" height="225px"><text fill="#eceeef" dy=".3em" x="50%" y="50%"></text>
+            <div class="card-body">
+              <p class="card-text">귀여운 개 SSiBa</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">980000원</small>
+                <small class="text-muted">2시간 전</small>
+                <small class="text-muted">서울 남구 남포동</small><!-- 시간표시 -->
+              </div>
+            </div>
+          </div>
+        </div>
+<!-- 한칸 END -->
+<!-- 줄바뀜 -->
+<!-- 한 칸 START -->
+<div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+            <img src="img/profile.png" alt="비었다." width="auto" height="225px"><text fill="#eceeef" dy=".3em" x="50%" y="50%"></text>
+            <div class="card-body">
+              <p class="card-text">판매글제목</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">30000원</small>
+                <small class="text-muted">3분 전</small>
+                <small class="text-muted">대구 북구 복현동</small>
+              </div>
+            </div>
+          </div>
+        </div>
+<!-- 한칸 END -->
+<!-- 한 칸 START -->
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+             <img src="img/moongirl.png" alt="비었다.2" width="auto" height="225px"><text fill="#eceeef" dy=".3em" x="50%" y="50%"></text>
+            <div class="card-body">
+              <p class="card-text">병재와근영</p>
+              <div class="d-flex justify-content-between align-items-center">
+              <small class="text-muted">1200원</small>
+                <small class="text-muted">30분 전</small>
+                <small class="text-muted">대전 중구 강호동</small><!-- 시간표시 -->
+              </div>
+            </div>
+          </div>
+        </div>
+<!-- 한칸 END -->
+<!-- 한 칸 START -->
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+             <img src="img/SSIBA.png" alt="비었다.3" width="auto" height="225px"><text fill="#eceeef" dy=".3em" x="50%" y="50%"></text>
+            <div class="card-body">
+              <p class="card-text">귀여운 개 SSiBa</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">980000원</small>
+                <small class="text-muted">2시간 전</small>
+                <small class="text-muted">서울 남구 남포동</small><!-- 시간표시 -->
+              </div>
+            </div>
+          </div>
+        </div>
+<!-- 한칸 END -->
+<!-- 줄바뀜 -->
+<!-- 한 칸 START -->
+<div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+            <img src="img/profile.png" alt="비었다." width="auto" height="225px"><text fill="#eceeef" dy=".3em" x="50%" y="50%"></text>
+            <div class="card-body">
+              <p class="card-text">판매글제목</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">30000원</small>
+                <small class="text-muted">3분 전</small>
+                <small class="text-muted">대구 북구 복현동</small>
+              </div>
+            </div>
+          </div>
+        </div>
+<!-- 한칸 END -->
+<!-- 한 칸 START -->
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+             <img src="img/moongirl.png" alt="비었다.2" width="auto" height="225px"><text fill="#eceeef" dy=".3em" x="50%" y="50%"></text>
+            <div class="card-body">
+              <p class="card-text">병재와근영</p>
+              <div class="d-flex justify-content-between align-items-center">
+              <small class="text-muted">1200원</small>
+                <small class="text-muted">30분 전</small>
+                <small class="text-muted">대전 중구 강호동</small><!-- 시간표시 -->
+              </div>
+            </div>
+          </div>
+        </div>
+<!-- 한칸 END -->
+<!-- 한 칸 START -->
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+             <img src="img/SSIBA.png" alt="비었다.3" width="auto" height="225px"><text fill="#eceeef" dy=".3em" x="50%" y="50%"></text>
+            <div class="card-body">
+              <p class="card-text">귀여운 개 SSiBa</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">980000원</small>
+                <small class="text-muted">2시간 전</small>
+                <small class="text-muted">서울 남구 남포동</small><!-- 시간표시 -->
+              </div>
+            </div>
+          </div>
+        </div>
+<!-- 한칸 END -->
+<!-- 줄바뀜 -->
 
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect fill="#55595c" width="100%" height="100%"/><text fill="#eceeef" dy=".3em" x="50%" y="50%">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect fill="#55595c" width="100%" height="100%"/><text fill="#eceeef" dy=".3em" x="50%" y="50%">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect fill="#55595c" width="100%" height="100%"/><text fill="#eceeef" dy=".3em" x="50%" y="50%">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect fill="#55595c" width="100%" height="100%"/><text fill="#eceeef" dy=".3em" x="50%" y="50%">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect fill="#55595c" width="100%" height="100%"/><text fill="#eceeef" dy=".3em" x="50%" y="50%">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect fill="#55595c" width="100%" height="100%"/><text fill="#eceeef" dy=".3em" x="50%" y="50%">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+        
+        
+      
+      
+      </div><!-- Row클래스 END -->
+    </div><!-- Container클래스 END -->
+  </div><!-- Album클래스 END -->
 
 </main>
 
