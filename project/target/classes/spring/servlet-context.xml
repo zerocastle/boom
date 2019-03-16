@@ -25,7 +25,7 @@
 
 
 	<!-- @Controller 를 컴포넌트 스캔을 한다. -->
-	<context:component-scan base-package="org.ys.boarder.controller" />
+	<context:component-scan base-package="com.ys.project" />
 	
 
 	
