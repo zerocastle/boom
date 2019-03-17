@@ -1,20 +1,30 @@
 package com.ys.project;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ys.project.memberVO.MemberVO;
+import com.ys.project.service.IMemberService;
+
+import lombok.AllArgsConstructor;
 
 @Controller
+@AllArgsConstructor
 @RequestMapping(value = "member")
 public class MemberController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+	private IMemberService service;
 
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String login(Model model, @RequestParam Map map) throws Exception {
@@ -24,11 +34,14 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "login", method = RequestMethod.POST)
-	public String loginPost(Model model, @RequestParam Map map) throws Exception {
-		logger.info("===================================================> loginPost 넘오온 값 : " + map.toString());
-		
-		return "login/login";
+	public @ResponseBody Map<String, Object> loginPost(Model model, @RequestBody MemberVO vo) throws Exception {
+		logger.info("===================================================> loginPost 넘오온 값 : " + vo.toString());
+		System.out.println("뭐가 넘어 왔냐 ? " + vo);
+		Map<String,Object> map = new HashMap<String, Object>();
+		service.loginMember(vo);
+		map.put("nickname",vo.getNickname());
 
+		return map;
 	}
 
 }

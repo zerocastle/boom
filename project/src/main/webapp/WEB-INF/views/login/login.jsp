@@ -22,6 +22,7 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 	crossorigin="anonymous"></script>
+<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -70,6 +71,27 @@ h2 {
 	margin: auto;
 }
 </style>
+<script>
+	$(document).ready(function(){
+		$('#login-btn').click(function(){
+			var query =JSON.stringify({
+					phone : $('#phone').val(),
+					m_password : $('#m_password').val()
+			});
+			
+			$.ajax({
+				type :"POST",
+				url : "login",
+				data : query,
+				dataType: "json",
+				contentType:"application/json;charset=UTF-8",
+				success : function(data){
+					alert(data);
+				}
+			})
+		})
+	})
+</script>
 </head>
 <body>
 
@@ -77,11 +99,11 @@ h2 {
 		<div class="loginform">
 			<h2 align="center">로그인</h2>
 			<div class="phono">
-				<input name="phone" type="text" placeholder="휴대폰번호(숫자만)" required><br>
+				<input id="phone" name="phone" type="text" placeholder="휴대폰번호(숫자만)" required><br>
 			</div>
 			<br />
 			<div class="paswd">
-				<input name="m_password" type="password" placeholder="비밀번호" required><br>
+				<input id="m_password" name="m_password" type="password" placeholder="비밀번호" required><br>
 			</div>
 			<br />
 			<div class="save" align="center">

@@ -13,6 +13,25 @@ public class MemberVO {
 	private int partner_signal;
 	private String acc_num;
 
+	public MemberVO() {
+
+	}
+
+	public MemberVO(String nickname, String phone, String m_password, String email, int manner, String intro,
+			int warning, String img_path, int partner_signal, String acc_num) {
+		super();
+		this.nickname = nickname;
+		this.phone = phone;
+		this.m_password = m_password;
+		this.email = email;
+		this.manner = manner;
+		this.intro = intro;
+		this.warning = warning;
+		this.img_path = img_path;
+		this.partner_signal = partner_signal;
+		this.acc_num = acc_num;
+	}
+
 	public String getNickname() {
 		return nickname;
 	}

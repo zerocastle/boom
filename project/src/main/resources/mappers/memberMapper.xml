@@ -13,8 +13,8 @@
 	(#{nickname},#{phone},#{m_password},#{email},#{manner},#{intro},#{warning},#{img_path},#{partner_signal},#{acc_num});
 	</insert>
 	
-	<select id="memberLogin">
-	SELECT * FROM MEMBER WHERE NICKNAME=#{phone} 
+	<select id="memberLogin" resultType="MemberVO">
+	SELECT * FROM MEMBER WHERE PHONE=#{phone} 
 	AND PASSWORD=#{m_password}
 	</select>
 
