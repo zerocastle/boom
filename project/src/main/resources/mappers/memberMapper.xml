@@ -15,7 +15,7 @@
 	
 	<select id="memberLogin" resultType="MemberVO">
 	SELECT * FROM MEMBER WHERE PHONE=#{phone} 
-	AND PASSWORD=#{m_password}
+	AND M_PASSWORD=#{m_password}
 	</select>
 
 

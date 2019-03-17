@@ -27,8 +27,10 @@ public class MemberDao implements IMemberDao {
 	}
 
 	@Override
-	public MemberVO loginMember(MemberVO memberVO) throws Exception{
+	public MemberVO loginMember(MemberVO memberVO) throws Exception {
 		// TODO Auto-generated method stub
+		System.out.println("し劾い焼び君焼びい君びたしい");
+//		logger.info(session.selectOne("member.memberLogin", memberVO).toString());
 		return session.selectOne("member.memberLogin", memberVO);
 	}
 

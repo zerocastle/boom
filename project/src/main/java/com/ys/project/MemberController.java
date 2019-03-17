@@ -3,6 +3,9 @@ package com.ys.project;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ys.project.memberVO.MemberVO;
 import com.ys.project.service.IMemberService;
 
@@ -34,21 +38,32 @@ public class MemberController {
 		return "login/login";
 
 	}
-
+	@ResponseBody
 	@RequestMapping(value = "login", method = RequestMethod.POST)
-	public @ResponseBody Map<String, Object> loginPost(Model model, @RequestBody MemberVO vo) throws Exception {
+	public String loginPost(Model model, @RequestBody MemberVO vo , HttpServletRequest request) throws Exception {
 		logger.info("===================================================> loginPost ³Ñ¿À¿Â °ª : " + vo.toString());
 		System.out.println("¹¹°¡ ³Ñ¾î ¿Ô³Ä ? " + vo);
 		Map<String, Object> map = new HashMap<String, Object>();
-		
-		//¹Ù²ãÁà ~~!!
+
+		// ¹Ù²ãÁà ~~!!
 		vo = service.loginMember(vo);
-		logger.info("===================================================>¹Ù²ïÈÄ :  loginPost ³Ñ¿À¿Â °ª : " + vo.toString());
+		if (vo == null) {
+			map.put("error", "fail");
+		} else {
+			logger.info(
+					"===================================================>¹Ù²ïÈÄ :  loginPost ³Ñ¿À¿Â °ª : " + vo.toString());
+			HttpSession session = request.getSession();
+//			session.setAttribute("loginSession", map);
+			map.put("nickname", vo.getNickname());
+			map.put("partner_signal", vo.getPartner_signal());
+			
+		}
+		ObjectMapper mapper = new ObjectMapper();
+		
+		System.out.println(mapper.writeValueAsString(map));
+		
 
-		map.put("nickname", vo.getNickname());
-		map.put("partner_signal", vo.getPartner_signal());
-
-		return map;
+		return mapper.writeValueAsString(map);
 	}
 
 }

@@ -25,6 +25,7 @@ public class MemberService implements IMemberService {
 	@Override
 	public MemberVO loginMember(MemberVO memberVO) throws Exception {
 		// TODO Auto-generated method stub
+		System.out.println("し劾い焼び君焼びい君びたしい");
 		return dao.loginMember(memberVO);
 	}
 

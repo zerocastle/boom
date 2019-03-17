@@ -86,7 +86,10 @@ h2 {
 				dataType: "json",
 				contentType:"application/json;charset=UTF-8",
 				success : function(data){
+					console.log(data);
 					alert(data);
+					var json = JSON.parse(data);
+					alert(json);
 				}
 			})
 		})
