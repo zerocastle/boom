@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +25,7 @@ import lombok.AllArgsConstructor;
 public class MemberController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+	@Autowired
 	private IMemberService service;
 
 	@RequestMapping(value = "login", method = RequestMethod.GET)
@@ -37,9 +39,14 @@ public class MemberController {
 	public @ResponseBody Map<String, Object> loginPost(Model model, @RequestBody MemberVO vo) throws Exception {
 		logger.info("===================================================> loginPost ³Ñ¿À¿Â °ª : " + vo.toString());
 		System.out.println("¹¹°¡ ³Ñ¾î ¿Ô³Ä ? " + vo);
-		Map<String,Object> map = new HashMap<String, Object>();
-		service.loginMember(vo);
-		map.put("nickname",vo.getNickname());
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		//¹Ù²ãÁà ~~!!
+		vo = service.loginMember(vo);
+		logger.info("===================================================>¹Ù²ïÈÄ :  loginPost ³Ñ¿À¿Â °ª : " + vo.toString());
+
+		map.put("nickname", vo.getNickname());
+		map.put("partner_signal", vo.getPartner_signal());
 
 		return map;
 	}

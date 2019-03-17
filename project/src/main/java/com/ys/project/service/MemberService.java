@@ -2,6 +2,7 @@ package com.ys.project.service;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ys.project.dao.IMemberDao;
@@ -13,6 +14,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class MemberService implements IMemberService {
 
+	@Autowired
 	private IMemberDao dao;
 
 	@Override
