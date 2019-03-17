@@ -10,7 +10,7 @@
 	</settings>
 
 	<typeAliases>
-		<package name="org.ys.boarder.domain.BoarderVO" />
+		<package name="com.ys.project.member.MemberVO" />
 	</typeAliases>
 
 </configuration>

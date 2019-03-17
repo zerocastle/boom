@@ -10,9 +10,6 @@
 //import org.springframework.test.context.ContextConfiguration;
 //import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 //
-//import kr.pe.patissier.domain.BoardVO;
-//import kr.pe.patissier.domain.Criteria;
-//import kr.pe.patissier.persistence.BoardDAO;
 //
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration(locations = { "classpath:spring/root-context.xml" })

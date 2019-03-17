@@ -1,4 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 
 	<!--d-->
@@ -6,8 +8,14 @@
 		<div class="header">
 			<div id="btnTop" class="header-1">
 				<div class="header-1-div">
-					<a class="header-1-a" href="#">로그인</a> <a class="header-1-a"
+				<c:if test="${empty sessionScope.loginSession }">
+					<a class="header-1-a" href="" onclick="window.open('member/login','login','width=600,height=600')">로그인</a> 
+					<a class="header-1-a"
 						href="#">회원가입</a>
+				</c:if>
+				<c:if test="${sessionScope.loginSession }">
+				<a class="header-1-a" href="myPage/page.jsp">${sessionScope.loginSession } 환영합니다.</a> 
+				</c:if>
 				</div>
 			</div>
 
