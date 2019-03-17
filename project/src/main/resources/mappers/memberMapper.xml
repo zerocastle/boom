@@ -5,7 +5,17 @@
 <mapper namespace="member">
 
 	<select id="getTime" resultType="string">
-		SELECT NOW()
+		SELECT sysdate FROM DUAL
+	</select>
+	
+	<insert id="memberRegister" parameterType="hashmap">
+	INSERT INTO MEMBER VALUES
+	(#{nickname},#{phone},#{m_password},#{email},#{manner},#{intro},#{warning},#{img_path},#{partner_signal},#{acc_num});
+	</insert>
+	
+	<select id="memberLogin">
+	SELECT * FROM MEMBER WHERE NICKNAME=#{phone} 
+	AND PASSWORD=#{m_password}
 	</select>
 
 
