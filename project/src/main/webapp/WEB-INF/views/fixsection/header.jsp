@@ -75,7 +75,7 @@
 				<div class="header-2-body">
 					<div class="header-logo">
 						<div>
-							<a class="logo" href="#"><img src="logo2.png" width="220px;"
+							<a class="logo" href="#"><img src="resources/image/logo2.png" width="220px;"
 								height="80px;"></a>
 						</div>
 					</div>
@@ -87,7 +87,7 @@
 							<div class="input-group-append">
 								<span class="input-group-text red lighten-3" id="basic-text1">
 									<i class="fas fa-search text-grey" aria-hidden="true"><img
-										src="search.png" width="15px" height="15px"></i>
+										src="resources/image/search.png" width="15px" height="15px"></i>
 								</span>
 							</div>
 						</div>
@@ -96,15 +96,15 @@
 					<div class="header-service">
 						<div class="service-btn">
 							<a href="#" style="font-size: 18px; margin-right: 10px;"><img
-								src="mypage.png" style="margin-right: 5px;">마이페이지</a>
+								src="resources/image/mypage.png" style="margin-right: 5px;">마이페이지</a>
 						</div>
 						<div class="service-btn">
 							<a href="#" style="font-size: 18px; margin-right: 10px;"><img
-								src="sell.png" style="margin-right: 5px;">판매하기</a>
+								src="resources/image/sell.png" style="margin-right: 5px;">판매하기</a>
 						</div>
 						<div class="service-btn">
 							<a href="#" style="font-size: 18px; margin-right: 10px;"><img
-								src="chat.png" style="margin-right: 5px;">채팅목록</a>
+								src="resources/image/chat.png" style="margin-right: 5px;">채팅목록</a>
 						</div>
 					</div>
 				</div>
@@ -154,58 +154,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="main">
-		<div class="banner">
-			<!-- <div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                      <div class="carousel-item active" data-interval="10000">
-                        <img src="290282777.jpg" class="d-block w-100" alt="" height="300px">
-                      </div>
-                      <div class="carousel-item" data-interval="2000">
-                        <img src="306843239.png" class="d-block w-100" alt="..." height="300px">
-                      </div>
-                      <div class="carousel-item">
-                        <img src="309885615.jpg" class="d-block w-100" alt="..." height="300px">
-                      </div>
-                    </div>
-                    <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleInterval" role="button" data-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Next</span>
-                    </a>
-                  </div> -->
-			<div id="carouselExampleInterval" class="carousel slide"
-				data-ride="carousel">
-				<div class="carousel-inner">
-					<div>
-						<img src="290282777.jpg" class="d-block w-100" alt=""
-							height="300px">
-					</div>
-					<div class="carousel-item" data-interval="2000">
-						<img src="306843239.png" class="d-block w-100" alt="..."
-							height="300px">
-					</div>
-					<div class="carousel-item">
-						<img src="309885615.jpg" class="d-block w-100" alt="..."
-							height="300px">
-					</div>
-				</div>
-				<a class="carousel-control-prev" href="#carouselExampleInterval"
-					role="button" data-slide="prev"> <span
-					class="carousel-control-prev-icon" aria-hidden="true"></span> <span
-					class="sr-only">Previous</span>
-				</a> <a class="carousel-control-next" href="#carouselExampleInterval"
-					role="button" data-slide="next"> <span
-					class="carousel-control-next-icon" aria-hidden="true"></span> <span
-					class="sr-only">Next</span>
-				</a>
-			</div>
-		</div>
-		<div class="main-categori" style="background: yellowgreen;"></div>
 	</div>
 </body>
 </html>
