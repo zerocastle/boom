@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +40,10 @@ public class MemberController {
 		return "login/login";
 
 	}
+
 	@ResponseBody
 	@RequestMapping(value = "login", method = RequestMethod.POST)
-	public String loginPost(Model model, @RequestBody MemberVO vo , HttpServletRequest request) throws Exception {
+	public String loginPost(Model model, @RequestBody MemberVO vo, HttpServletRequest request) throws Exception {
 		logger.info("===================================================> loginPost 넘오온 값 : " + vo.toString());
 		System.out.println("뭐가 넘어 왔냐 ? " + vo);
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -56,14 +59,26 @@ public class MemberController {
 //			session.setAttribute("loginSession", map);
 			map.put("nickname", vo.getNickname());
 			map.put("partner_signal", vo.getPartner_signal());
-			
+
 		}
 		ObjectMapper mapper = new ObjectMapper();
-		
 		System.out.println(mapper.writeValueAsString(map));
-		
-
 		return mapper.writeValueAsString(map);
+	}
+
+	// 회원 가입
+
+	@RequestMapping(value = "memberRegister", method = RequestMethod.GET)
+	public String memberRegister(Model model, @RequestParam Map map) throws Exception {
+
+		return "login/memberRegister";
+
+	}
+	@RequestMapping(value = "memberRegister", method = RequestMethod.POST)
+	public String memberRegisterPost(Model model, @RequestParam Map map) throws Exception {
+		
+		return "login/memberRegister";
+
 	}
 
 }

@@ -72,26 +72,28 @@ h2 {
 }
 </style>
 <script>
-	$(document).ready(function(){
-		$('#login-btn').click(function(){
-			var query =JSON.stringify({
-					phone : $('#phone').val(),
-					m_password : $('#m_password').val()
+	$(document).ready(function() {
+		$('#login-btn').click(function() {
+			var query = JSON.stringify({
+				phone : $('#phone').val(),
+				m_password : $('#m_password').val()
 			});
-			
+
 			$.ajax({
-				type :"POST",
+				type : 'POST',
 				url : "login",
 				data : query,
-				dataType: "json",
-				contentType:"application/json;charset=UTF-8",
-				success : function(data){
+				dataType : 'json',
+				contentType : "application/json;charset=UTF-8",
+				success : function(data) {
 					console.log(data);
 					alert(data);
-					var json = JSON.parse(data);
-					alert(json);
 				}
 			})
+		})
+		$('#join-btn').click(function() {
+			window.close();
+			window.open('memberRegister','register','width=1000,height=1000');
 		})
 	})
 </script>
@@ -102,11 +104,13 @@ h2 {
 		<div class="loginform">
 			<h2 align="center">로그인</h2>
 			<div class="phono">
-				<input id="phone" name="phone" type="text" placeholder="휴대폰번호(숫자만)" required><br>
+				<input id="phone" name="phone" type="text" placeholder="휴대폰번호(숫자만)"
+					required><br>
 			</div>
 			<br />
 			<div class="paswd">
-				<input id="m_password" name="m_password" type="password" placeholder="비밀번호" required><br>
+				<input id="m_password" name="m_password" type="password"
+					placeholder="비밀번호" required><br>
 			</div>
 			<br />
 			<div class="save" align="center">
