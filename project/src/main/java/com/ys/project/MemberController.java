@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ys.project.memberVO.MemberVO;
@@ -33,7 +34,7 @@ public class MemberController {
 	@Autowired
 	private IMemberService service;
 
-	//로그인 처리 
+	// 로그인 처리
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String login(Model model, @RequestParam Map map) throws Exception {
 
@@ -70,11 +71,11 @@ public class MemberController {
 		System.out.println(mapper.writeValueAsString(map));
 		return mapper.writeValueAsString(map);
 	}
-	
-	//로그아웃
+
+	// 로그아웃
 	@RequestMapping("logout")
-	public String memberLogout(HttpServletRequest request )throws Exception {
-		
+	public String memberLogout(HttpServletRequest request) throws Exception {
+
 		HttpSession session = request.getSession();
 		session.invalidate();
 		return "redirect:/";
@@ -85,15 +86,24 @@ public class MemberController {
 	@RequestMapping(value = "memberRegister", method = RequestMethod.GET)
 	public String memberRegister(Model model, @RequestParam Map map) throws Exception {
 
+		
 		return "login/memberRegister";
 
 	}
 
 	@RequestMapping(value = "memberRegister", method = RequestMethod.POST)
-	public String memberRegisterPost(Model model, @RequestParam Map map) throws Exception {
+	public String memberRegisterPost(Model model, @RequestParam Map map, RedirectAttributes ra) throws Exception {
 
 		return "login/memberRegister";
 
+	}
+	
+	// 마이페이지
+	
+	@RequestMapping(value="myPage")
+	public String myPage() throws Exception{
+		
+		return "myPage/myPage";
 	}
 
 }

@@ -54,6 +54,17 @@
 		$('#logout').click(function(){
 			window.location.href="/member/logout"
 		})
+		//마이페이지 제어
+		var temp = null;
+		$('#myPage').click(function(){
+			temp = '<c:out value="${sessionScope.loginSession}"/>'
+			if(temp){ 
+				window.location.href="/member/mypage";
+			}else{
+				alert("로그인 부터 하셔야 합니다.");
+				window.open('member/login','login','width=600,height=600');
+			}
+		})
 	});
 </script>
 
@@ -102,7 +113,8 @@
 
 					<div class="header-service">
 						<div class="service-btn">
-							<a href="#" style="font-size: 18px; margin-right: 10px;"><img
+							<a id="myPage" href=""
+								style="font-size: 18px; margin-right: 10px;"><img
 								src="resources/image/mypage.png" style="margin-right: 5px;">마이페이지</a>
 						</div>
 						<div class="service-btn">
