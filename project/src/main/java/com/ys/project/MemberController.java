@@ -1,13 +1,12 @@
 package com.ys.project;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +33,7 @@ public class MemberController {
 	@Autowired
 	private IMemberService service;
 
+	//로그인 처리 
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String login(Model model, @RequestParam Map map) throws Exception {
 
@@ -55,15 +55,29 @@ public class MemberController {
 		} else {
 			logger.info(
 					"===================================================>바뀐후 :  loginPost 넘오온 값 : " + vo.toString());
-			HttpSession session = request.getSession();
-//			session.setAttribute("loginSession", map);
+
 			map.put("nickname", vo.getNickname());
 			map.put("partner_signal", vo.getPartner_signal());
+			HttpSession session = request.getSession();
+			String loginSession = map.get("nickname").toString();
+			String partner_signal = map.get("partner_signal").toString();
+			session.setAttribute("loginSession", loginSession);
+			session.setAttribute("partner_signal", partner_signal);
+			System.out.println("session에 뭐가 찍힘 : " + loginSession + "," + partner_signal);
 
 		}
 		ObjectMapper mapper = new ObjectMapper();
 		System.out.println(mapper.writeValueAsString(map));
 		return mapper.writeValueAsString(map);
+	}
+	
+	//로그아웃
+	@RequestMapping("logout")
+	public String memberLogout(HttpServletRequest request )throws Exception {
+		
+		HttpSession session = request.getSession();
+		session.invalidate();
+		return "redirect:/";
 	}
 
 	// 회원 가입
@@ -74,9 +88,10 @@ public class MemberController {
 		return "login/memberRegister";
 
 	}
+
 	@RequestMapping(value = "memberRegister", method = RequestMethod.POST)
 	public String memberRegisterPost(Model model, @RequestParam Map map) throws Exception {
-		
+
 		return "login/memberRegister";
 
 	}

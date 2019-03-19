@@ -72,35 +72,47 @@ h2 {
 }
 </style>
 <script>
-	$(document).ready(function() {
-		$('#login-btn').click(function() {
-			var query = JSON.stringify({
-				phone : $('#phone').val(),
-				m_password : $('#m_password').val()
-			});
+	$(document).ready(
+			function() {
+				$("form").submit(function(e) {
+					return false;
+				});
+				$('#login-btn').click(function(e) {
+					/* e.preventDefault(); */
+					var query = JSON.stringify({
+						phone : $('#phone').val(),
+						m_password : $('#m_password').val()
+					});
+					$.ajax({
+						type : 'POST',
+						url : "login",
+						data : query,
+						dataType : 'json',
+						contentType : "application/json;charset=UTF-8",
+						success : function(data) {
+							console.log(data);
+							if (data.error != "fail") {
+								alert(data.nickname + "님 환영 합니다.");
 
-			$.ajax({
-				type : 'POST',
-				url : "login",
-				data : query,
-				dataType : 'json',
-				contentType : "application/json;charset=UTF-8",
-				success : function(data) {
-					console.log(data);
-					alert(data);
-				}
+								opener.location.reload(); // opener 새로고침 
+								window.close();
+							} else
+								alert("로그인 실패");
+						}
+					})
+				})
+				$('#join-btn').click(
+						function() {
+							window.close();
+							window.open('memberRegister', 'register',
+									'width=1000,height=1000');
+						})
 			})
-		})
-		$('#join-btn').click(function() {
-			window.close();
-			window.open('memberRegister','register','width=1000,height=1000');
-		})
-	})
 </script>
 </head>
 <body>
 
-	<form id="login-form" align="center">
+	<form id="login-form" align="center" onsubmit="return false;">
 		<div class="loginform">
 			<h2 align="center">로그인</h2>
 			<div class="phono">

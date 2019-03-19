@@ -45,8 +45,14 @@
 			}
 		});
 		// 회원 
-		$('#register').click(function() {
-			window.open('member/memberRegister','register','width=1000,height=1000');
+		$('#register').click(
+				function() {
+					window.open('member/memberRegister', 'register',
+							'width=1000,height=1000');
+				})
+		//로그아웃
+		$('#logout').click(function(){
+			window.location.href="/member/logout"
 		})
 	});
 </script>
@@ -64,9 +70,10 @@
 							onclick="window.open('member/login','login','width=600,height=600')">로그인</a>
 						<a class="header-1-a" href="#" id="register">회원가입</a>
 					</c:if>
-					<c:if test="${sessionScope.loginSession }">
+					<c:if test="${not empty sessionScope.loginSession }">
 						<a class="header-1-a" href="myPage/page.jsp">${sessionScope.loginSession }
 							환영합니다.</a>
+						<a class="header-1-a" id="logout">로그아웃</a>
 					</c:if>
 				</div>
 			</div>
@@ -75,8 +82,8 @@
 				<div class="header-2-body">
 					<div class="header-logo">
 						<div>
-							<a class="logo" href="#"><img src="resources/image/logo2.png" width="220px;"
-								height="80px;"></a>
+							<a class="logo" href="#"><img src="resources/image/logo2.png"
+								width="220px;" height="80px;"></a>
 						</div>
 					</div>
 
