@@ -51,22 +51,45 @@
 							'width=1000,height=1000');
 				})
 		//로그아웃
-		$('#logout').click(function(){
-			window.location.href="/member/logout"
+		$('#logout').click(function() {
+			window.location.href = "/member/logout"
 		})
 		//마이페이지 제어
 		var temp = null;
-		$('#myPage').click(function(e){
+		$('#myPage').click(function(e) {
 			temp = '<c:out value="${sessionScope.loginSession}"/>'
-			if(temp){ 
-				alert("이동?");
+			if (temp) {
 				e.preventDefault();
-				window.location.href="/member/myPage";
-			}else{
+				window.location.href = "/member/myPage";
+			} else {
 				alert("로그인 부터 하셔야 합니다.");
-				window.open('member/login','login','width=600,height=600');
+				window.open('member/login', 'login', 'width=600,height=600');
 			}
 		})
+		// 판매하기 제어
+		$("#sell").click(function(e) {
+			temp = '<c:out value="${sessionScope.loginSession}"/>';
+			if (temp) {
+				e.preventDefault();
+				window.location.href = "/selling/selling";
+			} else {
+				alert("로그인 부터 하셔야 합니다.");
+				window.open('member/login', 'login', 'width=600,height=600');
+			}
+		})
+
+		// 체팅 목록 제어
+		$('#chat').click(function(e) {
+			temp = '<c:out value="${sessionScope.loginSession}"/>';
+			if (temp) {
+				e.preventDefault();
+				window.location.href = "/chatting/chatting";
+			} else {
+				alert("로그인 부터 하셔야 합니다.");
+				window.open('member/login', 'login', 'width=600,height=600');
+			}
+		})
+
 	});
 </script>
 
@@ -95,8 +118,8 @@
 				<div class="header-2-body">
 					<div class="header-logo">
 						<div>
-							<a class="logo" href="/"><img src="/resources/image/logo2.png"
-								width="220px;" height="80px;"></a>
+							<a class="logo" href="/"><img
+								src="/resources/image/logo2.png" width="220px;" height="80px;"></a>
 						</div>
 					</div>
 
@@ -115,17 +138,19 @@
 
 					<div class="header-service">
 						<div class="service-btn">
-						
+
 							<a id="myPage" href=""
 								style="font-size: 18px; margin-right: 10px;"><img
 								src="/resources/image/mypage.png" style="margin-right: 5px;">마이페이지</a>>
 						</div>
 						<div class="service-btn">
-							<a href="#" style="font-size: 18px; margin-right: 10px;"><img
+							<a href="#" id="sell"
+								style="font-size: 18px; margin-right: 10px;"><img
 								src="/resources/image/sell.png" style="margin-right: 5px;">판매하기</a>
 						</div>
 						<div class="service-btn">
-							<a href="#" style="font-size: 18px; margin-right: 10px;"><img
+							<a href="#" id="chat"
+								style="font-size: 18px; margin-right: 10px;"><img
 								src="/resources/image/chat.png" style="margin-right: 5px;">채팅목록</a>
 						</div>
 					</div>
@@ -177,8 +202,8 @@
 			</div>
 		</div>
 	</div>
-			<div class="main">
-			<div style="margin-top: 220px;">
+	<div class="main">
+		<div style="margin-top: 220px;">
 </body>
 </html>
 

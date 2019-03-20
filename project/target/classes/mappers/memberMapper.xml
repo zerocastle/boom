@@ -10,7 +10,7 @@
 	
 	<insert id="memberRegister" parameterType="hashmap">
 	INSERT INTO MEMBER VALUES
-	(#{nickname},#{phone},#{m_password},#{email},#{manner},#{intro},#{warning},#{img_path},#{partner_signal},#{acc_num});
+	(#{nickname},#{phone},#{m_password},#{email},#{manner},#{intro},#{warning},#{img_path},#{partner_signal},#{acc_num},#{acc_name});
 	</insert>
 	
 	<select id="memberLogin" resultType="MemberVO">

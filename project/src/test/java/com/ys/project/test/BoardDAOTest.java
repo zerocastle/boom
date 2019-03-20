@@ -24,10 +24,11 @@ public class BoardDAOTest {
 	@Test
 	public void testUpdate() throws Exception {
 
-		MemberVO vo = new MemberVO();
-		vo.setPhone("123-456");
-		vo.setM_password("123456");
-//		dao.loginMember(map);
+		Map map = new HashMap<>();
+		
+		MemberVO vo = new MemberVO("kys", "293455932", "123456", "ring321@naver.com", 5, "intro", 12, "", 4, "123-456");
+		map.put(0, vo);
+		dao.registerMember(map);
 
 	}
 
