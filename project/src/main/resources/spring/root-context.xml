@@ -15,9 +15,9 @@
 		<property name="driverClassName"
 			value="oracle.jdbc.driver.OracleDriver"></property>
 		<property name="url"
-			value="jdbc:oracle:thin:@localhost:1521/xe"></property>
+			value="jdbc:oracle:thin:@localhost:1521/orcl"></property>
 		<property name="username" value="test"></property>
-		<property name="password" value="test"></property>
+		<property name="password" value="1234"></property>
 	</bean>
 
 	<bean id="sqlSessionFactory"
@@ -25,7 +25,8 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="configLocation"
 			value="classpath:mybatis/mybatis-config.xml" />
-		<property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"></property>
+		<property name="mapperLocations"
+			value="classpath:mappers/**/*Mapper.xml"></property>
 	</bean>
 
 	<bean id="sqlSession"
@@ -38,11 +39,11 @@
 
 
 	<!-- @Repoitory를 컴포너트 스캔을한다. -->
-	 <context:component-scan
-		base-package="com.ys.project.dao" /> 
+	<context:component-scan
+		base-package="com.ys.project.dao" />
 
 	<!-- @Service를 컴포넌트 스캔을 한다. -->
 	<context:component-scan
-		base-package="com.ys.project.service" /> 
+		base-package="com.ys.project.service" />
 
 </beans>

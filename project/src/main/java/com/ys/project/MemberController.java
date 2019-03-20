@@ -86,7 +86,6 @@ public class MemberController {
 	@RequestMapping(value = "memberRegister", method = RequestMethod.GET)
 	public String memberRegister(Model model, @RequestParam Map map) throws Exception {
 
-		
 		return "login/memberRegister";
 
 	}
@@ -97,12 +96,12 @@ public class MemberController {
 		return "login/memberRegister";
 
 	}
-	
+
 	// 마이페이지
-	
-	@RequestMapping(value="myPage")
-	public String myPage() throws Exception{
-		
+
+	@RequestMapping(value = "myPage", method = RequestMethod.GET)
+	public String myPage(Model model) throws Exception {
+		System.out.println("마이 페이지 : member/myPage");
 		return "myPage/myPage";
 	}
 

@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<div class="main">
-      <div class="banner">
+
         <div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner">
             <div class="carousel-item active" data-interval="10000">
@@ -596,5 +595,3 @@
           </div>
 
         </div>
-      </div>
-    </div>

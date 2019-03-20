@@ -56,10 +56,12 @@
 		})
 		//마이페이지 제어
 		var temp = null;
-		$('#myPage').click(function(){
+		$('#myPage').click(function(e){
 			temp = '<c:out value="${sessionScope.loginSession}"/>'
 			if(temp){ 
-				window.location.href="/member/mypage";
+				alert("이동?");
+				e.preventDefault();
+				window.location.href="/member/myPage";
 			}else{
 				alert("로그인 부터 하셔야 합니다.");
 				window.open('member/login','login','width=600,height=600');
@@ -93,7 +95,7 @@
 				<div class="header-2-body">
 					<div class="header-logo">
 						<div>
-							<a class="logo" href="#"><img src="resources/image/logo2.png"
+							<a class="logo" href="/"><img src="/resources/image/logo2.png"
 								width="220px;" height="80px;"></a>
 						</div>
 					</div>
@@ -105,7 +107,7 @@
 							<div class="input-group-append">
 								<span class="input-group-text red lighten-3" id="basic-text1">
 									<i class="fas fa-search text-grey" aria-hidden="true"><img
-										src="resources/image/search.png" width="15px" height="15px"></i>
+										src="/resources/image/search.png" width="15px" height="15px"></i>
 								</span>
 							</div>
 						</div>
@@ -113,17 +115,18 @@
 
 					<div class="header-service">
 						<div class="service-btn">
+						
 							<a id="myPage" href=""
 								style="font-size: 18px; margin-right: 10px;"><img
-								src="resources/image/mypage.png" style="margin-right: 5px;">마이페이지</a>
+								src="/resources/image/mypage.png" style="margin-right: 5px;">마이페이지</a>>
 						</div>
 						<div class="service-btn">
 							<a href="#" style="font-size: 18px; margin-right: 10px;"><img
-								src="resources/image/sell.png" style="margin-right: 5px;">판매하기</a>
+								src="/resources/image/sell.png" style="margin-right: 5px;">판매하기</a>
 						</div>
 						<div class="service-btn">
 							<a href="#" style="font-size: 18px; margin-right: 10px;"><img
-								src="resources/image/chat.png" style="margin-right: 5px;">채팅목록</a>
+								src="/resources/image/chat.png" style="margin-right: 5px;">채팅목록</a>
 						</div>
 					</div>
 				</div>
@@ -174,6 +177,8 @@
 			</div>
 		</div>
 	</div>
+			<div class="main">
+			<div style="margin-top: 220px;">
 </body>
 </html>
 
