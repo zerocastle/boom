@@ -12,13 +12,14 @@ public class MemberVO {
 	private String img_path;
 	private int partner_signal;
 	private String acc_num;
+	private String acc_name;
 
 	public MemberVO() {
 
 	}
 
 	public MemberVO(String nickname, String phone, String m_password, String email, int manner, String intro,
-			int warning, String img_path, int partner_signal, String acc_num) {
+			int warning, String img_path, int partner_signal, String acc_num, String acc_name) {
 		super();
 		this.nickname = nickname;
 		this.phone = phone;
@@ -30,6 +31,7 @@ public class MemberVO {
 		this.img_path = img_path;
 		this.partner_signal = partner_signal;
 		this.acc_num = acc_num;
+		this.acc_name = acc_name;
 	}
 
 	public String getNickname() {
@@ -112,11 +114,19 @@ public class MemberVO {
 		this.acc_num = acc_num;
 	}
 
+	public String getAcc_name() {
+		return acc_name;
+	}
+
+	public void setAcc_name(String acc_name) {
+		this.acc_name = acc_name;
+	}
+
 	@Override
 	public String toString() {
 		return "MemberVO [nickname=" + nickname + ", phone=" + phone + ", m_password=" + m_password + ", email=" + email
 				+ ", manner=" + manner + ", intro=" + intro + ", warning=" + warning + ", img_path=" + img_path
-				+ ", partner_signal=" + partner_signal + ", acc_num=" + acc_num + "]";
+				+ ", partner_signal=" + partner_signal + ", acc_num=" + acc_num + ", acc_name=" + acc_name + "]";
 	}
 
 }

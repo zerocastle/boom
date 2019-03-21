@@ -21,7 +21,7 @@ public class MemberDao implements IMemberDao {
 	private SqlSession session;
 
 	@Override
-	public void registerMember(Map map) throws Exception {
+	public void registerMember(MemberVO map) throws Exception {
 		// TODO Auto-generated method stub
 
 		logger.info("레지스터 넘어온 값 : " + map.toString());
