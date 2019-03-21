@@ -141,7 +141,7 @@
 
 							<a id="myPage" href=""
 								style="font-size: 18px; margin-right: 10px;"><img
-								src="/resources/image/mypage.png" style="margin-right: 5px;">마이페이지</a>>
+								src="/resources/image/mypage.png" style="margin-right: 5px;">마이페이지</a>
 						</div>
 						<div class="service-btn">
 							<a href="#" id="sell"

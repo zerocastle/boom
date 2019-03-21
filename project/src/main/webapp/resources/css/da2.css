@@ -1,0 +1,351 @@
+.imgView {
+	width: 150px;
+	height: 150px;
+}
+
+.outputView {
+	margin-left: 110px;
+	margin-top: 30px;
+}
+
+.colorImgBox {
+	position: relative;
+	width: 250px;
+	height: 70px;
+	border: 1px solid lightgrey;
+	background: aliceblue;
+	border-radius: 3%;
+	margin: 3px;
+}
+
+.colorImg {
+	margin-top: 5px;
+	margin-left: 5px;
+	margin-right: 13px;
+	background: black;
+	width: 60px;
+	height: 60px;
+}
+
+.xBtn {
+	position: absolute;
+	top: 5px;
+	left: 223px;
+}
+
+.hiddenBox {
+	display: none;
+}
+
+.group {
+	position: relative;
+	width: 250px;
+	margin-left: 50px;
+	height: 30px;
+	top: 30px;
+}
+
+.a {
+	position: relative;
+	left: 40px;
+	top: 30px;
+	font-size: 20px;
+	color: gray;
+}
+
+.state {
+	position: relative;
+	width: 250px;
+	margin-left: 88px;
+	height: 30px;
+	top: 60px;
+}
+
+.b {
+	position: relative;
+	left: 75px;
+	top: 60px;
+	font-size: 20px;
+	color: gray;
+}
+
+.title {
+	position: relative;
+	width: 250px;
+	margin-left: 88px;
+	height: 30px;
+	top: 90px;
+}
+
+.c {
+	position: relative;
+	left: 75px;
+	font-size: 20px;
+	color: gray;
+	top: 90px;
+}
+
+.price {
+	position: relative;
+	width: 250px;
+	margin-left: 88px;
+	height: 30px;
+	top: 120px;
+}
+
+.d {
+	position: relative;
+	left: 75px;
+	top: 120px;
+	font-size: 20px;
+	color: gray;
+}
+
+.change {
+	position: relative;
+	top: 155px;
+	right: 250px;
+}
+
+.z {
+	position: relative;
+	top: 155px;
+	right: 250px;
+	color: gray;
+}
+
+.wrap {
+	position: relative;
+	top: 165px;
+	left: 75px;
+	font-size: 20px;
+	color: gray;
+}
+
+.content {
+	position: relative;
+	top: 140px;
+	margin-left: 135px;
+	resize: none;
+	width: 450px;
+	height: 150px;
+}
+
+.span {
+	font-size: 90%;
+	font-weight: bold;
+	color: #777;
+	position: relative;
+	right: 50px;
+	top: 170px;
+}
+
+.count {
+	position: relative;
+	width: 250px;
+	margin-left: 86px;
+	height: 30px;
+	top: 180px;
+}
+
+.e {
+	position: relative;
+	left: 75px;
+	top: 180px;
+	font-size: 20px;
+	color: gray;
+}
+
+.pick {
+	position: relative;
+	width: 250px;
+	height: 30px;
+	top: 200px;
+	left: 50px;
+}
+
+.f {
+	position: relative;
+	left: 40px;
+	top: 200px;
+	color: gray;
+	font-size: 20px;
+}
+
+.find {
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #848484
+		), color-stop(1, #848484));
+	background: -moz-linear-gradient(top, #848484 5%, #848484 100%);
+	background: -webkit-linear-gradient(top, #848484 5%, #848484 100%);
+	background: -o-linear-gradient(top, #848484 5%, #848484 100%);
+	background: -ms-linear-gradient(top, #848484 5%, #848484 100%);
+	background: linear-gradient(to bottom, #848484 5%, #848484 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#848484',
+		endColorstr='#848484', GradientType=0);
+	background-color: #848484;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	border: 1px solid #dcdcdc;
+	display: inline-block;
+	cursor: pointer;
+	color: #ffffff;
+	font-family: Arial;
+	font-size: 15px;
+	font-weight: bold;
+	padding: 4px 9px;
+	text-decoration: none;
+	position: relative;
+	top: 195px;
+	left: 50px;
+}
+
+.find:hover {
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #848484
+		), color-stop(1, #848484));
+	background: -moz-linear-gradient(top, #848484 5%, #848484 100%);
+	background: -webkit-linear-gradient(top, #848484 5%, #848484 100%);
+	background: -o-linear-gradient(top, #848484 5%, #848484 100%);
+	background: -ms-linear-gradient(top, #848484 5%, #848484 100%);
+	background: linear-gradient(to bottom, #848484 5%, #848484 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#848484',
+		endColorstr='#848484', GradientType=0);
+	background-color: #848484;
+}
+
+.reg {
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #d95459
+		), color-stop(1, #d95459));
+	background: -moz-linear-gradient(top, #d95459 5%, #d95459 100%);
+	background: -webkit-linear-gradient(top, #d95459 5%, #d95459 100%);
+	background: -o-linear-gradient(top, #d95459 5%, #d95459 100%);
+	background: -ms-linear-gradient(top, #d95459 5%, #d95459 100%);
+	background: linear-gradient(to bottom, #d95459 5%, #d95459 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d95459',
+		endColorstr='#d95459', GradientType=0);
+	background-color: #d95459;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 7px;
+	border: 1px solid #dcdcdc;
+	display: inline-block;
+	cursor: pointer;
+	color: #ffffff;
+	font-family: Arial;
+	font-size: 25px;
+	font-weight: bold;
+	padding: 4px 9px;
+	text-decoration: none;
+	position: relative;
+	top: 220px;
+	left: 618px;
+}
+
+.reg:hover {
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #d95459
+		), color-stop(1, #d95459));
+	background: -moz-linear-gradient(top, #d95459 5%, #d95459 100%);
+	background: -webkit-linear-gradient(top, #d95459 5%, #d95459 100%);
+	background: -o-linear-gradient(top, #d95459 5%, #d95459 100%);
+	background: -ms-linear-gradient(top, #d95459 5%, #d95459 100%);
+	background: linear-gradient(to bottom, #d95459 5%, #d95459 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d95459',
+		endColorstr='#d95459', GradientType=0);
+	background-color: #d95459;
+}
+
+.file_input label {
+	position: relative;
+	cursor: pointer;
+	display: inline-block;
+	vertical-align: middle;
+	overflow: hidden;
+	width: 100px;
+	height: 30px;
+	background: #777;
+	color: #fff;
+	text-align: center;
+	line-height: 30px;
+	top: 10px;
+	left: 500px;
+}
+
+.file_input label input {
+	position: absolute;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+}
+
+.file_input input[type=text] {
+	vertical-align: middle;
+	display: inline-block;
+	width: 400px;
+	height: 28px;
+	line-height: 28px;
+	font-size: 11px;
+	padding: 0;
+	border: 0;
+	border: 1px solid #777;
+}
+
+#preview img {
+	width: 150px;
+	height: 150px;
+	display: inline-block;
+}
+
+#preview p {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	display: inline-block;
+}
+
+.preview-box {
+	position: absolute;
+	display: inline-block;
+	margin-left: 10px;
+}
+
+.content1 {
+	display: inline-block;
+}
+
+.but {
+	position: relative;
+	top: 30px;
+}
+
+.outputView1 {
+	margin-left: 10px;
+}
+
+.aa {
+	display: inline-block;
+	box-sizing: border-box;
+	width: 45%;
+	height: 30px;
+	margin-left: 2.5em;
+	height: 100%;
+	background-color: white;
+	vertical-align: middle;
+}
+
+.bb {
+	display: inline-block;
+	box-sizing: border-box;
+	width: 45%;
+	height: 30px;
+	margin-left: 2.5em;
+	height: 100%;
+	background-color: white;
+	vertical-align: middle;
+}
+
+.h1 {
+	color: gray;
+}
+
+.h2 {
+	color: gray;
+}
