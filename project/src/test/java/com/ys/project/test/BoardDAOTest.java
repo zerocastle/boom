@@ -23,7 +23,8 @@ public class BoardDAOTest {
 	private IMemberDao dao;
 
 	@Test @Ignore
-	public void testUpdate() throws Exception {
+	
+	public void testRegister() throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -46,5 +47,10 @@ public class BoardDAOTest {
 		String nickname = "kys";
 		dao.memberDelete(nickname);
 	}
+
+//   @Test @Ignore
+//   public void testUpdate() throws Exception {
+//      String nickname = "kys";
+//   }
 
 }

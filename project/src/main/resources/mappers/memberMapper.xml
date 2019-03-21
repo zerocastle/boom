@@ -9,12 +9,14 @@
 	</select>
 
 	<select id="memberLogin" resultType="MemberVO">
-		SELECT * FROM MEMBER WHERE PHONE=#{phone}
+		SELECT * FROM MEMBER WHERE
+		PHONE=#{phone}
 		AND M_PASSWORD=#{m_password}
 	</select>
 
 	<insert id="memberRegister" parameterType="hashmap">
-		INSERT INTO MEMBER VALUES
+		INSERT INTO MEMBER
+		VALUES
 		(
 		member_seq.nextval,
 		#{nickname},
@@ -32,11 +34,20 @@
 	</insert>
 
 	<select id="nicknameCheck" resultType="MemberVO">
-		SELECT * FROM MEMBER WHERE NICKNAME=#{nickname}
+		SELECT * FROM MEMBER WHERE
+		NICKNAME=#{nickname}
 	</select>
 
 	<update id="memberUpdate">
-		update member set
+		UPDATE MEMBER
+		SET nickname=#{nickname},
+		phone=#{phone},
+		email=#{email},
+		intro=#{intro},
+		img_path=#{img_path},
+		acc_num=#{acc_num},
+		acc_name=#{acc_name}
+		where nickname='kys';
 	</update>
 
 	<delete id="memberDelete">
