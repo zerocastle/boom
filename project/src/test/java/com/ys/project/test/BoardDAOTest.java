@@ -3,6 +3,7 @@ package com.ys.project.test;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -21,7 +22,7 @@ public class BoardDAOTest {
 	@Autowired
 	private IMemberDao dao;
 
-	@Test
+	@Test 
 	public void testUpdate() throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -31,6 +32,19 @@ public class BoardDAOTest {
 		map.put("memberRegister", vo);
 		dao.registerMember(vo);
 
+	}
+
+	@Test @Ignore
+	public void testMemberConfirm() throws Exception {
+		String nickname = "kys";
+		dao.memberCheck(nickname);
+
+	}
+
+	@Test @Ignore
+	public void testMemberDelete() throws Exception {
+		String nickname = "kys";
+		dao.memberDelete(nickname);
 	}
 
 }

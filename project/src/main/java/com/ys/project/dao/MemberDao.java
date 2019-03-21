@@ -37,4 +37,19 @@ public class MemberDao implements IMemberDao {
 		return session.selectOne("member.memberLogin", memberVO);
 	}
 
+	@Override
+	public MemberVO memberCheck(String nickName) throws Exception {
+		// TODO Auto-generated method stub
+		System.out.println("¸É¹ö Ã¼Å©");
+		System.out.println("oo : " + session.selectOne("nicknameCheck", nickName));
+		return session.selectOne("member.nicknameCheck", nickName);
+	}
+
+	@Override
+	public void memberDelete(String nickname) throws Exception {
+		// TODO Auto-generated method stub
+		System.out.println("È¸¿ø Å»Åð ");
+		session.delete("member.memberDelete",nickname);
+	}
+
 }
