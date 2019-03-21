@@ -22,7 +22,7 @@ public class BoardDAOTest {
 	@Autowired
 	private IMemberDao dao;
 
-	@Test 
+	@Test @Ignore
 	public void testUpdate() throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -41,7 +41,7 @@ public class BoardDAOTest {
 
 	}
 
-	@Test @Ignore
+	@Test 
 	public void testMemberDelete() throws Exception {
 		String nickname = "kys";
 		dao.memberDelete(nickname);

@@ -7,33 +7,38 @@
 	<select id="getTime" resultType="string">
 		SELECT sysdate FROM DUAL
 	</select>
-	
-	<insert id="memberRegister" parameterType="hashmap">
-	INSERT INTO MEMBER VALUES
-	(
-	member_seq.nextval,
-	#{nickname},
-	#{phone},
-	#{m_password},
-	#{email},
-	#{manner},
-	#{intro},
-	#{warning},
-	#{img_path},
-	#{partner_signal},
-	#{acc_num},
-	#{acc_name}
-	)
-	</insert>
-	
-	<select id="nicknameCheck" resultType="MemberVO">
-	SELECT * FROM MEMBER WHERE NICKNAME=#{nickname}
+
+	<select id="memberLogin" resultType="MemberVO">
+		SELECT * FROM MEMBER WHERE PHONE=#{phone}
+		AND M_PASSWORD=#{m_password}
 	</select>
-	
+
+	<insert id="memberRegister" parameterType="hashmap">
+		INSERT INTO MEMBER VALUES
+		(
+		member_seq.nextval,
+		#{nickname},
+		#{phone},
+		#{m_password},
+		#{email},
+		#{manner},
+		#{intro},
+		#{warning},
+		#{img_path},
+		#{partner_signal},
+		#{acc_num},
+		#{acc_name}
+		)
+	</insert>
+
+	<select id="nicknameCheck" resultType="MemberVO">
+		SELECT * FROM MEMBER WHERE NICKNAME=#{nickname}
+	</select>
+
 	<update id="memberUpdate">
 		update member set
 	</update>
-	
+
 	<delete id="memberDelete">
 		DELETE FROM MEMBER WHERE NICKNAME = #{nickname}
 	</delete>
