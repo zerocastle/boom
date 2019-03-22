@@ -24,18 +24,8 @@ public class SellingController {
 		return "sell/selling";
 
 	}
-	
-	@RequestMapping(value = "sellingHome", method = RequestMethod.GET)
-	public String sellHomeGet(Model model) {
 
-		logger.info("메인 홈으로 ㄱㄱ");
-
-		return "index";
-
-	}
-	
-	
-	//상품 관리로 이동
+	// 상품 관리로 이동
 	@RequestMapping(value = "sell_productManage", method = RequestMethod.GET)
 	public String sell_productManage(Model model) {
 
@@ -44,5 +34,45 @@ public class SellingController {
 		return "/sell/sell-ProductManage";
 
 	}
+
+	// 쳇 리스트
+	@RequestMapping(value = "chatList", method = RequestMethod.GET)
+	public String chatList(Model model) {
+
+		logger.info("채팅목록 이동");
+
+		return "sell/chatList";
+
+	}
+
+	// 구매내역
+	@RequestMapping(value = "purchaseList", method = RequestMethod.GET)
+	public String purchaseList(Model model) {
+
+		logger.info("구매 내역 이동");
+
+		return "sell/purchaseList";
+
+	}
+	
+	// 판매내역
+	@RequestMapping(value = "sellList", method = RequestMethod.GET)
+	public String sellList(Model model) {
+
+		logger.info("판매 내역 이동");
+
+		return "sell/sellList";
+
+	}
+	
+	// 탈퇴하기
+		@RequestMapping(value = "memberOut", method = RequestMethod.GET)
+		public String memberOut(Model model) {
+
+			logger.info("회원탈퇴");
+
+			return "sell/memberOut";
+
+		}
 
 }
