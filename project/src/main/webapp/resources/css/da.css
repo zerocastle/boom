@@ -1,9 +1,4 @@
-﻿.container{
-   
-
-    
-
-}
+﻿/* 회원가입 CSS */
 .btn{
  position: relative;
  top:220px;  
@@ -215,7 +210,7 @@ z-index: 2;
   position: relative;
   width:70%;
   float: right;
-  top:35px;
+  top:14.8px;
 }
 
 .num1{
@@ -283,7 +278,7 @@ width:40%
 .myButton{
 	position:relative;
 	top:43px;
-  left: 615px;
+  left: 655px;
   z-index: 2;
 }
 
@@ -379,11 +374,10 @@ width:40%
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#848484', endColorstr='#848484',GradientType=0);
     background-color:#848484;
   }
-
-
+  
   .alert-success{
     position: relative;
-    bottom:285px;
+    bottom:195px;
     left:20px;
     color:green;
   }
@@ -391,7 +385,7 @@ width:40%
 
   .alert-danger{
 position: relative;
-bottom:285px;
+bottom:195px;
 left:20px;
 color: red;
   }

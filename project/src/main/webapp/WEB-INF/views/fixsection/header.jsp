@@ -48,7 +48,7 @@
 		$('#register').click(
 				function() {
 					window.open('member/memberRegister', 'register',
-							'width=1000,height=1000');
+							'width=1920,height=1080');
 				})
 		//로그아웃
 		$('#logout').click(function() {
