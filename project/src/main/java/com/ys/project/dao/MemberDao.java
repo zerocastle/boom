@@ -20,11 +20,12 @@ public class MemberDao implements IMemberDao {
 	@Autowired
 	private SqlSession session;
 
+	//회원 가입 map 처리
 	@Override
-	public void registerMember(MemberVO map) throws Exception {
+	public void registerMember(Map map) throws Exception {
 		// TODO Auto-generated method stub
 
-		logger.info("레지스터 넘어온 값 : " + map.toString());
+		logger.info("레지스터 dao: " + map.toString());
 		session.insert("member.memberRegister", map);
 
 	}
@@ -40,7 +41,7 @@ public class MemberDao implements IMemberDao {
 	@Override
 	public MemberVO memberCheck(String nickName) throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("맴버 체크");
+		System.out.println("맴버 체크" + nickName);
 		System.out.println("oo : " + session.selectOne("nicknameCheck", nickName));
 		return session.selectOne("member.nicknameCheck", nickName);
 	}

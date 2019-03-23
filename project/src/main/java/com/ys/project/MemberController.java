@@ -1,7 +1,6 @@
 package com.ys.project;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -84,21 +83,37 @@ public class MemberController {
 	// 회원 가입
 
 	@RequestMapping(value = "memberRegister", method = RequestMethod.GET)
-	public String memberRegister(Model model, @RequestParam Map map) throws Exception {
-
+	public String memberRegister(Model model) throws Exception {
 		return "login/memberRegister";
 
 	}
 
 	@RequestMapping(value = "memberRegister", method = RequestMethod.POST)
 	public String memberRegisterPost(Model model, @RequestParam Map map, RedirectAttributes ra) throws Exception {
+		logger.info("맴버 레지스터 : " + map);
+		ra.addFlashAttribute("msg", "SUCCESS");
+		service.registerMember(map);
+		return "redirect:/";
 
-		return "login/memberRegister";
+	}
+
+	// 닉네임 체크
+	@RequestMapping(value = "nickNameCheck", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> nickNameCheck(Model model, @RequestBody MemberVO nickName, RedirectAttributes ra)
+			throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		logger.info("닉네임 체크 : " + nickName);
+		nickName = service.nickNameCheck(nickName.getNickname());
+		if (nickName == null) {
+			map.put("signal", "SUCCESS");
+		} else
+			map.put("signal", "fail");
+		return map;
 
 	}
 
 	// 마이페이지
-
 	@RequestMapping(value = "myPage", method = RequestMethod.GET)
 	public String myPage(Model model) throws Exception {
 		System.out.println("마이 페이지 : member/myPage");

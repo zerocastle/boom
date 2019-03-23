@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,13 +75,14 @@ h2 {
 <script>
 	$(document).ready(
 			function() {
+
 				$("form").submit(function(e) {
 					return false;
 				});
 				$('#login-btn').click(function(e) {
 					/* e.preventDefault(); */
 					var query = JSON.stringify({
-						phone : $('#phone').val(),
+						nickname : $('#nickname').val(),
 						m_password : $('#m_password').val()
 					});
 					$.ajax({
@@ -116,7 +118,7 @@ h2 {
 		<div class="loginform">
 			<h2 align="center">로그인</h2>
 			<div class="phono">
-				<input id="phone" name="phone" type="text" placeholder="휴대폰번호(숫자만)"
+				<input id="nickname" name="nickname" type="text" placeholder="닉네임"
 					required><br>
 			</div>
 			<br />

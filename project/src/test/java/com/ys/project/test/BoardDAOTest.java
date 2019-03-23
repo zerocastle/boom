@@ -31,7 +31,7 @@ public class BoardDAOTest {
 		MemberVO vo = new MemberVO("kys", "293455932", "123456", "ring321@naver.com", 5, "intro", 12, "", 4, "123-456",
 				"sin");
 		map.put("memberRegister", vo);
-		dao.registerMember(vo);
+//		dao.registerMember(vo);
 
 	}
 

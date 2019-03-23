@@ -19,7 +19,7 @@ public class MemberService implements IMemberService {
 
 	@Override
 	public void registerMember(Map map) throws Exception {
-		// TODO Auto-generated method stub
+		dao.registerMember(map);
 	}
 
 	@Override
@@ -27,6 +27,14 @@ public class MemberService implements IMemberService {
 		// TODO Auto-generated method stub
 		System.out.println("ㅇ날ㄴ아ㅣ러아ㅣㄴ러ㅣㅏㅇㄴ");
 		return dao.loginMember(memberVO);
+	}
+
+	@Override
+	public MemberVO nickNameCheck(String nickName) throws Exception {
+		// TODO Auto-generated method stub
+		System.out.println("닉네임 확인 : " + nickName);
+
+		return dao.memberCheck(nickName);
 	}
 
 }

@@ -7,7 +7,7 @@ import com.ys.project.memberVO.MemberVO;
 public interface IMemberDao {
 	
 	//회원 가입
-	public void registerMember(MemberVO map) throws Exception;
+	public void registerMember(Map map) throws Exception;
 	
 	//로그인
 	public MemberVO loginMember(MemberVO memberVO) throws Exception;
