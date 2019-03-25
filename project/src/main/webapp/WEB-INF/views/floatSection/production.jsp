@@ -76,7 +76,7 @@
         </div>
       </div>
       <div class="main-product">
-        상품1
+        <a id="productList" href="#">상품1</a>
         <div class="main-product-div">
           <div id="productNo1" class="carousel slide col-xs-12" data-ride="carousel">
             <div class="carousel-inner">

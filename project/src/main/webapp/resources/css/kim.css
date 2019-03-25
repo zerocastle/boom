@@ -1,7 +1,7 @@
    @import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&subset=korean');
 
     body {
-      font-family: 'Noto Sans KR', sans-serif, "맑은 고딕";
+      font-family: 'Noto Sans KR', sans-serif, "留묒� 怨좊뵓";
     }
 
     * {
@@ -10,7 +10,7 @@
       padding: 0;
     }
 
-    /* 레이아웃 */
+    /* �젅�씠�븘�썐 */
     #wrap {
       width: 100%;
       /* height: auto; */
@@ -31,7 +31,7 @@
     }
 
     .header {
-      /* 기존 쇼핑몰 해상도 1242px 2208px 9 : 16 */
+      /* 湲곗〈 �눥�븨紐� �빐�긽�룄 1242px 2208px 9 : 16 */
 
       width: 1242px;
       margin: auto;
@@ -40,8 +40,8 @@
     }
 
     .header-1 {
-      /* 기존 쇼핑몰 해상도 1242px 2208px 9 : 16 */
-      /* width: 1242px; 밑에 구분하기위해 실제로는 1242 */
+      /* 湲곗〈 �눥�븨紐� �빐�긽�룄 1242px 2208px 9 : 16 */
+      /* width: 1242px; 諛묒뿉 援щ텇�븯湲곗쐞�빐 �떎�젣濡쒕뒗 1242 */
       width: 1238px;
       margin: 1px;
       height: 40px;
@@ -49,8 +49,8 @@
     }
 
     .header-2 {
-      /* 기존 쇼핑몰 해상도 1242px 2208px 9 : 16 */
-      /* width: 1242px; 밑에 구분하기위해 실제로는 1242 */
+      /* 湲곗〈 �눥�븨紐� �빐�긽�룄 1242px 2208px 9 : 16 */
+      /* width: 1242px; 諛묒뿉 援щ텇�븯湲곗쐞�빐 �떎�젣濡쒕뒗 1242 */
       /* position: fixed; */
       width: 1242px;
       margin: auto;
@@ -68,8 +68,8 @@
     }
 
     .banner {
-      /* 기존 쇼핑몰 해상도 1242px 2208px 9 : 16 */
-      /* width: 1242px; 밑에 구분하기위해 실제로는 1242 */
+      /* 湲곗〈 �눥�븨紐� �빐�긽�룄 1242px 2208px 9 : 16 */
+      /* width: 1242px; 諛묒뿉 援щ텇�븯湲곗쐞�빐 �떎�젣濡쒕뒗 1242 */
       width: 1238px;
       margin: auto;
       margin-top: 220px;
@@ -78,8 +78,8 @@
     }
 
     .main-categori {
-      /* 기존 쇼핑몰 해상도 1242px 2208px 9 : 16 */
-      /* width: 1242px; 밑에 구분하기위해 실제로는 1242 */
+      /* 湲곗〈 �눥�븨紐� �빐�긽�룄 1242px 2208px 9 : 16 */
+      /* width: 1242px; 諛묒뿉 援щ텇�븯湲곗쐞�빐 �떎�젣濡쒕뒗 1242 */
       width: 1238px;
       margin: 1px;
       margin-top: 30px;
@@ -88,8 +88,8 @@
     }
 
     .main-product {
-      /* 기존 쇼핑몰 해상도 1242px 2208px 9 : 16 */
-      /* width: 1242px; 밑에 구분하기위해 실제로는 1242 */
+      /* 湲곗〈 �눥�븨紐� �빐�긽�룄 1242px 2208px 9 : 16 */
+      /* width: 1242px; 諛묒뿉 援щ텇�븯湲곗쐞�빐 �떎�젣濡쒕뒗 1242 */
       width: 1238px;
       margin: 1px;
       height: 300px;
@@ -238,12 +238,11 @@
 
 
 
-    /* 상품 목록 css */
+    /* �긽�뭹 紐⑸줉 css */
     .productList-div1{
-      /* 기존 쇼핑몰 해상도 1242px 2208px 9 : 16 */
-      /* width: 1242px; 밑에 구분하기위해 실제로는 1242 */
+      /* 湲곗〈 �눥�븨紐� �빐�긽�룄 1242px 2208px 9 : 16 */
+      /* width: 1242px; 諛묒뿉 援щ텇�븯湲곗쐞�빐 �떎�젣濡쒕뒗 1242 */
       width: 1238px;
       margin: auto;
-      margin-top: 220px;
       border: 1px solid #bcbcbc;
     }
