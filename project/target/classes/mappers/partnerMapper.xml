@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="partner">
+
+	<insert id="partnerInsert">
+		insert into partner(
+		company_number,
+		part_name,
+		boss_name,
+		part_phone,
+		address,
+		p_start,
+		p_end,
+		m_num
+		)
+		values(
+		#{compan_number},
+		#{part_name},
+		#{boss_name},
+		#{part_phone},
+		#{address},
+		#{p_start},
+		#{p_end},
+		#{m_num}
+		)
+	</insert>
+
+</mapper>

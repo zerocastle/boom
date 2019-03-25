@@ -12,5 +12,6 @@
 	<typeAliases>
 		<package name="com.ys.project.memberVO" />
 	</typeAliases>
+	
 
 </configuration>

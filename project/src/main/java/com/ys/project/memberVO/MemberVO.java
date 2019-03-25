@@ -2,6 +2,7 @@ package com.ys.project.memberVO;
 
 public class MemberVO {
 
+	private int mNum;
 	private String nickname;
 	private String phone;
 	private String m_password;
@@ -122,11 +123,20 @@ public class MemberVO {
 		this.acc_name = acc_name;
 	}
 
+	public int getmNum() {
+		return mNum;
+	}
+
+	public void setmNum(int mNum) {
+		this.mNum = mNum;
+	}
+
 	@Override
 	public String toString() {
-		return "MemberVO [nickname=" + nickname + ", phone=" + phone + ", m_password=" + m_password + ", email=" + email
-				+ ", manner=" + manner + ", intro=" + intro + ", warning=" + warning + ", img_path=" + img_path
-				+ ", partner_signal=" + partner_signal + ", acc_num=" + acc_num + ", acc_name=" + acc_name + "]";
+		return "MemberVO [mNum=" + mNum + ", nickname=" + nickname + ", phone=" + phone + ", m_password=" + m_password
+				+ ", email=" + email + ", manner=" + manner + ", intro=" + intro + ", warning=" + warning
+				+ ", img_path=" + img_path + ", partner_signal=" + partner_signal + ", acc_num=" + acc_num
+				+ ", acc_name=" + acc_name + "]";
 	}
 
 }
