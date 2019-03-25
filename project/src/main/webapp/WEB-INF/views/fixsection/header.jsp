@@ -90,6 +90,18 @@
 			}
 		})
 
+		// 파트너 등록  제어
+
+		$('#partnerRegister').click(
+				function(e) {
+					if ("${not empty sessionScope.loginSession}" != 'false') {
+
+						window.open('partner/partnerPage', 'partner',
+								'width=1920,height=1080');
+					} else {
+						alert('회원 가입을 먼저 하셔야 합니다.');
+					}
+				})
 	});
 </script>
 
@@ -192,7 +204,7 @@
 							<a href="#">함께하는 직플파트너</a>
 						</div>
 						<div class="zicplus-btn">
-							<a href="#">직플파트너 등록하기</a>
+							<a href="#" id="partnerRegister">직플파트너 등록하기</a>
 						</div>
 						<div class="zicplus-btn">
 							<a href="#">직플레이스 검색</a>

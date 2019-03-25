@@ -335,12 +335,13 @@ width:40%
          
   }
 
-  .adrs{
+ .adrs{
   position: relative;
-  bottom:380px;
-  left:75%;
+  bottom:335px;
+  left:45%;
   z-index: 2; 
   }
+
 
   .adrs {
     background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #848484), color-stop(1, #848484));

@@ -23,10 +23,9 @@ public class PartnerController {
 
 	// 파트너 페이지 이동
 	@RequestMapping(value = "partnerPage", method = RequestMethod.GET)
-	public String partnerRegisterGet(Model model) throws Exception {
+	public void partnerRegisterGet(Model model) throws Exception {
 		
 		logger.info("파트너 레지스터 가입 이동...");
-		return "";
 	}
 
 	// 파트너 가입
