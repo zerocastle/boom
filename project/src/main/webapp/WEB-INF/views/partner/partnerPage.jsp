@@ -120,7 +120,7 @@
 
 						<div>
 							<label for="phone"></label><input type="text"
-								id="sample4_postcode" name="firstname" placeholder="휴대폰번호*숫자만허용">
+								id="phone" name="firstname" placeholder="휴대폰번호*숫자만허용">
 							<span class="phone"> <i class="fas fa-mobile-alt"></i>
 							</span>
 						</div>

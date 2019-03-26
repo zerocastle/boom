@@ -89,11 +89,21 @@
 				window.open('member/login', 'login', 'width=600,height=600');
 			}
 		})
-		
-		$('#productList').click(function(e){
+
+		$('#productList').click(function(e) {
 			e.preventDefault();
 			window.location.href = "/index_productList";
-		});
+		});/* subnav partnerRegister */
+		$('#subnav :eq(2)').click(
+				function(e) {
+					if ("${not empty sessionScope.loginSession}" != 'false') {
+
+						window.open('partner/partnerPage', 'partner',
+								'width=1920,height=1080');
+					} else {
+						alert('로그인을 먼저 하셔야 합니다.');
+					}
+				})
 
 	});
 </script>
@@ -192,7 +202,7 @@
 						</div>
 					</div>
 
-					<div class="header-zicplus-btn">
+					<div class="header-zicplus-btn" id="subnav">
 						<div class="zicplus-btn">
 							<a href="#">함께하는 직플파트너</a>
 						</div>

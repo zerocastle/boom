@@ -12,12 +12,15 @@ public class Partner {
 	private String boss_name;
 	private String part_phone;
 	private String address;
-	private String img_path; // 썸네일 사진
+	private String img_path; // 썸네일
 	private String img_path2;
 	private String img_path3;
 	private String img_path4;
 	private Date p_start;
 	private Date p_end;
-	private int mNum; // 포린키 
-
+	private int mNum; // 포린키
+	private String zip_code; // 우편번호
+	private String road_name; // 도로명 주소
+	private String addr; //지번 주소
+	private String detail_addr; //상세 주소
 }
