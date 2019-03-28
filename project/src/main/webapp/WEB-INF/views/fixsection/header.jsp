@@ -47,11 +47,12 @@
 		// 회원 
 		$('#register').click(
 				function() {
-					window.open('member/memberRegister', 'register',
+					window.open('/member/memberRegister', 'register',
 							'width=1920,height=1080');
 				})
 		//로그아웃
-		$('#logout').click(function() {
+		$('#logout').click(function(e) {
+			e.preventDefault();
 			window.location.href = "/member/logout"
 		})
 		//마이페이지 제어
@@ -63,7 +64,7 @@
 				window.location.href = "/member/myPage";
 			} else {
 				alert("로그인 부터 하셔야 합니다.");
-				window.open('member/login', 'login', 'width=600,height=600');
+				window.open('/member/login', 'login', 'width=600,height=600');
 			}
 		})
 		// 판매하기 제어
@@ -74,7 +75,7 @@
 				window.location.href = "/selling/selling";
 			} else {
 				alert("로그인 부터 하셔야 합니다.");
-				window.open('member/login', 'login', 'width=600,height=600');
+				window.open('/member/login', 'login', 'width=600,height=600');
 			}
 		})
 
@@ -86,24 +87,40 @@
 				window.location.href = "/chatting/chatting";
 			} else {
 				alert("로그인 부터 하셔야 합니다.");
-				window.open('member/login', 'login', 'width=600,height=600');
+				window.open('/member/login', 'login', 'width=600,height=600');
 			}
 		})
 
 		$('#productList').click(function(e) {
 			e.preventDefault();
 			window.location.href = "/index_productList";
-		});/* subnav partnerRegister */
+		});
+
+		/* subnav partnerRegister */
 		$('#subnav :eq(2)').click(
 				function(e) {
 					if ("${not empty sessionScope.loginSession}" != 'false') {
 
-						window.open('partner/partnerPage', 'partner',
+						window.open('/partner/partnerPage', 'partner',
 								'width=1920,height=1080');
 					} else {
 						alert('로그인을 먼저 하셔야 합니다.');
 					}
 				})
+
+		/*공지사항*/
+		$('#noticeBoard').click(function(e) {
+			e.preventDefault();
+			alert("공지사항 이동");
+			window.location.href = "/admin/noticeBoard";
+
+		})
+		/*Q&A 게시판 */
+		$('#qaBoard').click(function(e) {
+			e.preventDefault();
+			alert("Q&A 게시판 이동");
+			window.location.href = "/admin/qaBoard";
+		})
 
 	});
 </script>
@@ -116,15 +133,17 @@
 		<div class="header">
 			<div id="btnTop" class="header-1">
 				<div class="header-1-div">
+
 					<c:if test="${empty sessionScope.loginSession }">
+						<a href="#">관리자 로그인</a>
 						<a class="header-1-a" href=""
 							onclick="window.open('member/login','login','width=600,height=600')">로그인</a>
 						<a class="header-1-a" href="#" id="register">회원가입</a>
 					</c:if>
 					<c:if test="${not empty sessionScope.loginSession }">
-						<a class="header-1-a" href="myPage/page.jsp">${sessionScope.loginSession }
-							환영합니다.</a>
-						<a class="header-1-a" id="logout">로그아웃</a>
+						<span class="header-1-a" href="myPage/page.jsp">${sessionScope.loginSession }
+							환영합니다.</span>
+						<a href="" class="header-1-a" id="logout">로그아웃</a>
 					</c:if>
 				</div>
 			</div>
@@ -210,7 +229,13 @@
 							<a href="#">직플파트너 등록하기</a>
 						</div>
 						<div class="zicplus-btn">
-							<a href="#">직플레이스 검색</a>
+							<a href="#" id="DirectSearch">직플레이스 검색</a>
+						</div>
+						<div class="zicplus-btn">
+							<a href="#" id="noticeBoard">공지사항</a>
+						</div>
+						<div class="zicplus-btn">
+							<a href="#" id="qaBoard">Q&A게시판</a>
 						</div>
 					</div>
 				</div>

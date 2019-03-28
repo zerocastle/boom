@@ -21,7 +21,7 @@ public class PartnerService {
 	public void partnerRegister(Partner partner) {
 		// TODO Auto-generated method stub
 		dao.partnerRegister(partner);
-
+		
 	}
 
 }

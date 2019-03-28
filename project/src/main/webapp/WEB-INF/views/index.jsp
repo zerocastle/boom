@@ -6,6 +6,7 @@
 		var msg = '${requestScope.msg}'
 		if (msg == 'SUCCESS') {
 			alert("회원 가입을 성공적으로 하였습니다.");
+			self.close();
 		}
 </script>
 
