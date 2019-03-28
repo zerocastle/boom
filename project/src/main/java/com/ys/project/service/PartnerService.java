@@ -20,19 +20,19 @@ public class PartnerService {
 	
 	private PartnerDao dao;
 	
-	//ÆÄÆ®³Ê ·¹ÆÄÁöÅä¸®
+	//íŒŒíŠ¸ë„ˆ ë ˆíŒŒì§€í† ë¦¬
 	public void partnerRegister(Map<String, Object> partner, int mnum) {
 		// TODO Auto-generated method stub
 		dao.partnerRegister(partner, mnum);
 	}
 	
 	public Map selectnumber(String nickname) {
-		System.out.println("ÆÄÆ®³Ê¼­ºñ½º¿¡¼­ ºÒ·¯¿Â " + dao.selectnumber(nickname).toString());
+		System.out.println("íŒŒíŠ¸ë„ˆì„œë¹„ìŠ¤ì—ì„œ ë¶ˆëŸ¬ì˜¨ " + dao.selectnumber(nickname).toString());
 		return dao.selectnumber(nickname);
 	}
 	
 	public void partnersignalup(int mnum) {
-		System.out.println("(Service) mnum ÀÔ·Â¹Ş¾Æ Dao ½ÇÇà ¤¡" + mnum);
+		System.out.println("(Service) mnum ì…ë ¥ë°›ì•„ Dao ì‹¤í–‰ ã„±" + mnum);
 		dao.partnerSignalUp(mnum);
 	}
 	

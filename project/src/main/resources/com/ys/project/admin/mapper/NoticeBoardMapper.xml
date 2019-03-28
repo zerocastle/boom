@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ys.project.admin.mapper.NoticeBoardMapper">
+
+	<select id="getList" resultType="NoticeBoard">
+	<![CDATA[
+		SELECT * FROM NOTICEBOARD WHERE no_num > 0 ORDER BY no_num DESC
+	]]>
+	</select>
+
+	<insert id="insert">
+		INSERT INTO NOTICEBOARD(NO_NUM,TITLE,CONTENT,ADMIN_ID)
+		VALUES(seq_board.nextval,#{title},#{content},#{ADMIN_ID})
+	</insert>
+
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="bno" order="BEFORE"
+			resultType="long">
+			SELECT seq_board.nextval from DUAL
+		</selectKey>
+
+		INSERT INTO NOTICEBOARD(BNO,TITLE,CONTENT,WRITER)
+		VALUES(#{bno},#{title},#{content},#{writer})
+	</insert>
+
+	<select id="read" resultType="NoticeBoard">
+		SELECT * FROM NOTICEBOARD WHERE
+		BNO=#{bno}
+	</select>
+
+	<delete id="delete">
+		DELETE NOTICEBOARD WHERE BNO = #{bno}
+	</delete>
+
+	<update id="update">
+		update noticeBoard
+		set title= #{title},
+		content=
+		#{content},
+		writer= #{writer},
+		updatedate=sysdate
+		where bno=#{bno}
+	</update>
+
+
+</mapper>
