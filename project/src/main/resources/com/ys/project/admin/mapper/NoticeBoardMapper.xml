@@ -11,27 +11,28 @@
 	</select>
 
 	<insert id="insert">
-		INSERT INTO NOTICEBOARD(NO_NUM,TITLE,CONTENT,ADMIN_ID)
-		VALUES(seq_board.nextval,#{title},#{content},#{ADMIN_ID})
+		INSERT INTO
+		NOTICEBOARD(NO_NUM,TITLE,CONTENT,ADMIN_ID)
+		VALUES(noticeBoard_seq.nextval,#{title},#{content},#{admin_id})
 	</insert>
 
 	<insert id="insertSelectKey">
-		<selectKey keyProperty="bno" order="BEFORE"
+		<selectKey keyProperty="no_num" order="BEFORE"
 			resultType="long">
-			SELECT seq_board.nextval from DUAL
+			SELECT NOTICEBOARD_SEQ.nextval from DUAL
 		</selectKey>
 
-		INSERT INTO NOTICEBOARD(BNO,TITLE,CONTENT,WRITER)
-		VALUES(#{bno},#{title},#{content},#{writer})
+		INSERT INTO NOTICEBOARD(NO_NUM,TITLE,CONTENT,ADMIN_ID)
+		VALUES(#{no_num},#{title},#{content},#{admin_id})
 	</insert>
 
 	<select id="read" resultType="NoticeBoard">
 		SELECT * FROM NOTICEBOARD WHERE
-		BNO=#{bno}
+		no_num=#{no_num}
 	</select>
 
 	<delete id="delete">
-		DELETE NOTICEBOARD WHERE BNO = #{bno}
+		DELETE NOTICEBOARD WHERE no_num = #{no_num}
 	</delete>
 
 	<update id="update">
@@ -39,9 +40,10 @@
 		set title= #{title},
 		content=
 		#{content},
-		writer= #{writer},
-		updatedate=sysdate
-		where bno=#{bno}
+		admin_id= #{admin_id},
+		update_date=sysdate
+		where
+		no_num=#{no_num}
 	</update>
 
 

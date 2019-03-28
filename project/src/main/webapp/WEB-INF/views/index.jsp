@@ -10,6 +10,7 @@
 		}
 		if (msg =='SUCCESSPARTNER'){
 			alert("직플레이드 등록이 완료되었습니다.");
+			history.replaceState({}, null, null);
 			window.close();
 		}
 		

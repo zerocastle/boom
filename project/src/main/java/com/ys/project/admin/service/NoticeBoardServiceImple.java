@@ -26,7 +26,7 @@ public class NoticeBoardServiceImple implements INoticeBoardService {
 	public void register(NoticeBoard board) {
 		// TODO Auto-generated method stub
 		log.info("register..." + board);
-		mapper.insertSelectKey(board);
+		mapper.insert(board);
 	}
 
 	@Override

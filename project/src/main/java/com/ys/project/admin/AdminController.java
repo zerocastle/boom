@@ -5,11 +5,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ys.project.admin.service.INoticeBoardService;
-import com.ys.project.admin.service.NoticeBoardServiceImple;
+import com.ys.project.memberVO.NoticeBoard;
 
 import lombok.AllArgsConstructor;
 
@@ -25,7 +28,7 @@ public class AdminController {
 		log.info("관리자 로그인 폼 이동");
 		return "login";
 	}
-	
+
 	// 공지사항으로 이동
 	@GetMapping("/noticeBoard")
 	public void noticeBoard(Model model) {
@@ -33,19 +36,60 @@ public class AdminController {
 		log.info("공지사항으로 이동" + service.getList());
 
 	}
-	
+
 	@GetMapping("/noticeRegister")
-	public void noticeRegister(Model model) {
+	public String noticeRegister(Model model) {
 		log.info("레지스터로 이동..");
+		return "/admin/noticeBoardRegister";
 	}
-	
+
+	@PostMapping("/noticeRegister")
+	public String noticeRegister(NoticeBoard board, RedirectAttributes rttr) {
+		log.info("레지스터 넘온 값 : " + board);
+		service.register(board);
+		rttr.addFlashAttribute("reult", board.getNo_num());
+		return "redirect:/admin/noticeBoard";
+	}
+
+	@GetMapping("/noticeGet")
+	public String get(@RequestParam("no_num") long no_num, Model model) {
+		log.info("/get");
+		model.addAttribute("board", service.get(no_num));
+		return "/admin/noticeBoardGet";
+	}
+
+	@GetMapping("/modify")
+	public String modify(@RequestParam("no_num") long no_num, Model model) {
+		log.info("modify 이동");
+		model.addAttribute("board", service.get(no_num));
+		return "/admin/noticeBoardModify";
+	}
+
+	@PostMapping("/modify")
+	public String modify(NoticeBoard board, RedirectAttributes rttr) {
+		log.info("modify : " + board);
+
+		if (service.modify(board)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+		return "redirect:/admin/noticeBoard";
+	}
+
+	@PostMapping("/remove")
+	public String remove(@RequestParam("no_num") long no_num, RedirectAttributes rttr) {
+		log.info("remove : " + no_num);
+
+		if (service.remove(no_num)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+		return "redirect:/admin/noticeBoard";
+	}
+
 	// qa로 이동
 	@GetMapping("/qa")
 	public void qaBoard(Model model) {
 		log.info("Q&A로 이동");
 
 	}
-
-	
 
 }

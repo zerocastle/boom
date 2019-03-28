@@ -9,10 +9,11 @@
 <title>관리자 페이지 입니다.</title>
 <!-- <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"> -->
-<link rel="stylesheet" href="/resources/css2/bootstrap.css">
+<!-- <link rel="stylesheet" href="/resources/css2/bootstrap.css"> -->
 
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
+<jsp:include page="../fixsection/header.jsp"></jsp:include>
 <body>
 
 	<div class="row">
@@ -47,7 +48,7 @@
 						<c:forEach items="${list}" var="board">
 							<tr>
 								<td><c:out value="${board.no_num}" /></td>
-								<td><a href='/board/get?bno=<c:out value="${board.no_num}"/>'><c:out
+								<td><a href='/admin/noticeGet?no_num=<c:out value="${board.no_num}"/>'><c:out
 											value="${board.title}" /></a></td>
 								<td><c:out value="${board.admin_id}" /></td>
 								<td><fmt:formatDate pattern="yyyy-MM-dd"
@@ -115,7 +116,7 @@
 
 		$("#regBtn").on("click", function() {
 
-			self.location = "/board/register";
+			self.location = "/admin/noticeRegister";
 
 		});
 	})
