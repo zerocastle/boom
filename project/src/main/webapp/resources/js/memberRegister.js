@@ -140,13 +140,14 @@ $(function() {
 				if (passwordComfirm == false) {
 					alert("비밀번호가 일치하는지 다시한번 확인해봐요");
 				}
-				if(finalSignal2 == false){
+				if (finalSignal2 == false) {
 					alert("필수 약관을 체크 하셔야 합니다.");
 				}
 
 				if (finalSignal2 == true && nickNameCheck == true
 						&& passwordComfirm == true && phoneNull == true) {
 					/* alert("모두 완료"); */
+
 					formObj.submit();
 				}
 

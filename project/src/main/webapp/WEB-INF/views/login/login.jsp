@@ -105,7 +105,7 @@ h2 {
 				})
 				$('#join-btn').click(
 						function() {
-							window.close();
+							self.close();
 							window.open('memberRegister', 'register',
 									'width=1920,height=1080');
 						})
