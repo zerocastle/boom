@@ -8,6 +8,11 @@
 			alert("회원 가입을 성공적으로 하였습니다.");
 			self.close();
 		}
+		if (msg =='SUCCESSPARTNER'){
+			alert("직플레이드 등록이 완료되었습니다.");
+			window.close();
+		}
+		
 </script>
 
 		<%@include file="fixsection/header.jsp"%>
