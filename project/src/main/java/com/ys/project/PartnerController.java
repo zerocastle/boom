@@ -1,8 +1,5 @@
 package com.ys.project;
 
-import java.math.BigDecimal;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -16,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ys.project.memberVO.MemberVO;
+import com.ys.project.memberVO.Partner;
 import com.ys.project.service.PartnerService;
 
 import lombok.AllArgsConstructor;
@@ -38,41 +37,41 @@ public class PartnerController {
 
 	// 파트너 가입
 	@RequestMapping(value = "partnerRegister", method = RequestMethod.POST)
-	public String partnerRegisterPost(Model model, @RequestParam Map<String, Object> partner,
-			HttpServletRequest request, RedirectAttributes rttr) throws Exception {
+	public String partnerRegisterPost(Model model, Partner partner, HttpServletRequest request,
+			RedirectAttributes rttr) throws Exception {
 		HttpSession session = request.getSession();
 		String loginSession = (String) session.getAttribute("loginSession"); // 로그인된 세션의 닉네임
-		String partner_signal = (String) session.getAttribute("partner_signal");// 로그인된 세션의 파트너신호(등록 직플레이스 갯수로 정해짐)
+		String tempPartner_signal_fuck = (String) session.getAttribute("partner_signal");// 로그인된 세션의 파트너신호(등록 직플레이스 갯수로
+		int tempPartner_signal = Integer.parseInt(tempPartner_signal_fuck);
+		int update_siganl = tempPartner_signal + 1 ; // update 했다
+
 		logger.info("파트너 레지스터 :" + partner.toString());
+	
 		// Map partner 는 입력된 form태그의 값들.
-		logger.info("다음" + service.selectnumber(loginSession).toString());
-		Map mvo = service.selectnumber(loginSession);
-		logger.info(mvo.toString());
-		int mnum = ((BigDecimal) mvo.get("M_NUM")).intValue();
-//		int mnum = (int) mvo.get("M_NUM"); BigDecimal은 int로 타입캐스팅 할수없다는 에러발생
-		logger.info("파트너 레지스터  번호검색:");
-		logger.info("파트너 레지스터  VO에서 번호가져옴:" + mnum);
-		// 닉네임으로 DB의 m_num을 찾아서 인서트할때 같이 넣어준다.
-		logger.info("파트너 레지스터 :" + partner.toString() + partner_signal);
-		service.partnerRegister(partner, mnum);
-		logger.info("파트너 삽입 완료");
-		
-		rttr.addFlashAttribute("msg", "SUCCESSPARTNER");
+//		logger.info("다음" + service.selectnumber(loginSession).toString());
+		int m_num;
+		m_num = service.selectnumber(loginSession); // 회원에 번호 들고올라고 서치
+		logger.info("mNum : " + m_num);
 
-		service.partnersignalup(mnum);
-		logger.info("파트너 업데이트 완료");
+		update_siganl = tempPartner_signal + 1; // 더해주고 넣어줄꺼
 
+		session.removeAttribute(loginSession);
+		session.removeAttribute(tempPartner_signal_fuck);
 		
-		session.removeAttribute("partner_signal");
-		logger.info("세션의 partner_signal 정보를 날렸다!");
-		// 세션에 DB의 업데이트된 값을 불러옴과 동시에
-		Map mvo2 = service.selectnumber(loginSession); // 업데이트된 정보를 찾는다.
-		logger.info("업데이트이후의 정보를 찾는다" + mvo2.get("NICKNAME") + " /// " + mvo2.get("PARTNER_SIGNAL"));
+		partner.setM_num(m_num);
+		logger.info("변해라 ~~~ 포린키" + partner);
+		service.partnerRegister(partner);
 		
+		// 업데이트 넣어줄꺼 시발
+		MemberVO member = new MemberVO();
+		member.setPartner_signal(update_siganl);
+		member.setNickname(loginSession);
+		service.partnerUpdate(member);
+		logger.info("member : " + member);
+		//업데이트 세션
+		session.setAttribute("loginSession", loginSession);
+		session.setAttribute("partner_signal", Integer.toString(update_siganl));
 		
-		session.setAttribute("partner_signal", mvo2.get("PARTNER_SIGNAL"));
-		logger.info("세션의 partner_signal어트리뷰트 값을 넣주고 직플파트너 등록 작업완료");
-
 		return "redirect:/";// 파트너 가입이 완료되어 메인페이지 이동
 	}
 

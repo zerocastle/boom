@@ -4,38 +4,48 @@
 
 <mapper namespace="partner">
 
-	<insert id="partnerRegister" parameterType="hashmap">
-		insert into partner(
-		company_number,
-		part_name,
-		boss_name,
-		part_phone,
-		addr,zip_code,road_name,detail_addr,
-		p_start,
-		p_end,
-		m_num
+	<insert id="partnerRegister" parameterType="Partner">
+		INSERT INTO PARTNER(
+		COMPANY_NUMBER,
+		PART_NAME,
+		BOSS_NAME,
+		PART_PHONE,
+		ZIP_CODE,
+		ROAD_NAME,
+		ADDR,
+		DETAIL_ADDR,
+		LAG,
+		LNG, 
+		M_NUM
 		)
-		values(
+		VALUES(
 		#{company_number},
 		#{part_name},
 		#{boss_name},
 		#{part_phone},
-		#{addr},
 		#{zip_code},
 		#{road_name},
+		#{addr},
 		#{detail_addr},
-		TO_DATE(#{p_start}, 'YYYY-MM-DD HH24:MI:SS'),
-		TO_DATE(#{p_end}, 'YYYY-MM-DD HH24:MI:SS'),
+		#{lag},
+		#{lng}, 
 		#{m_num}
 		)
 	</insert>
 
-	<select id="selectnumber" parameterType="String" resultType="hashmap">
-		select * 
-		from member 
-		where nickname = #{nickname}
+	<select id="selectnumber" resultType="int">
+		SELECT M_NUM
+		FROM MEMBER
+		WHERE nickname = #{nickname}
 	</select>
-	<update id="partnersignalup">
-		update member set partner_signal = partner_signal + 1 where m_num = #{m_num}
+	
+	<update id="updateNumber" parameterType="MemberVO">
+		UPDATE MEMBER
+		SET PARTNER_SIGNAL = #{partner_signal}
+		WHERE NICKNAME=#{nickname}
+		
 	</update>
+
+
+
 </mapper>

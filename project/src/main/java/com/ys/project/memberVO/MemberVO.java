@@ -16,7 +16,7 @@ public class MemberVO {
 	private String acc_name;
 
 	public MemberVO() {
-
+		System.out.println("°´Ã¼ µÊ?");
 	}
 
 	public MemberVO(String nickname, String phone, String m_password, String email, int manner, String intro,

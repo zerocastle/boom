@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ys.project.admin.service.INoticeBoardService;
+import com.ys.project.memberVO.Criteria;
 import com.ys.project.memberVO.NoticeBoard;
+import com.ys.project.memberVO.PageDTO;
 
 import lombok.AllArgsConstructor;
 
@@ -29,11 +31,22 @@ public class AdminController {
 		return "login";
 	}
 
+//	// 공지사항으로 이동
+//	@GetMapping("/noticeBoard")
+//	public void noticeBoard(Model model) {
+//		model.addAttribute("list", service.getList());
+//		log.info("공지사항으로 이동" + service.getList());
+//
+//	}
+
 	// 공지사항으로 이동
 	@GetMapping("/noticeBoard")
-	public void noticeBoard(Model model) {
-		model.addAttribute("list", service.getList());
-		log.info("공지사항으로 이동" + service.getList());
+	public void noticeBoard(Criteria cri, Model model) {
+
+		log.info("list" + cri);
+		model.addAttribute("list", service.getList(cri));
+		log.info("page : " + service.getList(cri));
+		model.addAttribute("pageMaker", new PageDTO(cri, service.getTotalCount())); // 여기에다가 count(*) 을 적용
 
 	}
 

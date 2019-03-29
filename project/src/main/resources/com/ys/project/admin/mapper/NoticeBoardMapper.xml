@@ -45,6 +45,24 @@
 		where
 		no_num=#{no_num}
 	</update>
+	
+	<select id="getListWithPagin" resultType="NoticeBoard">
+		<![CDATA[
+			select no_num,title,content,create_date,admin_id,update_date
+			from(
+			select /*+INDEX_DESC(noticeBoard noticeBoard_no_num_pk)*/
+			rownum rn,no_num,title,content,create_date,admin_id,update_date
+			from
+			noticeBoard
+			where rownum <= #{pageNum} * #{amount})
+			where rn > (#{pageNum} - 1) * #{amount}
+		]]>
+	</select>
+	
+	<!-- 게시물 갯수 -->
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*) FROM NOTICEBOARD
+	</select>
 
 
 </mapper>

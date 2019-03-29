@@ -11,7 +11,8 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"> -->
 <!-- <link rel="stylesheet" href="/resources/css2/bootstrap.css"> -->
 
-<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+<!-- <script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
 </head>
 <jsp:include page="../fixsection/header.jsp"></jsp:include>
 <body>
@@ -48,7 +49,8 @@
 						<c:forEach items="${list}" var="board">
 							<tr>
 								<td><c:out value="${board.no_num}" /></td>
-								<td><a href='/admin/noticeGet?no_num=<c:out value="${board.no_num}"/>'><c:out
+								<td><a
+									href='/admin/noticeGet?no_num=<c:out value="${board.no_num}"/>'><c:out
 											value="${board.title}" /></a></td>
 								<td><c:out value="${board.admin_id}" /></td>
 								<td><fmt:formatDate pattern="yyyy-MM-dd"
@@ -83,6 +85,37 @@
 					<!-- /.modal-dialog -->
 				</div>
 				<!-- /.modal -->
+				<div class='pull-center'>
+					<ul class="pagination">
+
+
+						<c:if test="${pageMaker.prev}">
+							<li class="paginate_button previous"><a
+								href="${pageMaker.startPage -1}">Previous</a></li>
+						</c:if>
+
+						<c:forEach var="num" begin="${pageMaker.startPage}"
+							end="${pageMaker.endPage}">
+							<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "active":""} ">
+								<a href="${num}">${num}</a>
+							</li>
+						</c:forEach>
+
+						<c:if test="${pageMaker.next}">
+							<li class="paginate_button next"><a
+								href="${pageMaker.endPage +1 }">Next</a></li>
+						</c:if>
+					</ul>
+				</div>
+				<!--  end Pagination -->
+
+				<!-- 전송할 페이지 정보 -->
+				<form id="actionForm" action="/admin/noticeBoard" method="get">
+					<input type="hidden" name="pageNum"
+						value='${pageMaker.cri.pageNum}' /> <input type="hidden"
+						name="pageNum" value='${pageMaker.cri.amount}' />
+
+				</form>
 
 
 			</div>
@@ -119,6 +152,17 @@
 			self.location = "/admin/noticeRegister";
 
 		});
+		var actionForm = $("#actionForm");
+		$(".paginate_button a").on("click", function(e) {
+			alert("클릭");
+			e.preventDefault();
+
+			console.log('click');
+
+			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+			actionForm.submit();
+		});
+
 	})
 </script>
 </html>
