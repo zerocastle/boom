@@ -135,9 +135,8 @@
 				<div class="header-1-div">
 
 					<c:if test="${empty sessionScope.loginSession }">
-						<a href="#">관리자 로그인</a>
 						<a class="header-1-a" href=""
-							onclick="window.open('member/login','login','width=600,height=600')">로그인</a>
+							onclick="window.open('/member/login','login','width=600,height=600')">로그인</a>
 						<a class="header-1-a" href="#" id="register">회원가입</a>
 					</c:if>
 					<c:if test="${not empty sessionScope.loginSession }">
