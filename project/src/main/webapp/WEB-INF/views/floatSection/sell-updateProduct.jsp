@@ -98,10 +98,10 @@
 
 
  
-                        <div style="margin-bottom:5px;">
-                           <label class="e">수량:</label>
-                           <input type="text" id="count" name="count" class="count">
-                        </div>
+<!--                         <div style="margin-bottom:5px;"> -->
+<!--                            <label class="e">수량:</label> -->
+<!--                            <input type="text" id="count" name="count" class="count"> -->
+<!--                         </div> -->
                      
 
 
@@ -118,16 +118,6 @@
 
                   </div>
                </div>
-
-
-
-
-
-
-
-
-
-
 
 					</div>
 				</div>

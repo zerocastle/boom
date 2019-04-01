@@ -162,8 +162,8 @@
 								placeholder="상품명 , 지역명 입력" aria-label="Search">
 							<div class="input-group-append">
 								<span class="input-group-text red lighten-3" id="basic-text1">
-									<i class="fas fa-search text-grey" aria-hidden="true"><img
-										src="/resources/image/search.png" width="15px" height="15px"></i>
+<!-- 									<i class="fas fa-search text-grey" aria-hidden="true">  -->
+									<img src="/resources/image/search.png" width="15px" height="15px"></i>
 								</span>
 							</div>
 						</div>

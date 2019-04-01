@@ -1,4 +1,4 @@
-﻿/* 회원가입 CSS */
+/* 회원가입 CSS */
 .btn{
  position: relative;
  top:220px;  
@@ -337,7 +337,7 @@ width:40%
 
  .adrs{
   position: relative;
-  bottom:335px;
+  bottom:252px;
   left:45%;
   z-index: 2; 
   }
