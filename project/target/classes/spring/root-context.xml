@@ -10,30 +10,30 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
-	<bean id="dataSource"
+	<bean id="dataSource_fdc"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName"
-			value="oracle.jdbc.driver.OracleDriver"></property>
+			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
 		<property name="url"
-			value="jdbc:oracle:thin:@localhost:1521:xe"></property>
+			value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"></property>
 		<property name="username" value="test"></property>
 		<property name="password" value="test"></property>
 	</bean>
 
-	<bean id="sqlSessionFactory"
+	<bean id="sqlSessionFactory_fdc"
 		class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
+		<property name="dataSource" ref="dataSource_fdc" />
 		<property name="configLocation"
 			value="classpath:mybatis/mybatis-config.xml" />
 		<property name="mapperLocations"
 			value="classpath:mappers/**/*Mapper.xml"></property>
 	</bean>
 
-	<bean id="sqlSession"
+	<bean id="sqlSession_fdc"
 		class="org.mybatis.spring.SqlSessionTemplate"
 		destroy-method="clearCache">
 		<constructor-arg name="sqlSessionFactory"
-			ref="sqlSessionFactory"></constructor-arg>
+			ref="sqlSessionFactory_fdc"></constructor-arg>
 	</bean>
 	<!-- 마이바티스 sessionFactory 이용하는 객체선언 -->
 

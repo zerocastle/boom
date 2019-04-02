@@ -29,10 +29,10 @@ public class BoardMapperTests {
 	@Test
 	public void testSearch() {
 		Criteria cri = new Criteria();
-		cri.setKeyword("±è¿µ¼º");
+		cri.setKeyword("test");
 		cri.setType("TC");
 		
-		List<NoticeBoard> list = mapper.getListWithPagin(cri);
+		List<NoticeBoard> list = mapper.getlistWithPagin(cri);
 		list.forEach(board -> log.info(board));
 	}
 	

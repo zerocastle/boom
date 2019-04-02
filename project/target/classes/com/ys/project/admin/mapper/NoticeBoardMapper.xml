@@ -46,7 +46,7 @@
 		NO_NUM=#{no_num}
 	</update>
 
-	 <select id="getListWithPagin" resultType="NoticeBoard">
+	<!--  <select id="getListWithPagin" resultType="NoticeBoard">
 		<![CDATA[
 			SELECT NO_NUM,TITLE,CONTENT,CREATE_DATE,ADMIN_ID,UPDATE_DATE
 			FROM(
@@ -57,7 +57,7 @@
 			WHERE ROWNUM <= #{pageNum} * #{amount})
 			WHERE RN > (#{pageNum} - 1) * #{amount}
 		]]>
-	</select> 
+	</select> --> 
 
 	<!-- 게시물 갯수 -->
 	<select id="getTotalCount" resultType="int">
@@ -66,19 +66,20 @@
 	</select>
 
 
+<!-- 검색 -->
 	<sql id="criteria">
-		<trim prefix="(" suffix=") and " prefixOverrides="or">
+		<trim prefix="(" suffix=") and " prefixOverrides="or"> <!-- prefixOverrides 때문에 choose 안쪽 문에 처음부터 or 을 붙쳐 버린다잉 -->
 			<foreach item='type' collection="typeArr">
-				<trim prefix="or">
+				<trim prefix="or"> <!-- 앞에 붙어 있는거중에 처음 나오는 or을 제거 해주기 위해 trim 'or'을 사용해 정리해준다잉 --> <!-- 인자값에 대문자를 집어 넣으면 ㅈ된다. -->
 					<choose>
 						<when test="type == 'T'.toString()">
 							title like '%' || #{keyword} || '%'
 						</when>
 						<when test="type == 'C'.toString()">
-							title like '%' || #{keyword} || '%'
+							content like '%' || #{keyword} || '%'
 						</when>
 						<when test="type == 'W'.toString()">
-							title like '%' || #{keyword} || '%'
+							ADMIN_ID like '%' || #{keyword} || '%'
 						</when>
 					</choose>
 				</trim>
@@ -97,9 +98,9 @@
 	]]>
 		<include refid="criteria"></include>
 	<![CDATA[
-		ROWNUM <= #{PAGENUM} * #{AMOUNT}  
+		ROWNUM <= #{pageNum} * #{amount}  
 		)
-		WHERE RN > (#{PAGENUM} -1) * #{AMOUNT}
+		WHERE RN > (#{pageNum} -1) * #{amount}
 	]]>
 	</select>
 

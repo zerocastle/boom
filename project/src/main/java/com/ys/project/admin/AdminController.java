@@ -31,14 +31,6 @@ public class AdminController {
 		return "login";
 	}
 
-//	// 공지사항으로 이동
-//	@GetMapping("/noticeBoard")
-//	public void noticeBoard(Model model) {
-//		model.addAttribute("list", service.getList());
-//		log.info("공지사항으로 이동" + service.getList());
-//
-//	}
-
 	// 공지사항으로 이동
 	@GetMapping("/noticeBoard")
 	public void noticeBoard(Criteria cri, Model model) {
