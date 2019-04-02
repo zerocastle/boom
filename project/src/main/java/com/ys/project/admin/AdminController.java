@@ -90,11 +90,4 @@ public class AdminController {
 		return "redirect:/admin/noticeBoard";
 	}
 
-	// qa로 이동
-	@GetMapping("/qa")
-	public void qaBoard(Model model) {
-		log.info("Q&A로 이동");
-
-	}
-
 }

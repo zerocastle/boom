@@ -115,12 +115,6 @@
 			window.location.href = "/admin/noticeBoard";
 
 		})
-		/*Q&A 게시판 */
-		$('#qaBoard').click(function(e) {
-			e.preventDefault();
-			alert("Q&A 게시판 이동");
-			window.location.href = "/admin/qaBoard";
-		})
 
 	});
 </script>
@@ -232,9 +226,6 @@
 						</div>
 						<div class="zicplus-btn">
 							<a href="#" id="noticeBoard">공지사항</a>
-						</div>
-						<div class="zicplus-btn">
-							<a href="#" id="qaBoard">Q&A게시판</a>
 						</div>
 					</div>
 				</div>
