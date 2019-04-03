@@ -1,5 +1,8 @@
 package com.ys.project.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.mysql.fabric.xmlrpc.base.Array;
 import com.ys.project.memberVO.MemberVO;
 import com.ys.project.memberVO.Partner;
 
@@ -38,6 +42,9 @@ public class PartnerDao {
 	public void partnerUpdate(MemberVO memervo) {
 		session.update("partner.updateNumber",memervo);
 	}
-
+	
+	public List<Partner> getList() {
+		return session.selectList("partner.getList");
+	}
 
 }

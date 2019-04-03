@@ -46,6 +46,11 @@
 		
 	</update>
 
+	<select id="getList" resultType="Partner">
+		SELECT * FROM PARTNER
+	</select>
+	
+	
 
 
 </mapper>
