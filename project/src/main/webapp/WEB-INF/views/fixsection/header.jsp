@@ -115,29 +115,12 @@
 			window.location.href = "/admin/noticeBoard";
 
 		})
-		/*Q&A 게시판 */
-		$('#qaBoard').click(function(e) {
-			e.preventDefault();
-			alert("Q&A 게시판 이동");
-			window.location.href = "/admin/qaBoard";
-		})
 		
-		//로그아웃
+		//직플레이스 검색
 		$('#placeSearch').click(function(e) {
 			e.preventDefault();
 			window.location.href = "/partner/placeSearch"
 		})
-		
-		var msg = '${requestScope.msg}'
-			if (msg == 'SUCCESS') {
-				alert("회원 가입을 성공적으로 하였습니다.");
-				self.close();
-			}
-			if (msg =='SUCCESSPARTNER'){
-				alert("직플레이드 등록이 완료되었습니다.");
-				history.replaceState({}, null, null);
-				window.close();
-			}
 			
 
 	});

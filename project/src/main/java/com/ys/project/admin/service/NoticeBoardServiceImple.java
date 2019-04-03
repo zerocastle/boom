@@ -57,7 +57,7 @@ public class NoticeBoardServiceImple implements INoticeBoardService {
 	public List<NoticeBoard> getList(Criteria cri) {
 		// TODO Auto-generated method stub
 		log.info("페이징 리스트 ~~" + cri);
-		return mapper.getListWithPagin(cri);
+		return mapper.getlistWithPagin(cri);
 	}
 
 	// 내 게시물 들고오기

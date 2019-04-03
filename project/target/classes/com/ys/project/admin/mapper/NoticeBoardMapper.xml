@@ -36,33 +36,72 @@
 	</delete>
 
 	<update id="update">
-		update noticeBoard
-		set title= #{title},
-		content=
+		UPDATE NOTICEBOARD
+		SET TITLE= #{title},
+		CONTENT=
 		#{content},
-		admin_id= #{admin_id},
-		update_date=sysdate
-		where
-		no_num=#{no_num}
+		ADMIN_ID= #{admin_id},
+		UPDATE_DATE=sysdate
+		WHERE
+		NO_NUM=#{no_num}
 	</update>
-	
-	<select id="getListWithPagin" resultType="NoticeBoard">
+
+	<!--  <select id="getListWithPagin" resultType="NoticeBoard">
 		<![CDATA[
-			select no_num,title,content,create_date,admin_id,update_date
-			from(
-			select /*+INDEX_DESC(noticeBoard noticeBoard_no_num_pk)*/
-			rownum rn,no_num,title,content,create_date,admin_id,update_date
-			from
-			noticeBoard
-			where rownum <= #{pageNum} * #{amount})
-			where rn > (#{pageNum} - 1) * #{amount}
+			SELECT NO_NUM,TITLE,CONTENT,CREATE_DATE,ADMIN_ID,UPDATE_DATE
+			FROM(
+			SELECT /*+INDEX_DESC(NOTICEBOARD NOTICEBOARD_NO_NUM_PK)*/
+			ROWNUM RN,NO_NUM,TITLE,CONTENT,CREATE_DATE,ADMIN_ID,UPDATE_DATE
+			FROM
+			NOTICEBOARD
+			WHERE ROWNUM <= #{pageNum} * #{amount})
+			WHERE RN > (#{pageNum} - 1) * #{amount}
 		]]>
-	</select>
-	
+	</select> --> 
+
 	<!-- 게시물 갯수 -->
 	<select id="getTotalCount" resultType="int">
-		SELECT COUNT(*) FROM NOTICEBOARD
+		SELECT COUNT(*) FROM
+		NOTICEBOARD
 	</select>
 
+
+<!-- 검색 -->
+	<sql id="criteria">
+		<trim prefix="(" suffix=") and " prefixOverrides="or"> <!-- prefixOverrides 때문에 choose 안쪽 문에 처음부터 or 을 붙쳐 버린다잉 -->
+			<foreach item='type' collection="typeArr">
+				<trim prefix="or"> <!-- 앞에 붙어 있는거중에 처음 나오는 or을 제거 해주기 위해 trim 'or'을 사용해 정리해준다잉 --> <!-- 인자값에 대문자를 집어 넣으면 ㅈ된다. -->
+					<choose>
+						<when test="type == 'T'.toString()">
+							title like '%' || #{keyword} || '%'
+						</when>
+						<when test="type == 'C'.toString()">
+							content like '%' || #{keyword} || '%'
+						</when>
+						<when test="type == 'W'.toString()">
+							ADMIN_ID like '%' || #{keyword} || '%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+
+	<select id="getlistWithPagin" resultType="NoticeBoard">
+	<![CDATA[
+		SELECT NO_NUM,TITLE,CONTENT,CREATE_DATE,ADMIN_ID,UPDATE_DATE
+		FROM(
+		SELECT /*+INDEX_DESC(NOTICEBOARD NOTICEBOARD_NO_NUM_PK)*/
+			ROWNUM RN,NO_NUM,TITLE,CONTENT,CREATE_DATE,ADMIN_ID,UPDATE_DATE
+			FROM NOTICEBOARD
+			WHERE
+	]]>
+		<include refid="criteria"></include>
+	<![CDATA[
+		ROWNUM <= #{pageNum} * #{amount}  
+		)
+		WHERE RN > (#{pageNum} -1) * #{amount}
+	]]>
+	</select>
 
 </mapper>

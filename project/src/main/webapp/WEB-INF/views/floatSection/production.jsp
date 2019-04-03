@@ -3,10 +3,10 @@
         <div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner">
             <div class="carousel-item active" data-interval="10000">
-              <img src="http://placehold.it/1236x300" class="d-block w-100" alt="" height="300px">
+              <img src="/resources/image/banner/banner_1.webp" class="d-block w-100" alt="" height="300px">
             </div>
             <div class="carousel-item" data-interval="2000">
-              <img src="http://placehold.it/1236x300" class="d-block w-100" alt="..." height="300px">
+              <img src="/resources/image/banner/banner_2.jpg" class="d-block w-100" alt="..." height="300px">
             </div>
             <div class="carousel-item">
               <img src="http://placehold.it/1236x300" class="d-block w-100" alt="..." height="300px">

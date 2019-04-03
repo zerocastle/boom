@@ -19,7 +19,8 @@ public interface NoticeBoardMapper {
 
 	public int update(NoticeBoard board);
 	
-	public List<NoticeBoard> getListWithPagin(Criteria cri);
+	// 검색 조건이 없으면 그냥 페이징 처리 
+	public List<NoticeBoard> getlistWithPagin(Criteria cri);
 	
 	// 토탈 들고오기
 	public int getTotalCount();
