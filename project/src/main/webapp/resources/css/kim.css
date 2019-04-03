@@ -10,6 +10,12 @@
       padding: 0;
     }
 
+	      a {
+         /* text-align: center; */
+         font-weight: bold;
+      }
+
+
     /* �젅�씠�븘�썐 */
     #wrap {
       width: 100%;

@@ -1,4 +1,3 @@
-      @import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&subset=korean');
 
       ul,
       li,
@@ -21,9 +20,6 @@
          text-decoration: none;
       }
 
-      * {
-         font-family: "NanumBarunGothic";
-      }
 
       .shCMSshop {
          margin: 0;
@@ -300,7 +296,7 @@
          color: white;
       }
 
-      /*���̺� �⺻ ����*/
+      /*占쏙옙占싱븝옙 占썩본 占쏙옙占쏙옙*/
       .shCMSshop .shopView .viewBody table {
          border-top: 1px solid #afafaf;
          border-bottom: 1px solid #d4d4d4;
@@ -345,7 +341,7 @@
          display: inline-block;
       }
 
-      /*��ǰ ����*/
+      /*占쏙옙품 占쏙옙占쏙옙*/
       .shCMSshop .shopView .viewBody .tproduct-info tr:first-child {
          border-top: 2px solid #5d5d5d;
       }
@@ -368,7 +364,7 @@
          padding-left: 20px;
       }
 
-      /*��ǰ �ı�*/
+      /*占쏙옙품 占식깍옙*/
       .shCMSshop .shopView .viewBody .tproduct-review thead>tr>td:first-child {
          width: 130px;
          background: #f2f2f2;
@@ -390,7 +386,7 @@
          text-align: center;
       }
 
-      /*��ǰ �ı� ������*/
+      /*占쏙옙품 占식깍옙 占쏙옙占쏙옙占쏙옙*/
       .shCMSshop .shopView .viewBody .tproduct-review .detail-content {
          display: none;
       }
@@ -413,7 +409,7 @@
          text-overflow: unset !important;
       }
 
-      /*Q & A ���̺� ���α� - �����ϱ� ��ư �ֱ� �뵵*/
+      /*Q & A 占쏙옙占싱븝옙 占쏙옙占싸깍옙 - 占쏙옙占쏙옙占싹깍옙 占쏙옙튼 占쌍깍옙 占쎈도*/
       .shCMSshop .shopView .viewBody .tquestion {
          position: relative;
       }
@@ -464,7 +460,7 @@
          color: #3c43c7;
       }
 
-      /*jquery�� ���̺� ����*/
+      /*jquery占쏙옙 占쏙옙占싱븝옙 占쏙옙占쏙옙*/
       .shCMSshop .shopView .viewBody table {
          display: none;
       }
@@ -510,10 +506,7 @@
       }
 
 
-      a {
-         text-align: center;
-         font-weight: bold;
-      }
+
 
       .info {
          /* border: solid 1px black; */
