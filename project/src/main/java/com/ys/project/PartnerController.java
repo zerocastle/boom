@@ -100,10 +100,6 @@ public class PartnerController {
 			object.put("part_name", partner.getPart_name());
 			object.put("boss_name", partner.getBoss_name());
 			object.put("part_phone", partner.getPart_phone());
-			object.put("img_path", partner.getImg_path());
-			object.put("img_path2", partner.getImg_path2());
-			object.put("img_path3", partner.getImg_path3());
-			object.put("img_path4", partner.getImg_path4());
 			object.put("zip_code", partner.getZip_code());
 			object.put("road_name", partner.getRoad_name());
 			object.put("addr", partner.getAddr());
