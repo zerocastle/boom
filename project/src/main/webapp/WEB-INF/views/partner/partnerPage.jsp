@@ -25,6 +25,9 @@
 	integrity="sha384-4aon80D8rXCGx9ayDt85LbyUHeMWd3UiBaWliBlJ53yzm9hqN21A+o1pqoyK04h+"
 	crossorigin="anonymous">
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=571aae4fec40d0283f32c39801431185&libraries=services"></script>
 <script>
 	//본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
 	function sample4_execDaumPostcode() {
@@ -57,45 +60,26 @@
 				document.getElementById("road_name").value = roadAddr;
 				document.getElementById("addr").value = data.jibunAddress;
 
-				// 참고항목 문자열이 있을 경우 해당 필드에 넣는다. 
-				/*아니다 안넣는다.
-				if (roadAddr !== '') {
-				document.getElementById("detail_addr").value = extraRoadAddr;
-				} else {
-				document.getElementById("detail_addr").value = '';
-				}																		*/
+				var geocoder = new daum.maps.services.Geocoder();
 
-				var guideTextBox = document.getElementById("guide");
-				// 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
-				if (data.autoRoadAddress) {
-					var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
-					guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr
-							+ ')';
-					guideTextBox.style.display = 'block';
+				geocoder.addressSearch(
+						document.getElementById('road_name').value, function(
+								result, status) {
+							var coords = new daum.maps.LatLng(result[0].y,
+									result[0].x);
+							var x = coords.getLat(); // 위도
+							var y = coords.getLng(); // 경도
 
-				} else if (data.autoJibunAddress) {
-					var expJibunAddr = data.autoJibunAddress;
-					guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr
-							+ ')';
-					guideTextBox.style.display = 'block';
-				} else {
-					guideTextBox.innerHTML = '';
-					guideTextBox.style.display = 'none';
-				}
+							document.getElementById('lag').value = x;
+							document.getElementById('lng').value = y;
+						});
 
 			}
 		}).open();
 	}
 </script>
 
-<script>
- 	$(function() {
- 		function cc(){
- 			window.close();
- 		}
- 		
-	})
-</script>
+
 </head>
 
 <body>
@@ -104,12 +88,13 @@
 		<div class="main">
 			<h4>직플레이스 등록</h4>
 			<div>
-				<form action="partnerRegister" method="POST" onsubmit="return cc();">
+				<form role="form" id="form" action="/partner/partnerRegister"
+					method="post">
 					<fieldset>
 						<div>
 							<label for="store"></label> <input type="text" id="part_name"
-								name="part_name" placeholder="점포명을 정확히 입력해주세요" required> <span
-								class="store"> <i class="fas fa-store"></i>
+								name="part_name" placeholder="점포명을 정확히 입력해주세요" required>
+							<span class="store"> <i class="fas fa-store"></i>
 							</span>
 						</div>
 
@@ -118,53 +103,68 @@
 						<div>
 							<label for="owner"></label> <input type="text" maxlength="10"
 								id="company_number" name="company_number"
-								placeholder="사업자등록번호-10자리의 숫자" required> <span class="owner">
-								<i class="far fa-list-alt"></i>
+								placeholder="사업자등록번호-10자리의 숫자" required> <span
+								class="owner"> <i class="far fa-list-alt"></i>
 							</span>
 						</div>
 
 
 						<div>
 							<label for="name"></label> <input type="text" id="boss_name"
-								name="boss_name" placeholder="대표자 성명을 입력해주세요" required> <span
-								class="name"> <i class="fas fa-user"></i>
+								name="boss_name" placeholder="대표자 성명을 입력해주세요" required>
+							<span class="name"> <i class="fas fa-user"></i>
 							</span>
 
 						</div>
 
 						<div>
 							<label for="phone"></label><input type="text" id="part_phone"
-								name="part_phone" maxlength="11" placeholder="휴대폰번호*숫자만허용" required> <span
-								class="phone"> <i class="fas fa-mobile-alt"></i>
+								name="part_phone" maxlength="11" placeholder="휴대폰번호*숫자만허용"
+								required> <span class="phone"> <i
+								class="fas fa-mobile-alt"></i>
 							</span>
 						</div>
 
 						<div>
 							<label for="home"></label> <input type="text" id="zip_code"
-								name="zip_code" placeholder="우편번호" required> <input type="text"
-								id="road_name" name="road_name" placeholder="도로명주소" required> <input
-								type="text" id="addr" name="addr" placeholder="지번주소" required> <input
-								type="text" id="detail_addr" name="detail_addr"
-								placeholder="상세주소"> <span class="home"> <i
-								class="fas fa-home"></i>
+								name="zip_code" placeholder="우편번호" required> <input
+								type="text" id="road_name" name="road_name" placeholder="도로명주소"
+								required> <input type="text" id="addr" name="addr"
+								placeholder="지번주소" required> <input type="text"
+								id="detail_addr" name="detail_addr" placeholder="상세주소">
+							<span class="home"> <i class="fas fa-home"></i>
 							</span>
 
 						</div>
 
-						<div>
-							<label for="clock"></label> <input type="time" id="p_start"
-								name="p_start" placeholder="영업시작시간" required><input type="time"
-								id="p_end" name="p_end" placeholder="영업종료시간" required> <span
-								class="clock"> <i class="far fa-clock"></i>
-							</span>
-						</div>
+
 						<input id="submit" type="submit" value="등록하기"> <input
 							type="button" class="adrs" onclick="sample4_execDaumPostcode()"
-							value="우편번호 찾기"><br>
+							value="우편번호 찾기"><br> <input type="hidden" id="lag"
+							name="lag" /> <input type="hidden" id="lng" name="lng" />
 					</fieldset>
 				</form>
 			</div>
 		</div>
 	</div>
+	<script>
+		$(function() {
+			var target = $('#form')
+			$('#submit').click(function(e) {
+				console.log(target);
+				target.submit();
+				alert("가입완료");
+
+				$.ajax({
+					url : "/partner/partnerPage",
+					success : function(data) {
+						window.close();
+					}
+				})
+
+			});
+
+		})
+	</script>
 </body>
 </html>

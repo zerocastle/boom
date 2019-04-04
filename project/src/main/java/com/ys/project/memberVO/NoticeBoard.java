@@ -10,7 +10,7 @@ public class NoticeBoard {
 	private long no_num;
 	private String title;
 	private String content;
-	private String admin_id;
+	private String admin_id; // 관리자 포린키
 	private Date create_date;
 	private Date update_date;
 

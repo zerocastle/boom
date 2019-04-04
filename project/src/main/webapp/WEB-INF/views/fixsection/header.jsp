@@ -10,7 +10,10 @@
 <title>Document</title>
 <!-- bootstrap-->
 <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script
@@ -28,6 +31,22 @@
 
 <script>
 	$(function() {
+
+		var msg = '${requestScope.msg}';
+		var loginDO = '${requestScope.loginDo}';
+		if (msg == 'SUCCESS') {
+			alert("회원 가입을 성공적으로 하였습니다.");
+			self.close();
+		}
+		if (msg == 'SUCCESSPARTNER') {
+			alert("직플레이드 등록이 완료되었습니다.");
+			history.replaceState({}, null, null);
+			window.close();
+		}
+		if (loginDO == '1') {
+			alert("잘못된 접근 입니다. 로그인부터 하세요");
+		}
+
 		//마지막 스크롤 값을 저장할 lastScroll 변수
 		var lastScroll = 0;
 		$(window).scroll(function(event) { //스크롤이 움직일때 마다 이벤트 실행
@@ -115,11 +134,11 @@
 			window.location.href = "/admin/noticeBoard";
 
 		})
-		/*Q&A 게시판 */
-		$('#qaBoard').click(function(e) {
+
+		//직플레이스 검색
+		$('#placeSearch').click(function(e) {
 			e.preventDefault();
-			alert("Q&A 게시판 이동");
-			window.location.href = "/admin/qaBoard";
+			window.location.href = "/partner/placeSearch"
 		})
 
 	});
@@ -135,9 +154,9 @@
 				<div class="header-1-div">
 
 					<c:if test="${empty sessionScope.loginSession }">
-						<a href="#">관리자 로그인</a>
+
 						<a class="header-1-a" href=""
-							onclick="window.open('member/login','login','width=600,height=600')">로그인</a>
+							onclick="window.open('/member/login','login','width=600,height=600')">로그인</a>
 						<a class="header-1-a" href="#" id="register">회원가입</a>
 					</c:if>
 					<c:if test="${not empty sessionScope.loginSession }">
@@ -163,8 +182,8 @@
 								placeholder="상품명 , 지역명 입력" aria-label="Search">
 							<div class="input-group-append">
 								<span class="input-group-text red lighten-3" id="basic-text1">
-									<i class="fas fa-search text-grey" aria-hidden="true"><img
-										src="/resources/image/search.png" width="15px" height="15px"></i>
+									<img src="/resources/image/search.png" width="15px"
+									height="15px">
 								</span>
 							</div>
 						</div>
@@ -228,14 +247,11 @@
 						<div class="zicplus-btn">
 							<a href="#">직플파트너 등록하기</a>
 						</div>
-						<div class="zicplus-btn">
+						<div class="zicplus-btn" id="placeSearch">
 							<a href="#" id="DirectSearch">직플레이스 검색</a>
 						</div>
 						<div class="zicplus-btn">
 							<a href="#" id="noticeBoard">공지사항</a>
-						</div>
-						<div class="zicplus-btn">
-							<a href="#" id="qaBoard">Q&A게시판</a>
 						</div>
 					</div>
 				</div>
@@ -244,6 +260,3 @@
 	</div>
 	<div class="main">
 		<div style="margin-top: 220px;">
-</body>
-</html>
-

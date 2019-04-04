@@ -33,15 +33,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script>
 		$(function () {
 			$('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
-
 			if (!screenfull.enabled) {
 				return false;
 			}
-
 			$('#toggle').click(function () {
 				screenfull.toggle($('#container')[0]);
 			});
-
 		});
 	</script>
 
@@ -49,28 +46,23 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 @import
 	url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&subset=korean')
 	;
-
 body {
 	font-family: 'Noto Sans KR', sans-serif, "맑은 고딕";
 }
-
 .line-header {
 	display: inline-block;
 	margin: 1em;
 	margin-left: 9.4em;
 	font-size: 18px;
 }
-
 .line-head {
 	border-bottom: 1px solid black;
 }
-
 .line-content {
 	/* border-bottom: 1px solid black; */
 	margin-top: 1em;
 	height: 80%;
 }
-
 .contents-header {
 	background: #fff;
 	display: block;

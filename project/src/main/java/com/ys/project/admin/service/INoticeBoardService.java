@@ -2,6 +2,7 @@ package com.ys.project.admin.service;
 
 import java.util.List;
 
+import com.ys.project.memberVO.Criteria;
 import com.ys.project.memberVO.NoticeBoard;
 
 public interface INoticeBoardService {
@@ -14,6 +15,13 @@ public interface INoticeBoardService {
 
 	public boolean remove(long bno);
 
-	public List<NoticeBoard> getList();
+//	public List<NoticeBoard> getList();
+	
+	//∆‰¿Ã¬°
+	public List<NoticeBoard> getList(Criteria cri);
+	
+	// ≈‰≈ª µÈ∞Ìø¿±‚
+		public int getTotalCount();
+	
 
 }

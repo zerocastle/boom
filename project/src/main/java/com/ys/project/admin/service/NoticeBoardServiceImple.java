@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ys.project.admin.mapper.NoticeBoardMapper;
+import com.ys.project.memberVO.Criteria;
 import com.ys.project.memberVO.NoticeBoard;
 
 import lombok.AllArgsConstructor;
@@ -26,7 +27,7 @@ public class NoticeBoardServiceImple implements INoticeBoardService {
 	public void register(NoticeBoard board) {
 		// TODO Auto-generated method stub
 		log.info("register..." + board);
-		mapper.insertSelectKey(board);
+		mapper.insert(board);
 	}
 
 	@Override
@@ -51,12 +52,28 @@ public class NoticeBoardServiceImple implements INoticeBoardService {
 		return mapper.delete(bno) == 1;
 	}
 
+	// 리스트 페이징
 	@Override
-	public List<NoticeBoard> getList() {
+	public List<NoticeBoard> getList(Criteria cri) {
 		// TODO Auto-generated method stub
-		log.info("getList");
-		System.out.println(mapper.getList());
-		return mapper.getList();
+		log.info("페이징 리스트 ~~" + cri);
+		return mapper.getlistWithPagin(cri);
 	}
+
+	// 내 게시물 들고오기
+	@Override
+	public int getTotalCount() {
+		// TODO Auto-generated method stub
+		log.info("토탈 카운터 : " + mapper.getTotalCount());
+		return mapper.getTotalCount();
+	}
+
+//	@Override
+//	public List<NoticeBoard> getList() {
+//		// TODO Auto-generated method stub
+//		log.info("getList");
+//		System.out.println(mapper.getList());
+//		return mapper.getList();
+//	}
 
 }

@@ -1,13 +1,15 @@
 package com.ys.project.service;
 
-import java.util.Map;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ys.project.dao.PartnerDao;
 import com.ys.project.memberVO.MemberVO;
+import com.ys.project.memberVO.Partner;
 
 import lombok.AllArgsConstructor;
 
@@ -15,26 +17,28 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PartnerService {
 
-	@SuppressWarnings("unused")
 	private static final Logger logger = LoggerFactory.getLogger(PartnerService.class);
-	
+	@Autowired
 	private PartnerDao dao;
 	
-	//파트너 레파지토리
-	public void partnerRegister(Map<String, Object> partner, int mnum) {
+	//���몃�� ����吏���由�
+	public void partnerRegister(Partner partner) {
 		// TODO Auto-generated method stub
-		dao.partnerRegister(partner, mnum);
+		dao.partnerRegister(partner);
 	}
 	
-	public Map selectnumber(String nickname) {
-		System.out.println("파트너서비스에서 불러온 " + dao.selectnumber(nickname).toString());
+	public int selectnumber(String nickname) {
+//		System.out.println("맴버 mnum 들고옴? " + dao.selectnumber(nickname).toString());
 		return dao.selectnumber(nickname);
 	}
 	
-	public void partnersignalup(int mnum) {
-		System.out.println("(Service) mnum 입력받아 Dao 실행 ㄱ" + mnum);
-		dao.partnerSignalUp(mnum);
+	public void partnerUpdate(MemberVO membervo) {
+		logger.info("업데이트 넘버 서비스" + membervo);
+		dao.partnerUpdate(membervo);
 	}
 	
+	public List<Partner> getList() {
+		return dao.getList();
+	}
 
 }

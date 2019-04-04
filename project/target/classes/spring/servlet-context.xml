@@ -46,6 +46,14 @@
 	<context:component-scan
 		base-package="com.ys.project" />
 
-
+	<interceptors>
+		<interceptor>
+			<mapping path="/selling/**" />
+			<beans:bean id="commonInterceptor"
+				class="com.ys.project.interceptor.CommonInterceptor" />
+		</interceptor>
+	</interceptors>
 
 </beans:beans>
+
+

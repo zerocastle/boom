@@ -2,6 +2,7 @@ package com.ys.project.admin.mapper;
 
 import java.util.List;
 
+import com.ys.project.memberVO.Criteria;
 import com.ys.project.memberVO.NoticeBoard;
 
 public interface NoticeBoardMapper {
@@ -17,4 +18,10 @@ public interface NoticeBoardMapper {
 	public int delete(long bno);
 
 	public int update(NoticeBoard board);
+	
+	// 검색 조건이 없으면 그냥 페이징 처리 
+	public List<NoticeBoard> getlistWithPagin(Criteria cri);
+	
+	// 토탈 들고오기
+	public int getTotalCount();
 }
