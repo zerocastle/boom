@@ -137,5 +137,13 @@ public class PartnerController {
 //
 //		logger.info("직플레이스 검색 페이지  이동...");
 //	}
+	
+	// 마이페이지 인포플레이스 페이지 이동
+	@RequestMapping(value = "InfoPlace", method = RequestMethod.GET)
+	public void InfoPlaceGet(Model model) throws Exception {
+
+		logger.info("마이페이지 인포플레이스 이동...");
+	}
+
 
 }
