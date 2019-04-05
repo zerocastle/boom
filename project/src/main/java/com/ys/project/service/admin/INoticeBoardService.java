@@ -2,8 +2,8 @@ package com.ys.project.service.admin;
 
 import java.util.List;
 
-import com.ys.project.memberVO.Criteria;
-import com.ys.project.memberVO.NoticeBoardVO;
+import com.ys.project.projectDTO.Criteria;
+import com.ys.project.projectVO.NoticeBoardVO;
 
 public interface INoticeBoardService {
 

@@ -12,7 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ys.project.dao.member.IMemberDao;
-import com.ys.project.memberVO.MemberVO;
+import com.ys.project.projectVO.MemberVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring/root-context.xml" })

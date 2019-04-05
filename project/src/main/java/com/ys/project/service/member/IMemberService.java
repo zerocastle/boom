@@ -2,7 +2,7 @@ package com.ys.project.service.member;
 
 import java.util.Map;
 
-import com.ys.project.memberVO.MemberVO;
+import com.ys.project.projectVO.MemberVO;
 
 public interface IMemberService {
 	

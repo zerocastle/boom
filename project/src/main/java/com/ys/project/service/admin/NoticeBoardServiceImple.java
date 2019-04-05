@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ys.project.dao.admin.NoticeBoardMapper;
-import com.ys.project.memberVO.Criteria;
-import com.ys.project.memberVO.NoticeBoardVO;
+import com.ys.project.projectDTO.Criteria;
+import com.ys.project.projectVO.NoticeBoardVO;
 
 import lombok.AllArgsConstructor;
 import lombok.Setter;

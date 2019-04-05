@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.ys.project.memberVO.MemberVO;
-import com.ys.project.memberVO.PartnerVO;
+import com.ys.project.projectVO.MemberVO;
+import com.ys.project.projectVO.PartnerVO;
 import com.ys.project.service.member.PartnerService;
 
 import lombok.AllArgsConstructor;

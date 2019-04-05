@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mysql.fabric.xmlrpc.base.Array;
-import com.ys.project.memberVO.MemberVO;
-import com.ys.project.memberVO.PartnerVO;
+import com.ys.project.projectVO.MemberVO;
+import com.ys.project.projectVO.PartnerVO;
 
 import lombok.AllArgsConstructor;
 

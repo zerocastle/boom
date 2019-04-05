@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.ys.project.memberVO.Criteria;
-import com.ys.project.memberVO.NoticeBoardVO;
-import com.ys.project.memberVO.PageDTO;
+import com.ys.project.projectDTO.Criteria;
+import com.ys.project.projectDTO.PageDTO;
+import com.ys.project.projectVO.NoticeBoardVO;
 import com.ys.project.service.admin.INoticeBoardService;
 
 import lombok.AllArgsConstructor;

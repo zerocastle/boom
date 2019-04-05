@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ys.project.dao.member.PartnerDao;
-import com.ys.project.memberVO.MemberVO;
-import com.ys.project.memberVO.PartnerVO;
+import com.ys.project.projectVO.MemberVO;
+import com.ys.project.projectVO.PartnerVO;
 
 import lombok.AllArgsConstructor;
 

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ys.project.memberVO.MemberVO;
+import com.ys.project.projectVO.MemberVO;
 import com.ys.project.service.member.IMemberService;
 
 import lombok.AllArgsConstructor;

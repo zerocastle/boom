@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ys.project.dao.member.IMemberDao;
-import com.ys.project.memberVO.MemberVO;
+import com.ys.project.projectVO.MemberVO;
 
 import lombok.AllArgsConstructor;
 

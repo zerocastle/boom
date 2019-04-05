@@ -1,4 +1,4 @@
-package com.ys.project.memberVO;
+package com.ys.project.projectDTO;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
