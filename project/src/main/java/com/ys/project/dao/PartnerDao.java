@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mysql.fabric.xmlrpc.base.Array;
 import com.ys.project.memberVO.MemberVO;
-import com.ys.project.memberVO.Partner;
+import com.ys.project.memberVO.PartnerVO;
 
 import lombok.AllArgsConstructor;
 
@@ -24,7 +24,7 @@ public class PartnerDao {
 	@Autowired
 	private SqlSession session;
 
-	public void partnerRegister(Partner partner) {
+	public void partnerRegister(PartnerVO partner) {
 		// TODO Auto-generated method stub
 		logger.info("디에이오 파트너 " + partner);
 //		partner.setLag("123.456");
@@ -43,7 +43,7 @@ public class PartnerDao {
 		session.update("partner.updateNumber",memervo);
 	}
 	
-	public List<Partner> getList() {
+	public List<PartnerVO> getList() {
 		return session.selectList("partner.getList");
 	}
 

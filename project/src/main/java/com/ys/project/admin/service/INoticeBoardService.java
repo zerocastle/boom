@@ -3,22 +3,22 @@ package com.ys.project.admin.service;
 import java.util.List;
 
 import com.ys.project.memberVO.Criteria;
-import com.ys.project.memberVO.NoticeBoard;
+import com.ys.project.memberVO.NoticeBoardVO;
 
 public interface INoticeBoardService {
 
-	public void register(NoticeBoard board);
+	public void register(NoticeBoardVO board);
 
-	public NoticeBoard get(long bno);
+	public NoticeBoardVO get(long bno);
 
-	public boolean modify(NoticeBoard board);
+	public boolean modify(NoticeBoardVO board);
 
 	public boolean remove(long bno);
 
 //	public List<NoticeBoard> getList();
 	
 	//∆‰¿Ã¬°
-	public List<NoticeBoard> getList(Criteria cri);
+	public List<NoticeBoardVO> getList(Criteria cri);
 	
 	// ≈‰≈ª µÈ∞Ìø¿±‚
 		public int getTotalCount();

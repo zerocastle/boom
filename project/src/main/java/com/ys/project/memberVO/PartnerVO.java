@@ -3,7 +3,7 @@ package com.ys.project.memberVO;
 import lombok.Data;
 
 @Data
-public class Partner {
+public class PartnerVO {
 
 	private String company_number;
 	private String part_name;

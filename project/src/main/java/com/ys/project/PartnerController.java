@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ys.project.memberVO.MemberVO;
-import com.ys.project.memberVO.Partner;
+import com.ys.project.memberVO.PartnerVO;
 import com.ys.project.service.PartnerService;
 
 import lombok.AllArgsConstructor;
@@ -40,7 +40,7 @@ public class PartnerController {
 
 	// 파트너 가입
 	@RequestMapping(value = "partnerRegister", method = RequestMethod.POST)
-	public String partnerRegisterPost(Model model, Partner partner, HttpServletRequest request, RedirectAttributes rttr)
+	public String partnerRegisterPost(Model model, PartnerVO partner, HttpServletRequest request, RedirectAttributes rttr)
 			throws Exception {
 		HttpSession session = request.getSession();
 		String loginSession = (String) session.getAttribute("loginSession"); // 로그인된 세션의 닉네임
@@ -88,8 +88,8 @@ public class PartnerController {
 		JSONObject object = null;
 
 
-		Partner partner;
-		List<Partner> partnerList = service.getList();
+		PartnerVO partner;
+		List<PartnerVO> partnerList = service.getList();
 
 		int length = partnerList.size();
 		for (int i = 0; i < length; i++) {

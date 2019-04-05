@@ -4,7 +4,7 @@
 
 <mapper namespace="com.ys.project.admin.mapper.NoticeBoardMapper">
 
-	<select id="getList" resultType="NoticeBoard">
+	<select id="getList" resultType="NoticeBoardVO">
 	<![CDATA[
 		SELECT * FROM NOTICEBOARD WHERE no_num > 0 ORDER BY no_num DESC
 	]]>
@@ -26,7 +26,7 @@
 		VALUES(#{no_num},#{title},#{content},#{admin_id})
 	</insert>
 
-	<select id="read" resultType="NoticeBoard">
+	<select id="read" resultType="NoticeBoardVO">
 		SELECT * FROM NOTICEBOARD WHERE
 		no_num=#{no_num}
 	</select>
@@ -87,7 +87,7 @@
 		</trim>
 	</sql>
 
-	<select id="getlistWithPagin" resultType="NoticeBoard">
+	<select id="getlistWithPagin" resultType="NoticeBoardVO">
 	<![CDATA[
 		SELECT NO_NUM,TITLE,CONTENT,CREATE_DATE,ADMIN_ID,UPDATE_DATE
 		FROM(

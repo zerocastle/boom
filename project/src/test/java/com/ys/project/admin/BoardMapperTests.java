@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ys.project.admin.mapper.NoticeBoardMapper;
 import com.ys.project.memberVO.Criteria;
-import com.ys.project.memberVO.NoticeBoard;
+import com.ys.project.memberVO.NoticeBoardVO;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -32,7 +32,7 @@ public class BoardMapperTests {
 		cri.setKeyword("test");
 		cri.setType("TC");
 		
-		List<NoticeBoard> list = mapper.getlistWithPagin(cri);
+		List<NoticeBoardVO> list = mapper.getlistWithPagin(cri);
 		list.forEach(board -> log.info(board));
 	}
 	

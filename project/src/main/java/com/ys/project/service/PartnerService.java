@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ys.project.dao.PartnerDao;
 import com.ys.project.memberVO.MemberVO;
-import com.ys.project.memberVO.Partner;
+import com.ys.project.memberVO.PartnerVO;
 
 import lombok.AllArgsConstructor;
 
@@ -22,7 +22,7 @@ public class PartnerService {
 	private PartnerDao dao;
 	
 	//���몃�� ����吏���由�
-	public void partnerRegister(Partner partner) {
+	public void partnerRegister(PartnerVO partner) {
 		// TODO Auto-generated method stub
 		dao.partnerRegister(partner);
 	}
@@ -37,7 +37,7 @@ public class PartnerService {
 		dao.partnerUpdate(membervo);
 	}
 	
-	public List<Partner> getList() {
+	public List<PartnerVO> getList() {
 		return dao.getList();
 	}
 

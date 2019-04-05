@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ys.project.admin.service.INoticeBoardService;
 import com.ys.project.memberVO.Criteria;
-import com.ys.project.memberVO.NoticeBoard;
+import com.ys.project.memberVO.NoticeBoardVO;
 import com.ys.project.memberVO.PageDTO;
 
 import lombok.AllArgsConstructor;
@@ -49,7 +49,7 @@ public class AdminController {
 	}
 
 	@PostMapping("/noticeRegister")
-	public String noticeRegister(NoticeBoard board, RedirectAttributes rttr) {
+	public String noticeRegister(NoticeBoardVO board, RedirectAttributes rttr) {
 		log.info("레지스터 넘온 값 : " + board);
 		service.register(board);
 		rttr.addFlashAttribute("reult", board.getNo_num());
@@ -71,7 +71,7 @@ public class AdminController {
 	}
 
 	@PostMapping("/modify")
-	public String modify(NoticeBoard board, RedirectAttributes rttr) {
+	public String modify(NoticeBoardVO board, RedirectAttributes rttr) {
 		log.info("modify : " + board);
 
 		if (service.modify(board)) {
