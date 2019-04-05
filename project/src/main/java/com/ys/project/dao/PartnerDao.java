@@ -1,5 +1,8 @@
 package com.ys.project.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,8 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.mysql.fabric.xmlrpc.base.Array;
 import com.ys.project.memberVO.MemberVO;
-import com.ys.project.memberVO.Partner;
+import com.ys.project.memberVO.PartnerVO;
 
 import lombok.AllArgsConstructor;
 
@@ -20,7 +24,7 @@ public class PartnerDao {
 	@Autowired
 	private SqlSession session;
 
-	public void partnerRegister(Partner partner) {
+	public void partnerRegister(PartnerVO partner) {
 		// TODO Auto-generated method stub
 		logger.info("디에이오 파트너 " + partner);
 //		partner.setLag("123.456");
@@ -38,6 +42,9 @@ public class PartnerDao {
 	public void partnerUpdate(MemberVO memervo) {
 		session.update("partner.updateNumber",memervo);
 	}
-
+	
+	public List<PartnerVO> getList() {
+		return session.selectList("partner.getList");
+	}
 
 }
