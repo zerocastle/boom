@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.ys.project.dao.IMemberDao;
+import com.ys.project.dao.member.IMemberDao;
 import com.ys.project.memberVO.MemberVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.ys.project.admin.mapper.NoticeBoardMapper;
+import com.ys.project.dao.admin.NoticeBoardMapper;
 import com.ys.project.memberVO.Criteria;
 import com.ys.project.memberVO.NoticeBoardVO;
 
