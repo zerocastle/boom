@@ -33,7 +33,7 @@ public class PartnerService {
 	}
 	
 	public void partnerUpdate(MemberVO membervo) {
-		logger.info("???��?��?? ??�? ??�???" + membervo);
+		logger.info("파트너 업데이트" + membervo);
 		dao.partnerUpdate(membervo);
 	}
 	

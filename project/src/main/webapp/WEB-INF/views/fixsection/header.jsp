@@ -141,6 +141,11 @@
 			window.location.href = "/partner/placeSearch"
 		})
 
+		$('#warningBoard').click(function(e) {
+			e.preventDefault();
+			window.location.href = "/warningBoard/warningBoard"
+		})
+
 	});
 </script>
 
@@ -160,7 +165,7 @@
 						<a class="header-1-a" href="#" id="register">회원가입</a>
 					</c:if>
 					<c:if test="${not empty sessionScope.loginSession }">
-						<span class="header-1-a" href="myPage/page.jsp">${sessionScope.loginSession }
+						<span class="header-1-a">${sessionScope.loginSession}
 							환영합니다.</span>
 						<a href="" class="header-1-a" id="logout">로그아웃</a>
 					</c:if>
@@ -252,6 +257,9 @@
 						</div>
 						<div class="zicplus-btn">
 							<a href="#" id="noticeBoard">공지사항</a>
+						</div>
+						<div class="zicplus-btn">
+							<a href="#" id="warningBoard">신고사항</a>
 						</div>
 					</div>
 				</div>

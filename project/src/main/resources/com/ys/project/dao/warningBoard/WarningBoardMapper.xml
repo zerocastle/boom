@@ -2,10 +2,84 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ys.project.dao.warningBoard.WarningBoardMapper">
+<mapper
+	namespace="com.ys.project.dao.warningBoard.WarningBoardMapper">
+	
+	<insert id="insert">
+		INSERT INTO
+		WARNINGBOARD(WA_NUM,TITLE,CONTENT,WA_TYPE,M_NUM)
+		VALUES(WARNINGBOARD_SEQ.nextval,#{title},#{content},#{wa_type},#{m_num})
+	</insert>
+	
+	<delete id="delete">
+		DELETE WARNINGBOARD WHERE WA_NUM = #{wa_num}
+	</delete>
 
-<select id="read" resultType="WarningBoardVO">
+	<select id="read" resultType="WarningBoardVO">
+		SELECT * FROM WARNINGBOARD WHERE
+		WA_NUM = #{wa_num}
+	</select>
 
-</select>
+	<update id="update">
+		UPDATE WARNINGBOARD
+		SET TITLE = #{title},
+		CONTENT =
+		#{content},
+		M_NUM = #{m_num},
+		UPDATE_DATE = SYSDATE,
+		WA_TYPE = #{wa_type}
+		WHERE WA_NUm = #{wa_num}
+	</update>
+
+	<sql id="criteria">
+		<trim prefix="(" suffix=") and " prefixOverrides="or">
+			<foreach item="teyp" collection="typeArr">
+				<trim prefix="or">
+					<choose>
+						<when test="type == 'T'.toString()">
+							TITLE LIKE '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							CONTENT LIKE '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'W'.toString()">
+							M_NUM LIKE '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'J'.toString()">
+							WA_TYPE LIKE '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+
+	<select id="getListWithPagin" resultType="WarningBoardVO">
+		<![CDATA[
+		SELECT WA_NUM,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,WA_TYPE,M_NUM
+			FROM(
+			SELECT /*+INDEX_DESC(WARNINGBOARD WARNINGBOARD_WA_NUM_PK)*/
+			ROWNUM RN,WA_NUM,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,WA_TYPE,M_NUM
+			FROM WARNINGBOARD
+			WHERE
+		]]>
+		<include refid="criteria"></include>
+	
+	
+	<![CDATA[
+		ROWNUM <= #{pageNum} * #{amount}
+		)
+		WHERE RN > (#{pageNum} -1) * #{amount}
+	]]>
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*) FROM WARNINGBOARD
+		WHERE
+
+		<include refid="criteria"></include>
+		WA_NUM > 0
+
+	</select>
 
 </mapper>

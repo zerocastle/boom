@@ -61,7 +61,8 @@ public class MemberController {
 			HttpSession session = request.getSession();
 			String loginSession = map.get("nickname").toString();
 			String partner_signal = map.get("partner_signal").toString();
-			session.setAttribute("loginSession", loginSession);
+			session.setAttribute("loginSession2",  vo);
+			session.setAttribute("loginSession",loginSession);
 			session.setAttribute("partner_signal", partner_signal);
 			System.out.println("session¿¡ ¹¹°¡ ÂïÈû : " + loginSession + "," + partner_signal);
 
