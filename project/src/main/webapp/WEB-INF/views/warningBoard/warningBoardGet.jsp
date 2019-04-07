@@ -59,26 +59,108 @@
 			value='<c:out value="${board.wa_num}"/>'>
 	</form>
 
+	<!-- 댓글 영역 -->
+	<div class='row'>
 
-</div>
-<script type="text/javascript">
-	$(document).ready(function() {
+		<div class="col-lg-12">
 
-		var operForm = $("#operForm");
+			<!-- /.panel -->
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<i class="fa fa-comments fa-fw"></i>========== Reply ===========
+				</div>
+				<!-- /.panel-heading -->
+				<div class="panel-body">
 
-		$("button[data-oper='modify']").on("click", function(e) {
-			
-			e.preventDefault();
-			operForm.attr("action", "/warningBoard/modify").submit();
+					<ul class="chat" id="here">
+						<!-- start reply -->
+						<li class="left clearfix" data-rno='12'>
+							<div>
+								<div class="header">
+									<strong class="primary-font">user00</strong> <small
+										class="pull-right text-muted">2018-78-78</small>
+								</div>
+								<p>Good job</p>
+							</div>
 
+						</li>
+
+						<!--end reply-->
+					</ul>
+					<!--./ end ul-->
+				</div>
+			</div>
+			<!-- ./ end row-->
+		</div>
+
+
+
+	</div>
+	<script type="text/javascript" src="/resources/customJs/reply.js"></script>
+
+	<script>
+		$(function() {
+
+			var wa_numValue = '<c:out value="${board.wa_num}"/>';
+			var replyUL = $(".chat");
+
+			showList(1); // 테스트용
+
+			function showList(page) {
+
+				console.log("show list " + page);
+
+				replyService
+						.getList(
+								{
+									wa_num : wa_numValue,
+									page : 1
+								},
+								function(list) {
+									var str = "";
+									for (var i = 0, len = list.length || 0; i < len; i++) {
+										console.log(list[i]);
+
+										str += "<li class='left clearfix' data-rno='"+list[i].reply_num+"'>";
+										str += "  <div><div class='header'><strong class='primary-font'>["
+												+ list[i].reply_num
+												+ "] "
+												+ list[i].replyer + "</strong>";
+										str += "    <small class='pull-right text-muted'>"
+												+ replyService
+														.displayTime(list[i].create_date)
+												+ "</small></div>";
+										str += "    <p>" + list[i].reply
+												+ "</p></div></li>";
+
+									}
+									replyUL.html(str);
+								});
+
+			}//end showList
+
+		})
+	</script>
+
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			var operForm = $("#operForm");
+
+			$("button[data-oper='modify']").on("click", function(e) {
+
+				e.preventDefault();
+				operForm.attr("action", "/warningBoard/modify").submit();
+
+			});
+
+			$("button[data-oper='list']").on("click", function(e) {
+
+				operForm.find("#bno").remove();
+				operForm.attr("action", "/warningBoard/warningBoard")
+				operForm.submit();
+
+			});
 		});
-
-		$("button[data-oper='list']").on("click", function(e) {
-
-			operForm.find("#bno").remove();
-			operForm.attr("action", "/warningBoard/warningBoard")
-			operForm.submit();
-
-		});
-	});
-</script>
+	</script>

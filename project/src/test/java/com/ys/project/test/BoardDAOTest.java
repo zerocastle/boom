@@ -1,8 +1,5 @@
 package com.ys.project.test;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +10,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ys.project.dao.member.IMemberDao;
 import com.ys.project.dao.warningBoard.WarningBoardMapper;
-import com.ys.project.projectVO.MemberVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring/root-context.xml" })

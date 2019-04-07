@@ -83,7 +83,7 @@
 								<td><c:out value="${board.wa_type}" /></td>
 								<td><a
 									href='/warningBoard/get?wa_num=<c:out value="${board.wa_num}"/>'><c:out
-											value="${board.title}" /></a></td>
+											value="${board.title}" /></a></td> <!-- rest 방식으로 처리 할기위한 척도 이다. -->
 								<td><c:out value="익명" /></td>
 								<td><fmt:formatDate pattern="yyyy-MM-dd"
 										value="${board.create_date}" /></td>

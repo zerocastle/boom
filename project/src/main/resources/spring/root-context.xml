@@ -49,6 +49,7 @@
 		base-package="com.ys.project.dao.admin" />
 	<mybatis-spring:scan
 		base-package="com.ys.project.dao.warningBoard" />
+	
 
 	<!-- @Service를 컴포넌트 스캔을 한다. -->
 	<context:component-scan
