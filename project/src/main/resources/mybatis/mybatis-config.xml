@@ -10,7 +10,7 @@
 	</settings>
 
 	<typeAliases>
-		<package name="com.ys.project.memberVO" />
+		<package name="com.ys.project.projectVO" />
 	</typeAliases>
 	
 

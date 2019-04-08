@@ -4,7 +4,7 @@
 
 <mapper namespace="partner">
 
-	<insert id="partnerRegister" parameterType="Partner">
+	<insert id="partnerRegister" parameterType="PartnerVO">
 		INSERT INTO PARTNER(
 		COMPANY_NUMBER,
 		PART_NAME,
@@ -46,7 +46,7 @@
 		
 	</update>
 
-	<select id="getList" resultType="Partner">
+	<select id="getList" resultType="PartnerVO">
 		SELECT * FROM PARTNER
 	</select>
 	

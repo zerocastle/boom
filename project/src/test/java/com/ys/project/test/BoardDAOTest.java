@@ -1,8 +1,5 @@
 package com.ys.project.test;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.ys.project.dao.IMemberDao;
-import com.ys.project.memberVO.MemberVO;
+import com.ys.project.dao.member.IMemberDao;
+import com.ys.project.dao.warningBoard.WarningBoardMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring/root-context.xml" })
@@ -21,19 +18,10 @@ public class BoardDAOTest {
 
 	@Autowired
 	private IMemberDao dao;
-
-	@Test @Ignore
 	
-	public void testRegister() throws Exception {
+	@Autowired
+	private WarningBoardMapper warningMapper;
 
-		Map<String, Object> map = new HashMap<String, Object>();
-
-		MemberVO vo = new MemberVO("kys", "293455932", "123456", "ring321@naver.com", 5, "intro", 12, "", 4, "123-456",
-				"sin");
-		map.put("memberRegister", vo);
-//		dao.registerMember(vo);
-
-	}
 
 	@Test @Ignore
 	public void testMemberConfirm() throws Exception {
@@ -42,10 +30,16 @@ public class BoardDAOTest {
 
 	}
 
-	@Test 
+	@Test @Ignore
 	public void testMemberDelete() throws Exception {
 		String nickname = "kys";
 		dao.memberDelete(nickname);
+	}
+	
+	@Test 
+	public void testWarningMapper() throws Exception {
+		
+		warningMapper.read(21);
 	}
 
 //   @Test @Ignore

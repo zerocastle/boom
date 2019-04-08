@@ -349,3 +349,11 @@
 .h2 {
 	color: gray;
 }
+
+.selling-addr{
+	position: relative;
+	left: 85px;
+	top: 200px;
+	font-size: 20px;
+	color: gray;
+}
