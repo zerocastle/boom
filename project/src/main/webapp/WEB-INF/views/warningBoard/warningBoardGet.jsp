@@ -337,9 +337,9 @@
 				replyService.update(reply, function(result) {
 					alert(result);
 					modal.modal("hide");
-					showList(1);
-				})
-			})
+					showList(pageNum);
+				});
+			});
 
 			// 댓글 삭제
 			modalRemoveBtn.on("click", function(e) {
@@ -347,10 +347,10 @@
 				replyService.remove(reply_num, function(result) {
 					alert(result);
 					modal.modal("hide");
-					showList(1);
-				})
+					showList(pageNum);
+				});
 
-			})
+			});
 
 		});
 	</script>
