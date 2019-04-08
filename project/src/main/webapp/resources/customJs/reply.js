@@ -36,7 +36,8 @@ var replyService = (function() {
 				function(data) {
 					if (callback) {
 
-						callback(data);
+						// callback(data); 이작시은 댓글 들만 가지고옴
+						callback(data.replyCnt, data.list); // 댓글 숫자와 , 댓글들을 가지고옴
 					}
 				}).fail(function(xhr, status, err) {
 			if (error) {

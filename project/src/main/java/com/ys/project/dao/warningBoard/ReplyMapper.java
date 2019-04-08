@@ -22,5 +22,7 @@ public interface ReplyMapper {
 			@Param("cri") Criteria cri,
 			@Param("wa_num") int wa_num
 			);
+	
+	public int getCount(int wa_num);
 
 }

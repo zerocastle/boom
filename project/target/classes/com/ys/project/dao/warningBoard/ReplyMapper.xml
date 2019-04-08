@@ -36,7 +36,7 @@
  			SELECT  REPLY_NUM, WA_NUM, REPLY, REPLYER, CREATE_DATE, UPDATE_DATE
  			FROM 
    			(
-    			SELECT /*+INDEX(WARNINGBOARDREPLY WARNINGBOARDREPLY_REPLY_NUM_PK) */ 
+    			SELECT /*+INDEX_DESC(WARNINGBOARDREPLY WARNINGBOARDREPLY_IDX) */ 
       			ROWNUM RN, REPLY_NUM, WA_NUM, REPLY, REPLYER, CREATE_DATE, UPDATE_DATE
     			FROM WARNINGBOARDREPLY
     			WHERE WA_NUM =  #{wa_num}
@@ -45,6 +45,15 @@
    			)
    			 WHERE RN > (#{cri.pageNum} -1) * #{cri.amount}
 			]]>
+	</select>
+
+	<select id="getCount" resultType="int">
+	<![CDATA[
+	
+		SELECT COUNT(reply_num) FROM WARNINGBOARDREPLY 
+		WHERE WA_NUM = #{wa_num}
+	
+	]]>
 	</select>
 
 

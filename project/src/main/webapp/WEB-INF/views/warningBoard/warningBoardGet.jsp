@@ -66,7 +66,7 @@
 			<!-- /.panel -->
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<br /> <i class="fa fa-comments fa-fw"></i>========== 댓글 
+					<br /> <i class="fa fa-comments fa-fw"></i>========== 댓글
 					===========
 				</div>
 				<!-- /.panel-heading -->
@@ -92,6 +92,8 @@
 					</ul>
 					<!--./ end ul-->
 				</div>
+				<!-- 페이징 들어갈 부분 -->
+				<div class="panel-footer"></div>
 			</div>
 			<!-- ./ end row-->
 		</div>
@@ -153,18 +155,34 @@
 						.getList(
 								{
 									wa_num : wa_numValue,
-									page : 1
+									page : page || 1
 								},
-								function(list) {
+								function(replyCnt, list) {
+
+									console.log("replyCnt : " + replyCnt);
+									console.log("list : " + list);
+									console.log(list);
+
+									if (page == -1) {
+										pageNum = Math.ceil(replyCnt / 10.0);
+										showList(pageNum);
+										return;
+									}
+									if (list == null || list.length == 0) {
+										return;
+									}
+
 									var str = "";
 									for (var i = 0, len = list.length || 0; i < len; i++) {
 										console.log(list[i]);
 										// data-rno data의 키값을 rno로 정해 놓는다 
 										str += "<li class='left clearfix' data-rno='"+list[i].reply_num+"'>";
+
 										str += "  <div><div class='header'><strong class='primary-font'>["
 												+ list[i].reply_num
 												+ "] "
 												+ list[i].replyer + "</strong>";
+
 										str += "    <small class='pull-right text-muted'>"
 												+ replyService
 														.displayTime(list[i].create_date)
@@ -174,15 +192,76 @@
 
 									}
 									replyUL.html(str);
+
+									showReplyPage(replyCnt);
 								});
 
 			}//end showList
+
+			// 댓글 페이지
+			var pageNum = 1;
+			var replyPageFooter = $(".panel-footer");
+
+			function showReplyPage(replyCnt) {
+
+				var endNum = Math.ceil(pageNum / 10.0) * 10;
+				var startNum = endNum - 9;
+
+				var prev = startNum != 1;
+				var next = false;
+
+				if (endNum * 10 >= replyCnt) {
+					endNum = Math.ceil(replyCnt / 10.0);
+				}
+
+				if (endNum * 10 < replyCnt) {
+					next = true;
+				}
+
+				var str = "<ul class='pagination pull-right'>";
+
+				if (prev) {
+					str += "<li class='page-item'><a class='page-link' href='"
+							+ (startNum - 1) + "'>Previous</a></li>";
+				}
+
+				for (var i = startNum; i <= endNum; i++) {
+
+					var active = pageNum == i ? "active" : "";
+
+					str += "<li class='page-item "+active+" '><a class='page-link' href='"+i+"'>"
+							+ i + "</a></li>";
+				}
+
+				if (next) {
+					str += "<li class='page-item'><a class='page-link' href='"
+							+ (endNum + 1) + "'>Next</a></li>";
+				}
+
+				str += "</ul></div>";
+
+				console.log(str);
+
+				replyPageFooter.html(str);
+			}
+
+			replyPageFooter.on("click", "li a", function(e) {
+				e.preventDefault();
+				console.log("page click");
+
+				var targetPageNum = $(this).attr("href");
+
+				console.log("targetPageNum: " + targetPageNum);
+
+				pageNum = targetPageNum;
+
+				showList(pageNum);
+			});
 
 			// 여기서 부터 모달 댓글 입력 하기 자바스크립트 영역
 			var modal = $(".modal");
 			var modalInputReply = modal.find("input[name='reply']");
 			var modalInputReplyer = modal.find("input[name='replyer']");
-			/* var modalInputReplyDate = modal.find("input[name='replyDate']"); */
 
 			var modalModBtn = $("#modalModBtn");
 			var modalRemoveBtn = $("#modalRemoveBtn");
@@ -218,7 +297,8 @@
 					modal.find("input").val("");
 					modal.modal("hide");
 
-					showList(1); //갱신이 안되는 문제를 해결한다. 첫페이지로 돌아가는 함수를 작동시킨것이다.
+					//showList(1); //갱신이 안되는 문제를 해결한다. 첫페이지로 돌아가는 함수를 작동시킨것이다.
+					showList(-1);
 				});
 
 			});

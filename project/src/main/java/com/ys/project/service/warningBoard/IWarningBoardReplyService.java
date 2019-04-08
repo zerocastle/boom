@@ -1,14 +1,11 @@
 package com.ys.project.service.warningBoard;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.ys.project.projectDTO.Criteria;
+import com.ys.project.projectDTO.ReplyPageDTO;
 import com.ys.project.projectVO.WarningBoardReplyVO;
 
 public interface IWarningBoardReplyService {
-	
+
 	public int insert(WarningBoardReplyVO vo);
 
 	public WarningBoardReplyVO read(int reply_num);
@@ -17,10 +14,6 @@ public interface IWarningBoardReplyService {
 
 	public int update(WarningBoardReplyVO vo);
 
-	
-	public List<WarningBoardReplyVO> getListWithPagin(
-			@Param("cri") Criteria cri,
-			@Param("wa_num") int wa_num
-			);
+	public ReplyPageDTO getListWithPagin(Criteria cri, int wa_num);
 
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ys.project.projectDTO.Criteria;
+import com.ys.project.projectDTO.ReplyPageDTO;
 import com.ys.project.projectVO.WarningBoardReplyVO;
 import com.ys.project.service.warningBoard.WarningBoardReplyService;
 
@@ -33,7 +34,7 @@ public class ReplyController {
 	// 댓글 달기
 	@PostMapping(value = "/new", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
 	public ResponseEntity<String> create(@RequestBody WarningBoardReplyVO vo) {
-		
+
 		log.info("/new 넌 뭘로 변해서 온거니 ??" + vo);
 
 		int insertCount = service.insert(vo);
@@ -46,12 +47,11 @@ public class ReplyController {
 	// 댓글 리스트 불러오기 페이징 처리
 	@GetMapping(value = "/pages/{wa_num}/{page}", produces = { MediaType.APPLICATION_XML_VALUE,
 			MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<List<WarningBoardReplyVO>> getList(@PathVariable("page") int page,
-			@PathVariable("wa_num") int wa_num) {
+	public ResponseEntity<ReplyPageDTO> getList(@PathVariable("page") int page, @PathVariable("wa_num") int wa_num) {
 
-		Criteria cri = new Criteria(page, 10); // 임시 카운트
+		Criteria cri = new Criteria(page, 10);
 
-		return new ResponseEntity<List<WarningBoardReplyVO>>(service.getListWithPagin(cri, wa_num), HttpStatus.OK);
+		return new ResponseEntity<ReplyPageDTO>(service.getListWithPagin(cri, wa_num), HttpStatus.OK);
 
 	}
 

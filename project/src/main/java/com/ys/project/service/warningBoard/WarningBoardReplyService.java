@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.ys.project.dao.warningBoard.ReplyMapper;
 import com.ys.project.projectDTO.Criteria;
+import com.ys.project.projectDTO.ReplyPageDTO;
 import com.ys.project.projectVO.WarningBoardReplyVO;
 
 import lombok.AllArgsConstructor;
@@ -43,9 +44,9 @@ public class WarningBoardReplyService implements IWarningBoardReplyService {
 	}
 
 	@Override
-	public List<WarningBoardReplyVO> getListWithPagin(Criteria cri, int wa_num) {
+	public ReplyPageDTO getListWithPagin(Criteria cri, int wa_num) {
 		// TODO Auto-generated method stub
-		return mapper.getListWithPagin(cri, wa_num);
+		return new ReplyPageDTO(mapper.getCount(wa_num), mapper.getListWithPagin(cri, wa_num));
 	}
 
 }
