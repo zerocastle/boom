@@ -7,7 +7,7 @@
 <jsp:include page="../fixsection/header.jsp"></jsp:include>
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header">Board Read</h1>
+		<h1 class="page-header">신고글</h1>
 	</div>
 </div>
 <!-- /.col-lg-12 -->
@@ -66,7 +66,7 @@
 			<!-- /.panel -->
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<br /> <i class="fa fa-comments fa-fw"></i>========== Reply
+					<br /> <i class="fa fa-comments fa-fw"></i>========== 댓글 
 					===========
 				</div>
 				<!-- /.panel-heading -->
@@ -78,9 +78,12 @@
 							<div>
 								<div class="header">
 									<strong class="primary-font"></strong> <small> <!--아이디  -->
-										class="pull-right text-muted"></small> <!--  날짜 -->
+										class="pull-right text-muted">
+									</small>
+									<!--  날짜 -->
 								</div>
-								<p></p> <!-- 컨텐츠 -->
+								<p></p>
+								<!-- 컨텐츠 -->
 							</div>
 
 						</li>
@@ -156,7 +159,7 @@
 									var str = "";
 									for (var i = 0, len = list.length || 0; i < len; i++) {
 										console.log(list[i]);
-
+										// data-rno data의 키값을 rno로 정해 놓는다 
 										str += "<li class='left clearfix' data-rno='"+list[i].reply_num+"'>";
 										str += "  <div><div class='header'><strong class='primary-font'>["
 												+ list[i].reply_num
@@ -201,8 +204,8 @@
 				$(".modal").modal("show");
 
 			});
-			
-	
+
+			// 댓글을 등록 한다.
 			modalRegisterBtn.on("click", function(e) {
 				var reply = {
 					reply : modalInputReply.val(),
@@ -214,11 +217,60 @@
 					alert(result);
 					modal.find("input").val("");
 					modal.modal("hide");
-					
+
 					showList(1); //갱신이 안되는 문제를 해결한다. 첫페이지로 돌아가는 함수를 작동시킨것이다.
 				});
 
 			});
+
+			// 댓글 수정하려고 댓글 선택 하는거
+			$(".chat").on(
+					"click",
+					"li",
+					function(e) {
+						var reply_num = $(this).data('rno'); // rno라는 키값으로 li 테그의 값을 들고온다.
+
+						replyService.get(reply_num, function(reply) {
+							modalInputReply.val(reply.reply);
+							modalInputReplyer.val(reply.replyer).attr(
+									"readonly", "readonly");
+							modal.data("rno", reply.reply_num);
+
+							modal.find("button[id !='modalCloseBtn']").hide();
+							modalModBtn.show();
+							modalRemoveBtn.show();
+
+							$(".modal").modal("show"); // 모달을 실행 시켜주는 bootstrep jquery 이다.
+
+						})
+					})
+
+			// 댓글 수정
+
+			modalModBtn.on("click", function(e) {
+				var reply = {
+
+					reply_num : modal.data("rno"),
+					reply : modalInputReply.val()
+				};
+
+				replyService.update(reply, function(result) {
+					alert(result);
+					modal.modal("hide");
+					showList(1);
+				})
+			})
+
+			// 댓글 삭제
+			modalRemoveBtn.on("click", function(e) {
+				var reply_num = modal.data("rno");
+				replyService.remove(reply_num, function(result) {
+					alert(result);
+					modal.modal("hide");
+					showList(1);
+				})
+
+			})
 
 		});
 	</script>
