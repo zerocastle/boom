@@ -24,11 +24,6 @@
 <!-- 애들 정의 css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/kim.css" />
 
-<!-- ajax -->
-<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
 <script>
 	$(function() {
 

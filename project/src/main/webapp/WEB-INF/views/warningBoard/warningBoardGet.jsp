@@ -4,7 +4,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!-- <link rel="stylesheet" href="/resources/css2/bootstrap.css"> -->
 
-<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
 <jsp:include page="../fixsection/header.jsp"></jsp:include>
 <div class="row">
 	<div class="col-lg-12">
@@ -67,7 +66,8 @@
 			<!-- /.panel -->
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<i class="fa fa-comments fa-fw"></i>========== Reply ===========
+					<br /> <i class="fa fa-comments fa-fw"></i>========== Reply
+					===========
 				</div>
 				<!-- /.panel-heading -->
 				<div class="panel-body">
@@ -77,10 +77,10 @@
 						<li class="left clearfix" data-rno='12'>
 							<div>
 								<div class="header">
-									<strong class="primary-font">user00</strong> <small
-										class="pull-right text-muted">2018-78-78</small>
+									<strong class="primary-font"></strong> <small> <!--아이디  -->
+										class="pull-right text-muted"></small> <!--  날짜 -->
 								</div>
-								<p>Good job</p>
+								<p></p> <!-- 컨텐츠 -->
 							</div>
 
 						</li>
@@ -92,6 +92,42 @@
 			</div>
 			<!-- ./ end row-->
 		</div>
+
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel">댓글 작성하기</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label>댓글</label> <input class="form-control" name='reply'
+								placeholder='댓글을 입력하세요'>
+						</div>
+						<div class="form-group">
+							<label>댓글자</label> <input class="form-control" name='replyer'
+								value='${sessionScope.loginSession}' readonly="readonly" />
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button id='modalModBtn' type="button" class="btn btn-warning">Modify</button>
+						<button id='modalRemoveBtn' type="button" class="btn btn-danger">Remove</button>
+						<button id='modalRegisterBtn' type="button"
+							class="btn btn-primary">Register</button>
+						<button id='modalCloseBtn' type="button" class="btn btn-default">Close</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+		</div>
+
+		<button type="button" class="btn btn-primary" data-toggle="modal"
+			data-target="#exampleModal">댓글작성</button>
 
 
 
@@ -139,7 +175,52 @@
 
 			}//end showList
 
-		})
+			// 여기서 부터 모달 댓글 입력 하기 자바스크립트 영역
+			var modal = $(".modal");
+			var modalInputReply = modal.find("input[name='reply']");
+			var modalInputReplyer = modal.find("input[name='replyer']");
+			/* var modalInputReplyDate = modal.find("input[name='replyDate']"); */
+
+			var modalModBtn = $("#modalModBtn");
+			var modalRemoveBtn = $("#modalRemoveBtn");
+			var modalRegisterBtn = $("#modalRegisterBtn");
+
+			$("#modalCloseBtn").on("click", function(e) {
+
+				modal.modal('hide');
+			});
+
+			$("#addReplyBtn").on("click", function(e) {
+
+				modal.find("input").val("");
+				modalInputReplyDate.closest("div").hide();
+				modal.find("button[id !='modalCloseBtn']").hide();
+
+				modalRegisterBtn.show();
+
+				$(".modal").modal("show");
+
+			});
+			
+	
+			modalRegisterBtn.on("click", function(e) {
+				var reply = {
+					reply : modalInputReply.val(),
+					replyer : modalInputReplyer.val(),
+					wa_num : wa_numValue
+				};
+
+				replyService.add(reply, function(result) {
+					alert(result);
+					modal.find("input").val("");
+					modal.modal("hide");
+					
+					showList(1); //갱신이 안되는 문제를 해결한다. 첫페이지로 돌아가는 함수를 작동시킨것이다.
+				});
+
+			});
+
+		});
 	</script>
 
 
