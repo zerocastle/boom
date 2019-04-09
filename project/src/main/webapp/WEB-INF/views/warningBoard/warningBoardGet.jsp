@@ -78,7 +78,7 @@
 							<div>
 								<div class="header">
 									<strong class="primary-font"></strong> <small> <!--아이디  -->
-										class="pull-right text-muted">
+
 									</small>
 									<!--  날짜 -->
 								</div>

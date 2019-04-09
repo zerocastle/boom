@@ -54,5 +54,9 @@
 	<!-- @Service를 컴포넌트 스캔을 한다. -->
 	<context:component-scan
 		base-package="com.ys.project.service" />
+		
+	<!-- aop 스캔 -->
+	<context:component-scan
+		base-package="com.ys.project.aop" />
 
 </beans>
