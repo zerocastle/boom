@@ -29,8 +29,15 @@
 
 	</div>
 	<div class="ri">
+	
+		
+		
+		<div class="mynick">
 		<span class="sa1"> 샘오취리 </span>
 		<button class="su">닉네임 수정</button>
+        </div>
+
+
 
 		<div class="tx" id="t">
 			<span class="nisu" id="n">소개글을 작성해주세요</span>
@@ -39,41 +46,56 @@
 				<button class="hi" id="h">확인</button>
 			</div>
 		</div>
-
 		<button class="bsu" id="bb">소개글 수정</button>
 
+		
+		<div class="myphone">
+		<span class="myph">휴대폰 번호:</span>
+		<span class="mynum"> 010-4330-5737 </span>
+		<button class="mysu">휴대폰 번호 수정</button>
+		<hr>
+		</div>
+		
+		
+		
+		
+		
+		<div class="myemail">
+		<span class="mymail">E-Mail:</span>
+		<span class="mycom"> sam572@naver.com </span>
+		<button class="myem">이메일 수정</button>
+		<hr>
+		</div>
+		
+		<div class="mybank">
+		<span class="mybname">은행명:</span>
+		<span class="mybname1"> 농협</span>
+		<button class="myba">은행선택</button>
+		<span class="mybanum">계좌번호:</span>
+		<span class="mybanum1">123-456-879</span>
+		<button class="myju">수정</button>
+		<hr>
+		</div>
 	</div>
-
 </div>
-
-
 <div class="sell2">
 
 	<!-- 상품 -->
 	<div class="pro">
-
 		<button id="btn1" class="pro1">상품</button>
-
 	</div>
-
-
 	<!-- 상점문의 -->
 	<div class="sh">
-
 		<button id="btn2" class="sh1">상점문의</button>
-
 	</div>
-
 	<!-- 찜 -->
 	<div class="basket">
 		<button id="btn3"  class="basket1">찜</button>
 	</div>
-
 	<!-- 상점 후기 -->
 	<div class="review">
 		<button id="btn4" class="review1">상점 후기</button>
 	</div>
-
 	<!-- 동네 직플 정보 -->
 	<div class="jik">
 		<button id="btn5" class="jik1">동네 직플 정보</button>
@@ -226,17 +248,6 @@
 				</div>
 		</a></li>
 	</ul>
-
-
-
-
-
-
-
-
-
-
-
 
 
 </div>

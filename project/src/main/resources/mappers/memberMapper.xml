@@ -26,6 +26,7 @@
 		#{acc_num},
 		#{acc_name}
 		)
+		
 	</insert>
 
 	<select id="nicknameCheck" parameterType="string"

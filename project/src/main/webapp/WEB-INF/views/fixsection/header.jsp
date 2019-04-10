@@ -24,6 +24,10 @@
 <!-- 애들 정의 css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/kim.css" />
 
+<link rel="stylesheet" type="text/css" href="/resources/css/da3.css" />
+
+<script type="text/javascript" src="/resources/js/remote.js"></script>
+
 <script>
 	$(function() {
 

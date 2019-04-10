@@ -3,6 +3,22 @@
 
 <link rel="stylesheet" type="text/css" href="/resources/css/productList.css" />
 <script src="resources/customJs/productList.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    
+    <div id="floatMenu">
+          <span class="kjim">최근찜한상품</span>
+          <span><i class="fas fa-heart"></i></span>
+          <input type="text" name="num" value="0" class="num" readonly/>
+          <div class="top1"><button class="top2" onclick="goTop()">TOP</button></div>
+        </div>
+        
+    
+    
+    
+    
+    
+    
+    
      <!-- contents 내용 파트 시작-->
 <!--     <div id="wrap" style="background: #f9f9f9; z-index: 4;"> -->
       <div class="main">

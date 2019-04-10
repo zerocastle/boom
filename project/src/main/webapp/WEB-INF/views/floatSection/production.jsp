@@ -1,5 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+        
+        
+        
+        <div id="floatMenu">
+          <span class="kjim">최근찜한상품</span>
+          <span><i class="fas fa-heart"></i></span>
+          <input type="text" name="num" value="0" class="num" readonly/>
+          <div class="top1"><button class="top2" onclick="goTop()">TOP</button></div>
+        </div>
+        
+        
+        
         <div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner">
             <div class="carousel-item active" data-interval="10000">
@@ -14,7 +26,7 @@
           </div>
           <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
+            <span class="sr-only">Previous</span>        
           </a>
           <a class="carousel-control-next" href="#carouselExampleInterval" role="button" data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>

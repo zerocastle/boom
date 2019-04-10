@@ -21,6 +21,35 @@
       }
 
 
+.djim{
+	color: black;
+			border: 1px solid black;
+			box-sizing: border-box;
+			width: 300px;
+			padding: 15px 56px;
+			font-size: 22px;
+			display: inline-block;
+			background-color: white;
+}
+
+
+
+.djim1{
+	background: #e63740;
+			color: white;
+			font-size: 22px;
+			margin-left: 20px;
+			border: 1px solid #e63740;
+			width: 300px;
+			padding: 15px 56px;
+			font-size: 22px;
+			display: inline-block;
+}
+
+
+
+
+
       .shCMSshop {
          margin: 0;
          padding: 60px 0 0 0;
