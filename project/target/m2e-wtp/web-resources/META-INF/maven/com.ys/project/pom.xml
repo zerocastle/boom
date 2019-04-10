@@ -89,6 +89,20 @@
 			<version>12.1.0.1-atlassian-hosted</version>
 		</dependency>
 
+<!-- Redis - NodeJS 세션 공유용 -->
+	<dependency>
+   <groupId>redis.clients</groupId>
+   <artifactId>jedis</artifactId>
+   <version>2.9.0</version>
+  </dependency>
+<!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-redis -->
+<dependency>
+    <groupId>org.springframework.data</groupId>
+    <artifactId>spring-data-redis</artifactId>
+    <version>1.8.6.RELEASE</version>
+</dependency>
+
+
 
 		<!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf 타임리프 -->
 		<dependency>

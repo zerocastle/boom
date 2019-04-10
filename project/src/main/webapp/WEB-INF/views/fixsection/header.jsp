@@ -102,7 +102,7 @@
 			temp = '<c:out value="${sessionScope.loginSession}"/>';
 			if (temp) {
 				e.preventDefault();
-				window.location.href = "/chatting/chatting";
+				window.open('/chatting/chatting', 'chatList', 'width=850,height=600');
 			} else {
 				alert("로그인 부터 하셔야 합니다.");
 				window.open('/member/login', 'login', 'width=600,height=600');
