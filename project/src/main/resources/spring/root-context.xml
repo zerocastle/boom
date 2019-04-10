@@ -3,23 +3,32 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
-	<bean id="dataSource_fdc"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<bean id="hikariConfig_fdc" class="com.zaxxer.hikari.HikariConfig">
 		<property name="driverClassName"
 			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		 <property name="url" value="jdbc:oracle:thin:@bon300-11:1521:orcl"/>
-      <property name="username" value="kys" />
-      <property name="password" value="kys" /> 
-
+		<property name="jdbcUrl"
+			value="jdbc:log4jdbc:oracle:thin:@localhost:1521:xe"></property>
+		<property name="username" value="test"></property>
+		<property name="password" value="test"></property>
 
 	</bean>
+
+	<bean id="dataSource_fdc"
+		class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<constructor-arg ref="hikariConfig_fdc" />
+	</bean>
+
 
 	<bean id="sqlSessionFactory_fdc"
 		class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -30,6 +39,9 @@
 			value="classpath:mappers/**/*Mapper.xml"></property>
 	</bean>
 
+
+
+	<!-- sqlSession 사용 부분 -->
 	<bean id="sqlSession_fdc"
 		class="org.mybatis.spring.SqlSessionTemplate"
 		destroy-method="clearCache">
@@ -37,6 +49,14 @@
 			ref="sqlSessionFactory_fdc"></constructor-arg>
 	</bean>
 	<!-- 마이바티스 sessionFactory 이용하는 객체선언 -->
+
+	<!-- 트랜잭션 매니저 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource_fdc"></property>
+	</bean>
+
+	<tx:annotation-driven />
 
 
 	<!-- @Repoitory를 컴포너트 스캔을한다. -->
@@ -48,10 +68,13 @@
 		base-package="com.ys.project.dao.admin" />
 	<mybatis-spring:scan
 		base-package="com.ys.project.dao.warningBoard" />
-	
+
 
 	<!-- @Service를 컴포넌트 스캔을 한다. -->
 	<context:component-scan
 		base-package="com.ys.project.service" />
+
+	<!-- aop 프록시를 사용하기 위한 태그 -->
+	<aop:aspectj-autoproxy />
 
 </beans>
