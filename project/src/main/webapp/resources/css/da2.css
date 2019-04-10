@@ -377,9 +377,10 @@
 			width: 180px;
 			height: 180px;
 }
-.content1 {
-	display: inline-block;
-}
+	.preview-box {
+			position: relative;
+			display: inline-block;
+		}
 
 .but {
 	position: relative;

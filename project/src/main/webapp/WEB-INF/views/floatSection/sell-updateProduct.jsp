@@ -4,7 +4,7 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <link href="/resources/css/da2.css" rel='stylesheet' type='text/css' />
-<link rel="stylesheet" type="text/css" href="C:\Users\bon300-6\Desktop\객체지향 프로그래밍\style.css">
+<!-- <link rel="stylesheet" type="text/css" href="C:\Users\bon300-6\Desktop\객체지향 프로그래밍\style.css"> -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/solid.css"
         integrity="sha384-r/k8YTFqmlOaqRkZuSiE9trsrDXkh07mRaoGBMoDcmA58OHILZPsk29i2BsFng1B" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/regular.css"
