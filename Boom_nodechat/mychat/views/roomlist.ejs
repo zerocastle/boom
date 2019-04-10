@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+  <body>
+    회원 <b><%=nickname%></b> 채팅방목록
+      
+        <% var list = result%>
+        <%=list%>
+
+        <%  
+          var arr=[];
+            var jsonoobj = {};
+           list = JSON.parse(list);
+           
+            for(var i = 0; i < list.rows.length; i++){
+              jsonoobj = {
+                  room_id : list.rows[i][0],
+                  room_title : list.rows[i][4]
+              }
+              var realJson = JSON.parse(JSON.stringify(jsonoobj));
+              arr.push(realJson);
+            }
+        %>
+        
+
+        <%for(var i =0; i<arr.length;i++){ %>
+          <hr>
+          채팅방 : <a href="/roomchat?room_id=<%=arr[i].room_id%>">: <%=arr[i].room_title%></a>
+          
+          <hr>
+        <%}%>
+     
+  
+
+  </body>
+</html>

@@ -12,12 +12,11 @@
 <title>Document</title>
 </head>
 <body>
-	<%@include file="../fixsection/header.jsp"%>
-	<h1>체팅 목록 페이지 !!!!!!</h1>
-
-
-	<%@include file="../fixsection/footer.jsp"%>
-
+<script>
+$(document).ready(function() {
+	window.location.href="http://39.127.7.47:3000/jackchat";
+});
+</script>
 
 </body>
 </html>
