@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ys.project.projectDTO.Criteria;
 import com.ys.project.projectDTO.ReplyPageDTO;
 import com.ys.project.projectVO.WarningBoardReplyVO;
+import com.ys.project.service.warningBoard.IWarningBoardReplyService;
 import com.ys.project.service.warningBoard.WarningBoardReplyService;
 
 import lombok.AllArgsConstructor;
@@ -27,7 +28,7 @@ import lombok.AllArgsConstructor;
 public class ReplyController {
 	private static final Logger log = LoggerFactory.getLogger(ReplyController.class);
 
-	private WarningBoardReplyService service;
+	private IWarningBoardReplyService service;
 
 	// ´ñ±Û ´Þ±â
 	@PostMapping(value = "/new", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })

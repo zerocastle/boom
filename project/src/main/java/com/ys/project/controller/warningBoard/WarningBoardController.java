@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ys.project.projectDTO.Criteria;
 import com.ys.project.projectDTO.PageDTO;
 import com.ys.project.projectVO.WarningBoardVO;
-import com.ys.project.service.warningBoard.WarningBoardService;
+import com.ys.project.service.warningBoard.IWarningBoardService;
 
 import lombok.AllArgsConstructor;
 
@@ -24,7 +24,7 @@ public class WarningBoardController {
 
 	private static final Logger log = LoggerFactory.getLogger(WarningBoardController.class);
 
-	private WarningBoardService service;
+	private IWarningBoardService service;
 
 	@GetMapping("/warningBoard")
 	public String noticeBoard(Criteria cri, Model model) {
