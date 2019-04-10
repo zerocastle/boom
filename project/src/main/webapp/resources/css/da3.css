@@ -1,0 +1,67 @@
+@charset "UTF-8";
+
+#floatMenu {
+	position: absolute;
+	width: 120px;
+	height: 60px;
+	left: 1600px;
+	top: 220px;
+  border: solid 1px black;
+  z-index:10;
+}
+
+.kjim{
+  font-size: 15px;
+  font-weight: bold;
+  color: gray;
+  margin-left: 15px;
+  position: relative;
+  top: 11px;
+}
+.fa-heart{
+   position: relative;
+   top:28px;
+   font-size: 13px;
+   right:55px;
+   color: gray;
+}
+
+.num{
+  position: relative;
+  left: 61px;
+  bottom: 11px;
+  font-weight: bold;
+  border: none;
+  background: none;
+  top:5px;
+  
+
+}
+
+ .top1{
+  width: 120px;
+  height: 30px;
+  border: solid 1px black;
+  position: relative;
+  top:50px;
+
+}
+.top2{
+  border:none; 
+  width: 115px;
+  height: 28px;
+  background-color: white;
+  font-weight: bold;
+  color: gray;
+  margin-left:1.5px;
+ 
+
+ 
+} 
+
+
+
+
+input:focus{
+  outline: none;
+}
