@@ -1,0 +1,142 @@
+<!-- /* socket\room_chat\views\chat.ejs */ -->
+
+
+<html>
+<head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font: 13px Helvetica, Arial;
+    }
+
+    form {
+      background: #000;
+      padding: 3px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
+    form input {
+      border: 0;
+      padding: 10px;
+      width: 90%;
+      margin-right: .5%;
+    }
+
+    form button {
+      width: 9%;
+      background: rgb(130, 224, 255);
+      border: none;
+      padding: 10px;
+    }
+
+    #messages {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    #messages li {
+      padding: 5px 10px;
+    }
+
+    #messages li:nth-child(odd) {
+      background: #eee;
+    }
+  </style>
+</head>
+<body>
+<select>
+  <option value="Room1">Room1</option>
+  <option value="Room2">Room2</option>
+</select>
+
+<ul id="messages">
+  <% var list = result%>
+  <div id="nickname" style="display:none;"><%=nickname%></div>
+  <div id="room_id" style="display:none;"><%=roomid%></div>
+<%  
+  var arr=[];
+    var jsonoobj = {};
+   list = JSON.parse(list);
+   
+    for(var i = 0; i < list.rows.length; i++){
+      jsonoobj = {
+          tnickname : list.rows[i][2],
+          tmessage : list.rows[i][4]
+      }
+      var realJson = JSON.parse(JSON.stringify(jsonoobj));
+      arr.push(realJson);
+    }
+%>
+
+
+<%for(var i =0; i<arr.length;i++){ %>
+<li><%=arr[i].tnickname%>  :  <%=arr[i].tmessage%></li>
+<%}%>
+
+</ul>
+<form action="">
+  <input id="m" autocomplete="off"/>
+  <button>Send</button>
+</form>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+  $(() => {
+    $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+    const name = $('#nickname').text();
+    const room_id= $('#room_id').text();
+    const socket = io();
+    let num = room_id;
+
+    socket.emit('joinRoom', num, name);
+/*
+    $('select').change(() => {
+      socket.emit('leaveRoom', num, name);
+      num++;
+      num = num % 2;
+      socket.emit('joinRoom', num, name);
+    });
+*/
+
+    $('form').submit(() => {// 엔터칠때나 Send 할때마다
+      console.log('1');
+      socket.emit('chat message', num, name, $('#m').val());
+      console.log('2');
+      $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+      console.log('3');
+      $('#m').val('');
+      console.log('goFalse');
+      return false;
+    });
+    
+
+    socket.on('chat message', (name, msg) => {// 소켓에 신호가 오면 chat message 기능 실행.
+      $('#messages').append($('<li>').text(name + '  :  ' +
+        msg)); // 그냥 화면에 뿌려준다.
+        console.log('chat message' + name + msg);
+        $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+    });
+/*
+    socket.on('leaveRoom', (num, name) => {
+      $('#messages').append($('<li>').text(name + '    leaved '
+        + room[num] + ' :('));
+    });
+
+    socket.on('joinRoom', (num, name) => {
+      $('#messages').append($('<li>').text(name + '    joined '
+        + room[num] + ':)'));
+    });*/
+  });
+</script>
+
+</body>
+</html>

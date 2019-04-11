@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <script>
+      function namespace(nsp) {
+        const namespace = io('/namespace' + nsp);
+          // news라는 이벤트를 받을 시 콘솔에 data.hello를 출력
+          namespace.on('news', (data) => {
+          console.log(data.hello);
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <button onclick="namespace(1)">namespace1</button>
+    <button onclick="namespace(2)">namespace2</button>
+  </body>
+</html>
+<!-- 1. 판매게시글에서 채팅 신청 버튼 클릭시 
+    홈컨트롤러에 RequestMappingURL로 지정된 메소드가 실행됨
+    이 메소드는 DB에 판매자,구매자,상품KEY를 INSERT하는데 이때 채팅방ID는 시퀀스에 의해 자동으로 삽입된다.
+    Insert가 끝나고 return "채팅방목록.html"이 POPUP되는데
+    이전에 채팅방목록을 가져오기 위해 세션에 저장된 구매자의 id값으로 다음 쿼리를 수행한다.
+    select * form CHATROOM where seller_id = 세션ID or buyer_id = 세션ID
+    결과목록을 리스트로 가져와 javascript로 뿌려주며 이중 생성된 채팅방을 클릭하여 채팅창으로 이동한다.
+    채팅창은 일반적인 메신저와 유사하며 디자인은 대충하고 중요한것만. 
+    상단엔 상대방의 프로필이, 상대방의 메시지는 좌측정렬 회색바탕
+    내 메시지는 우측정렬 하늘색바탕...
+    추가기능은 나중에..
+-->

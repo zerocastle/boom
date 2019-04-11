@@ -4,13 +4,13 @@
 
 <mapper
 	namespace="com.ys.project.dao.warningBoard.WarningBoardMapper">
-	
+
 	<insert id="insert">
 		INSERT INTO
 		WARNINGBOARD(WA_NUM,TITLE,CONTENT,WA_TYPE,M_NUM)
 		VALUES(WARNINGBOARD_SEQ.nextval,#{title},#{content},#{wa_type},#{m_num})
 	</insert>
-	
+
 	<delete id="delete">
 		DELETE WARNINGBOARD WHERE WA_NUM = #{wa_num}
 	</delete>
@@ -28,7 +28,7 @@
 		M_NUM = #{m_num},
 		UPDATE_DATE = SYSDATE,
 		WA_TYPE = #{wa_type}
-		WHERE WA_NUm = #{wa_num}
+		WHERE WA_NUM = #{wa_num}
 	</update>
 
 	<sql id="criteria">
@@ -56,10 +56,10 @@
 
 	<select id="getListWithPagin" resultType="WarningBoardVO">
 		<![CDATA[
-		SELECT WA_NUM,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,WA_TYPE,M_NUM
+		SELECT WA_NUM,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,WA_TYPE,M_NUM,REPLYCNT
 			FROM(
 			SELECT /*+INDEX_DESC(WARNINGBOARD WARNINGBOARD_WA_NUM_PK)*/
-			ROWNUM RN,WA_NUM,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,WA_TYPE,M_NUM
+			ROWNUM RN,WA_NUM,TITLE,CONTENT,CREATE_DATE,UPDATE_DATE,WA_TYPE,M_NUM,REPLYCNT
 			FROM WARNINGBOARD
 			WHERE
 		]]>
@@ -72,7 +72,7 @@
 		WHERE RN > (#{pageNum} -1) * #{amount}
 	]]>
 	</select>
-	
+
 	<select id="getTotalCount" resultType="int">
 		SELECT COUNT(*) FROM WARNINGBOARD
 		WHERE
@@ -81,5 +81,16 @@
 		WA_NUM > 0
 
 	</select>
+
+	<!-- 댓글 숫자 늘리기 -->
+	<update id="updateReplyCnt">
+		UPDATE WARNINGBOARD
+		SET REPLYCNT = REPLYCNT +
+		#{amount}
+		WHERE WA_NUM = #{wa_num}
+
+	</update>
+
+
 
 </mapper>
