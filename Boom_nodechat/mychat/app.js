@@ -25,8 +25,8 @@ var conn;
 var oracledb = require("oracledb");
 oracledb.autoCommit = true;
 oracledb.getConnection({
-  user:"tom",
-  password:"tom",
+  user:"test",
+  password:"1234",
   connectString:"localhost/orcl"},function(err,con){
     if(err){
       console.log("접속에러",err);
