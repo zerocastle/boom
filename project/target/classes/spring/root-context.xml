@@ -79,6 +79,8 @@
 	<!-- spring interface 매퍼 -->
 	<mybatis-spring:scan
 		base-package="com.ys.project.dao.admin" />
+ 	<mybatis-spring:scan
+		base-package="com.ys.project.dao.sellingUpdate" /> 
 	<mybatis-spring:scan
 		base-package="com.ys.project.dao.warningBoard" />
 

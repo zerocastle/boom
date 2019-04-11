@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ys.project.projectVO.production_uploadVO;
+import com.ys.project.projectVO.Production_uploadVO;
 
 import net.coobird.thumbnailator.Thumbnailator;
 
@@ -37,9 +37,9 @@ public class UploadController {
 
 	@PostMapping(value = "/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public ResponseEntity<List<production_uploadVO>> uploadAjaxAction(MultipartFile[] uploadFile, ServletRequest request) {
+	public ResponseEntity<List<Production_uploadVO>> uploadAjaxAction(MultipartFile[] uploadFile, ServletRequest request) {
 
-		List<production_uploadVO> list = new ArrayList<>();
+		List<Production_uploadVO> list = new ArrayList<>();
 
 		String uploadFolder = request.getServletContext().getRealPath("/resources");
 		log.info("넌 누구니?" + uploadFolder);
@@ -60,7 +60,7 @@ public class UploadController {
 			log.info("-------------------------------------");
 			log.info("upload name : " + multipartFile.getOriginalFilename());
 			log.info("upload fileSize : " + multipartFile.getSize());
-			production_uploadVO production_uploadVO = new production_uploadVO();
+			Production_uploadVO production_uploadVO = new Production_uploadVO();
 
 			String uploadFileName = multipartFile.getOriginalFilename();
 			uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") + 1); // 이 방식은 똑같은 파일이 들어오면 전에 있는

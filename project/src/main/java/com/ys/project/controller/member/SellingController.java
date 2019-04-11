@@ -1,11 +1,17 @@
 package com.ys.project.controller.member;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.ys.project.projectVO.PartnerVO;
+import com.ys.project.service.sellingUpdate.ISellingUpdateService;
 
 import lombok.AllArgsConstructor;
 
@@ -15,6 +21,7 @@ import lombok.AllArgsConstructor;
 public class SellingController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+	private ISellingUpdateService service;
 
 	// 판매하기로 이동
 	@RequestMapping(value = "selling", method = RequestMethod.GET)
@@ -54,7 +61,7 @@ public class SellingController {
 		return "sell/purchaseList";
 
 	}
-	
+
 	// 판매내역
 	@RequestMapping(value = "sellList", method = RequestMethod.GET)
 	public String sellList(Model model) {
@@ -64,15 +71,24 @@ public class SellingController {
 		return "sell/sellList";
 
 	}
-	
+
 	// 탈퇴하기
-		@RequestMapping(value = "memberOut", method = RequestMethod.GET)
-		public String memberOut(Model model) {
+	@RequestMapping(value = "memberOut", method = RequestMethod.GET)
+	public String memberOut(Model model) {
 
-			logger.info("회원탈퇴");
+		logger.info("회원탈퇴");
 
-			return "sell/memberOut";
+		return "sell/memberOut";
 
-		}
+	}
+
+	// 직플레이스 선택하기
+	@GetMapping("directPick")
+	public String directPick(Model model) {
+		List<PartnerVO> list = service.directPickList();
+		model.addAttribute("partnerList", list);
+		return "/pick/directPick";
+
+	}
 
 }
