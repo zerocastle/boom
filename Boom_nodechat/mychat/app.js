@@ -27,12 +27,13 @@ oracledb.autoCommit = true;
 oracledb.getConnection({
   user:"tom",
   password:"tom",
-  connectString:"localhost/orcl"},function(err,con){
+  connectString:"39.127.7.47/orcl"},function(err,con){
     if(err){
       console.log("접속에러",err);
     }
     conn=con;
-  
+
+    
 
 });
 
