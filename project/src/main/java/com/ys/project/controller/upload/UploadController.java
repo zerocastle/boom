@@ -28,18 +28,22 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ys.project.projectVO.Production_uploadVO;
 
+import lombok.AllArgsConstructor;
 import net.coobird.thumbnailator.Thumbnailator;
 
 @Controller
+@AllArgsConstructor
 public class UploadController {
 
 	private static final Logger log = LoggerFactory.getLogger(UploadController.class);
 
 	@PostMapping(value = "/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public ResponseEntity<List<Production_uploadVO>> uploadAjaxAction(MultipartFile[] uploadFile, ServletRequest request) {
+	public ResponseEntity<List<Production_uploadVO>> uploadAjaxAction(MultipartFile[] uploadFile,
+			ServletRequest request) {
 
 		List<Production_uploadVO> list = new ArrayList<>();
+		log.info("띠발 : " + uploadFile[0].getOriginalFilename());
 
 		String uploadFolder = request.getServletContext().getRealPath("/resources");
 		log.info("넌 누구니?" + uploadFolder);

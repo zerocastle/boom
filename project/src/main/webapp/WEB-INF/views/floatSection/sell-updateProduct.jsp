@@ -46,16 +46,17 @@
 
 								<div id="attach">
 									<label class="waves-effect waves-teal btn-flat"
-										for="uploadInputBox">이미지등록</label> <input id="uploadInputBox"
-										style="display: none" class="but" type="file" name="filedata"
-										multiple />
+										for="uploadInputBox">이미지등록</label>
+									<button id="test">test</button>
+									<input id="uploadInputBox" style="display: none" class="but"
+										type="file" name="filedata" multiple />
 								</div>
 
 
 								<div id="preview" class="content1"></div>
 
 
-								<form id="uploadForm" style="display: none;">
+								<!-- <form id="uploadForm" style="display: none;"></form> -->
 							</div>
 
 
@@ -131,8 +132,8 @@
 
 						<div>
 							<label class="f">직플선택:</label> <input type="text" id="pick"
-								name="pick" class="pick">
-							<button class="find">찾기</button>
+								name="pick" class="pick" readonly="readonly" value="" />
+							<button class="find">선택</button>
 						</div>
 
 
@@ -155,7 +156,8 @@
 <!-- 거래 지역 선택  직플 땡겨오기-->
 <script>
 	$(function() {
-		$('#pick').click(function() {
+		$('.find').click(function(e) {
+			e.preventDefault();
 			window.open('directPick', 'directPick', 'width=500,height=700');
 		})
 	})
@@ -204,7 +206,7 @@
 		var imgNum = obj.attributes['value'].value;
 		delete files[imgNum];
 		$("#preview .preview-box[value=" + imgNum + "]").remove();
-		resizeHeight();
+		/* resizeHeight(); */
 	}
 
 	//client-side validation
@@ -223,26 +225,32 @@
 	}
 
 	$(document).ready(function() {
-		//submit 등록. 실제로 submit type은 아니다.
-		$('.submit a').on('click', function() {
-			var form = $('#uploadForm')[0];
-			var formData = new FormData(form);
 
-			for (var index = 0; index < Object.keys(files).length; index++) {
+		var cloneObj = $("#attach").clone();
+		//submit 등록. 실제로 submit type은 아니다.
+		$('#test').on('click', function() {
+			var formData = new FormData();
+			var inputFile = $("input[name='filedata']");
+			var files = inputFile[0].files;
+			console.log(files);
+			
+			for(var i = 0; i < files.length; i++){
+				formData.append("uploadFile",files[i]);
+			}
+
+		/* 	for (var index = 0; index < Object.keys(files).length; index++) {
 				//formData 공간에 files라는 이름으로 파일을 추가한다.
 				//동일명으로 계속 추가할 수 있다.
 				formData.append('files', files[index]);
 			}
-
+ */
 			//ajax 통신으로 multipart form을 전송한다.
 			$.ajax({
+				enctype: "multipart/form-data",
 				type : 'POST',
-				enctype : 'multipart/form-data',
 				processData : false,
 				contentType : false,
-				cache : false,
-				timeout : 600000,
-				url : '/imageupload',
+				url : '/uploadAjaxAction',
 				dataType : 'JSON',
 				data : formData,
 				success : function(result) {
@@ -258,6 +266,7 @@
 					} else {
 						alert('이미지 업로드 성공');
 						// 이후 동작 ...
+						$("#attach").html(cloneObj.html());
 					}
 				}
 			//전송실패에대한 핸들링은 고려하지 않음
