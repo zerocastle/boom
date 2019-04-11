@@ -8,7 +8,7 @@ var session = require('express-session');
 var client;
 var testdata;
 app.use(session({
-	secret: '12sdfwerwersdfserwerwef', //keboard cat (ëœë¤í•œ ê°’)
+	secret: '12sdfwerwersdfserwerwef', //keboard cat (?œ?¤?•œ ê°?)
 	resave: false,
 	saveUninitialized: true
 }));
@@ -25,14 +25,15 @@ var conn;
 var oracledb = require("oracledb");
 oracledb.autoCommit = true;
 oracledb.getConnection({
-  user:"test",
-  password:"1234",
-  connectString:"localhost/orcl"},function(err,con){
+  user:"tom",
+  password:"tom",
+  connectString:"39.127.7.47/orcl"},function(err,con){
     if(err){
-      console.log("ì ‘ì†ì—ëŸ¬",err);
+      console.log("? ‘?†?—?Ÿ¬",err);
     }
     conn=con;
-  
+
+    
 
 });
 
@@ -40,26 +41,26 @@ app.get('/', (req, res) => {
   res.render('chat');
 });
 var sRoom;
-//ëª©ë¡ì¤‘ í•˜ë‚˜ë¥¼ í´ë¦­í•˜ì˜€ì„ë•Œ
+//ëª©ë¡ì¤? ?•˜?‚˜ë¥? ?´ë¦??•˜???„?•Œ
 app.get('/roomchat', (req, res) => {
-  console.log("ì–¸ë†ˆì´ ë“¤ì–´ì™”ë…¸ :", req.session)
-  console.log("ì–¸ë†ˆì´ ë“¤ì–´ì™”ë…¸ :", req.session.nickname)
-  
+  console.log("?–¸?†ˆ?´ ?“¤?–´?™”?…¸ :", req.session)
+  console.log("?–¸?†ˆ?´ ?“¤?–´?™”?…¸ :", req.session.nickname)
+  sRoom = req.query.room_id;
   if(req.session.nickname==undefined){
     res.render('tomson');
   }
   if(sRoom == undefined){
-  sRoom = req.query.room_id;} // ì¿¼ë¦¬ìŠ¤íŠ¸ë§ ê°’ì„ ë°›ì•„ì˜¨ë‹¤.
-  console.log("ì…ì¥í•©ë‹ˆë‹¤! : "+sRoom);
+  sRoom = req.query.room_id;} // ì¿¼ë¦¬?Š¤?Š¸ë§? ê°’ì„ ë°›ì•„?˜¨?‹¤.
+  console.log("?…?¥?•©?‹ˆ?‹¤! : "+sRoom);
   //INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '"+name+"'), "+num+", '"+msg+"')
   conn.execute('select message_num, sender_num,member.nickname, room_id, content from message, member where message.sender_num = member.m_num and room_id = '+parseInt(sRoom)+' order by message_num asc',function(err,result){
     console.log('ëª»ì½:?'+sRoom);
   if(err){
-      console.log("/ROOMCHAT : ë“±ë¡ì¤‘ ì—ëŸ¬ê°€ ë°œìƒìŒ ëª»ì½..ã… ã… ", err);
+      console.log("/ROOMCHAT : ?“±ë¡ì¤‘ ?—?Ÿ¬ê°? ë°œìƒ?Œ ëª»ì½..?… ?… ", err);
   }else{
     console.log("result: "+result);
     console.log("result: ",result.rows); 
-    res.render('roomchat',{result:JSON.stringify(result),nickname:req.session.nickname,roomid:sRoom });
+    res.render('roomchat2',{result:JSON.stringify(result),nickname:req.session.nickname,roomid:sRoom });
   }
   });
 });
@@ -69,38 +70,41 @@ app.get('/roomchat', (req, res) => {
 
 
 
-// ë°©ëª©ë¡ ë¶ˆëŸ¬ì˜¤ê¸°
+// ë°©ëª©ë¡? ë¶ˆëŸ¬?˜¤ê¸?
 //select room_id, room_title from test_room where buyer_id = 'jack' or seller_id = 'jack';
-app.get('/jackchat', (req, res) => {//localhost:3000/jackchat ìœ¼ë¡œ ì ‘ê·¼ì‹œ ì‹¤í–‰
-  client = redis.createClient(6379, "localhost");//localhost6379í¬íŠ¸ì˜ redisê°ì²´ì— ì ‘ê·¼í•œë‹¤.
-    client.get("user", function(err, val) {//redisê°ì²´ì— "user"ë¼ëŠ” í‚¤ì˜ ê°’ì„ ì°¾ì•„ í•¨ìˆ˜ì‹¤í–‰
-    testdata=val;//í•´ë‹¹ í‚¤ì˜ ê°’ì„ ë„£ì–´ì£¼ê³ 
+app.get('/jackchat', (req, res) => {//localhost:3000/jackchat ?œ¼ë¡? ? ‘ê·¼ì‹œ ?‹¤?–‰
+  client = redis.createClient(6379, "localhost");//localhost6379?¬?Š¸?˜ redisê°ì²´?— ? ‘ê·¼í•œ?‹¤.
+    client.get("user", function(err, val) {//redisê°ì²´?— "user"?¼?Š” ?‚¤?˜ ê°’ì„ ì°¾ì•„ ?•¨?ˆ˜?‹¤?–‰
+    testdata=val;//?•´?‹¹ ?‚¤?˜ ê°’ì„ ?„£?–´ì£¼ê³ 
     req.session.nickname = val;
     var arr = [];
-    if(val === null) {//ê°’ì´ ì—†ë‹¤ë©´ ìš”ê±°í•˜ê³  ë•¡
+    if(val === null) {//ê°’ì´ ?—†?‹¤ë©? ?š”ê±°í•˜ê³? ?•¡
       console.log('>>>>> result : null ');
     }
-    else {//ê°’ì´ ìˆë‹¤ë©´ ì‹¤í–‰ select c.room_id, c.buyer_num, c.seller_num, c.pro_num, o.title        from chatroom c, production o where o.pro_num = c.pro_num and (      seller_num = (select m_num from member where nickname = 'jackson') or      buyer_num = (select m_num from member where nickname = 'jackson'));
-      var loglogsql = "select c.room_id, c.buyer_num, c.seller_num, c.pro_num, o.title        from chatroom c, production o where o.pro_num = c.pro_num and (      seller_num = (select m_num from member where nickname = '"+val+"') or      buyer_num = (select m_num from member where nickname = '"+val+"'))";
+    else {//ê°’ì´ ?ˆ?‹¤ë©? ?‹¤?–‰ select c.room_id, c.buyer_num, c.seller_num, c.pro_num, o.title        from chatroom c, production o where o.pro_num = c.pro_num and (      seller_num = (select m_num from member where nickname = 'jackson') or      buyer_num = (select m_num from member where nickname = 'jackson'));
+    //select c.room_id, (select nickname from member where m_num = c.buyer_num), (select nickname from member where m_num = c.seller_num), c.pro_num, o.title from chatroom c, production o where o.pro_num = c.pro_num and (      seller_num = (select m_num from member where nickname = 'tom') or      buyer_num = (select m_num from member where nickname = 'tom'));
+      var loglogsql = "select c.room_id, c.buyer_num, c.seller_num, c.pro_num, o.title, (select nickname from member where m_num = c.buyer_num) C_buyer_nickname, (select nickname from member where m_num = c.seller_num) C_seller_nickname  from chatroom c, production o where o.pro_num = c.pro_num and (      seller_num = (select m_num from member where nickname = '"+val+"') or      buyer_num = (select m_num from member where nickname = '"+val+"'))";
       //conn.execute("select room_id, room_title from test_room where buyer_id = '"+val+"' or seller_id = '"+val+"'",
       conn.execute(loglogsql,
       function(err, result){
-        console.log("result: ë¦¬ì €ì–´ì–´ì–¼íŠ¸"+result);
-        console.log("result.rows: ë¦¬ì €ì–´ì–´ì–¼íŠ¸ë¡œìš°",result.rows);
-        console.log("resultì˜ ê¸¸ì´ê°’ @@@@@@@@@@   "+result.rows.length);
-      //conn.execute("select room_id, room_title from test_room where buyer_id = 'tom' or seller_id = 'tom'",function(err,result){ ì´ê²Œ ì‹¤í–‰ì´ë©ë‹ˆë‹¤.
+        console.log("result: ë¦¬ì??–´?–´?–¼?Š¸",result);
+        console.log("result.rows: ë¦¬ì??–´?–´?–¼?Š¸ë¡œìš°",result.rows);
+        console.log("result?˜ ê¸¸ì´ê°? @@@@@@@@@@   "+result.rows.length);
+      //conn.execute("select room_id, room_title from test_room where buyer_id = 'tom' or seller_id = 'tom'",function(err,result){ ?´ê²? ?‹¤?–‰?´?©?‹ˆ?‹¤.
         if(err){
-            console.log("/jackchat : ë“±ë¡ì¤‘ ì—ëŸ¬ê°€ ë°œìƒí–ˆì–´ìš”!! ", err);
+            console.log("/jackchat : ?“±ë¡ì¤‘ ?—?Ÿ¬ê°? ë°œìƒ?–ˆ?–´?š”!! ", err);
         }else if(!result.rows.length){
-            console.log("/jackchat : ROwsê°€ 0ì´ë‹¤. ");
+            console.log("/jackchat : ROwsê°? 0?´?‹¤. ");
             res.render('roomlist',{result:JSON.stringify(result),nickname:req.session.nickname}); 
         }else{
-            //resultëŠ” metaDataë“± ë§ì€ ì •ë³´ë¥¼ í¬í•¨í•˜ê³ ìˆë‹¤.
-            //result.rowsëŠ” selectë¬¸ì˜ ê²°ê³¼ì§‘í•©ì„ ê°€ì§€ê³ ìˆìœ¼ë©° ì´ì¤‘ë°°ì—´ì˜ í˜•íƒœë¡œ ë°˜í™˜ëœë‹¤.
-            // result.rows       --> [['1301006' ,'ê¹€ì¬ê·¼'], ['1500222', 'ë°•ë­ë­'], ['1711111', 'í•˜í•˜']
-            // result.rows[0]    --> ['1301006', 'ê¹€ì¬ê·¼'] ì™€ ê°™ì€ í˜•ì‹
-            // result.rows[1][1] --> ['ë°•ë­ë­']
-            // result.rows[x][y] --> x : rowë¥¼ ì„ íƒ,  y:columnì„ ì„ íƒ
+            // 
+            // result?Š” JSON Type. metaData, rows ?¼?Š” keyë¥? ê°?ì§?ê³? ?ˆ?‹¤. {metaData?Š” ?‹¤ë£°ì¼?´ ?—†?–´ ê¸°ìˆ ?•˜ì§??•Š?Œ}
+            // [metaData:{key:value}][rows:['1301015','ê¹??¬ê·?','010-4241-1101']['1600243','ë°•ë•¡?•¡','010-4447-2663']...]
+            // result.rows?Š” selectë¬¸ì˜ ê²°ê³¼ì§‘í•©?„ ê°?ì§?ê³? ?ˆ?œ¼ë©? ?´ì¤‘ë°°?—´?˜ ?˜•?ƒœë¡? ë°˜í™˜?œ?‹¤.
+            // result.rows       --> [['1301006' ,'ê¹??¬ê·?'], ['1500222', 'ë°•ë­ë­?'], ['1711111', '?•˜?•˜']
+            // result.rows[0]    --> ['1301006', 'ê¹??¬ê·?'] ?? ê°™ì? ?˜•?‹
+            // result.rows[1][1] --> ['ë°•ë­ë­?']
+            // result.rows[x][y] --> x : rowë¥? ?„ ?ƒ,  y:column?„ ?„ ?ƒ
             /*
             var jsonoobj = {};
             for(var i = 0; i < result.rows.length; i++){
@@ -108,20 +112,20 @@ app.get('/jackchat', (req, res) => {//localhost:3000/jackchat ìœ¼ë¡œ ì ‘ê·¼ì‹œ ì
                   room_id : result.rows[i][0],
                   room_title : result.rows[i][1]
               }
-              console.log("JSONìœ¼ë¡œ ë§Œë“¬ : ", jsonoobj);
+              console.log("JSON?œ¼ë¡? ë§Œë“¬ : ", jsonoobj);
               var realJson = JSON.parse(JSON.stringify(jsonoobj));
               var stringjack = JSON.stringify(jsonoobj);
               arr.push(realJson);
-              console.log("arrë¡œ ë§Œë“¬ : ", arr);
+              console.log("arrë¡? ë§Œë“¬ : ", arr);
             }
-            console.log("JSONë°°ì—´í™” ì¢…ë£Œ", arr);*/
+            console.log("JSONë°°ì—´?™” ì¢…ë£Œ", arr);*/
               
-              res.render('roomlist',{result:JSON.stringify(result),nickname:req.session.nickname});          //  res.render('roomlist', arr);
-        }//DBì¿¼ë¦¬ë¬¸- if else 
-      });//if else- redisì˜ ê°’ì´ ì—†ëŠ”ê²Œ ì•„ë‹ˆë¼ë©´
-      }//client.get í•¨ìˆ˜
-    });//redis create í•¨ìˆ˜
-});//app.getí•¨ìˆ˜
+              res.render('roomlist',{result:JSON.stringify(result),nickname:req.session.nickname});         //  res.render('roomlist', arr);
+        }//DBì¿¼ë¦¬ë¬?- if else 
+      });//if else- redis?˜ ê°’ì´ ?—†?Š”ê²? ?•„?‹ˆ?¼ë©?
+      }//client.get ?•¨?ˆ˜
+    });//redis create ?•¨?ˆ˜
+});//app.get?•¨?ˆ˜
 
 io.on('connection', (socket) => {
   socket.on('disconnect', () => {
@@ -140,10 +144,10 @@ io.on('connection', (socket) => {
   socket.on('joinRoom', (num, name) => {
     socket.join(room[num], () => {
       console.log(name + ' join a ' + room[num]);
-      /*  //ë°©ì…ì¥ì‹œ í•˜ëŠ”ê±´ë° í•„ìš”ì—†ìŒ
+      /*  //ë°©ì…?¥?‹œ ?•˜?Š”ê±´ë° ?•„?š”?—†?Œ
       conn.execute("insert into test_user(USER_ID) values('"+name+"')",function(err,result){
         if(err){
-            console.log("ë“±ë¡ì¤‘ ì—ëŸ¬ê°€ ë°œìƒí–ˆì–´ìš”!!", err);
+            console.log("?“±ë¡ì¤‘ ?—?Ÿ¬ê°? ë°œìƒ?–ˆ?–´?š”!!", err);
            
         }else{
             console.log("result : ",result);
@@ -160,11 +164,11 @@ io.on('connection', (socket) => {
   socket.on('chat message', (num, name, msg) => {
     a = num;
 
-    console.log('íšŒì› '+name+'ì˜ ë©”ì‹œì§€ì „ë‹¬ : num :', num, msg);
+    console.log('?šŒ?› '+name+'?˜ ë©”ì‹œì§?? „?‹¬ : num :', num, msg);
     
     conn.execute("INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '"+name+"'), "+num+", '"+msg+"')",function(err,result){
       if(err){
-          console.log("ë“±ë¡ì¤‘ ì—ëŸ¬ê°€ ë°œìƒí–ˆì–´ìš”!! ë©”ì‹œì§€ ì…ë ¥ì—ëŸ¬", err);
+          console.log("?“±ë¡ì¤‘ ?—?Ÿ¬ê°? ë°œìƒ?–ˆ?–´?š”!! ë©”ì‹œì§? ?…? ¥?—?Ÿ¬", err);
       }else{
 
           console.log("result : ",result);

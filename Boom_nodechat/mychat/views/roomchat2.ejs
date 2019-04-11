@@ -15,27 +15,7 @@
       font: 13px Helvetica, Arial;
     }
 
-    form {
-      background: #000;
-      padding: 3px;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-    }
-
-    form input {
-      border: 0;
-      padding: 10px;
-      width: 90%;
-      margin-right: .5%;
-    }
-
-    form button {
-      width: 9%;
-      background: rgb(130, 224, 255);
-      border: none;
-      padding: 10px;
-    }
+    
 
     #messages {
       list-style-type: none;
@@ -52,11 +32,33 @@
     }
     */
 
+    form {
+      background: #000;
+      padding: 3px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      margin-block-end: 0em;
+    }
 
+    form input {
+      border: 0;
+      padding: 10px;
+      width: 80%;
+      margin-right: .5%;
+    }
+
+    form button {
+      width: 7.5%;
+      background: rgb(130, 224, 255);
+      border: none;
+      padding: 10px;
+    }
     .chat-box {
         display: inline-block;
         color: #34495e;
         margin: 0 0 30px 0;
+        width:90%;
     }
  
     .chat-box li {
@@ -82,7 +84,7 @@
  
 .chat-box .odd {
     background-color: #ecf0f1;
-    max-width: 60%;
+    
     clear: both;
     float: left;
 }
@@ -101,7 +103,6 @@
  
 .chat-box .even {
     background-color: #C1E4EC;
-    max-width: 60%;
     height: auto;
     clear: both;
     float: right;
@@ -123,15 +124,22 @@
     display: block;
 }
 
+#plusbtn{
+  background: #FFF;
+    padding: 3px;
+    position: fixed;
+    height: 30px;
+    bottom: 0;
+    width: 7.5%;
+    margin-block-end: 0em;
+    margin-bottom: 5px;
+    
+}
   </style>
 </head>
 <body>
-<select>
-  <option value="Room1">Room1</option>
-  <option value="Room2">Room2</option>
-</select>
 
-<ul id="messages">
+<ul id="messages" class="chat-box">
   <% var list = result%>
   <div id="nickname" style="display:none;"><%=nickname%></div>
   <div id="room_id" style="display:none;"><%=roomid%></div>
@@ -152,15 +160,22 @@
 
 
 <%for(var i =0; i<arr.length;i++){ %>
-<li><%=arr[i].tnickname%>  :  <%=arr[i].tmessage%></li>
+  <%if(arr[i].tnickname == nickname){%>
+<li class="even"><%=arr[i].tnickname%>  :  <%=arr[i].tmessage%></li>
+<%} else {%>
+  <li class="odd"><%=arr[i].tnickname%>  :  <%=arr[i].tmessage%></li>
+  <%}%>
 <%}%>
 
 </ul>
+
 <form action="">
+  
   <input id="m" autocomplete="off"/>
   <button>Send</button>
+  
 </form>
-
+<button id="plusbtn">+</button>
 <script src="/socket.io/socket.io.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
@@ -192,14 +207,27 @@
       return false;
     });
     
+    socket.on('chat QR', (name, ) => {// 채팅방테이블의 pro_num, seller_num, buyer_num을 전송한다.???????????????????????????????????
+      $('#messages').append($('<li class="even">').text(name + '  :  ' +
+        msg));
 
+    });
+
+    
     socket.on('chat message', (name, msg) => {// 소켓에 신호가 오면 chat message 기능 실행.
-      $('#messages').append($('<li>').text(name + '  :  ' +
-        msg)); // 그냥 화면에 뿌려준다.
+      if(name == $('#nickname').text()){
+      $('#messages').append($('<li class="even">').text(name + '  :  ' +
+        msg));}
+      else{
+        $('#messages').append($('<li class="odd">').text(name + '  :  ' +
+        msg));
+      }
+        // 그냥 화면에 뿌려준다.
         console.log('chat message' + name + msg);
         $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+
+
     });
-    
 /*
     socket.on('leaveRoom', (num, name) => {
       $('#messages').append($('<li>').text(name + '    leaved '
@@ -212,27 +240,6 @@
     });*/
   });
 </script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
 
-<!--<script type="text/javascript" src="../jquery.qrcode.min.js"></script>
---><script type="text/javascript" src="../src/jquery.qrcode.js"></script>
-<script type="text/javascript" src="../src/qrcode.js"></script>
-
-<p>Render in table</p>
-<div id="qrcode"></div>
-<p>Render in canvas</p>
-<div id="qrcodeCanvas"></div>
-
-<script>
-
-//jQuery('#qrcode').qrcode("this is contents");
-var parm = "http://aspdotnet.tistory.com/category/" + encodeURI("닷넷관련/디자인패턴").replace("%2F", "/");
-
-jQuery('#qrcodeCanvas').qrcode({
-width: 280,
-height: 280,
-text: parm
-    }); 
-</script>
 </body>
 </html>
