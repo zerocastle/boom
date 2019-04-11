@@ -82,11 +82,12 @@ app.get('/jackchat', (req, res) => {//localhost:3000/jackchat 으로 접근시 �
       console.log('>>>>> result : null ');
     }
     else {//값이 있다면 실행 select c.room_id, c.buyer_num, c.seller_num, c.pro_num, o.title        from chatroom c, production o where o.pro_num = c.pro_num and (      seller_num = (select m_num from member where nickname = 'jackson') or      buyer_num = (select m_num from member where nickname = 'jackson'));
-      var loglogsql = "select c.room_id, c.buyer_num, c.seller_num, c.pro_num, o.title        from chatroom c, production o where o.pro_num = c.pro_num and (      seller_num = (select m_num from member where nickname = '"+val+"') or      buyer_num = (select m_num from member where nickname = '"+val+"'))";
+    //select c.room_id, (select nickname from member where m_num = c.buyer_num), (select nickname from member where m_num = c.seller_num), c.pro_num, o.title from chatroom c, production o where o.pro_num = c.pro_num and (      seller_num = (select m_num from member where nickname = 'tom') or      buyer_num = (select m_num from member where nickname = 'tom'));
+      var loglogsql = "select c.room_id, c.buyer_num, c.seller_num, c.pro_num, o.title, (select nickname from member where m_num = c.buyer_num) C_buyer_nickname, (select nickname from member where m_num = c.seller_num) C_seller_nickname  from chatroom c, production o where o.pro_num = c.pro_num and (      seller_num = (select m_num from member where nickname = '"+val+"') or      buyer_num = (select m_num from member where nickname = '"+val+"'))";
       //conn.execute("select room_id, room_title from test_room where buyer_id = '"+val+"' or seller_id = '"+val+"'",
       conn.execute(loglogsql,
       function(err, result){
-        console.log("result: 리저어어얼트"+result);
+        console.log("result: 리저어어얼트",result);
         console.log("result.rows: 리저어어얼트로우",result.rows);
         console.log("result의 길이값 @@@@@@@@@@   "+result.rows.length);
       //conn.execute("select room_id, room_title from test_room where buyer_id = 'tom' or seller_id = 'tom'",function(err,result){ 이게 실행이됩니다.

@@ -2,36 +2,82 @@
 <html>
   <head>
     <title></title>
+    <style>
+    /* 홀수 row의 색 */
+.chat-box .odd {
+    background-color: #ecf0f1;
+}
+ 
+/* 짝수 row의 색 */
+.chat-box .even {
+    background-color: #e1e5e5;
+}
+ul.mylist, ol.mylist {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+  
+    max-width: 900px;
+    width: 100%;
+}
+  
+ul.mylist li, ol.mylist li {
+    display: inline-block;
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #efefef;
+    font-size: 20px;
+    cursor: pointer;
+}
+ul.mylist li,
+ol.mylist li {
+    -webkit-transition: background-color 0.3s linear;
+    -moz-transition: background-color 0.3s linear;
+    -ms-transition: background-color 0.3s linear;
+    -o-transition: background-color 0.3s linear;
+    transition: background-color 0.3s linear;
+}
+  
+ul.mylist li:hover,
+ol.mylist li:hover {
+    
+    background-color: #FFFF;
+}
+li{
+  background-color: #BBffff;
+
+}
+    </style>
   </head>
   <body>
-    회원 <b><%=nickname%></b> 채팅방목록
+    <b><%=nickname%></b> 회원님의 채팅방목록
       
         <% var list = result%>
-        <%=list%>
 
         <%  
           var arr=[];
             var jsonoobj = {};
            list = JSON.parse(list);
-           
             for(var i = 0; i < list.rows.length; i++){
               jsonoobj = {
                   room_id : list.rows[i][0],
-                  room_title : list.rows[i][4]
+                  room_title : list.rows[i][4],
+                  seller : list.rows[i][6],
+                  buyer : list.rows[i][5]
               }
               var realJson = JSON.parse(JSON.stringify(jsonoobj));
               arr.push(realJson);
             }
         %>
         
-
+          <ul class="mylist">
+            
         <%for(var i =0; i<arr.length;i++){ %>
-          <hr>
-          채팅방 : <a href="/roomchat?room_id=<%=arr[i].room_id%>">: <%=arr[i].room_title%></a>
-          
-          <hr>
+            <li>No.<%=i+1%> 채팅방 : <a href="/roomchat?room_id=<%=arr[i].room_id%>">: <%=arr[i].room_title%></a>
+          //구매자 : <%=arr[i].buyer%>, 판매자 : <%=arr[i].seller%>
+        </li>
         <%}%>
-     
+      </ul>
   
 
   </body>
