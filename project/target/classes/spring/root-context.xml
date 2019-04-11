@@ -17,10 +17,10 @@
 	<bean id="hikariConfig_fdc" class="com.zaxxer.hikari.HikariConfig">
 		<property name="driverClassName"
 			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-	     <property name="jdbcUrl"
-         value="jdbc:log4jdbc:oracle:thin:@bon300-11:1521:orcl"></property>
-      <property name="username" value="test"></property>
-      <property name="password" value="1234"></property>
+		<property name="jdbcUrl"
+			value="jdbc:log4jdbc:oracle:thin:@bon300-11:1521:orcl"></property>
+		<property name="username" value="kys"></property>
+		<property name="password" value="kys"></property>
 
 	</bean>
 
@@ -40,16 +40,18 @@
 	</bean>
 
 
-<!-- RedisNodejs세션연동 -->
-<bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" >
-        <property name="hostName" value="127.0.0.1" />
-        <property name="port" value="6379"/>
-        <!-- <property name="password" value="redis_pw"/> -->
-    </bean>
+	<!-- RedisNodejs세션연동 -->
+	<bean id="connectionFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+		<property name="hostName" value="127.0.0.1" />
+		<property name="port" value="6379" />
+		<!-- <property name="password" value="redis_pw"/> -->
+	</bean>
 
-<bean id="RedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate" >
-        <property name="connectionFactory" ref="connectionFactory"/>
-    </bean>
+	<bean id="RedisTemplate"
+		class="org.springframework.data.redis.core.StringRedisTemplate">
+		<property name="connectionFactory" ref="connectionFactory" />
+	</bean>
 
 
 
@@ -79,8 +81,8 @@
 	<!-- spring interface 매퍼 -->
 	<mybatis-spring:scan
 		base-package="com.ys.project.dao.admin" />
- 	<mybatis-spring:scan
-		base-package="com.ys.project.dao.sellingUpdate" /> 
+	<mybatis-spring:scan
+		base-package="com.ys.project.dao.sellingUpdate" />
 	<mybatis-spring:scan
 		base-package="com.ys.project.dao.warningBoard" />
 
