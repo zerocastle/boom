@@ -45,7 +45,7 @@ var sRoom;
 app.get('/roomchat', (req, res) => {
   console.log("언놈이 들어왔노 :", req.session)
   console.log("언놈이 들어왔노 :", req.session.nickname)
-  
+  sRoom = req.query.room_id;
   if(req.session.nickname==undefined){
     res.render('tomson');
   }

@@ -49,7 +49,7 @@
     }
 
     form button {
-      width: 15%;
+      width: 7.5%;
       background: rgb(130, 224, 255);
       border: none;
       padding: 10px;
@@ -124,6 +124,17 @@
     display: block;
 }
 
+#plusbtn{
+  background: #FFF;
+    padding: 3px;
+    position: fixed;
+    height: 30px;
+    bottom: 0;
+    width: 7.5%;
+    margin-block-end: 0em;
+    margin-bottom: 5px;
+    
+}
   </style>
 </head>
 <body>
@@ -157,11 +168,14 @@
 <%}%>
 
 </ul>
+
 <form action="">
+  
   <input id="m" autocomplete="off"/>
   <button>Send</button>
+  
 </form>
-
+<button id="plusbtn">+</button>
 <script src="/socket.io/socket.io.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
@@ -193,7 +207,13 @@
       return false;
     });
     
+    socket.on('chat QR', (name, ) => {// 채팅방테이블의 pro_num, seller_num, buyer_num을 전송한다.???????????????????????????????????
+      $('#messages').append($('<li class="even">').text(name + '  :  ' +
+        msg));
 
+    });
+
+    
     socket.on('chat message', (name, msg) => {// 소켓에 신호가 오면 chat message 기능 실행.
       if(name == $('#nickname').text()){
       $('#messages').append($('<li class="even">').text(name + '  :  ' +

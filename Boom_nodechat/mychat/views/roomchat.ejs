@@ -52,7 +52,7 @@
     }
     */
 
-    
+
     .chat-box {
         display: inline-block;
         color: #34495e;
@@ -199,6 +199,7 @@
         console.log('chat message' + name + msg);
         $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
     });
+    
 /*
     socket.on('leaveRoom', (num, name) => {
       $('#messages').append($('<li>').text(name + '    leaved '
@@ -211,6 +212,27 @@
     });*/
   });
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
 
+<!--<script type="text/javascript" src="../jquery.qrcode.min.js"></script>
+--><script type="text/javascript" src="../src/jquery.qrcode.js"></script>
+<script type="text/javascript" src="../src/qrcode.js"></script>
+
+<p>Render in table</p>
+<div id="qrcode"></div>
+<p>Render in canvas</p>
+<div id="qrcodeCanvas"></div>
+
+<script>
+
+//jQuery('#qrcode').qrcode("this is contents");
+var parm = "http://aspdotnet.tistory.com/category/" + encodeURI("닷넷관련/디자인패턴").replace("%2F", "/");
+
+jQuery('#qrcodeCanvas').qrcode({
+width: 280,
+height: 280,
+text: parm
+    }); 
+</script>
 </body>
 </html>
