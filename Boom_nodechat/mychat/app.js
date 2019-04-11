@@ -60,7 +60,7 @@ app.get('/roomchat', (req, res) => {
   }else{
     console.log("result: "+result);
     console.log("result: ",result.rows); 
-    res.render('roomchat',{result:JSON.stringify(result),nickname:req.session.nickname,roomid:sRoom });
+    res.render('roomchat2',{result:JSON.stringify(result),nickname:req.session.nickname,roomid:sRoom });
   }
   });
 });
@@ -96,8 +96,10 @@ app.get('/jackchat', (req, res) => {//localhost:3000/jackchat 으로 접근시 �
             console.log("/jackchat : ROws가 0이다. ");
             res.render('roomlist',{result:JSON.stringify(result),nickname:req.session.nickname}); 
         }else{
-            //result는 metaData등 많은 정보를 포함하고있다.
-            //result.rows는 select문의 결과집합을 가지고있으며 이중배열의 형태로 반환된다.
+            // 
+            // result는 JSON Type. metaData, rows 라는 key를 가지고 있다. {metaData는 다룰일이 없어 기술하지않음}
+            // [metaData:{key:value}][rows:['1301015','김재근','010-4241-1101']['1600243','박땡땡','010-4447-2663']...]
+            // result.rows는 select문의 결과집합을 가지고 있으며 이중배열의 형태로 반환된다.
             // result.rows       --> [['1301006' ,'김재근'], ['1500222', '박뭐뭐'], ['1711111', '하하']
             // result.rows[0]    --> ['1301006', '김재근'] 와 같은 형식
             // result.rows[1][1] --> ['박뭐뭐']
@@ -117,7 +119,7 @@ app.get('/jackchat', (req, res) => {//localhost:3000/jackchat 으로 접근시 �
             }
             console.log("JSON배열화 종료", arr);*/
               
-              res.render('roomlist',{result:JSON.stringify(result),nickname:req.session.nickname});          //  res.render('roomlist', arr);
+              res.render('roomlist',{result:JSON.stringify(result),nickname:req.session.nickname});         //  res.render('roomlist', arr);
         }//DB쿼리문- if else 
       });//if else- redis의 값이 없는게 아니라면
       }//client.get 함수
