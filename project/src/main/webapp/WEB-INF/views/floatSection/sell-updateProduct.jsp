@@ -23,6 +23,53 @@
 	crossorigin="anonymous">
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 
+<style>
+.uploadResult {
+	width: 100%;
+	background-color: gray;
+}
+
+.uploadResult ul {
+	display: flex;
+	flex-flow: row;
+	justify-content: center;
+	align-items: center;
+}
+
+.uploadResult ul li {
+	list-style: none;
+	padding: 10px;
+}
+
+.uploadResult ul li img {
+	width: 100px;
+}
+</style>
+
+<style>
+.bigPictureWrapper {
+	position: absolute;
+	display: none;
+	justify-content: center;
+	align-items: center;
+	top: 0%;
+	width: 100%;
+	height: 100%;
+	background-color: gray;
+	z-index: 100;
+}
+
+.bigPicture {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+</style>
+
+<!--  style 끝 -->
+
+
 <div id="page-wrapper" class="gray-bg dashbard-1">
 	<div class="content-main">
 
@@ -43,9 +90,20 @@
 
 						<div class="wrapper">
 							<div class="body">
+								<div class="uploadDiv">
+									<input type="file" name="uploadFile" multiple>
+									<button id="uploadBtn">Upload</button>
+								</div>
 
-						
+								<div class="uploadResult">
+									<ul>
+										<li></li>
+									</ul>
+								</div>
+
+
 							</div>
+							<!-- end body -->
 
 
 						</div>
@@ -153,180 +211,81 @@
 
 
 <script>
-	//임의의 file object영역
-	var files = {};
-	var previewIndex = 0;
+	$(function() {
 
-	// image preview 기능 구현
-	// input = file object[]
-	function addPreview(input) {
-		if (input[0].files) {
-			//파일 선택이 여러개였을 시의 대응
-			for (var fileIndex = 0; fileIndex < input[0].files.length; fileIndex++) {
-				var file = input[0].files[fileIndex];
+		var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+		var maxSize = 5242880; //5MB
 
-				if (validation(file.name))
-					continue;
-
-				var reader = new FileReader();
-				reader.onload = function(img) {
-					//div id="preview" 내에 동적코드추가.
-					//이 부분을 수정해서 이미지 링크 외 파일명, 사이즈 등의 부가설명을 할 수 있을 것이다.
-					var imgNum = previewIndex++;
-					$("#preview")
-							.append(
-									"<div class=\"preview-box\" value=\"" + imgNum + "\">"
-											+ "<img class=\"thumbnail\" src=\"" + img.target.result + "\"\/>"
-											+ "<a class=\"det\" href=\"#\" value=\""
-											+ imgNum
-											+ "\" onclick=\"deletePreview(this)\">"
-											+ "삭제" + "</a>" + "</div>");
-					files[imgNum] = file;
-				};
-				reader.readAsDataURL(file);
+		function checkExtension(fileName, fileSize) {
+			if (fileSize >= maxSize) {
+				alert("파일 사이즈 초과");
+				return false;
 			}
-		} else
-			alert('invalid file input'); // 첨부클릭 후 취소시의 대응책은 세우지 않았다.
-	}
-
-	//preview 영역에서 삭제 버튼 클릭시 해당 미리보기이미지 영역 삭제
-	function deletePreview(obj) {
-		var imgNum = obj.attributes['value'].value;
-		delete files[imgNum];
-		$("#preview .preview-box[value=" + imgNum + "]").remove();
-		/* resizeHeight(); */
-	}
-
-	//client-side validation
-	//always server-side validation required
-	function validation(fileName) {
-		fileName = fileName + "";
-		var fileNameExtensionIndex = fileName.lastIndexOf('.') + 1;
-		var fileNameExtension = fileName.toLowerCase().substring(
-				fileNameExtensionIndex, fileName.length);
-		if (!((fileNameExtension === 'jpg') || (fileNameExtension === 'gif') || (fileNameExtension === 'png'))) {
-			alert('jpg, gif, png 확장자만 업로드 가능합니다.');
 			return true;
-		} else {
-			return false;
+			// 올리는 파일 사이즈 크기를 제한
+			if (regex.test(fileName)) {
+				alert("해당 파일을 올릴수 없다");
+				return false;
+			}
+			return true;
 		}
-	}
 
-	$(document).ready(function() {
+		var cloneObj = $(".uploadDiv").clone(); //아무 것도 들어 있지 않는 것을 클론 해놓는디.
 
-		var cloneObj = $("#attach").clone();
-		//submit 등록. 실제로 submit type은 아니다.
-		$('#test').on('click', function() {
-			var formData = new FormData();
-			var inputFile = $("input[name='filedata']");
-			var files = inputFile[0].files;
+		$('#uploadBtn').click(function(e) {
+			var formData = new FormData(); //가상에 폼 을 만들어준다
+			var inputFile = $("input[name='uploadFile']"); // 안에 태그 를 들고온다 
+			var files = inputFile[0].files; // 첫번째 태그 들고온거에 파일을 files에 넣어준다.
 			console.log(files);
-			
-			for(var i = 0; i < files.length; i++){
-				formData.append("uploadFile",files[i]);
+
+			for (var i = 0; i < files.length; i++) {
+				if (!checkExtension(files[i].name, files[i].size)) {
+					return false;
+					// 함수 적용 해서  체크 해보고 반환값이 true 가 아니면 return false;
+
+				}
+				formData.append("uploadFile", files[i]); //폼 데이터에 uploadFile 네임값 즉 input 태그를 여러개 formdata에 붙친다.
 			}
 
-		/* 	for (var index = 0; index < Object.keys(files).length; index++) {
-				//formData 공간에 files라는 이름으로 파일을 추가한다.
-				//동일명으로 계속 추가할 수 있다.
-				formData.append('files', files[index]);
-			}
- */
-			//ajax 통신으로 multipart form을 전송한다.
 			$.ajax({
-				enctype: "multipart/form-data",
-				type : 'POST',
+				url : '/uploadAjaxAction',
 				processData : false,
 				contentType : false,
-				url : '/uploadAjaxAction',
-				dataType : 'JSON',
 				data : formData,
+				type : 'POST',
+				dataType : 'json',
 				success : function(result) {
-					//이 부분을 수정해서 다양한 행동을 할 수 있으며,
-					//여기서는 데이터를 전송받았다면 순수하게 OK 만을 보내기로 하였다.
-					//-1 = 잘못된 확장자 업로드, -2 = 용량초과, 그외 = 성공(1)
-					if (result === -1) {
-						alert('jpg, gif, png, bmp 확장자만 업로드 가능합니다.');
-						// 이후 동작 ...
-					} else if (result === -2) {
-						alert('파일이 10MB를 초과하였습니다.');
-						// 이후 동작 ...
-					} else {
-						alert('이미지 업로드 성공');
-						// 이후 동작 ...
-						$("#attach").html(cloneObj.html());
-					}
+
+					console.log(result);
+					showUploadFile(result);
+					$(".uploadDiv").html(cloneObj.html()); // 업로드하고 안에 엘리먼트에 빈 인풋테그를 붙친다.
+
 				}
-			//전송실패에대한 핸들링은 고려하지 않음
-			});
+			})
 		});
-		// <input type=file> 태그 기능 구현
-		$('#attach input[type=file]').change(function() {
-			addPreview($(this)); //preview form 추가하기
-		});
+
+		var uploadResult = $(".uploadResult ul");
+		function showUploadFile(uploadResultArr) {
+			var str = "";
+
+			$(uploadResultArr)
+					.each(
+							function(i, obj) {
+								if (!obj.fileType) {
+									str += "<li><img src='/resources/image/attach.png'>"
+											+ obj.fileName + "</li>";
+								} else {
+									str += "<li>" + obj.fileName + "</li>";
+								}
+
+							});
+
+			uploadResult.append(str);
+		}
 	});
 </script>
 
-
-
-
-
-
-
-
 <script>
-	$(document).ready(function() {
-
-		/////////////////////////////////////////
-
-	});
-	var input;
-	function openFile(event) {
-		input = event.target;
-		var reader = new FileReader();
-		reader.onload = function() {
-			var dataURL = reader.result;
-			$(input).next().children('img').attr('src', dataURL);
-			$(input).next().children('img').css('display', 'block');
-		}
-		reader.readAsDataURL(input.files[0]);
-	};
-
-	var list = [];
-	var ruru = 0;
-	function addColor() {
-		var num = ruru++;
-		var src;
-		var list = $('#colorPick')[0].files;
-		var reader = new FileReader();
-		reader.readAsDataURL(list[0]);
-		reader.onload = function() {
-			src = this.result;
-			var color = $('#goods_color').val();
-			var count = $('#goods_count').val();
-			var div = '<div class="colorImgBox" id="colorBox' + num + '"><img class="colorImg" src="' + src + '"/><span>'
-					+ color
-					+ ' X'
-					+ count
-					+ '개<span>'
-					+ '<span class="xBtn"><a href="#" onclick="removeBox(event)"><img ' + 'src="https://www.etudehouse.com/kr/ko/web_resource/front/images/common/ico_close2.png"/></a></span>'
-					+ '<input type="hidden" name="optList[' + num + '].goods_count" value="' + count + '"/><input type="hidden"' + ' name="optList[' + num + '].goods_color" value="' + color + '"/></div>';
-
-			$('#colorAddBox').append(div);
-			var ele = document.getElementById("colorPick");
-			var cl = ele.cloneNode(true);
-			cl.removeAttribute("id");
-			cl.setAttribute("name", "optList[" + num + "].goods_color_file");
-			$(cl).addClass('hiddenBox');
-
-			$('#colorBox' + num).append(cl);
-		}
-	} //end addColor
-	function removeBox(event) {
-		$(event.target).parents('.colorImgBox').remove();
-		event.preventDefault();
-	}
-
 	// <글자수 입력 제한>
 
 	$(function() {
@@ -402,11 +361,3 @@
 				}).open();
 	}
 </script>
-
-
-
-
-
-
-
-

@@ -88,7 +88,7 @@ public class UploadController {
 				production_uploadVO.setUuid(uuid.toString());
 				production_uploadVO.setUploadPath(getFolder()); // 리얼 패스
 				if (this.checkImageType(saveFile)) {
-
+					production_uploadVO.setFileType("img"); // 이미지인지 검사해서 이미지면 img를 set 해준다잉
 					FileOutputStream thumbnail = new FileOutputStream(new File(RealuploadPath, "s_" + uploadFileName)); // 썸네일
 					// 사진을
 					// 담아준다
