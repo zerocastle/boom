@@ -86,11 +86,8 @@ public class UploadController {
 				multipartFile.transferTo(saveFile); // transferTo 파일 저장하는 메소드
 				// 이미지 파일인지 체크
 				production_uploadVO.setUuid(uuid.toString());
-				production_uploadVO.setUploadPath(RealuploadPath.toString());
-				production_uploadVO.setFolder(getFolder()); // 일딴 테스트
+				production_uploadVO.setUploadPath(getFolder()); // 리얼 패스
 				if (this.checkImageType(saveFile)) {
-
-					production_uploadVO.setImage(true);
 
 					FileOutputStream thumbnail = new FileOutputStream(new File(RealuploadPath, "s_" + uploadFileName)); // 썸네일
 					// 사진을

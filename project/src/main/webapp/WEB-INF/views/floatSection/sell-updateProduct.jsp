@@ -44,19 +44,7 @@
 						<div class="wrapper">
 							<div class="body">
 
-								<div id="attach">
-									<label class="waves-effect waves-teal btn-flat"
-										for="uploadInputBox">이미지등록</label>
-									<button id="test">test</button>
-									<input id="uploadInputBox" style="display: none" class="but"
-										type="file" name="filedata" multiple />
-								</div>
-
-
-								<div id="preview" class="content1"></div>
-
-
-								<!-- <form id="uploadForm" style="display: none;"></form> -->
+						
 							</div>
 
 

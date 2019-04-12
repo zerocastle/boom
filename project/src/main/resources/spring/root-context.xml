@@ -18,9 +18,9 @@
 		<property name="driverClassName"
 			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
 		<property name="jdbcUrl"
-			value="jdbc:log4jdbc:oracle:thin:@localhost:1521:xe"></property>
+			value="jdbc:log4jdbc:oracle:thin:@localhost:1521:orcl"></property>
 		<property name="username" value="test"></property>
-		<property name="password" value="test"></property>
+		<property name="password" value="1234"></property>
 
 	</bean>
 
@@ -85,6 +85,10 @@
 		base-package="com.ys.project.dao.sellingUpdate" />
 	<mybatis-spring:scan
 		base-package="com.ys.project.dao.warningBoard" />
+	<mybatis-spring:scan
+		base-package="com.ys.project.dao.productionUpload" />
+	<mybatis-spring:scan
+		base-package="com.ys.project.dao.sellingUpdate" />
 
 
 	<!-- @Service를 컴포넌트 스캔을 한다. -->
