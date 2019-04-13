@@ -93,7 +93,7 @@
 							<div class="body">
 								<div class="uploadDiv">
 									<input type="file" name="uploadFile" multiple>
-									<button id="uploadBtn">Upload</button>
+
 								</div>
 
 								<div class="uploadResult">
@@ -117,11 +117,11 @@
 
 				<div class="bb">
 					<h1 class="h2">상품등록</h1>
-					<form id="proRegi" method="post" enctype="multipart/form-data">
+					<form id="proRegi" method="post" enctype="multipart/form-data"
+						role="form">
 						<div style="margin-bottom: 5px;">
-							<label class="a">카테고리:</label> <select id="group" name="group"
-								class="group">
-								<option value="카테고리">---카테고리를 선택해주세요---</option>
+							<label class="a">카테고리:</label> <select id="group"
+								name="cate_code" class="group">
 								<option value="man">남성의류</option>
 								<option value="woman">여성의류</option>
 								<option value="elect">전자제품</option>
@@ -138,8 +138,8 @@
 						</div>
 
 						<div style="margin-bottom: 5px;">
-							<label class="b">상태:</label> <select id="state" name="state"
-								class="state">
+							<label class="b">상태:</label> <select id="p_quality"
+								name="p_quality" class="state">
 								<option value="중고">중고</option>
 								<option value="중고+하자">중고+하자(하자가 있는 중고)</option>
 								<option value="새물품">새물품(미사용)</option>
@@ -169,7 +169,7 @@
 						<span id="counter" class="span">###</span>
 
 						<div class="sell-addr">
-							<input type="text" id="sample4_jibunAddress"> <span
+							<input type="text" id="sample4_jibunAddress" name="addr" /> <span
 								class="ch-addr">거래지역:</span> <input type="button" class="adrs"
 								onclick="sample4_execDaumPostcode()" value="거래지역선택">
 						</div>
@@ -179,14 +179,14 @@
 
 						<div>
 							<label class="f">직플선택:</label> <input type="text" id="pick"
-								name="pick" class="pick" readonly="readonly" value="" />
+								name="place_pick" class="pick" readonly="readonly" value="" />
 							<button class="find">선택</button>
 						</div>
 
 
-						<input type="submit" id="goods_reg" class="reg" value="물품등록" />
-
-
+						<input type="submit" id="goods_reg" class="reg" value="물품등록" /> <input
+							type="hidden" name="m_num" id="m_num"
+							value="${sessionScope.loginSession2.m_num}" />
 					</form>
 
 				</div>
@@ -214,6 +214,14 @@
 <script>
 	$(function() {
 
+		// 상품 텍스트 처리하는 폼
+		var formObj = $("form[role='form']");
+		$("button[type='submit']").on("click", function(e) {
+			e.preventDefault();
+			conosle.log("submit clicked");
+		})
+
+		// 파일 업로드를 위한 스크립트
 		var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
 		var maxSize = 5242880; //5MB
 
@@ -233,9 +241,11 @@
 
 		var cloneObj = $(".uploadDiv").clone(); //아무 것도 들어 있지 않는 것을 클론 해놓는디.
 
-		$('#uploadBtn').click(function(e) {
-			var formData = new FormData(); //가상에 폼 을 만들어준다
-			var inputFile = $("input[name='uploadFile']"); // 안에 태그 를 들고온다 
+		$("input[type='file']").change(function(e) {
+			var formData = new FormData();
+
+			var inputFile = $("input[name='uploadFile']");
+
 			var files = inputFile[0].files; // 첫번째 태그 들고온거에 파일을 files에 넣어준다.
 			console.log(files);
 
@@ -259,13 +269,13 @@
 
 					console.log(result);
 					showUploadedFile(result);
-					$(".uploadDiv").html(cloneObj.html()); // 업로드하고 안에 엘리먼트에 빈 인풋테그를 붙친다.
+					$(".uploadDiv").html(cloneObj.html()); // 업로드하고 안에 엘리먼트에 빈 인풋테그를 붙친다. 
 
 				}
-			})
-		});
+			});
+		})
 
-		var uploadResult = $(".uploadResult ul");
+		var uploadResult = $(".uploadResult ul"); //결과가 들어갈 부분
 		function showUploadedFile(uploadResultArr) {
 
 			var str = "";
@@ -276,22 +286,27 @@
 
 								if (!obj.fileType) {
 
-									var fileCallPath = encodeURIComponent(obj.uploadPath
-											+ "/"
-											+ obj.uuid
-											+ "_"
-											+ obj.fileName);
+									var realPath = "${pageContext.request.contextPath}/resources/";
+									var uuid = "/s_" + obj.uuid;
+									var uploadPath = obj.uploadPath;
+									var fileName = "_" + obj.fileName;
+									var temp = obj.temp + "/";
+
+									var fileCallPath = encodeURIComponent(realPath
+											+ uploadPath + uuid + fileName);
+									var fileTempCallPath = encodeURIComponent(temp
+											+ uploadPath + uuid + fileName);
 
 									var fileLink = fileCallPath.replace(
 											new RegExp(/\\/g), "/");
 
 									str += "<li><div><a href='/download?fileName="
-											+ fileCallPath
+											+ fileTempCallPath
 											+ "'>"
-											+ "<img src='/resources/img/attach.png'>"
+											+ "<img src='/resources/image/attach.png'>"
 											+ obj.fileName
 											+ "</a>"
-											+ "<span data-file=\'"+fileCallPath+"\' data-type='file'> x </span>"
+											+ "<span data-file=\'"+fileTempCallPath+"\' data-type='file'> x </span>"
 											+ "<div></li>"
 
 								} else {
@@ -301,40 +316,46 @@
 									var uploadPath = obj.uploadPath;
 									var fileName = "_" + obj.fileName;
 									var temp = obj.temp + "/";
-									
-									var fileCallPath = encodeURIComponent(realPath+uploadPath+uuid+fileName);
-									var fileTempCallPath = encodeURIComponent(temp+uploadPath+uuid+fileName);
+
+									var fileCallPath = encodeURIComponent(realPath
+											+ uploadPath + uuid + fileName);
+									var fileTempCallPath = encodeURIComponent(temp
+											+ uploadPath + uuid + fileName);
 									str += "<li>"
-											+ "<img src='"+realPath+uploadPath+uuid+fileName+"'/>" 
-											+"<span data-file=\'"+fileTempCallPath+"\' data-type='image'> x </span>"
+											+ "<img src='"+realPath+uploadPath+uuid+fileName+"'/>"
+											+ "<span data-file=\'"+fileTempCallPath+"\' data-type='image'> x </span>"
 											+ "</li>";
 								}
 							});
 
 			uploadResult.append(str);
 		}
-		
+
 		// 프리뷰 삭제를 위한 작업이다.
-		$(".uploadResult").on("click","span", function(e){
-			   
-			  var targetFile = $(this).data("file");
-			  var type = $(this).data("type");
-			  console.log(targetFile);
-			  var removeTarget = $(this).parent();
-			  
-			  $.ajax({
-			    url: '/deleteFile',
-			    data: {fileName: targetFile, type:type},
-			    dataType:'text',
-			    type: 'POST',
-			      success: function(result){
-			         alert(result);
-			         removeTarget.remove();
-			       }
-			  }); //$.ajax
-			  
-			});
-	});
+		$(".uploadResult").on("click", "span", function(e) {
+
+			var targetFile = $(this).data("file");
+			var type = $(this).data("type");
+			console.log(targetFile);
+			var removeTarget = $(this).parent();
+
+			$.ajax({
+				url : '/deleteFile',
+				data : {
+					fileName : targetFile,
+					type : type
+				},
+				dataType : 'text',
+				type : 'POST',
+				success : function(result) {
+					alert(result);
+					removeTarget.remove();
+				}
+			}); //$.ajax
+
+		});
+
+	})
 </script>
 
 <script>
