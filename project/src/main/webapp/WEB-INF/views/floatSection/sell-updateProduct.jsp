@@ -98,7 +98,7 @@
 
 								<div class="uploadResult">
 									<ul>
-										<li></li>
+										
 									</ul>
 								</div>
 
@@ -118,7 +118,7 @@
 				<div class="bb">
 					<h1 class="h2">상품등록</h1>
 					<form id="proRegi" method="post" enctype="multipart/form-data"
-						role="form">
+						role="form" action="/selling/uploadProduct">
 						<div style="margin-bottom: 5px;">
 							<label class="a">카테고리:</label> <select id="group"
 								name="cate_code" class="group">
@@ -184,9 +184,8 @@
 						</div>
 
 
-						<input type="submit" id="goods_reg" class="reg" value="물품등록" /> <input
-							type="hidden" name="m_num" id="m_num"
-							value="${sessionScope.loginSession2.m_num}" />
+						<input type="submit" id="goods_reg" class="reg" value="물품등록" /> 
+						<input type="hidden" name="m_num" id="m_num" value="${sessionScope.loginSession2.m_num}" />
 					</form>
 
 				</div>
@@ -214,12 +213,48 @@
 <script>
 	$(function() {
 
-		// 상품 텍스트 처리하는 폼
+		// 상품 이미지 업로드 부분
 		var formObj = $("form[role='form']");
-		$("button[type='submit']").on("click", function(e) {
-			e.preventDefault();
-			conosle.log("submit clicked");
-		})
+		$("#goods_reg")
+				.on(
+						"click",
+						function(e) {
+							e.preventDefault();
+							console.log("submit clicked");
+							var str = "";
+							$(".uploadResult ul li")
+									.each(
+											function(i, obj) {
+												var jobj = $(obj);
+												console.dir(jobj);
+												console.log(jobj
+														.data("filename"));
+												
+												str += "<input type='hidden' name='uploadVOList["
+														+ i
+														+ "].uuid' value='"
+														+ jobj.data("uuid")
+														+ "'>";
+												str += "<input type='hidden' name='uploadVOList["
+														+ i
+														+ "].uploadPath' value='"
+														+ jobj.data("uploadpath")
+														+ "'>";
+												str += "<input type='hidden' name='uploadVOList["
+														+ i
+														+ "].fileName' value='"
+														+ jobj.data("filename")
+														+ "'>";
+												str += "<input type='hidden' name='uploadVOList["
+														+ i
+														+ "].fileType' value='"
+														+ jobj.data("filetype")
+														+ "'>";
+											})
+											
+							 formObj.append(str).submit();  
+
+						});
 
 		// 파일 업로드를 위한 스크립트
 		var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
@@ -297,9 +332,6 @@
 									var fileTempCallPath = encodeURIComponent(temp
 											+ uploadPath + uuid + fileName);
 
-									var fileLink = fileCallPath.replace(
-											new RegExp(/\\/g), "/");
-
 									str += "<li><div><a href='/download?fileName="
 											+ fileTempCallPath
 											+ "'>"
@@ -321,11 +353,12 @@
 											+ uploadPath + uuid + fileName);
 									var fileTempCallPath = encodeURIComponent(temp
 											+ uploadPath + uuid + fileName);
-									str += "<li>"
+									str += "<li data-uuid='"+obj.uuid+"' data-uploadPath='"+obj.uploadPath+"' data-fileName='"+obj.fileName+"' data-fileType='"+obj.fileType+"'>"
 											+ "<img src='"+realPath+uploadPath+uuid+fileName+"'/>"
 											+ "<span data-file=\'"+fileTempCallPath+"\' data-type='image'> x </span>"
 											+ "</li>";
 								}
+								
 							});
 
 			uploadResult.append(str);
@@ -406,7 +439,7 @@
 
 						// 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
 						if (roadAddr !== '') {
-							document.getElementById("sample4_extraAddress").value = extraRoadAddr;
+							/* document.getElementById("sample4_extraAddress").value = extraRoadAddr; */
 						} else {
 							document.getElementById("sample4_extraAddress").value = '';
 						}
@@ -426,8 +459,8 @@
 									+ expJibunAddr + ')';
 							guideTextBox.style.display = 'block';
 						} else {
-							guideTextBox.innerHTML = '';
-							guideTextBox.style.display = 'none';
+							/* guideTextBox.innerHTML = ''; */
+						/* 	guideTextBox.style.display = 'none'; */
 						}
 
 					}
