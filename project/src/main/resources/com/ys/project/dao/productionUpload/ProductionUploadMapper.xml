@@ -9,8 +9,8 @@
 	<insert id="insertUpload" parameterType="Production_uploadVO">
 		INSERT INTO
 		PRODUCTION_UPLOAD (UUID ,
-		UPLOADPATH,FILENAME,FILETYPE,FOLDER,PRO_NUM)
-		VALUES(#{uuid},#{uploadpath},#{fileName},#{fileType},#{folder},#{pro_num})
+		UPLOADPATH,FILENAME,FILETYPE,PRO_NUM)
+		VALUES(#{uuid},#{uploadPath},#{fileName},#{fileType},#{pro_num})
 
 	</insert>
 

@@ -38,14 +38,24 @@ public class SellingUpdateService implements ISellingUpdateService {
 
 	@Transactional
 	@Override
-	public int insert(ProductionVO productionVO) {
+	public void insert(ProductionVO productionVO) {
 		// TODO Auto-generated method stub
+
+		log.info("등록하기 ...." + productionVO);
+
 		int result = sellingMapper.insert(productionVO);
 		int pro_num = productionVO.getPro_num();
 		log.info("상품 인선트 반환 값 프로 넘 : " + pro_num);
-		/* uploadMapper.insertUpload(uploadVO); */
-		
-		return 0;
+		if (productionVO.getUploadVOList() == null || productionVO.getUploadVOList().size() <= 0) {
+
+			return;
+		}
+		// foreach 람다식
+		productionVO.getUploadVOList().forEach(upload -> {
+			upload.setPro_num(pro_num); // 가지고온 키값을 넣어준다.
+			uploadMapper.insertUpload(upload);
+		});
+
 	}
 
 }

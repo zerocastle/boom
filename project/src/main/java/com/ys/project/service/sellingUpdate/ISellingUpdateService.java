@@ -11,6 +11,6 @@ public interface ISellingUpdateService {
 	public List<PartnerVO> directPickList();
 
 	// 상품 등록
-	public int insert(ProductionVO productionVO);
+	public void insert(ProductionVO productionVO);
 
 }
