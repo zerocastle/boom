@@ -251,7 +251,7 @@
 														+ jobj.data("filetype")
 														+ "'>";
 											})
-											
+											alert("상품을 등록 했습니다.");
 							 formObj.append(str).submit();  
 
 						});
