@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -275,7 +276,12 @@
 									str += "<li><img src='/resources/image/attach.png'>"
 											+ obj.fileName + "</li>";
 								} else {
-									str += "<li>" + obj.fileName + "</li>";
+									var realPath = "${pageContext.request.contextPath}/resources/";
+									var uuid = "/s_" + obj.uuid;
+									var uploadPath = obj.uploadPath;
+									var fileName = "_" + obj.fileName;
+									str +="<li><img src='"+realPath+uploadPath+uuid+fileName+"'> </li>";
+									
 								}
 
 							});
