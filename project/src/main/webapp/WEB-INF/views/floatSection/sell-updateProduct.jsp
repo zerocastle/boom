@@ -258,7 +258,7 @@
 				success : function(result) {
 
 					console.log(result);
-					showUploadFile(result);
+					showUploadedFile(result);
 					$(".uploadDiv").html(cloneObj.html()); // 업로드하고 안에 엘리먼트에 빈 인풋테그를 붙친다.
 
 				}
@@ -266,28 +266,74 @@
 		});
 
 		var uploadResult = $(".uploadResult ul");
-		function showUploadFile(uploadResultArr) {
+		function showUploadedFile(uploadResultArr) {
+
 			var str = "";
 
 			$(uploadResultArr)
 					.each(
 							function(i, obj) {
+
 								if (!obj.fileType) {
-									str += "<li><img src='/resources/image/attach.png'>"
-											+ obj.fileName + "</li>";
+
+									var fileCallPath = encodeURIComponent(obj.uploadPath
+											+ "/"
+											+ obj.uuid
+											+ "_"
+											+ obj.fileName);
+
+									var fileLink = fileCallPath.replace(
+											new RegExp(/\\/g), "/");
+
+									str += "<li><div><a href='/download?fileName="
+											+ fileCallPath
+											+ "'>"
+											+ "<img src='/resources/img/attach.png'>"
+											+ obj.fileName
+											+ "</a>"
+											+ "<span data-file=\'"+fileCallPath+"\' data-type='file'> x </span>"
+											+ "<div></li>"
+
 								} else {
+
 									var realPath = "${pageContext.request.contextPath}/resources/";
 									var uuid = "/s_" + obj.uuid;
 									var uploadPath = obj.uploadPath;
 									var fileName = "_" + obj.fileName;
-									str +="<li><img src='"+realPath+uploadPath+uuid+fileName+"'> </li>";
+									var temp = obj.temp + "/";
 									
+									var fileCallPath = encodeURIComponent(realPath+uploadPath+uuid+fileName);
+									var fileTempCallPath = encodeURIComponent(temp+uploadPath+uuid+fileName);
+									str += "<li>"
+											+ "<img src='"+realPath+uploadPath+uuid+fileName+"'/>" 
+											+"<span data-file=\'"+fileTempCallPath+"\' data-type='image'> x </span>"
+											+ "</li>";
 								}
-
 							});
 
 			uploadResult.append(str);
 		}
+		
+		// 프리뷰 삭제를 위한 작업이다.
+		$(".uploadResult").on("click","span", function(e){
+			   
+			  var targetFile = $(this).data("file");
+			  var type = $(this).data("type");
+			  console.log(targetFile);
+			  var removeTarget = $(this).parent();
+			  
+			  $.ajax({
+			    url: '/deleteFile',
+			    data: {fileName: targetFile, type:type},
+			    dataType:'text',
+			    type: 'POST',
+			      success: function(result){
+			         alert(result);
+			         removeTarget.remove();
+			       }
+			  }); //$.ajax
+			  
+			});
 	});
 </script>
 

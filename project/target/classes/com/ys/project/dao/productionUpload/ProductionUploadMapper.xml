@@ -14,4 +14,12 @@
 
 	</insert>
 
+	<delete id="delete">
+		DELETE FROM PRODUCTION_UPLOAD WHERE UUID = #{uuid}
+	</delete>
+	
+	<select id="fineByPro" resultType="ProductionVO">
+		SELECT * FROM PRODUCTION_UPLOAD WHERE PRO_NUM = #{pro_num}
+	</select>
+
 </mapper>

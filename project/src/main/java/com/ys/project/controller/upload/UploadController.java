@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,17 +15,20 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -87,6 +93,7 @@ public class UploadController {
 				// 이미지 파일인지 체크
 				production_uploadVO.setUuid(uuid.toString());
 				production_uploadVO.setUploadPath(getFolder()); // 리얼 패스
+				production_uploadVO.setTemp(uploadFolder);
 				if (this.checkImageType(saveFile)) {
 					production_uploadVO.setFileType("img"); // 이미지인지 검사해서 이미지면 img를 set 해준다잉
 					FileOutputStream thumbnail = new FileOutputStream(new File(RealuploadPath, "s_" + uploadFileName)); // 썸네일
@@ -132,29 +139,81 @@ public class UploadController {
 		return false;
 	}
 
-	@GetMapping("/display")
+	// 파일 다운로드
+	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody
-	public ResponseEntity<byte[]> getFile(String fileName) {
-		log.info("fileName : " + fileName);
-		log.info("디스 플레이 들어옴??");
-		File file = new File(fileName);
+	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, String fileName) {
 
-		log.info("file : " + file);
+		Resource resource = new FileSystemResource("c:\\upload\\" + fileName);
 
-		ResponseEntity<byte[]> result = null;
+		if (resource.exists() == false) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		String resourceName = resource.getFilename();
+
+		// remove UUID
+		String resourceOriginalName = resourceName.substring(resourceName.indexOf("_") + 1);
+
+		HttpHeaders headers = new HttpHeaders();
 		try {
-			HttpHeaders header = new HttpHeaders();
-			// 적절한 content-type을 헤더에 적절한MIME 타입 데이를 Http의 헤더 메세지에 포함할수 있도록 처리한다.
-			// MIME(클라이언트에게 전송된 문서의 다양성을 알려주기 위한 메커니즘이다.)
-			header.add("Content-type", Files.probeContentType(file.toPath()));
 
-			log.info("diplay file path : " + file.toPath());
-			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
-		} catch (Exception e) {
+			String downloadName = null;
+
+			if (userAgent.contains("Trident")) {
+				log.info("IE browser");
+				downloadName = URLEncoder.encode(resourceOriginalName, "UTF-8").replaceAll("\\+", " ");
+			} else if (userAgent.contains("Edge")) {
+				log.info("Edge browser");
+				downloadName = URLEncoder.encode(resourceOriginalName, "UTF-8");
+			} else {
+				log.info("Chrome browser");
+				downloadName = new String(resourceOriginalName.getBytes("UTF-8"), "ISO-8859-1");
+			}
+
+			log.info("downloadName: " + downloadName);
+
+			headers.add("Content-Disposition", "attachment; filename=" + downloadName);
+
+		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 
-		return result;
+		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
+	}
+	
+	// 파일 삭제
+	@PostMapping("/deleteFile")
+	@ResponseBody
+	public ResponseEntity<String> deleteFile(String fileName, String type , HttpServletRequest request) {
+
+		log.info("deleteFile: " + fileName);
+		
+//		String uploadFolder = request.getServletContext().getRealPath("/resources");
+		File file;
+
+		try {
+			file = new File(URLDecoder.decode(fileName, "UTF-8"));
+
+			file.delete();
+
+			if (type.equals("image")) {
+
+				String largeFileName = file.getAbsolutePath().replace("s_", "");
+
+				log.info("largeFileName: " + largeFileName);
+
+				file = new File(largeFileName);
+
+				file.delete();
+			}
+
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<String>("deleted", HttpStatus.OK);
 
 	}
 
