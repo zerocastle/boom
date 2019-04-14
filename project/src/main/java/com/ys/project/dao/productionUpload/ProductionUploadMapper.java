@@ -15,5 +15,9 @@ public interface ProductionUploadMapper {
 	
 	// 게시물에대한 업로드 파일 찾기
 	public List<ProductionVO> fineByPro(int pro_num);
-
+	
+	// 이미지 뿌려주기 위한 
+	/* public List<ProductionVO> indexProduct */
+	
+	
 }
