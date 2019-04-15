@@ -43,8 +43,8 @@
 					</div>
 
 					<div class="form-group">
-						<label>작성자</label> <input type="hidden" class="form-control" name='m_num' value="${sessionScope.loginSession2.m_num }"  />
-						<input value="${sessionScope.loginSession}" readonly="readonly"/>
+						<label>작성자</label> <input type="hidden" class="form-control" name='m_num' value="${sessionScope.loginSession.m_num }"  />
+						<input value="${sessionScope.loginSession.nickname}" readonly="readonly"/>
 						
 					</div>
 					<button type="submit" class="btn btn-default">저장</button>

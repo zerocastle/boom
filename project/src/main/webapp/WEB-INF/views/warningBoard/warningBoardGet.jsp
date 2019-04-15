@@ -36,14 +36,14 @@
 	<c:set var="m_num" value="${board.m_num}" />
 
 	<div class="form-group">
-		<c:if test="${sessionScope.loginSession2.m_num eq m_num}">
+		<c:if test="${sessionScope.loginSession.m_num eq m_num}">
 			<label>글쓴이</label>
 			<input class="form-control" name='m_num'
 				value='<c:out value="${board.m_num }"/>' readonly="readonly">
 		</c:if>
 
 
-		<c:if test="${sessionScope.loginSession2.m_num eq m_num}">
+		<c:if test="${sessionScope.loginSession.m_num eq m_num}">
 			<button data-oper='modify' class="btn btn-info">수정</button>
 		</c:if>
 		<button data-oper='list' class="btn btn-info">돌아가기</button>
@@ -115,7 +115,7 @@
 						</div>
 						<div class="form-group">
 							<label>댓글자</label> <input class="form-control" name='replyer'
-								value='${sessionScope.loginSession}' readonly="readonly" />
+								value='${sessionScope.loginSession.nickname}' readonly="readonly" />
 						</div>
 
 					</div>

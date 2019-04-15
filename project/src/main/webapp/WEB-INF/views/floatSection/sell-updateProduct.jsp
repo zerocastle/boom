@@ -173,7 +173,7 @@
 
 						<input type="submit" id="goods_reg" class="reg" value="물품등록" /> <input
 							type="hidden" name="m_num" id="m_num"
-							value='<c:out value="${sessionScope.loginSession2.m_num }"></c:out>' />
+							value='<c:out value="${sessionScope.loginSession.m_num }"></c:out>' />
 					</form>
 
 				</div>
