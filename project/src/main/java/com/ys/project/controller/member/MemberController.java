@@ -6,11 +6,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ys.project.projectVO.MemberVO;
 import com.ys.project.service.member.IMemberService;
 
@@ -46,30 +47,22 @@ public class MemberController {
 	public String loginPost(Model model, @RequestBody MemberVO vo, HttpServletRequest request) throws Exception {
 		logger.info("===================================================> loginPost 넘오온 값 : " + vo.toString());
 		System.out.println("뭐가 넘어 왔냐 ? " + vo);
-		Map<String, Object> map = new HashMap<String, Object>();
 
-		// 바꿔줘 ~~!!
+		HttpSession session = request.getSession();
+		
+		JSONObject object = new JSONObject();
 		vo = service.loginMember(vo);
-		if (vo == null) {
-			map.put("error", "fail");
+		if (vo != null) {
+			session.setAttribute("loginSession", vo);
+			object.put("signal", "success");
+			object.put("nickname",vo.getNickname());
+			return object.toString();
 		} else {
-			logger.info(
-					"===================================================>바뀐후 :  loginPost 넘오온 값 : " + vo.toString());
-
-			map.put("nickname", vo.getNickname());
-			map.put("partner_signal", vo.getPartner_signal());
-			HttpSession session = request.getSession();
-			String loginSession = map.get("nickname").toString();
-			String partner_signal = map.get("partner_signal").toString();
-			session.setAttribute("loginSession2",  vo);
-			session.setAttribute("loginSession",loginSession);
-			session.setAttribute("partner_signal", partner_signal);
-			System.out.println("session에 뭐가 찍힘 : " + loginSession + "," + partner_signal);
-
+			System.out.println("========================띠발띠발 띠발========");
+			object.put("signal","fail");
+			return object.toString();
 		}
-		ObjectMapper mapper = new ObjectMapper();
-		System.out.println(mapper.writeValueAsString(map));
-		return mapper.writeValueAsString(map);
+
 	}
 
 	// 로그아웃
@@ -85,6 +78,7 @@ public class MemberController {
 
 	@RequestMapping(value = "memberRegister", method = RequestMethod.GET)
 	public String memberRegister(Model model) throws Exception {
+
 		return "login/memberRegister";
 
 	}
@@ -114,11 +108,53 @@ public class MemberController {
 
 	}
 
-	// 마이페이지
+	// 마이페이지 , // 해당 세션의 닉네임 정보 조회
 	@RequestMapping(value = "myPage", method = RequestMethod.GET)
-	public String myPage(Model model) throws Exception {
+	public String myPage(Model model, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
+
+		HttpSession session = request.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("loginSession"); // 로그인된 세션의 닉네임
+		System.out.println("러나ㅣ어리ㅏㄴㅇ" + session.getAttribute("loginSession"));
+		logger.info("현재 세션의 정보 : " + member);
+
+		model.addAttribute("member", member);
+
 		System.out.println("마이 페이지 : member/myPage");
+
 		return "myPage/myPage";
 	}
+
+	
+	// post 데이터 수정 
+	@RequestMapping(value = "myPage", method = RequestMethod.POST)
+	@ResponseBody
+	public MemberVO memberUpdate(Model model, @RequestBody MemberVO vo, HttpServletRequest request,
+			RedirectAttributes rttr) throws Exception {
+
+		HttpSession session = request.getSession();
+		MemberVO before = (MemberVO) session.getAttribute("loginSession"); // 로그인된 세션의 닉네임
+
+		System.out.println("업데이트 되기전 : " + before);
+
+		service.memberUpdate(vo);
+		System.out.println("업데이트 된후 : " + vo);
+
+		session.setAttribute("loginSession", vo);
+
+		return vo;
+	}
+	
+	// 타인 페이지
+	@RequestMapping(value = "other/"+"{data}", method = RequestMethod.GET)
+	public String otherGET(Model model , @PathVariable String data) throws Exception {
+		
+		MemberVO member = service.nickNameCheck(data);
+
+		model.addAttribute("other",member);
+		 
+		return "/myPage/other"; 
+
+	}
+
 
 }

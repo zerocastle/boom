@@ -15,7 +15,10 @@ public interface IMemberDao {
 	//´Ð³×ÀÓÃ¼Å©
 	public MemberVO memberCheck(String nickName) throws Exception;
 	
-	// È¸¿ø Å»Åð
+	//È¸¿ø Å»Åð
 	public void memberDelete(String nickname) throws Exception;
+
+	//È¸¿ø¼öÁ¤
+	public void memberUpdate(MemberVO vo) throws Exception;
 
 }
