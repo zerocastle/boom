@@ -4,6 +4,7 @@
 <html>
 <head>
   <style>
+    /*
     * {
       margin: 0;
       padding: 0;
@@ -38,7 +39,7 @@
 
     #messages {
       list-style-type: none;
-      margin: 0;
+      margin-bottom : 5%;
       padding: 0;
     }
 
@@ -49,6 +50,79 @@
     #messages li:nth-child(odd) {
       background: #eee;
     }
+    */
+
+
+    .chat-box {
+        display: inline-block;
+        color: #34495e;
+        margin: 0 0 30px 0;
+    }
+ 
+    .chat-box li {
+    display: table;
+    padding: 13px;
+    margin: 7px 10px;
+    font-size: 18px;
+    line-height: 25px;
+ 
+    -webkit-border-top-left-radius: 6px;
+    -webkit-border-top-right-radius: 6px;
+    -webkit-border-bottom-right-radius: 6px;
+    -webkit-border-bottom-left-radius: 6px;
+    -moz-border-radius-topleft: 6px;
+    -moz-border-radius-topright: 6px;
+    -moz-border-radius-bottomright: 6px;
+    -moz-border-radius-bottomleft: 6px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+ 
+.chat-box .odd {
+    background-color: #ecf0f1;
+    max-width: 60%;
+    clear: both;
+    float: left;
+}
+ 
+.chat-box .odd:after {
+    content: ' ';
+    position: relative;
+    top: auto;
+    bottom: auto;
+    border: 12px solid;
+    border-color: transparent transparent #ecf0f1 transparent;
+    margin: 0 0 0 -24px;
+    float: left;
+}
+ 
+ 
+.chat-box .even {
+    background-color: #C1E4EC;
+    max-width: 60%;
+    height: auto;
+    clear: both;
+    float: right;
+}
+ 
+.chat-box .even:after {
+    content: ' ';
+    position: relative;
+    bottom: auto;
+    border: 12px solid;
+    border-color: transparent transparent #C1E4EC transparent;
+    margin: 0 -24px 0 0;
+    float: right;
+}
+ 
+.chat-box li span {
+    padding: 0 0 5px;
+    color: #7f8c8d;
+    display: block;
+}
+
   </style>
 </head>
 <body>
@@ -125,6 +199,7 @@
         console.log('chat message' + name + msg);
         $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
     });
+    
 /*
     socket.on('leaveRoom', (num, name) => {
       $('#messages').append($('<li>').text(name + '    leaved '
@@ -137,6 +212,27 @@
     });*/
   });
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
 
+<!--<script type="text/javascript" src="../jquery.qrcode.min.js"></script>
+--><script type="text/javascript" src="../src/jquery.qrcode.js"></script>
+<script type="text/javascript" src="../src/qrcode.js"></script>
+
+<p>Render in table</p>
+<div id="qrcode"></div>
+<p>Render in canvas</p>
+<div id="qrcodeCanvas"></div>
+
+<script>
+
+//jQuery('#qrcode').qrcode("this is contents");
+var parm = "http://aspdotnet.tistory.com/category/" + encodeURI("닷넷관련/디자인패턴").replace("%2F", "/");
+
+jQuery('#qrcodeCanvas').qrcode({
+width: 280,
+height: 280,
+text: parm
+    }); 
+</script>
 </body>
 </html>

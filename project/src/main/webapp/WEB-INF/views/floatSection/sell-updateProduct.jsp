@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -23,6 +24,55 @@
 	crossorigin="anonymous">
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 
+<script src="/resources/customJs/sell-updateProduct.js"></script>
+
+<style>
+.uploadResult {
+	width: 100%;
+	background-color: gray;
+}
+
+.uploadResult ul {
+	display: flex;
+	flex-flow: row;
+	justify-content: center;
+	align-items: center;
+}
+
+.uploadResult ul li {
+	list-style: none;
+	padding: 10px;
+}
+
+.uploadResult ul li img {
+	width: 100px;
+}
+</style>
+
+<style>
+.bigPictureWrapper {
+	position: absolute;
+	display: none;
+	justify-content: center;
+	align-items: center;
+	top: 0%;
+	width: 100%;
+	height: 100%;
+	background-color: gray;
+	z-index: 100;
+}
+
+.bigPicture {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+</style>
+
+<!--  style 끝 -->
+
+
 <div id="page-wrapper" class="gray-bg dashbard-1">
 	<div class="content-main">
 
@@ -43,20 +93,23 @@
 
 						<div class="wrapper">
 							<div class="body">
+								<div class="uploadDiv">
+									<input type="file" name="uploadFile" multiple>
 
-								<div id="attach">
-									<label class="waves-effect waves-teal btn-flat"
-										for="uploadInputBox">이미지등록</label> <input id="uploadInputBox"
-										style="display: none" class="but" type="file" name="filedata"
-										multiple />
 								</div>
 
+								<div class="uploadResult">
+									<ul>
 
-								<div id="preview" class="content1"></div>
+									</ul>
+								</div>
 
+								<!-- 대표사진 -->
+								<div class="representaion"></div>
+								<!-- 대표사진 끝 -->
 
-								<form id="uploadForm" style="display: none;">
 							</div>
+							<!-- end body -->
 
 
 						</div>
@@ -69,11 +122,11 @@
 
 				<div class="bb">
 					<h1 class="h2">상품등록</h1>
-					<form id="proRegi" method="post" enctype="multipart/form-data">
+					<form id="proRegi" method="post" enctype="multipart/form-data"
+						role="form" action="/selling/uploadProduct">
 						<div style="margin-bottom: 5px;">
-							<label class="a">카테고리:</label> <select id="group" name="group"
-								class="group">
-								<option value="카테고리">---카테고리를 선택해주세요---</option>
+							<label class="a">카테고리:</label> <select id="group"
+								name="cate_code" class="group">
 								<option value="man">남성의류</option>
 								<option value="woman">여성의류</option>
 								<option value="elect">전자제품</option>
@@ -90,8 +143,8 @@
 						</div>
 
 						<div style="margin-bottom: 5px;">
-							<label class="b">상태:</label> <select id="state" name="state"
-								class="state">
+							<label class="b">상태:</label> <select id="p_quality"
+								name="p_quality" class="state">
 								<option value="중고">중고</option>
 								<option value="중고+하자">중고+하자(하자가 있는 중고)</option>
 								<option value="새물품">새물품(미사용)</option>
@@ -121,7 +174,7 @@
 						<span id="counter" class="span">###</span>
 
 						<div class="sell-addr">
-							<input type="text" id="sample4_jibunAddress"> <span
+							<input type="text" id="sample4_jibunAddress" name="addr" /> <span
 								class="ch-addr">거래지역:</span> <input type="button" class="adrs"
 								onclick="sample4_execDaumPostcode()" value="거래지역선택">
 						</div>
@@ -131,14 +184,14 @@
 
 						<div>
 							<label class="f">직플선택:</label> <input type="text" id="pick"
-								name="pick" class="pick">
-							<button class="find">찾기</button>
+								name="place_pick" class="pick" readonly="readonly" value="" />
+							<button class="find">선택</button>
 						</div>
 
 
-						<input type="submit" id="goods_reg" class="reg" value="물품등록" />
-
-
+						<input type="submit" id="goods_reg" class="reg" value="물품등록" /> <input
+							type="hidden" name="m_num" id="m_num"
+							value='<c:out value="${sessionScope.loginSession2.m_num }"></c:out>' />
 					</form>
 
 				</div>
@@ -152,264 +205,187 @@
 <!--//grid-->
 <!---->
 
-<!-- 거래 지역 선택  직플 땡겨오기-->
+
 <script>
 	$(function() {
-		$('#pick').click(function() {
-			window.open('directPick', 'directPick', 'width=500,height=700');
-		})
-	})
-</script>
 
+		// 상품 이미지 업로드 부분
+		var formObj = $("form[role='form']");
+		$("#goods_reg")
+				.on(
+						"click",
+						function(e) {
+							e.preventDefault();
+							console.log("submit clicked");
+							var str = "";
+							$(".uploadResult ul li")
+									.each(
+											function(i, obj) {
+												var jobj = $(obj);
+												console.dir(jobj);
+												console.log(jobj
+														.data("filename"));
+												
+												str += "<input type='hidden' name='uploadVOList["
+														+ i
+														+ "].uuid' value='"
+														+ jobj.data("uuid")
+														+ "'>";
+												str += "<input type='hidden' name='uploadVOList["
+														+ i
+														+ "].uploadPath' value='"
+														+ jobj.data("uploadpath")
+														+ "'>";
+												str += "<input type='hidden' name='uploadVOList["
+														+ i
+														+ "].fileName' value='"
+														+ jobj.data("filename")
+														+ "'>";
+												str += "<input type='hidden' name='uploadVOList["
+														+ i
+														+ "].fileType' value='"
+														+ jobj.data("filetype")
+														+ "'>";
+											})
+											alert("상품을 등록 했습니다.");
+							 formObj.append(str).submit();  
 
-<script>
-	//임의의 file object영역
-	var files = {};
-	var previewIndex = 0;
+						});
 
-	// image preview 기능 구현
-	// input = file object[]
-	function addPreview(input) {
-		if (input[0].files) {
-			//파일 선택이 여러개였을 시의 대응
-			for (var fileIndex = 0; fileIndex < input[0].files.length; fileIndex++) {
-				var file = input[0].files[fileIndex];
+		// 파일 업로드를 위한 스크립트
+		var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+		var maxSize = 5242880; //5MB
 
-				if (validation(file.name))
-					continue;
-
-				var reader = new FileReader();
-				reader.onload = function(img) {
-					//div id="preview" 내에 동적코드추가.
-					//이 부분을 수정해서 이미지 링크 외 파일명, 사이즈 등의 부가설명을 할 수 있을 것이다.
-					var imgNum = previewIndex++;
-					$("#preview")
-							.append(
-									"<div class=\"preview-box\" value=\"" + imgNum + "\">"
-											+ "<img class=\"thumbnail\" src=\"" + img.target.result + "\"\/>"
-											+ "<a class=\"det\" href=\"#\" value=\""
-											+ imgNum
-											+ "\" onclick=\"deletePreview(this)\">"
-											+ "삭제" + "</a>" + "</div>");
-					files[imgNum] = file;
-				};
-				reader.readAsDataURL(file);
+		function checkExtension(fileName, fileSize) {
+			if (fileSize >= maxSize) {
+				alert("파일 사이즈 초과");
+				return false;
 			}
-		} else
-			alert('invalid file input'); // 첨부클릭 후 취소시의 대응책은 세우지 않았다.
-	}
-
-	//preview 영역에서 삭제 버튼 클릭시 해당 미리보기이미지 영역 삭제
-	function deletePreview(obj) {
-		var imgNum = obj.attributes['value'].value;
-		delete files[imgNum];
-		$("#preview .preview-box[value=" + imgNum + "]").remove();
-		resizeHeight();
-	}
-
-	//client-side validation
-	//always server-side validation required
-	function validation(fileName) {
-		fileName = fileName + "";
-		var fileNameExtensionIndex = fileName.lastIndexOf('.') + 1;
-		var fileNameExtension = fileName.toLowerCase().substring(
-				fileNameExtensionIndex, fileName.length);
-		if (!((fileNameExtension === 'jpg') || (fileNameExtension === 'gif') || (fileNameExtension === 'png'))) {
-			alert('jpg, gif, png 확장자만 업로드 가능합니다.');
 			return true;
-		} else {
-			return false;
+			// 올리는 파일 사이즈 크기를 제한
+			if (regex.test(fileName)) {
+				alert("해당 파일을 올릴수 없다");
+				return false;
+			}
+			return true;
 		}
-	}
 
-	$(document).ready(function() {
-		//submit 등록. 실제로 submit type은 아니다.
-		$('.submit a').on('click', function() {
-			var form = $('#uploadForm')[0];
-			var formData = new FormData(form);
+		var cloneObj = $(".uploadDiv").clone(); //아무 것도 들어 있지 않는 것을 클론 해놓는디.
 
-			for (var index = 0; index < Object.keys(files).length; index++) {
-				//formData 공간에 files라는 이름으로 파일을 추가한다.
-				//동일명으로 계속 추가할 수 있다.
-				formData.append('files', files[index]);
+		$("input[type='file']").change(function(e) {
+			var formData = new FormData();
+
+			var inputFile = $("input[name='uploadFile']");
+
+			var files = inputFile[0].files; // 첫번째 태그 들고온거에 파일을 files에 넣어준다.
+			console.log(files);
+
+			for (var i = 0; i < files.length; i++) {
+				if (!checkExtension(files[i].name, files[i].size)) {
+					return false;
+					// 함수 적용 해서  체크 해보고 반환값이 true 가 아니면 return false;
+
+				}
+				formData.append("uploadFile", files[i]); //폼 데이터에 uploadFile 네임값 즉 input 태그를 여러개 formdata에 붙친다.
 			}
 
-			//ajax 통신으로 multipart form을 전송한다.
 			$.ajax({
-				type : 'POST',
-				enctype : 'multipart/form-data',
+				url : '/uploadAjaxAction',
 				processData : false,
 				contentType : false,
-				cache : false,
-				timeout : 600000,
-				url : '/imageupload',
-				dataType : 'JSON',
 				data : formData,
+				type : 'POST',
+				dataType : 'json',
 				success : function(result) {
-					//이 부분을 수정해서 다양한 행동을 할 수 있으며,
-					//여기서는 데이터를 전송받았다면 순수하게 OK 만을 보내기로 하였다.
-					//-1 = 잘못된 확장자 업로드, -2 = 용량초과, 그외 = 성공(1)
-					if (result === -1) {
-						alert('jpg, gif, png, bmp 확장자만 업로드 가능합니다.');
-						// 이후 동작 ...
-					} else if (result === -2) {
-						alert('파일이 10MB를 초과하였습니다.');
-						// 이후 동작 ...
-					} else {
-						alert('이미지 업로드 성공');
-						// 이후 동작 ...
-					}
+
+					console.log(result);
+					showUploadedFile(result);
+					$(".uploadDiv").html(cloneObj.html()); // 업로드하고 안에 엘리먼트에 빈 인풋테그를 붙친다. 
+
 				}
-			//전송실패에대한 핸들링은 고려하지 않음
 			});
-		});
-		// <input type=file> 태그 기능 구현
-		$('#attach input[type=file]').change(function() {
-			addPreview($(this)); //preview form 추가하기
-		});
-	});
-</script>
+		})
 
+		var uploadResult = $(".uploadResult ul"); //결과가 들어갈 부분
+		function showUploadedFile(uploadResultArr) {
 
+			var str = "";
 
+			$(uploadResultArr)
+					.each(
+							function(i, obj) {
 
+								if (!obj.fileType) {
 
+									var realPath = "${pageContext.request.contextPath}/resources/";
+									var uuid = "/s_" + obj.uuid;
+									var uploadPath = obj.uploadPath;
+									var fileName = "_" + obj.fileName;
+									var temp = obj.temp + "/";
 
+									var fileCallPath = encodeURIComponent(realPath
+											+ uploadPath + uuid + fileName);
+									var fileTempCallPath = encodeURIComponent(temp
+											+ uploadPath + uuid + fileName);
 
+									str += "<li><div><a href='/download?fileName="
+											+ fileTempCallPath
+											+ "'>"
+											+ "<img src='/resources/image/attach.png'>"
+											+ obj.fileName
+											+ "</a>"
+											+ "<span data-file=\'"+fileTempCallPath+"\' data-type='file'> x </span>"
+											+ "<div></li>"
 
-<script>
-	$(document).ready(function() {
+								} else {
 
-		/////////////////////////////////////////
+									var realPath = "${pageContext.request.contextPath}/resources/";
+									var uuid = "/s_" + obj.uuid;
+									var uploadPath = obj.uploadPath;
+									var fileName = "_" + obj.fileName;
+									var temp = obj.temp + "/";
 
-	});
-	var input;
-	function openFile(event) {
-		input = event.target;
-		var reader = new FileReader();
-		reader.onload = function() {
-			var dataURL = reader.result;
-			$(input).next().children('img').attr('src', dataURL);
-			$(input).next().children('img').css('display', 'block');
+									var fileCallPath = encodeURIComponent(realPath
+											+ uploadPath + uuid + fileName);
+									var fileTempCallPath = encodeURIComponent(temp
+											+ uploadPath + uuid + fileName);
+									str += "<li data-uuid='"+obj.uuid+"' data-uploadPath='"+obj.uploadPath+"' data-fileName='"+obj.fileName+"' data-fileType='"+obj.fileType+"'>"
+											+ "<img src='"+realPath+uploadPath+uuid+fileName+"'/>"
+											+ "<span data-file=\'"+fileTempCallPath+"\' data-type='image'> x </span>"
+											+ "</li>";
+								}
+								
+							});
+
+			uploadResult.append(str);
 		}
-		reader.readAsDataURL(input.files[0]);
-	};
 
-	var list = [];
-	var ruru = 0;
-	function addColor() {
-		var num = ruru++;
-		var src;
-		var list = $('#colorPick')[0].files;
-		var reader = new FileReader();
-		reader.readAsDataURL(list[0]);
-		reader.onload = function() {
-			src = this.result;
-			var color = $('#goods_color').val();
-			var count = $('#goods_count').val();
-			var div = '<div class="colorImgBox" id="colorBox' + num + '"><img class="colorImg" src="' + src + '"/><span>'
-					+ color
-					+ ' X'
-					+ count
-					+ '개<span>'
-					+ '<span class="xBtn"><a href="#" onclick="removeBox(event)"><img ' + 'src="https://www.etudehouse.com/kr/ko/web_resource/front/images/common/ico_close2.png"/></a></span>'
-					+ '<input type="hidden" name="optList[' + num + '].goods_count" value="' + count + '"/><input type="hidden"' + ' name="optList[' + num + '].goods_color" value="' + color + '"/></div>';
+		// 프리뷰 삭제를 위한 작업이다.
+		$(".uploadResult").on("click", "span", function(e) {
 
-			$('#colorAddBox').append(div);
-			var ele = document.getElementById("colorPick");
-			var cl = ele.cloneNode(true);
-			cl.removeAttribute("id");
-			cl.setAttribute("name", "optList[" + num + "].goods_color_file");
-			$(cl).addClass('hiddenBox');
+			var targetFile = $(this).data("file");
+			var type = $(this).data("type");
+			console.log(targetFile);
+			var removeTarget = $(this).parent();
 
-			$('#colorBox' + num).append(cl);
-		}
-	} //end addColor
-	function removeBox(event) {
-		$(event.target).parents('.colorImgBox').remove();
-		event.preventDefault();
-	}
+			$.ajax({
+				url : '/deleteFile',
+				data : {
+					fileName : targetFile,
+					type : type
+				},
+				dataType : 'text',
+				type : 'POST',
+				success : function(result) {
+					alert(result);
+					removeTarget.remove();
+				}
+			}); //$.ajax
 
-	// <글자수 입력 제한>
-
-	$(function() {
-		$('#content').keyup(function(e) {
-			var content = $(this).val();
-			// $(this).height(((content.split('\n').length + 1) * 1.5) + 'em');
-			$('#counter').html(content.length + '/2000');
 		});
-		$('#content').keyup();
-	});
+
+	})
 </script>
-
-<script>
-	//본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
-	function sample4_execDaumPostcode() {
-		new daum.Postcode(
-				{
-					oncomplete : function(data) {
-						// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-						// 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-						// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-						var roadAddr = data.roadAddress; // 도로명 주소 변수
-						var extraRoadAddr = ''; // 참고 항목 변수
-
-						// 법정동명이 있을 경우 추가한다. (법정리는 제외)
-						// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-						if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-							extraRoadAddr += data.bname;
-						}
-						// 건물명이 있고, 공동주택일 경우 추가한다.
-						if (data.buildingName !== '' && data.apartment === 'Y') {
-							extraRoadAddr += (extraRoadAddr !== '' ? ', '
-									+ data.buildingName : data.buildingName);
-						}
-						// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-						if (extraRoadAddr !== '') {
-							extraRoadAddr = ' (' + extraRoadAddr + ')';
-						}
-
-						// 우편번호와 주소 정보를 해당 필드에 넣는다.
-						//                  document.getElementById('sample4_postcode').value = data.zonecode;
-						//                  document.getElementById("sample4_roadAddress").value = roadAddr;
-						document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
-
-						// 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
-						if (roadAddr !== '') {
-							document.getElementById("sample4_extraAddress").value = extraRoadAddr;
-						} else {
-							document.getElementById("sample4_extraAddress").value = '';
-						}
-
-						var guideTextBox = document.getElementById("guide");
-						// 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
-						if (data.autoRoadAddress) {
-							var expRoadAddr = data.autoRoadAddress
-									+ extraRoadAddr;
-							guideTextBox.innerHTML = '(예상 도로명 주소 : '
-									+ expRoadAddr + ')';
-							guideTextBox.style.display = 'block';
-
-						} else if (data.autoJibunAddress) {
-							var expJibunAddr = data.autoJibunAddress;
-							guideTextBox.innerHTML = '(예상 지번 주소 : '
-									+ expJibunAddr + ')';
-							guideTextBox.style.display = 'block';
-						} else {
-							guideTextBox.innerHTML = '';
-							guideTextBox.style.display = 'none';
-						}
-
-					}
-				}).open();
-	}
-</script>
-
-
-
-
-
 
 
 

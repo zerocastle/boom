@@ -47,7 +47,7 @@ public class ReplyMapperTests {
 		log.info(mapper);
 	}
 	
-	@Test
+	@Test @Ignore
 	public void testRed() {
 
 		int reply_num = 2;
@@ -56,5 +56,7 @@ public class ReplyMapperTests {
 		
 		log.info(vo);
 	}
+
+	
 
 }

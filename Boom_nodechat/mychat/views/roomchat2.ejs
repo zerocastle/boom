@@ -1,0 +1,282 @@
+<!-- /* socket\room_chat\views\chat.ejs */ -->
+
+
+<html>
+<head>
+    <title>JickTalk-Room</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/semantic.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="javascripts/semantic.js"></script>
+  <style>
+    form {
+      background: #000;
+      padding: 3px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      margin-block-end: 0em;
+    }
+
+    form input {
+      border: 0;
+      padding: 10px;
+      width: 70%;
+      margin-right: .5%;
+      margin-left: 10%;
+    }
+    #plusbtn{
+    float:left;
+    background: #ffffff;
+    padding: 3px;
+    position: fixed;
+    height: 30px;
+    bottom: 0;
+    width: 9%;
+    margin-block-end: 0em;
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
+    form button {
+      width: 15%;
+      background: rgb(130, 224, 255);
+      border: none;
+      padding: 10px;
+    }
+    .chat-box {
+        display: inline-block;
+        color: #34495e;
+        margin: 0 0 60px 0;
+        width:90%;
+    }
+ 
+    .chat-box li {
+    display: table;
+    padding: 13px;
+    margin: 7px 10px;
+    font-size: 18px;
+    line-height: 25px;
+    margin-bottom : 5px;
+    -webkit-border-top-left-radius: 6px;
+    -webkit-border-top-right-radius: 6px;
+    -webkit-border-bottom-right-radius: 6px;
+    -webkit-border-bottom-left-radius: 6px;
+    -moz-border-radius-topleft: 6px;
+    -moz-border-radius-topright: 6px;
+    -moz-border-radius-bottomright: 6px;
+    -moz-border-radius-bottomleft: 6px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+ 
+.chat-box .odd {
+    background-color: #ecf0f1;
+    
+    clear: both;
+    float: left;
+}
+
+.chat-box .system {
+    background-color: black;
+    color : white;
+    clear: both;
+    float: left;
+}
+ 
+.chat-box .odd:after {
+    content: ' ';
+    position: relative;
+    top: auto;
+    bottom: auto;
+    border: 12px solid;
+    border-color: transparent transparent #ecf0f1 transparent;
+    margin: 0 0 0 -24px;
+    float: left;
+}
+ 
+ 
+.chat-box .even {
+    background-color: #C1E4EC;
+    height: auto;
+    clear: both;
+    float: right;
+}
+ 
+.chat-box .even:after {
+    content: ' ';
+    position: relative;
+    bottom: auto;
+    border: 12px solid;
+    border-color: transparent transparent #C1E4EC transparent;
+    margin: 0 -24px 0 0;
+    float: right;
+}
+ 
+.chat-box li span {
+    padding: 0 0 5px;
+    color: #7f8c8d;
+    display: block;
+}
+
+#talk {
+  width:auto;
+  height: auto;
+}
+#input-sets{
+  width:auto;
+  height: auto;
+}
+#plusbtn {
+  font-size : 10px;
+}
+  </style>
+</head>
+<body>
+<div id='talk'>
+<ul id="messages" class="chat-box">
+  <% var list = result%>
+  <div id="nickname" style="display:none;"><%=nickname%></div>
+  <div id="room_id" style="display:none;"><%=roomid%></div>
+<%  
+  var arr=[];
+    var jsonoobj = {};
+   list = JSON.parse(list);
+   
+    for(var i = 0; i < list.rows.length; i++){
+      jsonoobj = {
+          tnickname : list.rows[i][2],
+          tmessage : list.rows[i][4]
+      }
+      var realJson = JSON.parse(JSON.stringify(jsonoobj));
+      arr.push(realJson);
+    }
+%>
+
+
+<%for(var i =0; i<arr.length;i++){ %>
+  <%if(arr[i].tnickname == nickname){%>
+<li class="even"><%=arr[i].tnickname%>  :  <%=arr[i].tmessage%></li>
+<%} else {%>
+  <li class="odd"><%=arr[i].tnickname%>  :  <%=arr[i].tmessage%></li>
+  <%}%>
+<%}%>
+
+</ul>
+
+</div>
+<div id="input-sets">
+<form action="">
+  
+  <input id="m" autocomplete="off"/>
+  <button>Send</button>
+  
+</form>
+<div class="ui sidebar inverted vertical menu">
+      <a class="item" id='room_out'>
+    채팅방 나가기
+  </a>
+      <a class="item" id='set_place'> 
+    약속장소 선정
+  </a>
+      <a class="item" id='set_date'>
+    약속일시 선정
+  </a>
+    <a class="item" id='nothing'>
+    이거 클릭해도 아무것도 안됨
+  </a>
+</div>
+<button id="plusbtn"><b>+</b></button>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  $(() => {
+    
+    $('#plusbtn').click(function(){
+            $('.ui.sidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
+        })
+    $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+    const name = $('#nickname').text();
+    const room_id= $('#room_id').text();
+    const socket = io();
+    let num = room_id;
+
+    socket.emit('joinRoom', num, name);
+/*
+    $('select').change(() => {
+      socket.emit('leaveRoom', num, name);
+      num++;
+      num = num % 2;
+      socket.emit('joinRoom', num, name);
+    });
+*/  
+    $('#nothing').click(function(){
+      $('#messages').append($('<li class="even"><img src="images/dog4.png" width="300px" height="300px">'));
+        $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+    });
+
+
+    $('#room_out').click(function(){
+      console.log('Room Out // no.'+num+' room //left user name : ', name );
+        
+        if (confirm("채팅내역도 함께 삭제됩니다. 정말 나가시겠습니까?") == true){    //확인
+          socket.emit('room_out', num, name);
+        console.log('회원 '+name+'님이 방나가기 실행을 수락하셨습니다.');
+        window.close();
+        }else{   //취소
+          console.log('회원 '+name+'님이 탈주 취소하셨습니다!');
+        return false;
+      }
+      
+    });
+    socket.on('room_out', (num, name) => {// 소켓에 room_out신호가 온다면
+      $("#input-sets").remove();
+      $('#messages').append($('<li class="system">').text('System : '+name + ' 회원님이 방을 탈주하셨습니다.  ' ));
+        
+    } );
+
+    $('form').submit(() => {// Send 할때마다
+      
+      socket.emit('chat message', num, name, $('#m').val());// 서버로  작성자, 방번호, 메시지를 전달한다.
+      $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+      $('#m').val('');
+      return false; //원하는 작업만 마친 후 submit의 동작을 멈춘다.
+    });
+
+    /* API 좀더 참조해야함. 
+    socket.on('chat QR', (name, ) => {// 채팅방테이블의 pro_num, seller_num, buyer_num을 전송한다.???????????????????????????????????
+      $('#messages').append($('<li class="even">').text(name + '  :  ' +
+        msg));
+
+    });*/ 
+
+    
+    socket.on('chat message', (name, msg) => {// 소켓에 신호가 오면 chat message 기능 실행.
+      if(name == $('#nickname').text()){
+      $('#messages').append($('<li class="even">').text(name + '  :  ' +
+        msg));}
+      else{
+        $('#messages').append($('<li class="odd">').text(name + '  :  ' +
+        msg));
+      }
+        // 그냥 화면에 뿌려준다.
+        console.log('chat message' + name + msg);
+        $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+
+
+    });
+/*
+    socket.on('leaveRoom', (num, name) => {
+      $('#messages').append($('<li>').text(name + '    leaved '
+        + room[num] + ' :('));
+    });
+
+    socket.on('joinRoom', (num, name) => {
+      $('#messages').append($('<li>').text(name + '    joined '
+        + room[num] + ':)'));
+    });*/
+  });
+</script>
+
+</body>
+</html>

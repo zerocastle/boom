@@ -7,10 +7,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ys.project.projectVO.PartnerVO;
+import com.ys.project.projectVO.ProductionVO;
 import com.ys.project.service.sellingUpdate.ISellingUpdateService;
 
 import lombok.AllArgsConstructor;
@@ -21,7 +24,7 @@ import lombok.AllArgsConstructor;
 public class SellingController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
-	private ISellingUpdateService service;
+	private ISellingUpdateService service; 
 
 	// 판매하기로 이동
 	@RequestMapping(value = "selling", method = RequestMethod.GET)
@@ -89,6 +92,22 @@ public class SellingController {
 		model.addAttribute("partnerList", list);
 		return "/pick/directPick";
 
+	}
+
+	// 상품 등록하기
+	@PostMapping("uploadProduct")
+	public String uploadProduct(ProductionVO productionVO, Model model , RedirectAttributes rttr) {
+
+		if (productionVO.getUploadVOList() != null) {
+			productionVO.getUploadVOList().forEach(attach -> logger.info("" + attach));
+		}
+		logger.info("야 뭐가 넘 어 옴??" + productionVO);
+		
+		service.insert(productionVO);
+
+		logger.info("========================================");
+
+		return "redirect:/selling/selling";
 	}
 
 }

@@ -62,6 +62,9 @@
                 </div>
               </div>
             </div>
+   
+            
+            
             <div class="carousel-item">
               <div class="row">
                 <div class="col-md-3 col-sm-6"><a href="#x" class="thumbnail">상품9</a>
@@ -87,6 +90,8 @@
           </a>
         </div>
       </div>
+      
+      <!-- 메인 프로덕트 -->
       <div class="main-product">
         <a id="productList" href="#">상품1</a>
         <div class="main-product-div">

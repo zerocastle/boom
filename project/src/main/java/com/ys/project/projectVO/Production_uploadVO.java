@@ -9,8 +9,8 @@ public class Production_uploadVO {
 	private String uploadPath;
 	private String fileName;
 	private String fileType;
-	private String folder;
-	private boolean image;
+	
+	private String temp;
 
 	private int pro_num; // 상품에 대한 포린키
 
