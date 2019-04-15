@@ -37,4 +37,13 @@ public class MemberService implements IMemberService {
 		return dao.memberCheck(nickName);
 	}
 
+	@Override
+	public void memberUpdate(MemberVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		dao.memberUpdate(vo);
+	}
+
+
+	
+
 }

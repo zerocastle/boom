@@ -6,6 +6,35 @@
 <link rel="stylesheet" type="text/css" href="/resources/css/productView.css" />
 <script src="resources/customJs/productView.js"></script>
 
+<script>
+$(document).ready(function(){
+ 	$('.nick').click(function(e){  
+
+		 var query = { nick : $('.nick').text()};
+			console.log(query);
+			window.location.href="/member/other/"+$('.nick').text();
+			/* $.ajax({
+			type : 'post',
+			url: '/member/other',
+	        data: query,
+	        dataType : 'json', 
+	        contentType : "application/json;charset=UTF-8",
+	        success: function(data){
+	        	console.log(data);
+	     		alert("success");
+	     		window.location.href = "/member/other/"+data; 
+	        },
+	        error: function(){
+	            alert("error");
+	            
+	        } */
+		//});  
+ 		/* e.preventDefault();
+		window.location.href = "/member/other";  */
+	});
+});
+</script>
+
            <div id="floatMenu">
           <span class="kjim">최근찜한상품</span>
           <span><i class="fas fa-heart"></i></span>
@@ -45,7 +74,7 @@
 										<i class="fas fa-user-circle"></i>
 									</span>
 									<div>
-										<label class="nick">샘 오취리</label>
+										<label class="nick">tom</label>
 									</div>
 
 									<div>

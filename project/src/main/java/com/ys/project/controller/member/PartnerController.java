@@ -43,37 +43,37 @@ public class PartnerController {
 	public String partnerRegisterPost(Model model, PartnerVO partner, HttpServletRequest request, RedirectAttributes rttr)
 			throws Exception {
 		HttpSession session = request.getSession();
-		String loginSession = (String) session.getAttribute("loginSession"); // 로그인된 세션의 닉네임
-		String tempPartner_signal_fuck = (String) session.getAttribute("partner_signal");// 로그인된 세션의 파트너신호(등록 직플레이스 갯수로
+		MemberVO vo =(MemberVO) session.getAttribute("loginSession");
+		
+		String nickname = vo.getNickname(); // 로그인된 세션의 닉네임
+		String tempPartner_signal_fuck =Integer.toString(vo.getPartner_signal()); // 로그인된 세션의 파트너신호(등록 직플레이스 갯수로
 		int tempPartner_signal = Integer.parseInt(tempPartner_signal_fuck);
 		int update_siganl = tempPartner_signal + 1; // update 했다
 
 		logger.info("파트너 레지스터 :" + partner.toString());
 
-		// Map partner 는 입력된 form태그의 값들.
-//		logger.info("다음" + service.selectnumber(loginSession).toString());
+
 		int m_num;
-		m_num = service.selectnumber(loginSession); // 회원에 번호 들고올라고 서치
+		m_num = service.selectnumber(nickname); // 회원에 번호 들고올라고 서치
 		logger.info("mNum : " + m_num);
 
 		update_siganl = tempPartner_signal + 1; // 더해주고 넣어줄꺼
 
-		session.removeAttribute(loginSession);
-		session.removeAttribute(tempPartner_signal_fuck);
+		// 세션 지우기
+		session.removeAttribute("loginSession");
 
 		partner.setM_num(m_num);
 		logger.info("변해라 ~~~ 포린키" + partner);
 		service.partnerRegister(partner);
 
 		// 업데이트 넣어줄꺼 시발
-		MemberVO member = new MemberVO();
+		MemberVO member = vo;
 		member.setPartner_signal(update_siganl);
-		member.setNickname(loginSession);
+		member.setNickname(nickname);
 		service.partnerUpdate(member);
-		logger.info("member : " + member);
+		logger.info("바뀐 맴버 확인 ==== > : " + member);
 		// 업데이트 세션
-		session.setAttribute("loginSession", loginSession);
-		session.setAttribute("partner_signal", Integer.toString(update_siganl));
+		session.setAttribute("loginSession", member);
 
 		return "redirect:/";// 파트너 가입이 완료되어 메인페이지 이동
 	}

@@ -53,4 +53,14 @@ public class MemberDao implements IMemberDao {
 		session.delete("member.memberDelete",nickname);
 	}
 
+	@Override
+	public void memberUpdate(MemberVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		System.out.println("회원수정");
+		session.insert("member.memberUpdate",vo);
+	}
+
+
+	
+
 }

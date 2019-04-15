@@ -35,16 +35,14 @@
 		NICKNAME=#{nickname}
 	</select>
 
-	<update id="memberUpdate">
-		UPDATE MEMBER
-		SET nickname=#{nickname},
+	<update id="memberUpdate" parameterType="MemberVO">
+		UPDATE MEMBER SET
 		phone=#{phone},
 		email=#{email},
 		intro=#{intro},
-		img_path=#{img_path},
 		acc_num=#{acc_num},
 		acc_name=#{acc_name}
-		where nickname=#{nickname};
+		WHERE NICKNAME = #{nickname}
 	</update>
 
 	<delete id="memberDelete">

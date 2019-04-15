@@ -164,7 +164,7 @@
 						<a class="header-1-a" href="#" id="register">회원가입</a>
 					</c:if>
 					<c:if test="${not empty sessionScope.loginSession }">
-						<span class="header-1-a">${sessionScope.loginSession}
+						<span class="header-1-a">${sessionScope.loginSession.nickname}
 							환영합니다.</span>
 						<a href="" class="header-1-a" id="logout">로그아웃</a>
 					</c:if>

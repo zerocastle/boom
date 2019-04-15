@@ -1,29 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<link href="/resources/css/da2.css" rel='stylesheet' type='text/css' />
-<!-- <link rel="stylesheet" type="text/css" href="C:\Users\bon300-6\Desktop\객체지향 프로그래밍\style.css"> -->
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.7.2/css/solid.css"
-	integrity="sha384-r/k8YTFqmlOaqRkZuSiE9trsrDXkh07mRaoGBMoDcmA58OHILZPsk29i2BsFng1B"
-	crossorigin="anonymous">
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.7.2/css/regular.css"
-	integrity="sha384-IG162Tfx2WTn//TRUi9ahZHsz47lNKzYOp0b6Vv8qltVlPkub2yj9TVwzNck6GEF"
-	crossorigin="anonymous">
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.7.2/css/brands.css"
-	integrity="sha384-BKw0P+CQz9xmby+uplDwp82Py8x1xtYPK3ORn/ZSoe6Dk3ETP59WCDnX+fI1XCKK"
-	crossorigin="anonymous">
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.7.2/css/fontawesome.css"
-	integrity="sha384-4aon80D8rXCGx9ayDt85LbyUHeMWd3UiBaWliBlJ53yzm9hqN21A+o1pqoyK04h+"
-	crossorigin="anonymous">
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 
+<link href="/resources/css/da2.css" rel='stylesheet' type='text/css' />
+
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+ 
 <script src="/resources/customJs/sell-updateProduct.js"></script>
 
 <style>

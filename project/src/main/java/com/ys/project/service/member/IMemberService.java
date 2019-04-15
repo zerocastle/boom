@@ -12,4 +12,6 @@ public interface IMemberService {
 	
 	public MemberVO nickNameCheck(String nickName) throws Exception;
 
+	public void memberUpdate(MemberVO vo) throws Exception;
+
 }
