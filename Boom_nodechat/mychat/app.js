@@ -1,3 +1,4 @@
+//한글깨져? can you read korean words? 한글안깨져?
 /* socket\room_chat\app.js */
 var express = require('express'); // express 서버 import
 var app = express(); // 서버 객체 생성

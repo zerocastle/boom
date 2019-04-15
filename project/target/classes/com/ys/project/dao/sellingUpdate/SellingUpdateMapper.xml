@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.ys.project.dao.sellingUpdate.SellingUpdateMapper">
+
+
+	<select id="directPickList" resultType="PartnerVO">
+		SELECT * FROM PARTNER
+	</select>
+
+	<!-- 상품 인서트 -->
+	<insert id="insert" parameterType="ProductionVO">
+
+		INSERT INTO
+		PRODUCTION(PRO_NUM,TITLE,PRICE,CONTENT,ADDR,PLACE_PICK,P_QUALITY,CATE_CODE,M_NUM)
+		VALUES(production_seq.nextval,#{title},#{price},#{content},#{addr},#{place_pick},#{p_quality},#{cate_code},#{m_num})
+		<selectKey keyProperty="pro_num" resultType="int"
+			order="AFTER">
+			SELECT PRODUCTION_SEQ.CURRVAL FROM DUAL
+		</selectKey>
+
+	</insert>
+
+
+</mapper>
