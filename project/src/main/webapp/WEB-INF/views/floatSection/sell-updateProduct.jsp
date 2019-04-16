@@ -5,7 +5,7 @@
 <link href="/resources/css/da2.css" rel='stylesheet' type='text/css' />
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
- 
+
 <script src="/resources/customJs/sell-updateProduct.js"></script>
 
 <style>
@@ -193,6 +193,7 @@
 
 		// 상품 이미지 업로드 부분
 		var formObj = $("form[role='form']");
+		// 전송 버튼
 		$("#goods_reg")
 				.on(
 						"click",
@@ -207,7 +208,7 @@
 												console.dir(jobj);
 												console.log(jobj
 														.data("filename"));
-												
+
 												str += "<input type='hidden' name='uploadVOList["
 														+ i
 														+ "].uuid' value='"
@@ -216,7 +217,8 @@
 												str += "<input type='hidden' name='uploadVOList["
 														+ i
 														+ "].uploadPath' value='"
-														+ jobj.data("uploadpath")
+														+ jobj
+																.data("uploadpath")
 														+ "'>";
 												str += "<input type='hidden' name='uploadVOList["
 														+ i
@@ -229,8 +231,8 @@
 														+ jobj.data("filetype")
 														+ "'>";
 											})
-											alert("상품을 등록 했습니다.");
-							 formObj.append(str).submit();  
+							alert("상품을 등록 했습니다.");
+							formObj.append(str).submit();
 
 						});
 
@@ -333,18 +335,36 @@
 											+ uploadPath + uuid + fileName);
 									str += "<li data-uuid='"+obj.uuid+"' data-uploadPath='"+obj.uploadPath+"' data-fileName='"+obj.fileName+"' data-fileType='"+obj.fileType+"'>"
 											+ "<img src='"+realPath+uploadPath+uuid+fileName+"'/>"
-											+ "<span data-file=\'"+fileTempCallPath+"\' data-type='image'> x </span>"
+											+ "<span data-file=\'"+fileTempCallPath+"\' data-type='image'> x </span> <button class='hi'>대표 사진 정하기</button>"
 											+ "</li>";
 								}
-								
+
 							});
 
 			uploadResult.append(str);
+			// 대표 사진 정하기
+			$(".hi").click(function() {
+				var choice = $(this).parent();
+				var targetTemp = choice.find("img").clone();
+				var target = targetTemp;
+				var result = $(".representaion");
+				result.empty();
+				result.append(target);
+
+			})
 		}
 
 		// 프리뷰 삭제를 위한 작업이다.
 		$(".uploadResult").on("click", "span", function(e) {
-
+			var target = $(this).siblings().first().attr('src');
+			console.log(target);
+			var target2 = $(".representaion");
+			var pare = target2.find('img').attr('src');
+			console.log(pare);
+			if (target == pare) {
+				target2.empty();
+			}
+			//이미지 비교 삭제
 			var targetFile = $(this).data("file");
 			var type = $(this).data("type");
 			console.log(targetFile);
