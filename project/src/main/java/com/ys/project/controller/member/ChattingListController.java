@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.ys.project.projectVO.MemberVO;
+
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -23,7 +25,8 @@ public class ChattingListController {
 
 	@RequestMapping(value = "chatting", method = RequestMethod.GET)
 	public String chatGet(Model model, HttpSession session) {
-		String user = (String) session.getAttribute("loginSession");
+		MemberVO user2 = (MemberVO) session.getAttribute("loginSession");
+		String user = user2.getNickname();
 		System.out.println(">>>>> redis test ");
 		  try {
 			 
@@ -34,7 +37,7 @@ public class ChattingListController {
 		   String value = redisTemplate.opsForValue( ).get("user");   
 		   
 		   System.out.println(">>>>> redis value :" + value);
-		logger.info("체팅 목록으로 이동");}
+		logger.info("체팅 목록으로 이동");} 
 		  catch(Exception ex) {
 			   ex.printStackTrace();
 			  } 
