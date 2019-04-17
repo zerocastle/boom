@@ -113,7 +113,7 @@
 								<option value="woman">여성의류</option>
 								<option value="elect">전자제품</option>
 								<option value="furniture">가구/인테리어</option>
-								<option value="babay">유아용품</option>
+								<option value="baby">유아용품</option>
 								<option value="sport">스포츠/레저</option>
 								<option value="hobby">게임/취미</option>
 								<option value="beauty">뷰티/미용</option>
@@ -230,9 +230,29 @@
 														+ "].fileType' value='"
 														+ jobj.data("filetype")
 														+ "'>";
+
+												var rep = $(".representaion");
+												var img = rep.find('img');
+												var src = img.attr('src');
+												console.log("대표사진 쪽 사진 src : " + src); 
+												//===========================================================
+												var pare = $(".uploadResult ul");
+												var imgs = pare.find('img');
+												
+												var pareSrc=$(imgs[i]).attr('src');
+												console.log("헬로 : " + pareSrc);
+												
+												if(src == pareSrc){
+													str += "<input type='hidden' name='uploadVOList["+i+"].rep' value='1'>";
+												}else
+													str += "<input type='hidden' name='uploadVOList["+i+"].rep' value='0'>";
+												
+												console.log("결과 str : " + str);
+												
 											})
+
 							alert("상품을 등록 했습니다.");
-							formObj.append(str).submit();
+							formObj.append(str).submit(); 
 
 						});
 
@@ -342,12 +362,14 @@
 							});
 
 			uploadResult.append(str);
-			// 대표 사진 정하기
+			// 대표 사진 정하기 속성명,속성값
 			$(".hi").click(function() {
 				var choice = $(this).parent();
+				console.log(choice);
 				var targetTemp = choice.find("img").clone();
 				var target = targetTemp;
 				var result = $(".representaion");
+				result.attr("data-rep", "1");
 				result.empty();
 				result.append(target);
 
