@@ -27,7 +27,7 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String login(Model model) throws Exception {
 		System.out.println("À£ÄÄ ~~~~~~~~~~~~~!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		JSONObject object = new JSONObject();
+		
 		JSONArray array = new JSONArray();
 		
 		
@@ -40,6 +40,7 @@ public class HomeController {
 		
 		List<IndexProductionDTO> list = service.productionJoin();
 		for(int i = 0; i < list.size(); i++) {
+			JSONObject object = new JSONObject();
 			path = list.get(i).getUploadPath() +"\\s_"+list.get(i).getUuid() + "_" + list.get(i).getFileName();
 			pro_num = list.get(i).getPro_num();
 			title = list.get(i).getTitle();

@@ -61,20 +61,41 @@
 </div>
 
 <script>
-	var production = ${requestScope.productions};
-	console.log(production + typeof production);
-	for ( var i in production) {
-		console.log(production[i]);
-		var path = production.path;
-		var pro_num = production.pro_num;
-		var title = production.title;
-		var price = production.price;
-		var cate_code = production.cate_code;
-		
-		var a = $('#productNo1').append();
-		
+	$(function() {
 
-	}
+		var production = ${requestScope.productions};
+		var realPath = "${pageContext.request.contextPath}/resources/";
+		console.log("리얼 패스 : " + realPath);
+		var target = $("#forTest");
+		var childN=target.children().length;
+		console.log(production);
+		for(var a=0;a<production.length;a++) {
+			var path = realPath + production[a].path;
+			console.log(path);
+			target.children().eq(a).find('img').attr('src',path);
+		}
+		for ( var i in production) {
+			console.log(production[i]);
+			/* var path = realPath + production[i].path; */
+			var pro_num = production[i].pro_num;
+			var title = production[i].title;
+			var price = production[i].price;
+			var cate_code = production[i].cate_code;
+			
+			console.log(childN);
+			//for (var j = 0; j <= target.length; j++) {
+				//var temp = target[j];
+				//console.log(temp);
+				//var imgTemp = temp.();
+				//var img = imgTemp.attr('src',path);
+				/* var imgTemp.first(); */
+				/* img.attr('src', path); */
+			//}
+			console.log(target.children(production[i]).html());
+
+		}
+
+	})
 </script>
 
 <!-- 메인 프로덕트 -->
@@ -85,62 +106,62 @@
 			data-ride="carousel">
 			<div class="carousel-inner">
 				<div class="carousel-item active">
-					<div class="row">
-						<div class="col-md-3 col-sm-6">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+					<div class="row" id="forTest">
+						<div class="aaa" id="aaa">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
-						<div class="col-md-3 col-sm-6">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+						<div class="aaa">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
-						<div class="col-md-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+						<div class="aaa">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
-						<div class="col-md-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<div class="row">
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+						<div class="aaa">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 					</div>
 				</div>
 				<div class="carousel-item">
 					<div class="row">
 						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
+						</div>
+					</div>
+				</div>
+				<div class="carousel-item">
+					<div class="row">
+						<div class="col-sm-3">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
+						</div>
+						<div class="col-sm-3">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
+						</div>
+						<div class="col-sm-3">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
+						</div>
+						<div class="col-sm-3">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 					</div>
 				</div>
@@ -155,6 +176,11 @@
 		</div>
 	</div>
 </div>
+
+
+
+
+
 <div class="main-product">
 	상품2
 	<div class="main-product-div">
@@ -164,61 +190,60 @@
 				<div class="carousel-item active">
 					<div class="row">
 						<div class="col-md-3 col-sm-6">
-							<img
-								src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 						<div class="col-md-3 col-sm-6">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 						<div class="col-md-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 						<div class="col-md-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 					</div>
 				</div>
 				<div class="carousel-item">
 					<div class="row">
 						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 					</div>
 				</div>
 				<div class="carousel-item">
 					<div class="row">
 						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 					</div>
 				</div>
@@ -242,60 +267,60 @@
 				<div class="carousel-item active">
 					<div class="row">
 						<div class="col-md-3 col-sm-6">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 						<div class="col-md-3 col-sm-6">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 						<div class="col-md-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 						<div class="col-md-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 					</div>
 				</div>
 				<div class="carousel-item">
 					<div class="row">
 						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 					</div>
 				</div>
 				<div class="carousel-item">
 					<div class="row">
 						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
+							<img src="${pageContext.request.contextPath}/resources/"
+								alt="Image" class="img-fluid img-thumbnail">
 						</div>
 					</div>
 				</div>
