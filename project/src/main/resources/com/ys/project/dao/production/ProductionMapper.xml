@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.ys.project.dao.production.ProductionMapper">
+
+	<select id="productionJoin" resultType="com.ys.project.projectDTO.IndexProductionDTO">
+
+		SELECT
+		A.PRO_NUM,A.TITLE,A.PRICE,A.CATE_CODE,B.UUID,B.UPLOADPATH,B.FILENAME,B.REP
+		FROM PRODUCTION A , PRODUCTION_UPLOAD B
+		WHERE B.REP = 1 AND A.PRO_NUM = B.PRO_NUM
+	</select>
+
+
+
+</mapper>
