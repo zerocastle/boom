@@ -36,7 +36,8 @@ public class HomeController {
 		String title = null;
 		int price = 0;
 		String cate_code = null;
-		
+		int place_signal = 0;
+		String state_msg = null;
 		
 		List<IndexProductionDTO> list = service.productionJoin();
 		for(int i = 0; i < list.size(); i++) {
@@ -46,11 +47,15 @@ public class HomeController {
 			title = list.get(i).getTitle();
 			price = list.get(i).getPrice();
 			cate_code = list.get(i).getCate_code();
+			place_signal = list.get(i).getPlace_signal();
+			state_msg = list.get(i).getState_msg();
 			object.put("path", path);
 			object.put("pro_num",pro_num);
 			object.put("title",title);
 			object.put("price",price);
 			object.put("cate_code",cate_code);
+			object.put("place_signal",place_signal);
+			object.put("state_msg",state_msg);
 			
 			array.add(object);
 			

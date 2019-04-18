@@ -5,14 +5,13 @@
 <mapper
 	namespace="com.ys.project.dao.production.ProductionMapper">
 
-	<select id="productionJoin" resultType="com.ys.project.projectDTO.IndexProductionDTO">
+	<select id="productionJoin"
+		resultType="com.ys.project.projectDTO.IndexProductionDTO">
 
 		SELECT
-		A.PRO_NUM,A.TITLE,A.PRICE,A.CATE_CODE,B.UUID,B.UPLOADPATH,B.FILENAME,B.REP
+		A.PRO_NUM,A.TITLE,A.PRICE,A.CATE_CODE,A.STATE_MSG,A.PLACE_SIGNAL,B.UUID,B.UPLOADPATH,B.FILENAME,B.REP
 		FROM PRODUCTION A , PRODUCTION_UPLOAD B
 		WHERE B.REP = 1 AND A.PRO_NUM = B.PRO_NUM
 	</select>
-
-
 
 </mapper>

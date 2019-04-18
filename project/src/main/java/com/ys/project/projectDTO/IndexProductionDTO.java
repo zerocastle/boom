@@ -11,6 +11,8 @@ public class IndexProductionDTO {
 	private String title;
 	private int price;
 	private String cate_code;
+	private int place_signal; // 직플 사용 유무
+	private String state_msg; // 상태 메시지
 	private String uuid;
 	private String uploadPath;
 	private String fileName;

@@ -65,21 +65,25 @@
 
 		var production = ${requestScope.productions};
 		var realPath = "${pageContext.request.contextPath}/resources/";
-		console.log("리얼 패스 : " + realPath);
+		/* console.log("리얼 패스 : " + realPath); */
 		var target = $("#forTest");
 		var childN = target.children().length;
-		console.log(production);
+		/* console.log(production); */
 		for (var a = 0; a < production.length; a++) {
 			var path = realPath + production[a].path;
-			console.log(path);
+			/* console.log(path); */
 			var img = target.children().eq(a).find('img');
 			var imgStyle = img.width('160px').height('160px');
-			
+
 			var title = img.siblings('div').first();
-			var price = title.next().html("가격 : "+production[a].price + " 원"); // 가격
-			var pro_num = price.next().html("상품 번호 : " + production[a].pro_num); // 상품 번호
 			
-			title.html("제목 : " + production[a].title); //타이틀
+			var commaPrice = comma(production[a].price);
+			
+			var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
+			var pro_num = price.next().html("상품 번호 : " + production[a].pro_num); // 상품 번호
+
+			title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+					+ production[a].title + "</span>"); //타이틀
 			img.attr('src', path);
 		}
 		for ( var i in production) {
@@ -87,12 +91,22 @@
 			var pro_num = production[i].pro_num;
 			var title = production[i].title;
 			var price = production[i].price;
+
 			var cate_code = production[i].cate_code;
+			var place_signal = production[i].place_signal;
+			var state_msg = production[i].state_msg;
+			
+			var test = comma(price);
+			console.log("콤바 변환 : " + test);
+			/* console.log(childN);
+			
+			console.log(target.children(production[i]).html()); */
 
-			console.log(childN);
-		
-			console.log(target.children(production[i]).html());
+		}
 
+		// 콤마찍기 정규 표현식
+		function comma(num) {
+			return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		}
 
 	})
@@ -100,52 +114,59 @@
 
 <!-- 메인 프로덕트 -->
 <div class="main-product">
-	<a id="productList" href="#">상품1</a>
+	<a id="productList" href="#">남성의류</a>
 	<div class="main-product-div">
 		<div id="productNo1" class="carousel slide col-xs-12"
 			data-ride="carousel">
 			<div class="carousel-inner">
 				<div class="carousel-item active">
-				
-					<div class="row" id="forTest" style="padding-left:15px;">
+
+					<div class="row" id="forTest" style="padding-left: 15px;">
 						<div class="aaa" id="aaa">
-							<img src="" alt="Image" class="img-fluid img-thumbnail" ><br/>
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
 							<div></div>
 							<div></div>
 							<div></div>
 						</div>
 						<div class="aaa">
-							<img src="" alt="Image" class="img-fluid img-thumbnail" ><br/>
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
 							<div></div>
 							<div></div>
 							<div></div>
 						</div>
 						<div class="aaa">
-							<img src="http://placehold.it/160x160" alt="Image" class="img-fluid img-thumbnail" ><br/>
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
 							<div></div>
 							<div></div>
 							<div></div>
 						</div>
 						<div class="aaa">
-							<img src="http://placehold.it/160x160" alt="Image" class="img-fluid img-thumbnail" ><br/>
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
 							<div></div>
 							<div></div>
 							<div></div>
 						</div>
 						<div class="aaa">
-							<img src="http://placehold.it/160x160" alt="Image" class="img-fluid img-thumbnail" ><br/>
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
 							<div></div>
 							<div></div>
 							<div></div>
 						</div>
 						<div class="aaa">
-							<img src="http://placehold.it/160x160" alt="Image" class="img-fluid img-thumbnail" ><br/>
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
 							<div></div>
 							<div></div>
 							<div></div>
 						</div>
 						<div class="aaa">
-							<img src="http://placehold.it/160x160" alt="Image" class="img-fluid img-thumbnail" ><br/>
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
 							<div></div>
 							<div></div>
 							<div></div>
@@ -159,10 +180,217 @@
 		</div>
 	</div>
 
+</div>
+
+
+<!-- 여성의류 -->
+<div class="main-product">
+	<a id="productList" href="#">여성의류</a>
+	<div class="main-product-div">
+		<div id="productNo1" class="carousel slide col-xs-12"
+			data-ride="carousel">
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+
+					<div class="row" id="forTest" style="padding-left: 15px;">
+						<div class="aaa" id="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+					</div>
+				</div>
 
 
 
+			</div>
+		</div>
+	</div>
+
+</div>
 
 
+<!-- 전자제품 -->
+<div class="main-product">
+	<a id="productList" href="#">전자제품</a>
+	<div class="main-product-div">
+		<div id="productNo1" class="carousel slide col-xs-12"
+			data-ride="carousel">
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+
+					<div class="row" id="forTest" style="padding-left: 15px;">
+						<div class="aaa" id="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+<!-- 가구/인테리어 -->
+<div class="main-product">
+	<a id="productList" href="#">가구/인테리어</a>
+	<div class="main-product-div">
+		<div id="productNo1" class="carousel slide col-xs-12"
+			data-ride="carousel">
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+
+					<div class="row" id="forTest" style="padding-left: 15px;">
+						<div class="aaa" id="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+	</div>
 
 </div>
