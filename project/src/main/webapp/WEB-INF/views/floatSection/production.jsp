@@ -67,30 +67,30 @@
 		var realPath = "${pageContext.request.contextPath}/resources/";
 		console.log("리얼 패스 : " + realPath);
 		var target = $("#forTest");
-		var childN=target.children().length;
+		var childN = target.children().length;
 		console.log(production);
-		for(var a=0;a<production.length;a++) {
+		for (var a = 0; a < production.length; a++) {
 			var path = realPath + production[a].path;
 			console.log(path);
-			target.children().eq(a).find('img').attr('src',path);
+			var img = target.children().eq(a).find('img');
+			var imgStyle = img.width('160px').height('160px');
+			
+			var title = img.siblings('div').first();
+			var price = title.next().html("가격 : "+production[a].price + " 원"); // 가격
+			var pro_num = price.next().html("상품 번호 : " + production[a].pro_num); // 상품 번호
+			
+			title.html("제목 : " + production[a].title); //타이틀
+			img.attr('src', path);
 		}
 		for ( var i in production) {
 			console.log(production[i]);
-			/* var path = realPath + production[i].path; */
 			var pro_num = production[i].pro_num;
 			var title = production[i].title;
 			var price = production[i].price;
 			var cate_code = production[i].cate_code;
-			
+
 			console.log(childN);
-			//for (var j = 0; j <= target.length; j++) {
-				//var temp = target[j];
-				//console.log(temp);
-				//var imgTemp = temp.();
-				//var img = imgTemp.attr('src',path);
-				/* var imgTemp.first(); */
-				/* img.attr('src', path); */
-			//}
+		
 			console.log(target.children(production[i]).html());
 
 		}
@@ -106,620 +106,63 @@
 			data-ride="carousel">
 			<div class="carousel-inner">
 				<div class="carousel-item active">
-					<div class="row" id="forTest">
+				
+					<div class="row" id="forTest" style="padding-left:15px;">
 						<div class="aaa" id="aaa">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
+							<img src="" alt="Image" class="img-fluid img-thumbnail" ><br/>
+							<div></div>
+							<div></div>
+							<div></div>
 						</div>
 						<div class="aaa">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
+							<img src="" alt="Image" class="img-fluid img-thumbnail" ><br/>
+							<div></div>
+							<div></div>
+							<div></div>
 						</div>
 						<div class="aaa">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
+							<img src="http://placehold.it/160x160" alt="Image" class="img-fluid img-thumbnail" ><br/>
+							<div></div>
+							<div></div>
+							<div></div>
 						</div>
 						<div class="aaa">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
+							<img src="http://placehold.it/160x160" alt="Image" class="img-fluid img-thumbnail" ><br/>
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image" class="img-fluid img-thumbnail" ><br/>
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image" class="img-fluid img-thumbnail" ><br/>
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image" class="img-fluid img-thumbnail" ><br/>
+							<div></div>
+							<div></div>
+							<div></div>
 						</div>
 					</div>
 				</div>
-				<div class="carousel-item">
-					<div class="row">
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<div class="row">
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
+
+
+
 			</div>
-			<a class="carousel-control-prev" href="#productNo1" role="button"
-				data-slide="prev"> <span class="carousel-control-prev-icon"
-				aria-hidden="true"></span> <span class="sr-only">Previous</span>
-			</a> <a class="carousel-control-next" href="#productNo1" role="button"
-				data-slide="next"> <span class="carousel-control-next-icon"
-				aria-hidden="true"></span> <span class="sr-only">Next</span>
-			</a>
 		</div>
 	</div>
+
+
+
+
+
+
+
 </div>
-
-
-
-
-
-<div class="main-product">
-	상품2
-	<div class="main-product-div">
-		<div id="productNo2" class="carousel slide col-xs-12"
-			data-ride="carousel">
-			<div class="carousel-inner">
-				<div class="carousel-item active">
-					<div class="row">
-						<div class="col-md-3 col-sm-6">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3 col-sm-6">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<div class="row">
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<div class="row">
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
-			</div>
-			<a class="carousel-control-prev" href="#productNo2" role="button"
-				data-slide="prev"> <span class="carousel-control-prev-icon"
-				aria-hidden="true"></span> <span class="sr-only">Previous</span>
-			</a> <a class="carousel-control-next" href="#productNo2" role="button"
-				data-slide="next"> <span class="carousel-control-next-icon"
-				aria-hidden="true"></span> <span class="sr-only">Next</span>
-			</a>
-		</div>
-	</div>
-</div>
-<div class="main-product">
-	상품3
-	<div class="main-product-div">
-		<div id="productNo3" class="carousel slide col-xs-12"
-			data-ride="carousel">
-			<div class="carousel-inner">
-				<div class="carousel-item active">
-					<div class="row">
-						<div class="col-md-3 col-sm-6">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3 col-sm-6">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<div class="row">
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<div class="row">
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="${pageContext.request.contextPath}/resources/"
-								alt="Image" class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
-			</div>
-			<a class="carousel-control-prev" href="#productNo3" role="button"
-				data-slide="prev"> <span class="carousel-control-prev-icon"
-				aria-hidden="true"></span> <span class="sr-only">Previous</span>
-			</a> <a class="carousel-control-next" href="#productNo3" role="button"
-				data-slide="next"> <span class="carousel-control-next-icon"
-				aria-hidden="true"></span> <span class="sr-only">Next</span>
-			</a>
-		</div>
-	</div>
-</div>
-<div class="main-product">
-	상품4
-	<div class="main-product-div">
-		<div id="productNo4" class="carousel slide col-xs-12"
-			data-ride="carousel">
-			<div class="carousel-inner">
-				<div class="carousel-item active">
-					<div class="row">
-						<div class="col-md-3 col-sm-6">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3 col-sm-6">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<div class="row">
-						<div class="col-md-3 col-sm-6">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3 col-sm-6">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<div class="row">
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
-			</div>
-			<a class="carousel-control-prev" href="#productNo4" role="button"
-				data-slide="prev"> <span class="carousel-control-prev-icon"
-				aria-hidden="true"></span> <span class="sr-only">Previous</span>
-			</a> <a class="carousel-control-next" href="#productNo4" role="button"
-				data-slide="next"> <span class="carousel-control-next-icon"
-				aria-hidden="true"></span> <span class="sr-only">Next</span>
-			</a>
-		</div>
-	</div>
-</div>
-<div class="main-product">
-	상품5
-	<div class="main-product-div">
-		<div id="productNo5" class="carousel slide col-xs-12"
-			data-ride="carousel">
-			<div class="carousel-inner">
-				<div class="carousel-item active">
-					<div class="row">
-						<div class="col-md-3 col-sm-6">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3 col-sm-6">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<div class="row">
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<div class="row">
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
-			</div>
-			<a class="carousel-control-prev" href="#productNo5" role="button"
-				data-slide="prev"> <span class="carousel-control-prev-icon"
-				aria-hidden="true"></span> <span class="sr-only">Previous</span>
-			</a> <a class="carousel-control-next" href="#productNo5" role="button"
-				data-slide="next"> <span class="carousel-control-next-icon"
-				aria-hidden="true"></span> <span class="sr-only">Next</span>
-			</a>
-		</div>
-	</div>
-</div>
-<div class="main-product">
-	상품6
-	<div class="main-product-div">
-		<div id="productNo26" class="carousel slide col-xs-12"
-			data-ride="carousel">
-			<div class="carousel-inner">
-				<div class="carousel-item active">
-					<div class="row">
-						<div class="col-md-3 col-sm-6">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3 col-sm-6">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<div class="row">
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<div class="row">
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
-			</div>
-			<a class="carousel-control-prev" href="#productNo6" role="button"
-				data-slide="prev"> <span class="carousel-control-prev-icon"
-				aria-hidden="true"></span> <span class="sr-only">Previous</span>
-			</a> <a class="carousel-control-next" href="#productNo6" role="button"
-				data-slide="next"> <span class="carousel-control-next-icon"
-				aria-hidden="true"></span> <span class="sr-only">Next</span>
-			</a>
-		</div>
-	</div>
-</div>
-<div class="main-product">
-	상품7
-	<div class="main-product-div">
-		<div id="productNo7" class="carousel slide col-xs-12"
-			data-ride="carousel">
-			<div class="carousel-inner">
-				<div class="carousel-item active">
-					<div class="row">
-						<div class="col-md-3 col-sm-6">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3 col-sm-6">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<div class="row">
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<div class="row">
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
-			</div>
-			<a class="carousel-control-prev" href="#productNo7" role="button"
-				data-slide="prev"> <span class="carousel-control-prev-icon"
-				aria-hidden="true"></span> <span class="sr-only">Previous</span>
-			</a> <a class="carousel-control-next" href="#productNo7" role="button"
-				data-slide="next"> <span class="carousel-control-next-icon"
-				aria-hidden="true"></span> <span class="sr-only">Next</span>
-			</a>
-		</div>
-	</div>
-</div>
-<div class="main-product">
-	상품8
-	<div class="main-product-div">
-		<div id="productNo8" class="carousel slide col-xs-12"
-			data-ride="carousel">
-			<div class="carousel-inner">
-				<div class="carousel-item active">
-					<div class="row">
-						<div class="col-md-3 col-sm-6">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3 col-sm-6">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-md-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<div class="row">
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<div class="row">
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-						<div class="col-sm-3">
-							<img src="http://placehold.it/250x150" alt="Image"
-								class="img-fluid img-thumbnail">
-						</div>
-					</div>
-				</div>
-			</div>
-
-
-
-			<a class="carousel-control-prev" href="#productNo8" role="button"
-				data-slide="prev"> <span class="carousel-control-prev-icon"
-				aria-hidden="true"></span> <span class="sr-only">Previous</span>
-			</a> <a class="carousel-control-next" href="#productNo8" role="button"
-				data-slide="next"> <span class="carousel-control-next-icon"
-				aria-hidden="true"></span> <span class="sr-only">Next</span>
-			</a>
-		</div>
-
-	</div>
