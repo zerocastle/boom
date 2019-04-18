@@ -5,7 +5,21 @@
 <head>
     <title>JickTalk-Room</title>
     <link rel="stylesheet" type="text/css" href="stylesheets/semantic.css">
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+		<link rel="stylesheet"
+			  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/css/bootstrap-material-design.min.css"/>
+		<link rel="stylesheet"
+			  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/css/ripples.min.css"/>
+		<link rel="stylesheet" href="stylesheets/bootstrap-material-datetimepicker.css" />
+		<link href='http://fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/ripples.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/material.min.js"></script>
+		<script type="text/javascript" src="https://rawgit.com/FezVrasta/bootstrap-material-design/master/dist/js/material.min.js"></script>
+		<script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="javascripts/bootstrap-material-datetimepicker.js"></script>
     <script src="javascripts/semantic.js"></script>
   <style>
     form {
@@ -71,8 +85,8 @@
 }
  
 .chat-box .odd {
-    background-color: #ecf0f1;
-    
+    background-color: #aaaaaa;
+    height: auto;
     clear: both;
     float: left;
 }
@@ -90,7 +104,7 @@
     top: auto;
     bottom: auto;
     border: 12px solid;
-    border-color: transparent transparent #ecf0f1 transparent;
+    border-color: transparent transparent #aaaaaa transparent;
     margin: 0 0 0 -24px;
     float: left;
 }
@@ -119,6 +133,11 @@
     display: block;
 }
 
+.item {
+  font-style : 25px;
+}
+
+
 #talk {
   width:auto;
   height: auto;
@@ -136,8 +155,10 @@
 <div id='talk'>
 <ul id="messages" class="chat-box">
   <% var list = result%>
+  <% var date = datetime%>
   <div id="nickname" style="display:none;"><%=nickname%></div>
   <div id="room_id" style="display:none;"><%=roomid%></div>
+  <div id="status" style="display:none;"><%=rstatus%></div>
 <%  
   var arr=[];
     var jsonoobj = {};
@@ -148,6 +169,11 @@
           tnickname : list.rows[i][2],
           tmessage : list.rows[i][4]
       }
+      if(jsonoobj.tnickname == nickname){//메시지의 발신자와 입장한 사용자가 동일인이라면
+        if(jsonoobj.tmessage.indexOf('시간협의') == 0){
+          jsonoobj.tmessage = '<i>상대방에게 시간협의를 제안하셨습니다</i><br><i>'+date+'</i>';
+        }
+      }
       var realJson = JSON.parse(JSON.stringify(jsonoobj));
       arr.push(realJson);
     }
@@ -156,11 +182,11 @@
 
 <%for(var i =0; i<arr.length;i++){ %>
   <%if(arr[i].tnickname == 'System'){%>
-    <li class="system"><%=arr[i].tnickname%>  :  <%=arr[i].tmessage%></li>
+    <li class="system"><%=arr[i].tnickname%>  :  <%-arr[i].tmessage%></li>
   <%} else if(arr[i].tnickname == nickname){%>
-<li class="even"><%=arr[i].tnickname%>  :  <%=arr[i].tmessage%></li>
+<li class="even"><%=arr[i].tnickname%>  :  <%-arr[i].tmessage%></li>
 <%} else {%>
-  <li class="odd"><%=arr[i].tnickname%>  :  <%=arr[i].tmessage%></li>
+  <li class="odd"><%=arr[i].tnickname%>  : <%-arr[i].tmessage%></li>
   <%}%>
 <%}%>
 
@@ -169,34 +195,43 @@
 </div>
 <div id="input-sets">
 <form action="">
-  
-  <input id="m" autocomplete="off"/>
-  <button>Send</button>
-  
+  <input id="m" class="nullmenu" autocomplete="off"/>
+  <button class="nullmenu">Send</button>
 </form>
 <div class="ui sidebar inverted vertical menu">
       <a class="item" id='room_out'>
     채팅방 나가기
   </a>
-      <a class="item" id='set_place'> 
-    약속장소 선정
+      <a class="item nullmenu" id='set_place'> 
+    <%=address%>
   </a>
-      <a class="item" id='set_date'>
-    약속일시 선정
+  <a class="item nullmenu">  
+    <input type="text" id="set_date" class="item form-control floating-label nullmenu" value="<%=datetime%>">
+    <button id="send_date" >전송</button>
   </a>
-    <a class="item" id='nothing'>
+    <a class="item nullmenu" id='nothing'>
     이거 클릭해도 아무것도 안됨
   </a>
+  
+  
 </div>
-<button id="plusbtn"><b>+</b></button>
+<button id="plusbtn"><b>3+2</b></button>
 </div>
 <script src="/socket.io/socket.io.js"></script>
 <script>
   $(() => {
+       
+    var a = $('#status').text();
+    $('#set_date').bootstrapMaterialDatePicker({ format : 'YYYY/MM/DD HH:mm', minDate : new Date() });//캘린더 - datePicker를 달아준다.
     
+   
+
+    if(a=='out'){
+      $('.nullmenu').css("display","none");
+    }
     $('#plusbtn').click(function(){
             $('.ui.sidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
-        })
+        });
     $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
     const name = $('#nickname').text();
     const room_id= $('#room_id').text();
@@ -204,19 +239,45 @@
     let num = room_id;
 
     socket.emit('joinRoom', num, name);
-/*
-    $('select').change(() => {
-      socket.emit('leaveRoom', num, name);
-      num++;
-      num = num % 2;
-      socket.emit('joinRoom', num, name);
-    });
-*/  
-    $('#nothing').click(function(){
-      $('#messages').append($('<li class="even"><img src="images/dog4.png" width="300px" height="300px">'));
-        $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+
+    socket.on('ref', () => {
+      window.location.reload();
     });
 
+
+    $('#send_date').click(function(){
+      alert($('#set_date').val()); // 고른 시간 한번 알려주고
+      var date = $('#set_date').val();
+      socket.emit('socket_date', num, date, name); //서버로 전송한다.
+    });
+//A가 날짜 전송
+//B가 날짜 수신
+//B가 수락버튼 클릭
+//A,B의 DatePicker의 값이 해당 수락된 날짜로 변경.
+    socket.on('socket_date', (num, date, name) => {// 상대방으로부터 채팅방에 소켓데이트 신호가 온다면 실행.
+      
+      var buttonSet = "<button class='yes'>수락</button><button class='no'>거절</button>";
+      if(name==$('#nickname').text()){
+        $('#messages').append($('<li class="even">').html(name +' : '+'<i>상대방에게 시간협의를 제안하셨습니다</i><br><i >'+date+'</i>'));//버튼은 상대방에게만 보인다.
+      } else{
+        $('#messages').append($('<li class="odd">').html(name +' : '+'시간협의 - '+name + '님에 의해 약속일정이 선정되었습니다 :<i class="dateP">'+date+"</i><br>"+buttonSet));//시스템메시지 약속지정정보를 보낸다.
+      }
+      $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+    });
+    $(document).on("click",".yes",function(event){
+        alert($(event.target).siblings('.dateP').text());
+         var dateP = $(event.target).siblings('.dateP').text();
+       alert('약속시간 :'+dateP+'으로 지정되었습니다.');
+       $('#set_date').val(dateP);//제안들중 선택 
+      socket.emit('dateYes', dateP,num); //서버로 전송한다.
+  
+    });
+
+    $('#nothing').click(function(){// 아무것도 아닌 추가기능을 실행하면 일단 귀여운 강아지 보여줌 ㅎㅎ
+      $('#messages').append($('<li class="even"><img src="images/dog4.png" width="300px" height="300px">'));
+        $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+      //socket의 emit()함수가 없어서 전송도 안됨 ㅎㅎ
+    });
 
     $('#room_out').click(function(){
       console.log('Room Out // no.'+num+' room //left user name : ', name );
@@ -232,51 +293,43 @@
       
     });
     socket.on('room_out', (num, name) => {// 소켓에 room_out신호가 온다면
-      $("#input-sets").remove();
-      $('#messages').append($('<li class="system">').text('System : '+name + ' 회원님이 방을 탈주하셨습니다.  ' ));
-        
+      $('.nullmenu').css("display","none");//상대방이 없다면 사용불가의 메뉴:입력태그, send버튼, 채팅방나가기를 제외한 추가기능들을 안보이게한다.
+      $('#messages').append($('<li class="system">').text('System : '+name + ' 회원님이 방을 탈주하셨습니다.  ' ));//시스템메시지 상대방이 나갔다고 알려준다.
+      $('#status').text = 'out';//방의 상태를 out으로 지정
+      window.location.search='?room_id='+num+'&talker=out';//url의 queryString도 나갔다고 바꿔준다. 새로고침이 되어도 out값을 가지기에 .nullMenu들이 여전히 안보여진다.
     } );
 
-    $('form').submit(() => {// Send 할때마다
-      
+    $('form').submit(() => {// Enter칠때마다 Send 할때마다 실행
       socket.emit('chat message', num, name, $('#m').val());// 서버로  작성자, 방번호, 메시지를 전달한다.
       $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
-      $('#m').val('');
+      $('#m').val('');//입력창 비워주기
       return false; //원하는 작업만 마친 후 submit의 동작을 멈춘다.
     });
 
-    /* API 좀더 참조해야함. 
+    /* API 좀더 참조해야함. seller_num, buyer_num, room_id, c_address, c_date, pro_num과 pro_num에 해당하는 production 테이블의 모든 컬럼들을 뿌려준다.
+    구매자 닉네임, 판매자 닉네임, 가격, 약속장소 또는 지정직플레이스, 약속시간, ,  
     socket.on('chat QR', (name, ) => {// 채팅방테이블의 pro_num, seller_num, buyer_num을 전송한다.???????????????????????????????????
       $('#messages').append($('<li class="even">').text(name + '  :  ' +
         msg));
-
+        
     });*/ 
 
     
     socket.on('chat message', (name, msg) => {// 소켓에 신호가 오면 chat message 기능 실행.
-      if(name == $('#nickname').text()){
+      if(name == $('#nickname').text()){//날아온 메시지의 이름이 세션의 닉네임과 같다면
       $('#messages').append($('<li class="even">').text(name + '  :  ' +
-        msg));}
-      else{
+        msg));}//우측에 위치한다. 내가쓴메시지
+      else{//아니라면 좌측에 위치한다. 남이쓴메시지
         $('#messages').append($('<li class="odd">').text(name + '  :  ' +
         msg));
       }
-        // 그냥 화면에 뿌려준다.
+        
         console.log('chat message' + name + msg);
         $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
 
 
     });
-/*
-    socket.on('leaveRoom', (num, name) => {
-      $('#messages').append($('<li>').text(name + '    leaved '
-        + room[num] + ' :('));
-    });
 
-    socket.on('joinRoom', (num, name) => {
-      $('#messages').append($('<li>').text(name + '    joined '
-        + room[num] + ':)'));
-    });*/
   });
 </script>
 
