@@ -100,7 +100,7 @@ public class UploadController {
 					// 사진을
 					// 담아준다
 					InputStream is = new FileInputStream(saveFile);
-					Thumbnailator.createThumbnail(is, thumbnail, 350, 350); // 그리고 썸네일을
+					Thumbnailator.createThumbnail(is, thumbnail, 194, 194); // 그리고 썸네일을
 																			// 만들어준다.
 																			// thumbnail.close();
 

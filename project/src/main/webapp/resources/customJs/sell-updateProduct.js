@@ -3,17 +3,6 @@
  */
 
 
-// 대표 사진 정하기 도전 
-$(function(){
-	
-	var choice = $(this);
-	var target;
-	var result = $(".representation");
-	
-	
-})
-
-
 // 거래 지역 선택 직플 땡겨오기
 $(function() {
 	$('.find').click(function(e) {

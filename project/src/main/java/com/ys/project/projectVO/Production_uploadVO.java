@@ -9,6 +9,7 @@ public class Production_uploadVO {
 	private String uploadPath;
 	private String fileName;
 	private String fileType;
+	private String rep;
 	
 	private String temp;
 

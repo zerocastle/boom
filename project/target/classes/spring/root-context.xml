@@ -87,6 +87,8 @@
 		base-package="com.ys.project.dao.warningBoard" />
 	<mybatis-spring:scan
 		base-package="com.ys.project.dao.productionUpload" />
+	<mybatis-spring:scan
+		base-package="com.ys.project.dao.production" />
 
 
 	<!-- @Service를 컴포넌트 스캔을 한다. -->
