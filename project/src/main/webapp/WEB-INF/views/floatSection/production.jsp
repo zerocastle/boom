@@ -65,27 +65,309 @@
 
 		var production = ${requestScope.productions};
 		var realPath = "${pageContext.request.contextPath}/resources/";
-		/* console.log("리얼 패스 : " + realPath); */
-		var target = $("#forTest");
-		var childN = target.children().length;
-		/* console.log(production); */
-		for (var a = 0; a < production.length; a++) {
-			var path = realPath + production[a].path;
-			/* console.log(path); */
-			var img = target.children().eq(a).find('img');
-			var imgStyle = img.width('160px').height('160px');
 
-			var title = img.siblings('div').first();
-			
-			var commaPrice = comma(production[a].price);
-			
-			var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
-			var pro_num = price.next().html("상품 번호 : " + production[a].pro_num); // 상품 번호
+		var target = $("#forTest"); // 남성의류
+		var target2 = $("#forTest2"); //여성의류
+		var target3 = $("#forTest3"); // 전자제품
+		var target4 = $("#forTest4"); // 가구/인테리어
+		var target5 = $("#forTest5"); // 유야아용품
+		var target6 = $("#forTest6"); // 스포츠/레저
+		var target7 = $("#forTest7"); //게임/취미
+		var target8 = $("#forTest8"); // 뷰티/미용
+		var target9 = $("#forTest9"); // 생활 /가공품
+		var target10 = $("#forTest10");//반려동물
+		var target11 = $("#forTest11"); // 도서/티켓/음반
+		var target12 = $("#forTest12"); //기타/잡화
+		var counter = 0;
+		var counter2 = 0;
+		var counter3 = 0;
+		var counter4 = 0;
+		var counter5 = 0;
+		var counter6 = 0;
+		var counter7 = 0;
+		var counter8 = 0;
+		var counter9 = 0;
+		var counter10 = 0;
+		var counter11 = 0;
+		var counter12 = 0;
 
-			title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
-					+ production[a].title + "</span>"); //타이틀
-			img.attr('src', path);
-		}
+		for (var i = 0; i < production.length; i++) {
+			var cate_code = production[i].cate_code;
+			switch (cate_code) {
+			case "man": {
+				var path = realPath + production[i].path;
+				var img = target.children().eq(counter).find('img');
+				var imgStyle = img.width('160px').height('160px');
+
+				var title = img.siblings('div').first();
+
+				var commaPrice = comma(production[i].price);
+
+				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
+				var pro_num = price.next().html(
+						"상품 번호 : " + production[i].pro_num); // 상품 번호
+
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+						+ production[i].title + "</span>"); //타이틀
+				img.attr('src', path);
+				counter++;
+				
+				break;
+
+			}
+
+			case "woman": {
+				var path = realPath + production[i].path;
+				var img = target2.children().eq(counter).find('img');
+				var imgStyle = img.width('160px').height('160px');
+
+				var title = img.siblings('div').first();
+
+				var commaPrice = comma(production[i].price);
+
+				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
+				var pro_num = price.next().html(
+						"상품 번호 : " + production[i].pro_num); // 상품 번호
+
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+						+ production[i].title + "</span>"); //타이틀
+				img.attr('src', path);
+				counter2++;
+				
+				break;
+			}
+
+			case "elect": {
+
+				var path = realPath + production[i].path;
+				var img = target3.children().eq(counter).find('img');
+				var imgStyle = img.width('160px').height('160px');
+
+				var title = img.siblings('div').first();
+
+				var commaPrice = comma(production[i].price);
+
+				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
+				var pro_num = price.next().html(
+						"상품 번호 : " + production[i].pro_num); // 상품 번호
+
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+						+ production[i].title + "</span>"); //타이틀
+				img.attr('src', path);
+				counter3++;
+				
+				break;
+
+			}
+
+			case "furniture": {
+
+				var path = realPath + production[i].path;
+				var img = target4.children().eq(counter).find('img');
+				var imgStyle = img.width('160px').height('160px');
+
+				var title = img.siblings('div').first();
+
+				var commaPrice = comma(production[i].price);
+
+				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
+				var pro_num = price.next().html(
+						"상품 번호 : " + production[i].pro_num); // 상품 번호
+
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+						+ production[i].title + "</span>"); //타이틀
+				img.attr('src', path);
+				counter4++;
+				
+				break;
+
+			}
+
+			case "baby": {
+				var path = realPath + production[i].path;
+				var img = target5.children().eq(counter).find('img');
+				var imgStyle = img.width('160px').height('160px');
+
+				var title = img.siblings('div').first();
+
+				var commaPrice = comma(production[i].price);
+
+				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
+				var pro_num = price.next().html(
+						"상품 번호 : " + production[i].pro_num); // 상품 번호
+
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+						+ production[i].title + "</span>"); //타이틀
+				img.attr('src', path);
+				counter5++;
+				
+				break;
+
+			}
+
+			case "sport": {
+				var path = realPath + production[i].path;
+				var img = target6.children().eq(counter).find('img');
+				var imgStyle = img.width('160px').height('160px');
+
+				var title = img.siblings('div').first();
+
+				var commaPrice = comma(production[i].price);
+
+				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
+				var pro_num = price.next().html(
+						"상품 번호 : " + production[i].pro_num); // 상품 번호
+
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+						+ production[i].title + "</span>"); //타이틀
+				img.attr('src', path);
+				counter6++;
+				
+				break;
+
+			}
+
+			case "hobby": {
+				var counter = 0;
+				var path = realPath + production[i].path;
+				var img = target7.children().eq(counter).find('img');
+				var imgStyle = img.width('160px').height('160px');
+
+				var title = img.siblings('div').first();
+
+				var commaPrice = comma(production[i].price);
+
+				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
+				var pro_num = price.next().html(
+						"상품 번호 : " + production[i].pro_num); // 상품 번호
+
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+						+ production[i].title + "</span>"); //타이틀
+				img.attr('src', path);
+				counter7++;
+				
+				break;
+
+			}
+
+			case "beauty": {
+
+				var path = realPath + production[i].path;
+				var img = target8.children().eq(counter).find('img');
+				var imgStyle = img.width('160px').height('160px');
+
+				var title = img.siblings('div').first();
+
+				var commaPrice = comma(production[i].price);
+
+				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
+				var pro_num = price.next().html(
+						"상품 번호 : " + production[i].pro_num); // 상품 번호
+
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+						+ production[i].title + "</span>"); //타이틀
+				img.attr('src', path);
+				counter8++;
+				
+				break;
+
+			}
+
+			case "life": {
+
+				var path = realPath + production[i].path;
+				var img = target9.children().eq(counter).find('img');
+				var imgStyle = img.width('160px').height('160px');
+
+				var title = img.siblings('div').first();
+
+				var commaPrice = comma(production[i].price);
+
+				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
+				var pro_num = price.next().html(
+						"상품 번호 : " + production[i].pro_num); // 상품 번호
+
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+						+ production[i].title + "</span>"); //타이틀
+				img.attr('src', path);
+				counter9++;
+				
+				break;
+
+			}
+
+			case "animal": {
+
+				var path = realPath + production[i].path;
+				var img = target10.children().eq(counter).find('img');
+				var imgStyle = img.width('160px').height('160px');
+
+				var title = img.siblings('div').first();
+
+				var commaPrice = comma(production[i].price);
+
+				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
+				var pro_num = price.next().html(
+						"상품 번호 : " + production[i].pro_num); // 상품 번호
+
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+						+ production[i].title + "</span>"); //타이틀
+				img.attr('src', path);
+				counter10++;
+				
+				break;
+
+			}
+
+			case "book": {
+
+				var path = realPath + production[i].path;
+				var img = target11.children().eq(counter).find('img');
+				var imgStyle = img.width('160px').height('160px');
+
+				var title = img.siblings('div').first();
+
+				var commaPrice = comma(production[i].price);
+
+				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
+				var pro_num = price.next().html(
+						"상품 번호 : " + production[i].pro_num); // 상품 번호
+
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+						+ production[i].title + "</span>"); //타이틀
+				img.attr('src', path);
+				counter11++;
+				
+				break;
+
+			}
+
+			case "else": {
+
+				var path = realPath + production[i].path;
+				var img = target12.children().eq(counter).find('img');
+				var imgStyle = img.width('160px').height('160px');
+
+				var title = img.siblings('div').first();
+
+				var commaPrice = comma(production[i].price);
+
+				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
+				var pro_num = price.next().html(
+						"상품 번호 : " + production[i].pro_num); // 상품 번호
+
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+						+ production[i].title + "</span>"); //타이틀
+				img.attr('src', path);
+				counter12++;
+				
+				break;
+			}
+
+			} // 스위치 끝나는 시점
+
+		} // 포문 끝나는 시점
+
 		for ( var i in production) {
 			console.log(production[i]);
 			var pro_num = production[i].pro_num;
@@ -95,12 +377,12 @@
 			var cate_code = production[i].cate_code;
 			var place_signal = production[i].place_signal;
 			var state_msg = production[i].state_msg;
-			
+
 			var test = comma(price);
 			console.log("콤바 변환 : " + test);
-			/* console.log(childN);
-			
-			console.log(target.children(production[i]).html()); */
+
+			//console.log(childN);
+			//console.log(target.children(production[i]).html()); 
 
 		}
 
@@ -192,7 +474,7 @@
 			<div class="carousel-inner">
 				<div class="carousel-item active">
 
-					<div class="row" id="forTest" style="padding-left: 15px;">
+					<div class="row" id="forTest2" style="padding-left: 15px;">
 						<div class="aaa" id="aaa">
 							<img src="http://placehold.it/160x160" alt="Image"
 								class="img-fluid img-thumbnail"><br />
@@ -263,7 +545,7 @@
 			<div class="carousel-inner">
 				<div class="carousel-item active">
 
-					<div class="row" id="forTest" style="padding-left: 15px;">
+					<div class="row" id="forTest3" style="padding-left: 15px;">
 						<div class="aaa" id="aaa">
 							<img src="http://placehold.it/160x160" alt="Image"
 								class="img-fluid img-thumbnail"><br />
@@ -334,7 +616,7 @@
 			<div class="carousel-inner">
 				<div class="carousel-item active">
 
-					<div class="row" id="forTest" style="padding-left: 15px;">
+					<div class="row" id="forTest4" style="padding-left: 15px;">
 						<div class="aaa" id="aaa">
 							<img src="http://placehold.it/160x160" alt="Image"
 								class="img-fluid img-thumbnail"><br />
@@ -394,3 +676,572 @@
 	</div>
 
 </div>
+
+<!-- 유아용품 -->
+<div class="main-product">
+	<a id="productList" href="#">유아용품</a>
+	<div class="main-product-div">
+		<div id="productNo1" class="carousel slide col-xs-12"
+			data-ride="carousel">
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+
+					<div class="row" id="forTest5" style="padding-left: 15px;">
+						<div class="aaa" id="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+<!-- 스포츠/레저 -->
+<div class="main-product">
+	<a id="productList" href="#">스포츠/레저</a>
+	<div class="main-product-div">
+		<div id="productNo1" class="carousel slide col-xs-12"
+			data-ride="carousel">
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+
+					<div class="row" id="forTest6" style="padding-left: 15px;">
+						<div class="aaa" id="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<!-- 게임/취미 -->
+<div class="main-product">
+	<a id="productList" href="#">게임/취미</a>
+	<div class="main-product-div">
+		<div id="productNo1" class="carousel slide col-xs-12"
+			data-ride="carousel">
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+
+					<div class="row" id="forTest7" style="padding-left: 15px;">
+						<div class="aaa" id="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+
+<!-- 뷰티/미용 -->
+<div class="main-product">
+	<a id="productList" href="#">뷰티/미용</a>
+	<div class="main-product-div">
+		<div id="productNo1" class="carousel slide col-xs-12"
+			data-ride="carousel">
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+
+					<div class="row" id="forTest8" style="padding-left: 15px;">
+						<div class="aaa" id="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+<!-- 생활/가공품 -->
+<div class="main-product">
+	<a id="productList" href="#">생활/가공품</a>
+	<div class="main-product-div">
+		<div id="productNo1" class="carousel slide col-xs-12"
+			data-ride="carousel">
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+
+					<div class="row" id="forTest9" style="padding-left: 15px;">
+						<div class="aaa" id="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+<!-- 반려동물 -->
+<div class="main-product">
+	<a id="productList" href="#">반려동물</a>
+	<div class="main-product-div">
+		<div id="productNo1" class="carousel slide col-xs-12"
+			data-ride="carousel">
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+
+					<div class="row" id="forTest10" style="padding-left: 15px;">
+						<div class="aaa" id="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+
+<!-- 도서/티켓/음반 -->
+<div class="main-product">
+	<a id="productList" href="#">도서/티켓/음반</a>
+	<div class="main-product-div">
+		<div id="productNo1" class="carousel slide col-xs-12"
+			data-ride="carousel">
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+
+					<div class="row" id="forTest11" style="padding-left: 15px;">
+						<div class="aaa" id="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+<!-- 기타/잡화 -->
+<div class="main-product">
+	<a id="productList" href="#">기타/잡화</a>
+	<div class="main-product-div">
+		<div id="productNo1" class="carousel slide col-xs-12"
+			data-ride="carousel">
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+
+					<div class="row" id="forTest12" style="padding-left: 15px;">
+						<div class="aaa" id="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+						<div class="aaa">
+							<img src="http://placehold.it/160x160" alt="Image"
+								class="img-fluid img-thumbnail"><br />
+							<div></div>
+							<div></div>
+							<div></div>
+						</div>
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
