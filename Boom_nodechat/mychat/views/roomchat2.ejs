@@ -246,6 +246,10 @@
 
 
     $('#send_date').click(function(){
+      if($('#set_date').val()=='약속시간 선정'){
+        alert('날짜를 지정해 주시기 바랍니다.');
+        return false;
+      }
       alert($('#set_date').val()); // 고른 시간 한번 알려주고
       var date = $('#set_date').val();
       socket.emit('socket_date', num, date, name); //서버로 전송한다.
@@ -298,12 +302,21 @@
       $('#status').text = 'out';//방의 상태를 out으로 지정
       window.location.search='?room_id='+num+'&talker=out';//url의 queryString도 나갔다고 바꿔준다. 새로고침이 되어도 out값을 가지기에 .nullMenu들이 여전히 안보여진다.
     } );
-
+    var i = 0;
     $('form').submit(() => {// Enter칠때마다 Send 할때마다 실행
+      if($('#m').val()==""){
+        i++;
+        if(i%3==1&&i>15){alert('어휴 공백은 입력 불가입니다, 선생님 ');console.log('어휴 공백은 입력 불가입니다, 선생님 ');}
+        if(i%3==2&&i>30){alert('제발 인생을 낭비하지마세요!');console.log('제발 인생을 낭비하지마세요!');}
+        if(i%3==0&&i>45){alert('한심한 행동을 멈추세요!');console.log('한심한 행동을 멈추세요!')}
+        if(i%10==0){alert('공백을 전송할 수 없습니다.')}
+        return false;
+      }else{
       socket.emit('chat message', num, name, $('#m').val());// 서버로  작성자, 방번호, 메시지를 전달한다.
       $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
       $('#m').val('');//입력창 비워주기
-      return false; //원하는 작업만 마친 후 submit의 동작을 멈춘다.
+      return false;
+    } //원하는 작업만 마친 후 submit의 동작을 멈춘다.
     });
 
     /* API 좀더 참조해야함. seller_num, buyer_num, room_id, c_address, c_date, pro_num과 pro_num에 해당하는 production 테이블의 모든 컬럼들을 뿌려준다.
