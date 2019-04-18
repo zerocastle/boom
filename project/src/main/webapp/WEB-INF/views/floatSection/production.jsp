@@ -118,7 +118,7 @@
 
 			case "woman": {
 				var path = realPath + production[i].path;
-				var img = target2.children().eq(counter).find('img');
+				var img = target2.children().eq(counter2).find('img');
 				var imgStyle = img.width('160px').height('160px');
 
 				var title = img.siblings('div').first();
@@ -140,7 +140,7 @@
 			case "elect": {
 
 				var path = realPath + production[i].path;
-				var img = target3.children().eq(counter).find('img');
+				var img = target3.children().eq(counter3).find('img');
 				var imgStyle = img.width('160px').height('160px');
 
 				var title = img.siblings('div').first();
@@ -163,7 +163,7 @@
 			case "furniture": {
 
 				var path = realPath + production[i].path;
-				var img = target4.children().eq(counter).find('img');
+				var img = target4.children().eq(counter4).find('img');
 				var imgStyle = img.width('160px').height('160px');
 
 				var title = img.siblings('div').first();
@@ -185,7 +185,7 @@
 
 			case "baby": {
 				var path = realPath + production[i].path;
-				var img = target5.children().eq(counter).find('img');
+				var img = target5.children().eq(counter5).find('img');
 				var imgStyle = img.width('160px').height('160px');
 
 				var title = img.siblings('div').first();
@@ -207,7 +207,7 @@
 
 			case "sport": {
 				var path = realPath + production[i].path;
-				var img = target6.children().eq(counter).find('img');
+				var img = target6.children().eq(counter6).find('img');
 				var imgStyle = img.width('160px').height('160px');
 
 				var title = img.siblings('div').first();
@@ -228,9 +228,8 @@
 			}
 
 			case "hobby": {
-				var counter = 0;
 				var path = realPath + production[i].path;
-				var img = target7.children().eq(counter).find('img');
+				var img = target7.children().eq(counter7).find('img');
 				var imgStyle = img.width('160px').height('160px');
 
 				var title = img.siblings('div').first();
@@ -244,7 +243,7 @@
 				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
-				counter7++;
+				counter6++;
 				
 				break;
 
@@ -253,7 +252,7 @@
 			case "beauty": {
 
 				var path = realPath + production[i].path;
-				var img = target8.children().eq(counter).find('img');
+				var img = target8.children().eq(counter8).find('img');
 				var imgStyle = img.width('160px').height('160px');
 
 				var title = img.siblings('div').first();
@@ -276,7 +275,7 @@
 			case "life": {
 
 				var path = realPath + production[i].path;
-				var img = target9.children().eq(counter).find('img');
+				var img = target9.children().eq(counter9).find('img');
 				var imgStyle = img.width('160px').height('160px');
 
 				var title = img.siblings('div').first();
@@ -299,7 +298,7 @@
 			case "animal": {
 
 				var path = realPath + production[i].path;
-				var img = target10.children().eq(counter).find('img');
+				var img = target10.children().eq(counter10).find('img');
 				var imgStyle = img.width('160px').height('160px');
 
 				var title = img.siblings('div').first();
@@ -322,7 +321,7 @@
 			case "book": {
 
 				var path = realPath + production[i].path;
-				var img = target11.children().eq(counter).find('img');
+				var img = target11.children().eq(counter11).find('img');
 				var imgStyle = img.width('160px').height('160px');
 
 				var title = img.siblings('div').first();
@@ -345,7 +344,7 @@
 			case "else": {
 
 				var path = realPath + production[i].path;
-				var img = target12.children().eq(counter).find('img');
+				var img = target12.children().eq(counter12).find('img');
 				var imgStyle = img.width('160px').height('160px');
 
 				var title = img.siblings('div').first();
