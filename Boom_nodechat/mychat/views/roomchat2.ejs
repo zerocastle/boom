@@ -258,9 +258,9 @@
 //B가 날짜 수신
 //B가 수락버튼 클릭
 //A,B의 DatePicker의 값이 해당 수락된 날짜로 변경.
-    socket.on('socket_date', (num, date, name) => {// 상대방으로부터 채팅방에 소켓데이트 신호가 온다면 실행.
+    socket.on('socket_date', (num, date, name, message_id) => {// 상대방으로부터 채팅방에 소켓데이트 신호가 온다면 실행.
       
-      var buttonSet = "<button class='yes'>수락</button><button class='no'>거절</button>";
+      var buttonSet = "<button class='yes'>수락</button><button class='no' value="+message_id+">거절</button>";
       if(name==$('#nickname').text()){
         $('#messages').append($('<li class="even">').html(name +' : '+'<i>상대방에게 시간협의를 제안하셨습니다</i><br><i >'+date+'</i>'));//버튼은 상대방에게만 보인다.
       } else{
@@ -274,7 +274,13 @@
        alert('약속시간 :'+dateP+'으로 지정되었습니다.');
        $('#set_date').val(dateP);//제안들중 선택 
       socket.emit('dateYes', dateP,num); //서버로 전송한다.
-  
+    });
+    $(document).on("click",".no",function(event){// 거절버튼 클릭시
+      var dateP = $(event.target).siblings('.dateP').text();
+      message_id = $(event.target).val();
+      alert('클릭된 거절버튼의 메시지 아이디' + message_id + '입니다');
+      alert('약속일시 제안 ('+$(event.target).siblings('.dateP').text()+')을 거절하셨습니다.');
+      socket.emit('dateNo', dateP,num,message_id); //서버로 전송한다.
     });
 
     $('#nothing').click(function(){// 아무것도 아닌 추가기능을 실행하면 일단 귀여운 강아지 보여줌 ㅎㅎ

@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script><script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script>
-      function namespace(nsp) {
-        const namespace = io('/namespace' + nsp);
-          // news라는 이벤트를 받을 시 콘솔에 data.hello를 출력
-          namespace.on('news', (data) => {
-          console.log(data.hello);
-        });
-      }
+      $(document).ready(function(){
+        $('#mnum').click(function(){
+          alert('fuckyou' + $('#mnum').val());
+        })
+      });
     </script>
   </head>
   <body>
-    <button onclick="namespace(1)">namespace1</button>
-    <button onclick="namespace(2)">namespace2</button>
+    <button id='mnum' value='jack'>namespace1</button>
+    
   </body>
 </html>
 <!-- 1. 판매게시글에서 채팅 신청 버튼 클릭시 
