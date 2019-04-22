@@ -7,5 +7,7 @@ import com.ys.project.projectDTO.IndexProductionDTO;
 public interface ProductionMapper {
 	
 	public List<IndexProductionDTO> productionJoin();
+	
+	
 
 }

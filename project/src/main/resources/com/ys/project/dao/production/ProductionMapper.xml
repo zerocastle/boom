@@ -13,5 +13,7 @@
 		FROM PRODUCTION A , PRODUCTION_UPLOAD B
 		WHERE B.REP = 1 AND A.PRO_NUM = B.PRO_NUM
 	</select>
+	
+	
 
 </mapper>

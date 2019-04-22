@@ -1,7 +1,13 @@
 package com.ys.project.controller.member;
 
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -12,11 +18,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ys.project.projectVO.MemberVO;
 import com.ys.project.projectVO.PartnerVO;
 import com.ys.project.projectVO.ProductionVO;
 import com.ys.project.service.sellingUpdate.ISellingUpdateService;
 
 import lombok.AllArgsConstructor;
+
+/*
+ * 전반적인 상품 관련 내역 확인
+ */
 
 @Controller
 @AllArgsConstructor
@@ -24,7 +35,7 @@ import lombok.AllArgsConstructor;
 public class SellingController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
-	private ISellingUpdateService service; 
+	private ISellingUpdateService service;
 
 	// 판매하기로 이동
 	@RequestMapping(value = "selling", method = RequestMethod.GET)
@@ -37,10 +48,22 @@ public class SellingController {
 
 	// 상품 관리로 이동
 	@RequestMapping(value = "sell_productManage", method = RequestMethod.GET)
-	public String sell_productManage(Model model) {
-
-		logger.info("매니저로 이동");
-
+	public String sell_productManage(Model model, HttpServletRequest request) {
+		JSONObject object ;
+		JSONArray array;
+		MemberVO memberVO = new MemberVO();
+		HttpSession session = request.getSession();
+		memberVO = (MemberVO) session.getAttribute("loginSession");
+		int m_num = memberVO.getM_num();
+		logger.info("매니저로 이동" + m_num);
+		
+		
+		logger.info("상품관리 : " + service.getMemberProductionList(m_num));
+		
+		model.addAttribute("productList", service.getMemberProductionList(m_num));
+		
+		
+		
 		return "/sell/sell-ProductManage";
 
 	}
@@ -96,13 +119,13 @@ public class SellingController {
 
 	// 상품 등록하기
 	@PostMapping("uploadProduct")
-	public String uploadProduct(ProductionVO productionVO, Model model , RedirectAttributes rttr) {
+	public String uploadProduct(ProductionVO productionVO, Model model, RedirectAttributes rttr) {
 
 		if (productionVO.getUploadVOList() != null) {
 			productionVO.getUploadVOList().forEach(attach -> logger.info("" + attach));
 		}
 		logger.info("야 뭐가 넘 어 옴??" + productionVO);
-		
+
 		service.insert(productionVO);
 
 		logger.info("========================================");

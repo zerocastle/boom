@@ -2,6 +2,7 @@ package com.ys.project.service.sellingUpdate;
 
 import java.util.List;
 
+import com.ys.project.projectDTO.MemberProductionList;
 import com.ys.project.projectVO.PartnerVO;
 import com.ys.project.projectVO.ProductionVO;
 
@@ -12,5 +13,8 @@ public interface ISellingUpdateService {
 
 	// 惑前 殿废
 	public void insert(ProductionVO productionVO);
+	
+	// 惑前 包府
+	public List<MemberProductionList> getMemberProductionList(int m_num);
 
 }

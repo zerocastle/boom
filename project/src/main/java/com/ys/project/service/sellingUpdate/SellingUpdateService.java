@@ -10,9 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ys.project.dao.productionUpload.ProductionUploadMapper;
 import com.ys.project.dao.sellingUpdate.SellingUpdateMapper;
+import com.ys.project.projectDTO.MemberProductionList;
 import com.ys.project.projectVO.PartnerVO;
 import com.ys.project.projectVO.ProductionVO;
-import com.ys.project.projectVO.Production_uploadVO;
 
 import lombok.AllArgsConstructor;
 import lombok.Setter;
@@ -56,6 +56,13 @@ public class SellingUpdateService implements ISellingUpdateService {
 			uploadMapper.insertUpload(upload);
 		});
 
+	}
+
+	// 회원에 대한 상품 리스트 불러오기
+	@Override
+	public List<MemberProductionList> getMemberProductionList(int m_num) {
+		// TODO Auto-generated method stub
+		return sellingMapper.getMemberProductionList(m_num);
 	}
 
 }

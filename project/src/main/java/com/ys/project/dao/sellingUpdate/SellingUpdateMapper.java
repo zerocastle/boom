@@ -2,6 +2,7 @@ package com.ys.project.dao.sellingUpdate;
 
 import java.util.List;
 
+import com.ys.project.projectDTO.MemberProductionList;
 import com.ys.project.projectVO.PartnerVO;
 import com.ys.project.projectVO.ProductionVO;
 
@@ -13,6 +14,7 @@ public interface SellingUpdateMapper {
 	// 惑前 殿废
 	public int insert(ProductionVO productionVO);
 
-	
+	// 惑前 包府
+	public List<MemberProductionList> getMemberProductionList(int m_num);
 
 }

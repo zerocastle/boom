@@ -23,5 +23,15 @@
 
 	</insert>
 
+	<!-- 맴버에 대한 상품 리스트 -->
+	<select id="getMemberProductionList" parameterType="int"
+		resultType="com.ys.project.projectDTO.MemberProductionList">
+		SELECT
+		A.PRO_NUM,A.TITLE,A.STATE_MSG,A.PRICE,A.CATE_CODE,B.UUID,B.UPLOADPATH,B.FILENAME
+		FROM PRODUCTION A ,PRODUCTION_UPLOAD B
+		WHERE A.PRO_NUM = B.PRO_NUM AND A.M_NUM = #{m_num} AND B.REP = 1
+
+	</select>
+
 
 </mapper>
