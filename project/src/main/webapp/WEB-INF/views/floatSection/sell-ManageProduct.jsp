@@ -134,9 +134,9 @@
 				state_msg = "거래완료";
 			}
 			content.eq(counter++).html(productList[j].title);
-			content.eq(counter++).html("<img src='"+realPath + productList[j].path +"' width='100' height='100'/>");
+			content.eq(counter++).html("<img src='"+realPath + productList[j].path +"' width='80' height='80'/>");
 			content.eq(counter++).html(state_msg);
-			content.eq(counter++).html(comma(productList[j].price));
+			content.eq(counter++).html(comma(productList[j].price) + "원");
 			content.eq(counter++).html(productList[j].cate_code);
 			counter++;
 		}
