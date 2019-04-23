@@ -21,6 +21,7 @@
 		<script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="javascripts/bootstrap-material-datetimepicker.js"></script>
     <script src="javascripts/semantic.js"></script>
+    <script src="javascripts/qrcode.js"></script>
     <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>  
 
   <style>
@@ -343,10 +344,26 @@ var subDate;
       socket.emit('dateNo', dateP,num,message_id); //서버로 전송한다.
     });
 
+    var func_qr = function(){
+      var qrcode = new QRCode(document.getElementById("qrcode"), {
+        text: "http://39.127.7.47:3000/testQR",
+        width: 128,
+        height: 128,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+      });
+      return func_changeID();
+    }
+    var func_changeID = function(){
+      var aa = document.getElementById('qrcode').id;
+      document.getElementById('qrcode').id = '응큐알아니야';
+    }
     $('#nothing').click(function(){// 아무것도 아닌 추가기능을 실행하면 일단 귀여운 강아지 보여줌 ㅎㅎ
-      $('#messages').append($('<li class="even"><img src="images/dog4.png" width="300px" height="300px">'));
+      $('#messages').append($('<li class="even"><div id="qrcode"></div><img src="images/dog4.png" width="300px" height="300px">'));
         $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
       //socket의 emit()함수가 없어서 전송도 안됨 ㅎㅎ
+      return func_qr();
     });
 
     $('#room_out').click(function(){

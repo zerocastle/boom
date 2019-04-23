@@ -35,7 +35,10 @@ var sRoom;//방넘버를 공유하기 위해 전역변수로 지정함.
 var status;
 var c_address;
 var c_datetime;
-
+app.get('/testQR', (req,res) => {
+console.log('와 QR코드 반가워요!');
+    res.render('goTestQR');
+});
 app.get('/roomchat', (req, res) => {//목록중 하나를 클릭하였을때 실행
   console.log("방에 입장 :", req.session)//request객체의 세션값 읽음
   console.log("입장한 닉네임 :", req.session.nickname)//세션의 nickname변수에 저장된 값을 찍어본다.
