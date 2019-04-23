@@ -216,6 +216,77 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
     });
   });
 
+
+// Address 정보처리 Start
+var func_messageNum_a = function (num, address, name){
+  var sSql = "select message_seq.NEXTVAL-1 from dual";
+  conn.execute(sSql,function(err,result){
+    if(err){
+        console.log("에러난 메시지아이디 셀렉트", err);
+    }else{
+        var message_id = result.rows[0][0];
+        console.log("성공한 메시지아이디 셀렉트: ",result, sSql);
+        console.log("성공한 메시지아이디 셀렉트: ",message_id);
+        io.to(num).emit('socket_address', num, address, name, message_id);
+      }
+  });
+}
+
+
+
+socket.on('socket_address', (num, address, name) => {//일정전송 신호가 서버로 들어올때 실행.
+    var buttonSet = "<button class=''Ayes''>수락</button><button class=''Ano'' value='''||TO_CHAR(message_seq.NEXTVAL)||'''>거절</button>";
+    var insertDate = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '"+name+"'), "+num+", '장소협의 - "+name+"님에 의해 약속장소가 선정되었습니다 :<br><i class=''addressP''>"+address+"</i><br>"+buttonSet+"')";
+    conn.execute(insertDate,function(err,result){
+      if(err){
+          console.log("소켓약속일시 insert 에러", err);
+      }else{
+          console.log("성공한 인서트 : ",result, insertDate);
+        return func_messageNum_a(num, address, name);
+        }
+    });
+});
+
+socket.on('addressNo', (addressP,num, message_id)=> {//거절버튼을 누른다면
+  message_id = Number(message_id);
+  var noSql = "update message set content = '<i>거절하셨습니다</i><br>"+addressP+"' where message_num = "+message_id;
+  conn.execute(noSql,function(err,result){
+    if(err){
+      console.log("거절 에러", err);
+  }else{
+      console.log(noSql);
+      console.log("거절 업데이트 성공! : ",result);
+      io.to(num).emit('ref');
+  }
+  });
+});
+
+
+socket.on('addressYes', (addressP,num)=> {//일정수락 신호가 온다면
+  var updateDate = "update chatroom set c_address = '"+addressP+"' where room_id="+num+"";
+  conn.execute(updateDate,function(err,result){
+    if(err){
+      console.log("소켓약속일시 update 에러", err);
+  }else{
+      console.log("업데이트 성공! : ",result);
+  }
+  });
+
+  console.log(addressP);
+  console.log('하하하하');
+  var yesSql = "update message set content = '<i>수락하셨습니다.</i><br>"+addressP+"' where content like '장소협의%' and room_id = "+num;
+  conn.execute(yesSql,function(err,result){
+    if(err){
+      console.log("하히히하하하하 예쓰에러", err);
+  }else{
+      console.log("예ㅖㅖㅖㅖㅖㅖㅖ쓰업데이트 성공! : ",result);
+      io.to(num).emit('ref');
+  }
+  });
+  
+});
+// Address 정보처리 End
+// Date 정보처리 Start
   var func_messageNum = function (num, date, name){
     var sSql = "select message_seq.NEXTVAL-1 from dual";
     conn.execute(sSql,function(err,result){
@@ -234,7 +305,7 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
   //일정전송 신호가 서버로 들어올때 실행.
   socket.on('socket_date', (num, date, name) => {
       var buttonSet = "<button class=''yes''>수락</button><button class=''no'' value='''||TO_CHAR(message_seq.NEXTVAL)||'''>거절</button>";
-      var insertDate = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '"+name+"'), "+num+", '시간협의 - "+name+"님에 의해 약속일정이 선정되었습니다 :<i class=''dateP''>"+date+"</i><br>+"+buttonSet+"')";
+      var insertDate = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '"+name+"'), "+num+", '시간협의 - "+name+"님에 의해 약속일정이 선정되었습니다 :<i class=''dateP''>"+date+"</i><br>"+buttonSet+"')";
       conn.execute(insertDate,function(err,result){
         if(err){
             console.log("소켓약속일시 insert 에러", err);
@@ -243,7 +314,6 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
           return func_messageNum(num, date, name);
           }
       });
-    
   });
 
   socket.on('dateNo', (dateP,num, message_id)=> {//거절버튼을 누른다면
@@ -284,8 +354,7 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
     });
     
   });
-
-
+// Date 정보처리 End
 
   socket.on('chat message', (num, name, msg) => {//채팅 신호가 온다면
     a = num; //왜했지 이걸

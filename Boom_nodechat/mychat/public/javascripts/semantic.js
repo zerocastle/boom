@@ -16326,7 +16326,7 @@ $.fn.sidebar = function(parameters) {
             }
             if($module.nextAll(selector.pusher).length === 0 || $module.nextAll(selector.pusher)[0] !== $pusher[0]) {
               module.debug('Moved sidebar to correct parent element');
-              module.error(error.movedSidebar, element);
+        //      module.error(error.movedSidebar, element);
               $module.detach().prependTo($context);
               module.refresh();
             }
@@ -16809,7 +16809,7 @@ $.fn.sidebar = function(parameters) {
         error: function() {
           if(!settings.silent) {
             module.error = Function.prototype.bind.call(console.error, console, settings.name + ':');
-            module.error.apply(console, arguments);
+         //   module.error.apply(console, arguments);
           }
         },
         performance: {
