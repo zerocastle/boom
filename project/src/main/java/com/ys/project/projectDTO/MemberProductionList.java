@@ -1,5 +1,8 @@
 package com.ys.project.projectDTO;
 
+import lombok.Data;
+
+@Data
 public class MemberProductionList {
 	
 	private int pro_num;

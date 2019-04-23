@@ -376,7 +376,7 @@
 			var cate_code = production[i].cate_code;
 			var place_signal = production[i].place_signal;
 			var state_msg = production[i].state_msg;
-
+			
 			var test = comma(price);
 			console.log("콤바 변환 : " + test);
 
