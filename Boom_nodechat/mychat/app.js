@@ -1,135 +1,138 @@
-//í•œê¸€ê¹¨ì ¸? can you read korean words? í•œê¸€ì•ˆê¹¨ì ¸?
+//ÇÑ±Û±úÁ®? can you read korean words? ÇÑ±Û¾È±úÁ®?
 /* socket\room_chat\app.js */
-var express = require('express'); // express ì„œë²„ import
-var app = express(); // ì„œë²„ ê°ì²´ ìƒì„±
-const http = require('http').Server(app); // http í†µì‹ ê·œì•½ import
+var express = require('express'); // express ¼­¹ö import
+var app = express(); // ¼­¹ö °´Ã¼ »ı¼º
+const http = require('http').Server(app); // http Åë½Å±Ô¾à import
 const io = require('socket.io')(http); // socket.io import
 var redis = require("redis"); //redis import
 var session = require('express-session'); //express-session import
-var client; //redisì˜ connection ê°ì²´ê°€ ë  ë³€ìˆ˜
-app.use(session({ // ì„¸ì…˜ì‚¬ìš©ì„ ìœ„í•œ ì ˆì°¨
-	secret: '12sdfwerwersdfserwerwef', //keboard cat (ëœë¤í•œ ê°’)
-	resave: false,
-	saveUninitialized: true
+var client; //redisÀÇ connection °´Ã¼°¡ µÉ º¯¼ö
+app.use(session({ // ¼¼¼Ç»ç¿ëÀ» À§ÇÑ ÀıÂ÷
+   secret: '12sdfwerwersdfserwerwef', //keboard cat (·£´ıÇÑ °ª)
+   resave: false,
+   saveUninitialized: true
 }));
-app.use(express.static(__dirname + '/public')); // resourceíŒŒì¼ë“¤ì˜ ê²½ë¡œì„¤ì •ì„ ìœ„í•œ ì ˆì°¨
-app.set('view engine', 'ejs'); //ë·° í…œí”Œë¦¿ ì§€ì •. .ejs ë¡œ ì‘ì„±ë˜ì–´ì•¼í•œë‹¤. 
-app.set('views', './views'); //ê²½ë¡œì§€ì •. viewë‹¨ì˜ íŒŒì¼ë“¤ì€ í•´ë‹¹ ê²½ë¡œì— ì €ì¥ë˜ì–´ì•¼ í•œë‹¤.
+app.use(express.static(__dirname + '/public')); // resourceÆÄÀÏµéÀÇ °æ·Î¼³Á¤À» À§ÇÑ ÀıÂ÷
+app.set('view engine', 'ejs'); //ºä ÅÛÇÃ¸´ ÁöÁ¤. .ejs ·Î ÀÛ¼ºµÇ¾î¾ßÇÑ´Ù. 
+app.set('views', './views'); //°æ·ÎÁöÁ¤. view´ÜÀÇ ÆÄÀÏµéÀº ÇØ´ç °æ·Î¿¡ ÀúÀåµÇ¾î¾ß ÇÑ´Ù.
 
 
-let room = [10000];//socketIOì˜ ë°© ê°ì²´ê°€ ë‹´ê¸¸ ë°°ì—´
-var conn; // DB connection ê°ì²´ê°€ ë  ë³€ìˆ˜
+let room = [10000];//socketIOÀÇ ¹æ °´Ã¼°¡ ´ã±æ ¹è¿­
+var conn; // DB connection °´Ã¼°¡ µÉ º¯¼ö
 var oracledb = require("oracledb"); //oracleDB import
-oracledb.autoCommit = true;//ìë™ì»¤ë°‹
-oracledb.getConnection({// ì»¤í…ì…˜ ê°ì²´ ìƒì„±
-  user:"kys", //DB-name
-  password:"kys", //DB-password
-  connectString:"39.127.7.51/orcl"},function(err,con){ //ì½œë°±í•¨ìˆ˜. url/sidë¥¼ í†µí•´ ì ‘ê·¼í•˜ë©° ì„±ê³µì‹œ con ì´ë¼ëŠ” ì»¤ë„¥ì…˜ ê°ì²´ ë°˜í™˜. 
-    if(err){//ì—ëŸ¬ê°€ ìˆë‹¤ë©´ ì‹¤í–‰
-      console.log("ì ‘ì†ì—ëŸ¬",err);
+oracledb.autoCommit = true;//ÀÚµ¿Ä¿¹Ô
+oracledb.getConnection({// Ä¿ÅØ¼Ç °´Ã¼ »ı¼º
+  user:"tom", //DB-name
+  password:"tom", //DB-password
+  connectString:"39.127.7.47/orcl"},function(err,con){ //Äİ¹éÇÔ¼ö. url/sid¸¦ ÅëÇØ Á¢±ÙÇÏ¸ç ¼º°ø½Ã con ÀÌ¶ó´Â Ä¿³Ø¼Ç °´Ã¼ ¹İÈ¯. 
+    if(err){//¿¡·¯°¡ ÀÖ´Ù¸é ½ÇÇà
+      console.log("Á¢¼Ó¿¡·¯",err);
     }
-    conn=con; //ì•ì„œ ì „ì—­ë³€ìˆ˜ë¡œ ì„ ì–¸í•œ connì— ì§€ì—­ë³€ìˆ˜ ì»¤ë„¥ì…˜ ê°ì²´ conì„ ë„£ì–´ì¤€ë‹¤.
+    conn=con; //¾Õ¼­ Àü¿ªº¯¼ö·Î ¼±¾ğÇÑ conn¿¡ Áö¿ªº¯¼ö Ä¿³Ø¼Ç °´Ã¼ conÀ» ³Ö¾îÁØ´Ù.
 });
 
-var sRoom;//ë°©ë„˜ë²„ë¥¼ ê³µìœ í•˜ê¸° ìœ„í•´ ì „ì—­ë³€ìˆ˜ë¡œ ì§€ì •í•¨.
+var sRoom;//¹æ³Ñ¹ö¸¦ °øÀ¯ÇÏ±â À§ÇØ Àü¿ªº¯¼ö·Î ÁöÁ¤ÇÔ.
 var status;
 var c_address;
 var c_datetime;
-
-app.get('/roomchat', (req, res) => {//ëª©ë¡ì¤‘ í•˜ë‚˜ë¥¼ í´ë¦­í•˜ì˜€ì„ë•Œ ì‹¤í–‰
-  console.log("ë°©ì— ì…ì¥ :", req.session)//requestê°ì²´ì˜ ì„¸ì…˜ê°’ ì½ìŒ
-  console.log("ì…ì¥í•œ ë‹‰ë„¤ì„ :", req.session.nickname)//ì„¸ì…˜ì˜ nicknameë³€ìˆ˜ì— ì €ì¥ëœ ê°’ì„ ì°ì–´ë³¸ë‹¤.
-  sRoom = req.query.room_id;////--ì¿¼ë¦¬ìŠ¤íŠ¸ë§ ê°’ì„ ë°›ì•„ì˜¨ë‹¤. req.query.ë³€ìˆ˜ëª…;
-  status = req.query.talker; //ìƒëŒ€ë°©ì´ ì±„íŒ…ë°©ì— ì¡´ì¬í•˜ëŠ”ê°€ì— ëŒ€í•œ ì—¬ë¶€//in ê³¼ outì´ ìˆë‹¤.
-  if(req.session.nickname==undefined){//ì„¸ì…˜ì— ë‹‰ë„¤ì„ì´ ì—†ë‹¤ë©´ ì‹¤í–‰
-    res.render('tomson');//ë‹‰ë„¤ì„ì´ ë¹„ì—ˆë‹¤ë©´ ì—ëŸ¬ì²˜ë¦¬í˜ì´ì§€ì¸ tomson.ejsë¡œ ì´ë™í•œë‹¤.
+app.get('/testQR', (req,res) => {
+console.log('¿Í QRÄÚµå ¹İ°¡¿ö¿ä!');
+    res.render('goTestQR');
+});
+app.get('/roomchat', (req, res) => {//¸ñ·ÏÁß ÇÏ³ª¸¦ Å¬¸¯ÇÏ¿´À»¶§ ½ÇÇà
+  console.log("¹æ¿¡ ÀÔÀå :", req.session)//request°´Ã¼ÀÇ ¼¼¼Ç°ª ÀĞÀ½
+  console.log("ÀÔÀåÇÑ ´Ğ³×ÀÓ :", req.session.nickname)//¼¼¼ÇÀÇ nicknameº¯¼ö¿¡ ÀúÀåµÈ °ªÀ» Âï¾îº»´Ù.
+  sRoom = req.query.room_id;////--Äõ¸®½ºÆ®¸µ °ªÀ» ¹Ş¾Æ¿Â´Ù. req.query.º¯¼ö¸í;
+  status = req.query.talker; //»ó´ë¹æÀÌ Ã¤ÆÃ¹æ¿¡ Á¸ÀçÇÏ´Â°¡¿¡ ´ëÇÑ ¿©ºÎ//in °ú outÀÌ ÀÖ´Ù.
+  if(req.session.nickname==undefined){//¼¼¼Ç¿¡ ´Ğ³×ÀÓÀÌ ¾ø´Ù¸é ½ÇÇà
+    res.render('tomson');//´Ğ³×ÀÓÀÌ ºñ¾ú´Ù¸é ¿¡·¯Ã³¸®ÆäÀÌÁöÀÎ tomson.ejs·Î ÀÌµ¿ÇÑ´Ù.
   }
   if(status== undefined){
     status = req.query.talker;
   }
-  if(sRoom == undefined){//ì¿¼ë¦¬ìŠ¤íŠ¸ë§ê°’ì´ ì—†ë‹¤ë©´
-  sRoom = req.query.room_id;} // ì¿¼ë¦¬ìŠ¤íŠ¸ë§ ê°’ì„ ë°›ì•„ì˜¨ë‹¤.
-  console.log("ì…ì¥í•©ë‹ˆë‹¤! : "+sRoom+"ë²ˆë°©ì˜ ìƒíƒœ : " + status);
+  if(sRoom == undefined){//Äõ¸®½ºÆ®¸µ°ªÀÌ ¾ø´Ù¸é
+  sRoom = req.query.room_id;} // Äõ¸®½ºÆ®¸µ °ªÀ» ¹Ş¾Æ¿Â´Ù.
+  console.log("ÀÔÀåÇÕ´Ï´Ù! : "+sRoom+"¹ø¹æÀÇ »óÅÂ : " + status);
   var renderMessage = function(c_address, c_datetime){
     
     var searchMessage = 'select message_num, sender_num,member.nickname, room_id, content from message, member' +
     ' where message.sender_num = member.m_num and room_id = '+parseInt(sRoom)+' order by message_num asc';
     conn.execute(searchMessage,function(err,result){
-      console.log('ì…ì¥í•œ ë°©ë²ˆí˜¸:'+sRoom);
-    if(err){//ì—ëŸ¬ê°€ ë°œìƒí•œë‹¤ë©´ ì‹¤í–‰
-        console.log("/ROOMCHAT : ë“±ë¡ì¤‘ ì—ëŸ¬ê°€ ë°œìƒ", err);
-    }else{//ì •ìƒì‘ë™ì‹œ
-      console.log('ë Œë”ì¥ì†ŒëŠ” ' + c_address);
-      console.log('ë Œë”ì‹œê°„ëŠ” ' + c_datetime);
+      console.log('ÀÔÀåÇÑ ¹æ¹øÈ£:'+sRoom);
+    if(err){//¿¡·¯°¡ ¹ß»ıÇÑ´Ù¸é ½ÇÇà
+        console.log("/ROOMCHAT : µî·ÏÁß ¿¡·¯°¡ ¹ß»ı", err);
+    }else{//Á¤»óÀÛµ¿½Ã
+      console.log('·»´õÀå¼Ò´Â ' + c_address);
+      console.log('·»´õ½Ã°£´Â ' + c_datetime);
       console.log("result: "+result);
       console.log("result: ",result.rows);
-      //roomchat2.ejs ë¡œ ì´ë™í•œë‹¤. //ì´ë™í• ë•Œ key:valueí˜•íƒœë¡œ ì¿¼ë¦¬ê²°ê³¼, ì„¸ì…˜ì˜ ë‹‰ë„¤ì„, ë°©ë²ˆí˜¸ë¥¼ ì „ë‹¬í•œë‹¤. 
-      res.render('roomchat2',{result:JSON.stringify(result), nickname:req.session.nickname, roomid:sRoom ,rstatus : status, datetime : c_datetime, address : c_address });// ë°©ì—ë‹¤ê°€ ë˜ì ¸ì£¼ì
+      //roomchat2.ejs ·Î ÀÌµ¿ÇÑ´Ù. //ÀÌµ¿ÇÒ¶§ key:valueÇüÅÂ·Î Äõ¸®°á°ú, ¼¼¼ÇÀÇ ´Ğ³×ÀÓ, ¹æ¹øÈ£¸¦ Àü´ŞÇÑ´Ù. 
+      res.render('roomchat2',{result:JSON.stringify(result), nickname:req.session.nickname, roomid:sRoom ,rstatus : status, datetime : c_datetime, address : c_address });// ¹æ¿¡´Ù°¡ ´øÁ®ÁÖÀÚ
     }
 
     });
   }
 
   conn.execute("select c_datetime, c_address from chatroom where room_id = ("+sRoom+")", function(err,result){
-    console.log('select : ì¥ì†Œì™€ ì‹œê°„' + result.rows);
+    console.log('select : Àå¼Ò¿Í ½Ã°£' + result.rows);
     c_datetime = result.rows[0][0];
     c_address = result.rows[0][1];
-    if(c_address == null){c_address = 'ì•½ì†ì¥ì†Œ ì„ ì •'}
+    if(c_address == null){c_address = '¾à¼ÓÀå¼Ò ¼±Á¤'}
     else {
-      console.log('ì•½ì†ì¥ì†ŒëŠ” ' + c_address);
+      console.log('¾à¼ÓÀå¼Ò´Â ' + c_address);
     }
-    if (c_datetime == null){c_datetime = 'ì•½ì†ì‹œê°„ ì„ ì •'}
+    if (c_datetime == null){c_datetime = '¾à¼Ó½Ã°£ ¼±Á¤'}
     else {
-      console.log('ì•½ì†ì‹œê°„ì•½ì†ì‹œê°„ì€ ' + c_datetime);
+      console.log('¾à¼Ó½Ã°£¾à¼Ó½Ã°£Àº ' + c_datetime);
     }
 
-    console.log('íŒŒã…ã…ã…ã…ã…ã…ã…ã…ã…ã…ã…ã…ã…ã…ã…ã…ã…ã…ã…ã…ã…ã…ã…ã…ã…ã…ã…ã…í‹°í”¼í”Œ',c_address, c_datetime);
+    console.log('ÆÄ¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿Æ¼ÇÇÇÃ',c_address, c_datetime);
     return renderMessage(c_address, c_datetime);
   });
   
-  //ëª©ë¡ì˜ ë°©ë²ˆí˜¸ë¥¼ ì´ìš©í•´ í•´ë‹¹í•˜ëŠ” ë””ë¹„ì˜ ë©”ì‹œì§€ë‚´ì—­ì„ ë¶ˆëŸ¬ì˜¨ë‹¤.
+  //¸ñ·ÏÀÇ ¹æ¹øÈ£¸¦ ÀÌ¿ëÇØ ÇØ´çÇÏ´Â µğºñÀÇ ¸Ş½ÃÁö³»¿ªÀ» ºÒ·¯¿Â´Ù.
   
   
 });
 
 
-// ë°©ëª©ë¡ ë¶ˆëŸ¬ì˜¤ê¸°
-app.get('/jackchat', (req, res) => {//localhost:3000/jackchat ìœ¼ë¡œ ì ‘ê·¼ì‹œ ì‹¤í–‰
-  client = redis.createClient(6379, "localhost");//localhost6379í¬íŠ¸ì˜ redisê°ì²´ì— ì ‘ê·¼í•œë‹¤.
-    client.get("user", function(err, val) {//ìŠ¤í”„ë§ì—ì„œ ì €ì¥í•œ redisê°ì²´ì— "user"ë¼ëŠ” í‚¤ì˜ ê°’ì„ ì°¾ì•„ í•¨ìˆ˜ì‹¤í–‰
+// ¹æ¸ñ·Ï ºÒ·¯¿À±â
+app.get('/jackchat', (req, res) => {//localhost:3000/jackchat À¸·Î Á¢±Ù½Ã ½ÇÇà
+  client = redis.createClient(6379, "localhost");//localhost6379Æ÷Æ®ÀÇ redis°´Ã¼¿¡ Á¢±ÙÇÑ´Ù.
+    client.get("user", function(err, val) {//½ºÇÁ¸µ¿¡¼­ ÀúÀåÇÑ redis°´Ã¼¿¡ "user"¶ó´Â Å°ÀÇ °ªÀ» Ã£¾Æ ÇÔ¼ö½ÇÇà
     testdata=val;
-    req.session.nickname = val;//ì„¸ì…˜ì˜ nickname ë³€ìˆ˜ì— redisê°ì²´ì—ì„œ ë°›ì•„ì˜¨ ê°’ì„ ë„£ì–´ì¤€ë‹¤.
-    console.log('ì°ì–´ë´…ì‹œë‹¤ : ' , val) // ì±„íŒ…ì„œë²„ì— ì ‘ì†í•œ ìœ ì €ì˜ nicknameì„ ì°ì–´ë³¸ë‹¤.
-    if(val === null) {//ê°’ì´ ì—†ë‹¤ë©´ ìš”ê±°í•˜ê³  ë•¡
+    req.session.nickname = val;//¼¼¼ÇÀÇ nickname º¯¼ö¿¡ redis°´Ã¼¿¡¼­ ¹Ş¾Æ¿Â °ªÀ» ³Ö¾îÁØ´Ù.
+    console.log('Âï¾îº¾½Ã´Ù : ' , val) // Ã¤ÆÃ¼­¹ö¿¡ Á¢¼ÓÇÑ À¯ÀúÀÇ nicknameÀ» Âï¾îº»´Ù.
+    if(val === null) {//°ªÀÌ ¾ø´Ù¸é ¿ä°ÅÇÏ°í ¶¯
       console.log('>>>>> result : null ');
     }
-    else {//ê°’ì´ ìˆë‹¤ë©´ ì‹¤í–‰
+    else {//°ªÀÌ ÀÖ´Ù¸é ½ÇÇà
       var loglogsql = "select c.room_id, c.buyer_num, c.seller_num, c.pro_num, o.title, (select nickname from member where m_num = c.buyer_num) C_buyer_nickname, (select nickname from member where m_num = c.seller_num) C_seller_nickname  from chatroom c, production o where o.pro_num = c.pro_num and (      seller_num = (select m_num from member where nickname = '"+val+"') or      buyer_num = (select m_num from member where nickname = '"+val+"')) order by room_id asc";
-      //ë‹‰ë„¤ì„ìœ¼ë¡œ ìœ ì €ì˜ íšŒì›ë²ˆí˜¸ ì•Œì•„ë‚´ì–´ í•´ë‹¹ ë²ˆí˜¸ê°€ êµ¬ë§¤ì ë˜ëŠ” íŒë§¤ìë¡œ ì¡´ì¬í•˜ëŠ” ì±„íŒ…ë°©ì„ ê²€ìƒ‰í•œë‹¤.
-      conn.execute(loglogsql,function(err, result){ // ê¸´ ì¿¼ë¦¬ë¬¸ì„ ì‹¤í–‰í•œë‹¤.
+      //´Ğ³×ÀÓÀ¸·Î À¯ÀúÀÇ È¸¿ø¹øÈ£ ¾Ë¾Æ³»¾î ÇØ´ç ¹øÈ£°¡ ±¸¸ÅÀÚ ¶Ç´Â ÆÇ¸ÅÀÚ·Î Á¸ÀçÇÏ´Â Ã¤ÆÃ¹æÀ» °Ë»öÇÑ´Ù.
+      conn.execute(loglogsql,function(err, result){ // ±ä Äõ¸®¹®À» ½ÇÇàÇÑ´Ù.
         if(result == 'undefined'){
-          console.log('ê²°ê³¼ê°’ì´ undefinedì…ë‹ˆë‹¤. ì‹¤í–‰ì´ ì •ìƒë™ì‘í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.');
+          console.log('°á°ú°ªÀÌ undefinedÀÔ´Ï´Ù. ½ÇÇàÀÌ Á¤»óµ¿ÀÛÇÏÁö ¾Ê½À´Ï´Ù.');
         }
         else if(err){
-          console.log("/jackchat : ì—ëŸ¬ê°€ ë°œìƒí–ˆì–´ìš”!! ", err);
-        }else if(!result.rows.length){// 0ì€ falseë¼ê³  íŒë‹¨í•˜ëŠ”ê²ƒì„ ì´ìš©, rowê°€ 0ì´ ì•„ë‹ˆë¼ë©´ ë‹¤ì‹œë§í•´ rowsê°€ 1ì´ìƒì´ë¼ë©´.
-          console.log("result.rows: ë¦¬ì €ì–´ì–´ì–¼íŠ¸ë¡œìš°",result.rows); //ê²°ê³¼ê°’ í™•ì¸ìš© ì°ì–´ë³¸ë‹¤.
+          console.log("/jackchat : ¿¡·¯°¡ ¹ß»ıÇß¾î¿ä!! ", err);
+        }else if(!result.rows.length){// 0Àº false¶ó°í ÆÇ´ÜÇÏ´Â°ÍÀ» ÀÌ¿ë, row°¡ 0ÀÌ ¾Æ´Ï¶ó¸é ´Ù½Ã¸»ÇØ rows°¡ 1ÀÌ»óÀÌ¶ó¸é.
+          console.log("result.rows: ¸®Àú¾î¾î¾óÆ®·Î¿ì",result.rows); //°á°ú°ª È®ÀÎ¿ë Âï¾îº»´Ù.
           res.render('roomlist',{result:JSON.stringify(result),nickname:req.session.nickname}); 
         }else{  
               res.render('roomlist',{result:JSON.stringify(result),nickname:req.session.nickname});        
-        }//DBì¿¼ë¦¬ë¬¸- if else 
-      });//if else- redisì˜ ê°’
-      }//client.get í•¨ìˆ˜
-    });//redis create í•¨ìˆ˜
-});//app.getí•¨ìˆ˜
+        }//DBÄõ¸®¹®- if else 
+      });//if else- redisÀÇ °ª
+      }//client.get ÇÔ¼ö
+    });//redis create ÇÔ¼ö
+});//app.getÇÔ¼ö
 
-io.on('connection', (socket) => {//socketIOì—°ê²°ì´ ë˜ë©° ì†Œì¼“ì— ì „ì†¡ë˜ëŠ” ë¬¸ìì—´ì´ ì¼ì¹˜í•˜ëŠ” ë©”ì†Œë“œë¥¼ ì‹¤í–‰í•œë‹¤.
+io.on('connection', (socket) => {//socketIO¿¬°áÀÌ µÇ¸ç ¼ÒÄÏ¿¡ Àü¼ÛµÇ´Â ¹®ÀÚ¿­ÀÌ ÀÏÄ¡ÇÏ´Â ¸Ş¼Òµå¸¦ ½ÇÇàÇÑ´Ù.
 
-  socket.on('disconnect', () => {//socketì— disconnectë¼ëŠ” ë©”ì‹œì§€ê°€ ì „ì†¡ë˜ë©´ ì‹¤í–‰
-    console.log('user disconnected');// ã…ã… ì´ê±° í•˜ëŠ”ê±° ì—†ìŒ ã…ã…
+  socket.on('disconnect', () => {//socket¿¡ disconnect¶ó´Â ¸Ş½ÃÁö°¡ Àü¼ÛµÇ¸é ½ÇÇà
+    console.log('user disconnected');// ¤¾¤¾ ÀÌ°Å ÇÏ´Â°Å ¾øÀ½ ¤¾¤¾
   });
 
-  //ë‚´ê°€ ì¢€ë” ì°¾ì•„ë´ì•¼í•  ë¶€ë¶„ì´ë¼ ì œê±°í•˜ì§€ ì•ŠìŒ. ì‚¬ìš©ë˜ì–´ì§€ì§„ ì•ŠëŠ”ë‹¤.
+  //³»°¡ Á»´õ Ã£¾ÆºÁ¾ßÇÒ ºÎºĞÀÌ¶ó Á¦°ÅÇÏÁö ¾ÊÀ½. »ç¿ëµÇ¾îÁöÁø ¾Ê´Â´Ù.
   socket.on('leaveRoom', (num, name) => {
     socket.leave(num, () => {
       console.log(name + ' leave a ' + room[num]);
@@ -137,18 +140,18 @@ io.on('connection', (socket) => {//socketIOì—°ê²°ì´ ë˜ë©° ì†Œì¼“ì— ì „ì†¡ë˜ë
     });
   });
 
-  //roomchat2.ejsì—ì„œ ë°©ë‚˜ê°€ê¸° ë²„íŠ¼ í´ë¦­ì‹œ ì‹¤í–‰ëœë‹¤.
+  //roomchat2.ejs¿¡¼­ ¹æ³ª°¡±â ¹öÆ° Å¬¸¯½Ã ½ÇÇàµÈ´Ù.
   socket.on('room_out', (num,name) => {
-      console.log(name+'íšŒì›ì´ No.'+num+'ë°©ì„ ë‚˜ê°€ì…¨ìŠµë‹ˆë‹¤.' ); //ì„œë²„ì½˜ì†”ì— ë‚˜ê°„ íšŒì›ì„ ì°ì–´ë³¸ë‹¤.
+      console.log(name+'È¸¿øÀÌ No.'+num+'¹æÀ» ³ª°¡¼Ì½À´Ï´Ù.' ); //¼­¹öÄÜ¼Ö¿¡ ³ª°£ È¸¿øÀ» Âï¾îº»´Ù.
           //    select seller_num, buyer_num from chatroom where room_id = 442;     
       var m_num;
       var buyer;
-      // í•¨ìˆ˜ ì„ ì–¸ì‹ funtion A() { ~~~ } - ë¸Œë¼ìš°ì € ì‹¤í–‰ì‹œ í˜¸ì´ìŠ¤íŒ…ì— ì˜í•´ ìƒë‹¨ìœ¼ë¡œ ëŒì–´ì˜¬ë ¤ì§„ë‹¤. -ìœ„ì¹˜ì— êµ¬ì• ë°›ì§€ ì•Šê³  í•¨ìˆ˜ ì‚¬ìš© ê°€ëŠ¥.
-      // í•¨ìˆ˜ í‘œí˜„ì‹ var A = function(){ ~~~ } - ìœ„ì¹˜ì— êµ¬ì• ë°›ëŠ”ë‹¤, ì½œë°±ìœ¼ë¡œ ì‚¬ìš©(í•¨ìˆ˜ì˜ ì¸ìë¡œ ì‚¬ìš©)
-      // í•¨ìˆ˜ í‘œí˜„ì‹- í´ë¡œì € : return í•¨ìˆ˜ë¥¼ ë‘ì–´ í•¨ìˆ˜ê°€ëë‚˜ë©´ ë‹¤ìŒ í•¨ìˆ˜ê°€ ì‹¤í–‰ë˜ëŠ”ì‹
-      // í•¨ìˆ˜ í‘œí˜„ì‹- ì½œë°± : í•¨ìˆ˜ì˜ ì¸ìë¡œ í•¨ìˆ˜ë¥¼ ë°›ëŠ”ê²ƒ
+      // ÇÔ¼ö ¼±¾ğ½Ä funtion A() { ~~~ } - ºê¶ó¿ìÀú ½ÇÇà½Ã È£ÀÌ½ºÆÃ¿¡ ÀÇÇØ »ó´ÜÀ¸·Î ²ø¾î¿Ã·ÁÁø´Ù. -À§Ä¡¿¡ ±¸¾Ö¹ŞÁö ¾Ê°í ÇÔ¼ö »ç¿ë °¡´É.
+      // ÇÔ¼ö Ç¥Çö½Ä var A = function(){ ~~~ } - À§Ä¡¿¡ ±¸¾Ö¹Ş´Â´Ù, Äİ¹éÀ¸·Î »ç¿ë(ÇÔ¼öÀÇ ÀÎÀÚ·Î »ç¿ë)
+      // ÇÔ¼ö Ç¥Çö½Ä- Å¬·ÎÀú : return ÇÔ¼ö¸¦ µÎ¾î ÇÔ¼ö°¡³¡³ª¸é ´ÙÀ½ ÇÔ¼ö°¡ ½ÇÇàµÇ´Â½Ä
+      // ÇÔ¼ö Ç¥Çö½Ä- Äİ¹é : ÇÔ¼öÀÇ ÀÎÀÚ·Î ÇÔ¼ö¸¦ ¹Ş´Â°Í
        
-      //callbackM()ì½œë°±í•¨ìˆ˜ë¥¼ ì´ìš©í•´ ì‹œì‘í•œë‹¤. 
+      //callbackM()Äİ¹éÇÔ¼ö¸¦ ÀÌ¿ëÇØ ½ÃÀÛÇÑ´Ù. 
       function callbackM(callback,name,num){
         console.log('start log :',name,num)
         return callback(name,num);
@@ -156,26 +159,26 @@ io.on('connection', (socket) => {//socketIOì—°ê²°ì´ ë˜ë©° ì†Œì¼“ì— ì „ì†¡ë˜ë
       var firstCall = function(name,num){
         conn.execute("select m_num from member where nickname = '"+name+"'", function(err, result){
           m_num = result.rows[0][0]; 
-          console.log('ë°©ë‚˜ê°first',m_num,buyer,name,num);
-          return secondCall(m_num,num);//ì§ˆì˜ê²°ê³¼ë¥¼ ì¸ìë¡œ ì „ë‹¬í•˜ë©° í´ë¡œì ¸ í•¨ìˆ˜ ì‚¬ìš©
+          console.log('¹æ³ª°¨first',m_num,buyer,name,num);
+          return secondCall(m_num,num);//ÁúÀÇ°á°ú¸¦ ÀÎÀÚ·Î Àü´ŞÇÏ¸ç Å¬·ÎÁ® ÇÔ¼ö »ç¿ë
         });        
       }
       var secondCall = function(m_num,num){
         conn.execute("select buyer_num from chatroom where room_id = "+num+"",function(err,result){
           buyer = result.rows[0][0];
-          console.log('ë°©ë‚˜ê°second',m_num,buyer,num);
+          console.log('¹æ³ª°¨second',m_num,buyer,num);
           return thirdCall(m_num,buyer,num);
         });
       }
       var thirdCall = function(m_num,buyer,num){
-        if(m_num==buyer){//ë‚˜ê°„ íšŒì›ì˜ ë²ˆí˜¸ì™€ êµ¬ë§¤ìì˜ ë²ˆí˜¸ë¥¼ ëŒ€ì¡°. ê°™ìœ¼ë©´ ë‚˜ê°„ì‚¬ëŒì€ êµ¬ë§¤ì. ì•„ë‹ˆë¼ë©´ ë‚˜ê°„ì‚¬ëŒì€ íŒë§¤ì.
-          console.log('ë°©ë‚˜ê°third-buyer',m_num,buyer,' Room',num);
+        if(m_num==buyer){//³ª°£ È¸¿øÀÇ ¹øÈ£¿Í ±¸¸ÅÀÚÀÇ ¹øÈ£¸¦ ´ëÁ¶. °°À¸¸é ³ª°£»ç¶÷Àº ±¸¸ÅÀÚ. ¾Æ´Ï¶ó¸é ³ª°£»ç¶÷Àº ÆÇ¸ÅÀÚ.
+          console.log('¹æ³ª°¨third-buyer',m_num,buyer,' Room',num);
           upnull = "update chatroom set buyer_num = null where room_id = "+num;
           conn.execute(upnull,function(err,result){
             console.log('Buyer Logout  // his Meber-number is '+buyer);
           });
         } else {
-          //í˜„ì¬ ë””ë¹„ìƒìœ¼ë¡œ ëª¨ë“  íŒë§¤ìëŠ” Jackì´ë‹¤. 
+          //ÇöÀç µğºñ»óÀ¸·Î ¸ğµç ÆÇ¸ÅÀÚ´Â JackÀÌ´Ù. 
           upnull = "update chatroom set seller_num = null where room_id = "+num;
           console.log('third-seller',m_num,buyer,' Room',num);
           conn.execute(upnull,function(err,result){
@@ -183,102 +186,199 @@ io.on('connection', (socket) => {//socketIOì—°ê²°ì´ ë˜ë©° ì†Œì¼“ì— ì „ì†¡ë˜ë
           });
         }  
       }
-      callbackM(firstCall,name,num); //ì½œë°±í•¨ìˆ˜ë¥¼ ì´ìš©í•´ ì‹œì‘í•œë‹¤. ì´í›„ ë‚´í¬í•œ ëª¨ë“  í•¨ìˆ˜ë“¤ì€ í´ë¡œì €ì— ì˜í•´ ìˆœì„œëŒ€ë¡œ ì§„í–‰ëœë‹¤.  
+      callbackM(firstCall,name,num); //Äİ¹éÇÔ¼ö¸¦ ÀÌ¿ëÇØ ½ÃÀÛÇÑ´Ù. ÀÌÈÄ ³»Æ÷ÇÑ ¸ğµç ÇÔ¼öµéÀº Å¬·ÎÀú¿¡ ÀÇÇØ ¼ø¼­´ë·Î ÁøÇàµÈ´Ù.  
     var change_countSql = "update production set chat_room_count = chat_room_count -1  where pro_num = (select pro_num from chatroom where room_id = "+num+")";
-    //ìƒí’ˆí…Œì´ë¸”ì˜ ì±„íŒ…ë°© ê°¯ìˆ˜ë¥¼ ì¤„ì¸ë‹¤. - (ë°©ë²ˆí˜¸ë¥¼ ì´ìš©í•´ ë°©ì˜ ìƒí’ˆë²ˆí˜¸ë¥¼ ì•Œì•„ë‚¸ë‹¤.) - ì•Œì•„ë‚¸ ìƒí’ˆë²ˆí˜¸ì˜ ì±„íŒ…ë°©ê°¯ìˆ˜ë¥¼ í•˜ë‚˜ ì¤„ì¸ë‹¤.
-    conn.execute(change_countSql,function(err,result){//ì—…ë°ì´íŠ¸ë¬¸ ì‹¤í–‰
+    //»óÇ°Å×ÀÌºíÀÇ Ã¤ÆÃ¹æ °¹¼ö¸¦ ÁÙÀÎ´Ù. - (¹æ¹øÈ£¸¦ ÀÌ¿ëÇØ ¹æÀÇ »óÇ°¹øÈ£¸¦ ¾Ë¾Æ³½´Ù.) - ¾Ë¾Æ³½ »óÇ°¹øÈ£ÀÇ Ã¤ÆÃ¹æ°¹¼ö¸¦ ÇÏ³ª ÁÙÀÎ´Ù.
+    conn.execute(change_countSql,function(err,result){//¾÷µ¥ÀÌÆ®¹® ½ÇÇà
       if(err){
-        console.log("change_countSql ì—ëŸ¬ :",err);
+        console.log("change_countSql ¿¡·¯ :",err);
       } else {  
-      console.log('ìƒí’ˆ í…Œì´ë¸”ì— ì±„íŒ…ë°©ê°¯ìˆ˜ ì¤„ì´ê¸°', result); // ì ìš©ëœ row ìˆ˜ ë°˜í™˜
+      console.log('»óÇ° Å×ÀÌºí¿¡ Ã¤ÆÃ¹æ°¹¼ö ÁÙÀÌ±â', result); // Àû¿ëµÈ row ¼ö ¹İÈ¯
       }
     });
 
-    //ì‹œìŠ¤í…œë©”ì‹œì§€ë¥¼ ì‚½ì…í•œë‹¤.
-    conn.execute("INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, 0, "+num+", 'ìƒëŒ€ë°©ì´ ì±„íŒ…ë°©ì„ ë‚˜ê°”ìŠµë‹ˆë‹¤.')",function(err,result){
+    //½Ã½ºÅÛ¸Ş½ÃÁö¸¦ »ğÀÔÇÑ´Ù.
+    conn.execute("INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, 0, "+num+", '»ó´ë¹æÀÌ Ã¤ÆÃ¹æÀ» ³ª°¬½À´Ï´Ù.')",function(err,result){
       if(err){
-          console.log("ë“±ë¡ì¤‘ ì—ëŸ¬ê°€ ë°œìƒí–ˆì–´ìš”!! ë©”ì‹œì§€ ì…ë ¥ì—ëŸ¬", err);
+          console.log("µî·ÏÁß ¿¡·¯°¡ ¹ß»ıÇß¾î¿ä!! ¸Ş½ÃÁö ÀÔ·Â¿¡·¯", err);
       }else{
           console.log("result : ",result);
       }
     });
 
 
-    // í•œ íšŒì›ì´ ë‚˜ê°€ê¸°ë¥¼ ì‹¤í–‰í–ˆë‹¤ëŠ” ì‚¬ì‹¤ì„ ë‚¨ì€ íšŒì›ì—ê²Œ ì•Œë ¤ì£¼ê¸° ìœ„í•´ ë£¸ì±—ìœ¼ë¡œ room_outì‹ í˜¸ë¥¼ ë³´ë‚¸ë‹¤
+    // ÇÑ È¸¿øÀÌ ³ª°¡±â¸¦ ½ÇÇàÇß´Ù´Â »ç½ÇÀ» ³²Àº È¸¿ø¿¡°Ô ¾Ë·ÁÁÖ±â À§ÇØ ·ëÃªÀ¸·Î room_out½ÅÈ£¸¦ º¸³½´Ù
     io.to(num).emit('room_out', num, name);
-  });//ë£¸ ì•„ì›ƒ ì™„ë£Œ
+  });//·ë ¾Æ¿ô ¿Ï·á
 
-  //ë°©ì— ì…ì¥í•œë‹¤ë©´ ì‹¤í–‰
+  //¹æ¿¡ ÀÔÀåÇÑ´Ù¸é ½ÇÇà
   socket.on('joinRoom', (num, name) => {
-    socket.join(num, () => {//socketì˜ ë°© ë°°ì—´ ì¤‘ numë²ˆì§¸ ë°©ì— ì…ì¥í•œë‹¤.
+    socket.join(num, () => {//socketÀÇ ¹æ ¹è¿­ Áß num¹øÂ° ¹æ¿¡ ÀÔÀåÇÑ´Ù.
       console.log(name + ' join a ' + num);
-      io.to(num).emit('joinRoom', num, name);//ì…ì¥í•œ ë°©ì— ì…ì¥ì‹ í˜¸ë¥¼ ë³´ë‚¸ë‹¤.
+      io.to(num).emit('joinRoom', num, name);//ÀÔÀåÇÑ ¹æ¿¡ ÀÔÀå½ÅÈ£¸¦ º¸³½´Ù.
     });
   });
 
 
-  
-  //conn.execute(change_countSql,function(err,result){
-  //ì¼ì •ì „ì†¡ ì‹ í˜¸ê°€ ì„œë²„ë¡œ ë“¤ì–´ì˜¬ë•Œ ì‹¤í–‰.
-  socket.on('socket_date', (num, date, name) => {
-    var buttonSet = "<button class=''yes''>ìˆ˜ë½</button><button class=''no''>ê±°ì ˆ</button>";
-    var insertDate = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '"+name+"'), "+num+", 'ì‹œê°„í˜‘ì˜ - "+name+"ë‹˜ì— ì˜í•´ ì•½ì†ì¼ì •ì´ ì„ ì •ë˜ì—ˆìŠµë‹ˆë‹¤ :<i class=''dateP''>"+date+"</i><br>"+buttonSet+"')";
+// Address Á¤º¸Ã³¸® Start
+var func_messageNum_a = function (num, address, name){
+  var sSql = "select message_seq.NEXTVAL-1 from dual";
+  conn.execute(sSql,function(err,result){
+    if(err){
+        console.log("¿¡·¯³­ ¸Ş½ÃÁö¾ÆÀÌµğ ¼¿·ºÆ®", err);
+    }else{
+        var message_id = result.rows[0][0];
+        console.log("¼º°øÇÑ ¸Ş½ÃÁö¾ÆÀÌµğ ¼¿·ºÆ®: ",result, sSql);
+        console.log("¼º°øÇÑ ¸Ş½ÃÁö¾ÆÀÌµğ ¼¿·ºÆ®: ",message_id);
+        io.to(num).emit('socket_address', num, address, name, message_id);
+      }
+  });
+}
+
+
+
+socket.on('socket_address', (num, address, name) => {//ÀÏÁ¤Àü¼Û ½ÅÈ£°¡ ¼­¹ö·Î µé¾î¿Ã¶§ ½ÇÇà.
+    var buttonSet = "<button class=''Ayes''>¼ö¶ô</button><button class=''Ano'' value='''||TO_CHAR(message_seq.NEXTVAL)||'''>°ÅÀı</button>";
+    var insertDate = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '"+name+"'), "+num+", 'Àå¼ÒÇùÀÇ - "+name+"´Ô¿¡ ÀÇÇØ ¾à¼ÓÀå¼Ò°¡ ¼±Á¤µÇ¾ú½À´Ï´Ù :<br><i class=''addressP''>"+address+"</i><br>"+buttonSet+"')";
     conn.execute(insertDate,function(err,result){
       if(err){
-          console.log("ì†Œì¼“ì•½ì†ì¼ì‹œ insert ì—ëŸ¬", err);
+          console.log("¼ÒÄÏ¾à¼ÓÀÏ½Ã insert ¿¡·¯", err);
       }else{
-          console.log("ì„±ê³µí•œ ì¸ì„œíŠ¸ : ",result, insertDate);
-      }
+          console.log("¼º°øÇÑ ÀÎ¼­Æ® : ",result, insertDate);
+        return func_messageNum_a(num, address, name);
+        }
     });
-    var updateDate = "update chatroom set c_datetime = '"+date+"' where room_id="+num+"";
+});
+
+socket.on('addressNo', (addressP,num, message_id)=> {//°ÅÀı¹öÆ°À» ´©¸¥´Ù¸é
+  message_id = Number(message_id);
+  var noSql = "update message set content = '<i>°ÅÀıÇÏ¼Ì½À´Ï´Ù</i><br>"+addressP+"' where message_num = "+message_id;
+  conn.execute(noSql,function(err,result){
+    if(err){
+      console.log("°ÅÀı ¿¡·¯", err);
+  }else{
+      console.log(noSql);
+      console.log("°ÅÀı ¾÷µ¥ÀÌÆ® ¼º°ø! : ",result);
+      io.to(num).emit('ref');
+  }
+  });
+});
+
+
+socket.on('addressYes', (addressP,num)=> {//ÀÏÁ¤¼ö¶ô ½ÅÈ£°¡ ¿Â´Ù¸é
+  var updateDate = "update chatroom set c_address = '"+addressP+"' where room_id="+num+"";
+  conn.execute(updateDate,function(err,result){
+    if(err){
+      console.log("¼ÒÄÏ¾à¼ÓÀÏ½Ã update ¿¡·¯", err);
+  }else{
+      console.log("¾÷µ¥ÀÌÆ® ¼º°ø! : ",result);
+  }
+  });
+
+  console.log(addressP);
+  console.log('ÇÏÇÏÇÏÇÏ');
+  var yesSql = "update message set content = '<i>¼ö¶ôÇÏ¼Ì½À´Ï´Ù.</i><br>"+addressP+"' where content like 'Àå¼ÒÇùÀÇ%' and room_id = "+num;
+  conn.execute(yesSql,function(err,result){
+    if(err){
+      console.log("ÇÏÈ÷È÷ÇÏÇÏÇÏÇÏ ¿¹¾²¿¡·¯", err);
+  }else{
+      console.log("¿¹¤Æ¤Æ¤Æ¤Æ¤Æ¤Æ¤Æ¾²¾÷µ¥ÀÌÆ® ¼º°ø! : ",result);
+      io.to(num).emit('ref');
+  }
+  });
+  
+});
+// Address Á¤º¸Ã³¸® End
+// Date Á¤º¸Ã³¸® Start
+  var func_messageNum = function (num, date, name){
+    var sSql = "select message_seq.NEXTVAL-1 from dual";
+    conn.execute(sSql,function(err,result){
+      if(err){
+          console.log("¿¡·¯³­ ¸Ş½ÃÁö¾ÆÀÌµğ ¼¿·ºÆ®", err);
+      }else{
+          var message_id = result.rows[0][0];
+          console.log("¼º°øÇÑ ¸Ş½ÃÁö¾ÆÀÌµğ ¼¿·ºÆ®: ",result, sSql);
+          console.log("¼º°øÇÑ ¸Ş½ÃÁö¾ÆÀÌµğ ¼¿·ºÆ®: ",message_id);
+          io.to(num).emit('socket_date', num, date, name, message_id);
+        }
+    });
+  }
+  
+  //conn.execute(change_countSql,function(err,result){
+  //ÀÏÁ¤Àü¼Û ½ÅÈ£°¡ ¼­¹ö·Î µé¾î¿Ã¶§ ½ÇÇà.
+  socket.on('socket_date', (num, date, name) => {
+      var buttonSet = "<button class=''yes''>¼ö¶ô</button><button class=''no'' value='''||TO_CHAR(message_seq.NEXTVAL)||'''>°ÅÀı</button>";
+      var insertDate = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '"+name+"'), "+num+", '½Ã°£ÇùÀÇ - "+name+"´Ô¿¡ ÀÇÇØ ¾à¼ÓÀÏÁ¤ÀÌ ¼±Á¤µÇ¾ú½À´Ï´Ù :<i class=''dateP''>"+date+"</i><br>"+buttonSet+"')";
+      conn.execute(insertDate,function(err,result){
+        if(err){
+            console.log("¼ÒÄÏ¾à¼ÓÀÏ½Ã insert ¿¡·¯", err);
+        }else{
+            console.log("¼º°øÇÑ ÀÎ¼­Æ® : ",result, insertDate);
+          return func_messageNum(num, date, name);
+          }
+      });
+  });
+
+  socket.on('dateNo', (dateP,num, message_id)=> {//°ÅÀı¹öÆ°À» ´©¸¥´Ù¸é
+    message_id = Number(message_id);
+    var noSql = "update message set content = '<i>°ÅÀıÇÏ¼Ì½À´Ï´Ù</i><br>"+dateP+"' where message_num = "+message_id;
+    conn.execute(noSql,function(err,result){
+      if(err){
+        console.log("°ÅÀı ¿¡·¯", err);
+    }else{
+        console.log(noSql);
+        console.log("°ÅÀı ¾÷µ¥ÀÌÆ® ¼º°ø! : ",result);
+        io.to(num).emit('ref');
+    }
+    });
+  });
+
+
+  socket.on('dateYes', (dateP,num)=> {//ÀÏÁ¤¼ö¶ô ½ÅÈ£°¡ ¿Â´Ù¸é
+    var updateDate = "update chatroom set c_datetime = '"+dateP+"' where room_id="+num+"";
     conn.execute(updateDate,function(err,result){
       if(err){
-        console.log("ì†Œì¼“ì•½ì†ì¼ì‹œ update ì—ëŸ¬", err);
+        console.log("¼ÒÄÏ¾à¼ÓÀÏ½Ã update ¿¡·¯", err);
     }else{
-        console.log("ì—…ë°ì´íŠ¸ ì„±ê³µ! : ",result);
+        console.log("¾÷µ¥ÀÌÆ® ¼º°ø! : ",result);
     }
     });
 
-    io.to(num).emit('socket_date', num, date, name);
-  });
-
-  socket.on('dateYes', (dateP,num)=> {//ì¼ì •ìˆ˜ë½ ì‹ í˜¸ê°€ ì˜¨ë‹¤ë©´
     console.log(dateP);
-    console.log('í•˜í•˜í•˜í•˜');
-    var yesSql = "update message set content = '<i>ìˆ˜ë½í•˜ì…¨ìŠµë‹ˆë‹¤.<i>' where content like 'ì‹œê°„í˜‘ì˜%' and room_id = "+num;
+    console.log('ÇÏÇÏÇÏÇÏ');
+    var yesSql = "update message set content = '<i>¼ö¶ôÇÏ¼Ì½À´Ï´Ù.</i><br>"+dateP+"' where content like '½Ã°£ÇùÀÇ%' and room_id = "+num;
     conn.execute(yesSql,function(err,result){
       if(err){
-        console.log("í•˜íˆíˆí•˜í•˜í•˜í•˜ ì˜ˆì“°ì—ëŸ¬", err);
+        console.log("ÇÏÈ÷È÷ÇÏÇÏÇÏÇÏ ¿¹¾²¿¡·¯", err);
     }else{
-        console.log("ì˜ˆã…–ã…–ã…–ã…–ã…–ã…–ã…–ì“°ì—…ë°ì´íŠ¸ ì„±ê³µ! : ",result);
+        console.log("¿¹¤Æ¤Æ¤Æ¤Æ¤Æ¤Æ¤Æ¾²¾÷µ¥ÀÌÆ® ¼º°ø! : ",result);
         io.to(num).emit('ref');
     }
     });
     
   });
+// Date Á¤º¸Ã³¸® End
 
+  socket.on('chat message', (num, name, msg) => {//Ã¤ÆÃ ½ÅÈ£°¡ ¿Â´Ù¸é
+    a = num; //¿ÖÇßÁö ÀÌ°É
 
-
-  socket.on('chat message', (num, name, msg) => {//ì±„íŒ… ì‹ í˜¸ê°€ ì˜¨ë‹¤ë©´
-    a = num; //ì™œí–ˆì§€ ì´ê±¸
-
-    console.log('íšŒì› '+name+'ì˜ ë©”ì‹œì§€ì „ë‹¬ : num :', num, msg);//ì •ìƒì ì¸ì§€ ì°ì–´ë³´ê¸°
+    console.log('È¸¿ø '+name+'ÀÇ ¸Ş½ÃÁöÀü´Ş : num :', num, msg);//Á¤»óÀûÀÎÁö Âï¾îº¸±â
     
-    //insert ì‹¤í–‰
+    //insert ½ÇÇà
     conn.execute("INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '"+name+"'), "+num+", '"+msg+"')",function(err,result){
       if(err){
-          console.log("ë“±ë¡ì¤‘ ì—ëŸ¬ê°€ ë°œìƒí–ˆì–´ìš”!! ë©”ì‹œì§€ ì…ë ¥ì—ëŸ¬", err);
+          console.log("µî·ÏÁß ¿¡·¯°¡ ¹ß»ıÇß¾î¿ä!! ¸Ş½ÃÁö ÀÔ·Â¿¡·¯", err);
       }else{
           console.log("result : ",result);
       }
     });
-    io.to(num).emit('chat message', name, msg);//í•´ë‹¹ ë°©ì— ì´ë¦„ê³¼ ë©”ì‹œì§€ë¥¼ ì „ì†¡
+    io.to(num).emit('chat message', name, msg);//ÇØ´ç ¹æ¿¡ ÀÌ¸§°ú ¸Ş½ÃÁö¸¦ Àü¼Û
   });
 });
 
 
 
 
-http.listen(3000, () => { // ì„œë²„ë¥¼ ì‹¤í–‰ì‹œí‚¨ë‹¤.
+http.listen(3000, () => { // ¼­¹ö¸¦ ½ÇÇà½ÃÅ²´Ù.
   console.log('Connect at 3000');
 });
