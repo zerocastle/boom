@@ -114,39 +114,39 @@
 }
 </style>
 <script>
-
-	$(function(){
+	$(function() {
 		var productList = ${requestScope.productList};
 		var realPath = "${pageContext.request.contextPath}/resources/";
-		var state_msg;
 		console.log(productList);
-		
-		var content = $('#content');
-		var first = content.children().first();
-		console.log(first);
-		var picture = first.next();
-		var state = picture.next();
-		var price = state.next();
-		var cate_code = price.next();
-		if(productList[0].state_msg == null){
-			state_msg = "거래중";
-		}else{
-			state_msg = "거래완료";
+
+		var perPage = 6; // 화면에 보여줄 상품 갯수
+		var content = $('#content').children(); // 돔트리 반환 값 36
+		var counterTest = content.length; //36
+		console.log(content);
+		console.log("counter : " + counterTest);
+		var counter = 0;
+		var state_msg;
+
+		for (var j = 0; j < perPage; j++) {
+			if (productList[j].state_msg == null) {
+				state_msg = "거래중";
+			} else {
+				state_msg = "거래완료";
+			}
+			content.eq(counter++).html(productList[j].title);
+			content.eq(counter++).html("<img src='"+realPath + productList[j].path +"' width='100' height='100'/>");
+			content.eq(counter++).html(state_msg);
+			content.eq(counter++).html(comma(productList[j].price));
+			content.eq(counter++).html(productList[j].cate_code);
+			counter++;
 		}
-		
-		first.html(productList[0].title);
-		picture.html("<img src='"+realPath + productList[0].path +"' width='100' height='100'/>");
-		state.html(state_msg);
-		price.html(comma(productList[0].price));
-		cate_code.html(productList[0].cate_code);
-		
+
 		// 콤마찍기 정규 표현식
 		function comma(num) {
 			return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		}
-		
+
 	})
-	
 </script>
 <div id="page-wrapper" class="gray-bg dashbard-1">
 	<div class="content-main">
@@ -178,6 +178,42 @@
 					<div class="pro-price1">test</div>
 					<div class="pro-category1">test</div>
 					<button class='button'>삭제</button>
+
+					<div class="pro-title1">test</div>
+					<div class="pro-img1">test</div>
+					<div class="pro-status1">test</div>
+					<div class="pro-price1">test</div>
+					<div class="pro-category1">test</div>
+					<button class='button'>삭제</button>
+
+					<div class="pro-title1">test</div>
+					<div class="pro-img1">test</div>
+					<div class="pro-status1">test</div>
+					<div class="pro-price1">test</div>
+					<div class="pro-category1">test</div>
+					<button class='button'>삭제</button>
+
+					<div class="pro-title1">test</div>
+					<div class="pro-img1">test</div>
+					<div class="pro-status1">test</div>
+					<div class="pro-price1">test</div>
+					<div class="pro-category1">test</div>
+					<button class='button'>삭제</button>
+
+					<div class="pro-title1">test</div>
+					<div class="pro-img1">test</div>
+					<div class="pro-status1">test</div>
+					<div class="pro-price1">test</div>
+					<div class="pro-category1">test</div>
+					<button class='button'>삭제</button>
+
+					<div class="pro-title1">test</div>
+					<div class="pro-img1">test</div>
+					<div class="pro-status1">test</div>
+					<div class="pro-price1">test</div>
+					<div class="pro-category1">test</div>
+					<button class='button'>삭제</button>
+
 				</div>
 
 				<!-- content -->
