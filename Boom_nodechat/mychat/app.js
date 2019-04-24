@@ -35,15 +35,52 @@ var sRoom;//방넘버를 공유하기 위해 전역변수로 지정함.
 var status;
 var c_address;
 var c_datetime;
+var seller;
+var buyer;
 app.get('/testQR', (req,res) => {
-console.log('와 QR코드 반가워요!');
-    res.render('goTestQR');
+console.log('@@@@@@@@@@@@@판매@@판매@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@' + req.query.seller);
+console.log('@@@@@@@@@@@@@@@@@구매@@@@구매@@@@@@@@@@@@@@@@@@@@@@@@@@@@' + req.query.buyer);
+console.log('@@@@@@@@@@@@@@@@@@@@@상품번@호@@@@@@@@@@@@@@@@@@@@@@@@@@@' + req.query.pro_num);
+  var QRsql = "select pro_num, place_pick, title, content, price, p_quality, c.cate_name from production p, category c where c.cate_code = p.cate_code and pro_num ="+req.query.pro_num;
+  //--상품번호 거래장소 상품제목 상품내용 상품가격 상품품질 카테고리
+      
+  conn.execute(QRsql, function(err,result){
+        if(err){
+
+        }else {
+          var place_pick = result.rows[0][1];
+          var title = result.rows[0][2];
+          var content = result.rows[0][3];
+          var price = result.rows[0][4];
+          var p_quality = result.rows[0][5];
+          var cate_name = result.rows[0][6];
+
+
+          var sendData = {
+            seller : req.query.seller,
+            buyer : req.query.buyer,
+            pro_num : req.query.pro_num,
+            place_pick : place_pick,
+            title : title,
+            content : content,
+            price : price,
+            p_quality : p_quality,
+            cate_name : cate_name
+          }
+
+          res.render('goTestQR', sendData);
+        }
+      });
 });
 app.get('/roomchat', (req, res) => {//목록중 하나를 클릭하였을때 실행
   console.log("방에 입장 :", req.session)//request객체의 세션값 읽음
   console.log("입장한 닉네임 :", req.session.nickname)//세션의 nickname변수에 저장된 값을 찍어본다.
   sRoom = req.query.room_id;////--쿼리스트링 값을 받아온다. req.query.변수명;
   status = req.query.talker; //상대방이 채팅방에 존재하는가에 대한 여부//in 과 out이 있다.
+  seller = req.query.seller;
+  buyer = req.query.buyer;
+  pro_num = req.query.pro_num;
+  
   if(req.session.nickname==undefined){//세션에 닉네임이 없다면 실행
     res.render('tomson');//닉네임이 비었다면 에러처리페이지인 tomson.ejs로 이동한다.
   }
@@ -54,7 +91,6 @@ app.get('/roomchat', (req, res) => {//목록중 하나를 클릭하였을때 실
   sRoom = req.query.room_id;} // 쿼리스트링 값을 받아온다.
   console.log("입장합니다! : "+sRoom+"번방의 상태 : " + status);
   var renderMessage = function(c_address, c_datetime){
-    
     var searchMessage = 'select message_num, sender_num,member.nickname, room_id, content from message, member' +
     ' where message.sender_num = member.m_num and room_id = '+parseInt(sRoom)+' order by message_num asc';
     conn.execute(searchMessage,function(err,result){
@@ -67,9 +103,8 @@ app.get('/roomchat', (req, res) => {//목록중 하나를 클릭하였을때 실
       console.log("result: "+result);
       console.log("result: ",result.rows);
       //roomchat2.ejs 로 이동한다. //이동할때 key:value형태로 쿼리결과, 세션의 닉네임, 방번호를 전달한다. 
-      res.render('roomchat2',{result:JSON.stringify(result), nickname:req.session.nickname, roomid:sRoom ,rstatus : status, datetime : c_datetime, address : c_address });// 방에다가 던져주자
+      res.render('roomchat2',{result:JSON.stringify(result), nickname:req.session.nickname, roomid:sRoom ,rstatus : status, datetime : c_datetime, address : c_address, seller : seller, buyer : buyer, pro_num : pro_num });// 방에다가 던져주자
     }
-
     });
   }
 
@@ -89,6 +124,11 @@ app.get('/roomchat', (req, res) => {//목록중 하나를 클릭하였을때 실
     console.log('파ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ티피플',c_address, c_datetime);
     return renderMessage(c_address, c_datetime);
   });
+
+
+  var func_prod = function(){
+    var Sql = "select place_pick, from  "
+  }
   
   //목록의 방번호를 이용해 해당하는 디비의 메시지내역을 불러온다.
   
@@ -140,6 +180,20 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
     });
   });
 
+
+  socket.on('QRsend', (num,name,tag)=> { 
+    console.log(num,name,tag);
+
+    var QRsql2 = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '"+name+"'), "+num+", '"+tag+"')";
+    conn.execute(QRsql2,function(err,result){
+      if(err){
+        console.log('QR메시지 인서트 에러',err);
+      }else {
+        io.to(num).emit('QRsend', num, name,tag);
+      }
+    });
+    
+  });
   //roomchat2.ejs에서 방나가기 버튼 클릭시 실행된다.
   socket.on('room_out', (num,name) => {
       console.log(name+'회원이 No.'+num+'방을 나가셨습니다.' ); //서버콘솔에 나간 회원을 찍어본다.

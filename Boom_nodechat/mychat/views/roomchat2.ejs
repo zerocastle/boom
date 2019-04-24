@@ -166,6 +166,9 @@
 <ul id="messages" class="chat-box">
   <% var list = result%>
   <% var date = datetime%>
+  <div id="pro_num" style="display:none;"><%=pro_num%></div>
+  <div id="buyer" style="display:none;"><%=buyer%></div>
+  <div id="seller" style="display:none;"><%=seller%></div>
   <div id="nickname" style="display:none;"><%=nickname%></div>
   <div id="room_id" style="display:none;"><%=roomid%></div>
   <div id="status" style="display:none;"><%=rstatus%></div>
@@ -233,8 +236,8 @@ var subDate;
     <input type="text" id="set_date" class="item form-control floating-label nullmenu"  value="<%=datetime%>">
     <button id="send_date" class="send" >전송</button>
   </a>
-    <a class="item nullmenu" id='nothing'>
-    이거 클릭해도 아무것도 안됨
+    <a class="item nullmenu" id='QRsend'>
+    명세서 전달
   </a>
   
   
@@ -244,7 +247,28 @@ var subDate;
 <script src="/socket.io/socket.io.js"></script>
 <script>
   $(() => {
-       
+    var ref = function(){
+      $(document).scrollTop($(document).height());
+      window.location.reload();
+      $(document).scrollTop($(document).height());
+    }
+    var road_and_QR = function(){
+      var seller = $('#seller').text();
+      var buyer = $('#buyer').text();
+      var pro_num = $('#pro_num').text();
+      for(var i = 0; i < document.getElementsByClassName("qrcode").length; i++){
+        var qrcode = new QRCode(document.getElementsByClassName("qrcode")[i], {
+        text: "http://39.127.7.47:3000/testQR?pro_num="+pro_num+"&seller="+seller+"&buyer="+buyer,
+        width: 350,
+        height: 350,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+      });
+      }
+    }
+
+    road_and_QR();   
     var a = $('#status').text();
     $('#set_date').bootstrapMaterialDatePicker({ format : 'YYYY/MM/DD HH:mm', minDate : new Date() });//캘린더 - datePicker를 달아준다.
     
@@ -261,13 +285,14 @@ var subDate;
     const room_id= $('#room_id').text();
     const socket = io();
     let num = room_id;
-
+    let qrCount;
+    qrCount = 0;
     socket.emit('joinRoom', num, name);
 
     socket.on('ref', () => {
       window.location.reload();
     });
-
+    
 
     $('#send_address').click(function(){
       if($('#set_address').val()=='약속장소 선정'){
@@ -343,24 +368,33 @@ var subDate;
       alert('약속일시 제안 ('+$(event.target).siblings('.dateP').text()+')을 거절하셨습니다.');
       socket.emit('dateNo', dateP,num,message_id); //서버로 전송한다.
     });
-
+    
     var func_qr = function(){
-      var qrcode = new QRCode(document.getElementById("qrcode"), {
-        text: "http://39.127.7.47:3000/testQR",
-        width: 128,
-        height: 128,
-        colorDark : "#000000",
-        colorLight : "#ffffff",
-        correctLevel : QRCode.CorrectLevel.H
-      });
-      return func_changeID();
+      return func_qrcount();
     }
-    var func_changeID = function(){
-      var aa = document.getElementById('qrcode').id;
-      document.getElementById('qrcode').id = '응큐알아니야';
+    var func_qrcount = function(){
+      qrCount++;
+      var seller = $('#seller').text();
+      var buyer = $('#buyer').text();
+      var pro_num = $('#pro_num').text();
+      var tag = '<div class="qrcode"></div><h2>명세서</h2><br>판매자 :'+seller+'<hr>구매자 :'+buyer+'<hr>상품번호 :'+pro_num+'<hr><i><small>명세서 상세 내용은 QR코드 인증 후 확인 가능합니다.</small></i>';
+      socket.emit('QRsend', num,name,tag);
     }
-    $('#nothing').click(function(){// 아무것도 아닌 추가기능을 실행하면 일단 귀여운 강아지 보여줌 ㅎㅎ
-      $('#messages').append($('<li class="even"><div id="qrcode"></div><img src="images/dog4.png" width="300px" height="300px">'));
+    socket.on('QRsend', (num1, name1, tag1) => {
+      if(name1 == name){
+        $('#messages').append($('<li class="even"><div class="qrcode"></div>'));
+      }else {
+        $('#messages').append($('<li class="odd"><div class="qrcode"></div>'));
+      }
+      return ref();
+    });
+    
+    //1. qr가 들어갈 div를 생성.
+    //2. div의 클래스 중 qrcount번째 객체에 qr코드생성
+    //3. qrcount++;
+    //4. 넘어왔을때. 아니 QR코드화 또한 어떻게 하지. 왜 낫띵클릭하면 메시지 append하잖아 그때 db에 저장을 하자. 단 QR코드 보낼때 생성되어지는 div에 우리가 넣을려고 하는 값들:(구매자판매자상품번호가격등등)도 넣는다.
+    $('#QRsend').click(function(){// 아무것도 아닌 추가기능을 실행하면 일단 귀여운 강아지 보여줌 ㅎㅎ
+      $('#messages').append($('<li class="even"><div class="qrcode"></div><img src="images/dog4.png" width="300px" height="300px">'));
         $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
       //socket의 emit()함수가 없어서 전송도 안됨 ㅎㅎ
       return func_qr();
@@ -368,7 +402,6 @@ var subDate;
 
     $('#room_out').click(function(){
       console.log('Room Out // no.'+num+' room //left user name : ', name );
-        
         if (confirm("채팅내역도 함께 삭제됩니다. 정말 나가시겠습니까?") == true){    //확인
           socket.emit('room_out', num, name);
         console.log('회원 '+name+'님이 방나가기 실행을 수락하셨습니다.');
@@ -428,7 +461,6 @@ var subDate;
           new daum.Postcode({
             oncomplete : function(data) {
               // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
               // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
               // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
               var addr;
