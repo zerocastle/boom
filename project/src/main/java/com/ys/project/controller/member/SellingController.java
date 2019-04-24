@@ -1,6 +1,6 @@
 package com.ys.project.controller.member;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ys.project.projectDTO.Criteria2;
 import com.ys.project.projectDTO.MemberProductionList;
+import com.ys.project.projectDTO.PageDTO2;
 import com.ys.project.projectVO.MemberVO;
 import com.ys.project.projectVO.PartnerVO;
 import com.ys.project.projectVO.ProductionVO;
@@ -28,7 +30,7 @@ import com.ys.project.service.sellingUpdate.ISellingUpdateService;
 import lombok.AllArgsConstructor;
 
 /*
- * Àü¹İÀûÀÎ »óÇ° °ü·Ã ³»¿ª È®ÀÎ
+ * ì „ë°˜ì ì¸ ìƒí’ˆ ê´€ë ¨ ë‚´ì—­ í™•ì¸
  */
 
 @Controller
@@ -39,28 +41,30 @@ public class SellingController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	private ISellingUpdateService service;
 
-	// ÆÇ¸ÅÇÏ±â·Î ÀÌµ¿
+	// íŒë§¤í•˜ê¸°ë¡œ ì´ë™
 	@RequestMapping(value = "selling", method = RequestMethod.GET)
 	public String sellGet(Model model) {
 
-		logger.info("ÆÇ¸ÅÇÏ±â·Î ÀÌµ¿ ÇÑ´Ù.");
+		logger.info("íŒë§¤í•˜ê¸°ë¡œ ì´ë™ í•œë‹¤.");
 		return "sell/selling";
 
 	}
 
-	// »óÇ° °ü¸®·Î ÀÌµ¿
+	// ìƒí’ˆ ê´€ë¦¬ë¡œ ì´ë™
 	@RequestMapping(value = "sell_productManage", method = RequestMethod.GET)
-	public String sell_productManage(Model model, HttpServletRequest request) {
+	public String sell_productManage(Model model, HttpServletRequest request , Criteria2 cri) {
 		JSONObject object;
 		JSONArray array = new JSONArray();
+		
 		MemberVO memberVO = null;
+		Map map = new HashMap<>(); // ê°’ ë„˜ê²¨ ì¤„ë•Œ ì“°ì¼ ë…€ì„
 //		MemberProductionList memberProductionList = null;
 		List<MemberProductionList> list = null;
 
 		HttpSession session = request.getSession();
 		memberVO = (MemberVO) session.getAttribute("loginSession");
 		int m_num = memberVO.getM_num();
-		logger.info("¸Å´ÏÀú·Î ÀÌµ¿" + m_num);
+		logger.info("ë§¤ë‹ˆì €ë¡œ ì´ë™" + m_num);
 
 		int pro_num = 0;
 		String title;
@@ -68,8 +72,14 @@ public class SellingController {
 		int price;
 		String cate_code;
 		String path;
-
-		list = service.getMemberProductionList(m_num);
+		
+		//ì„œë¹„ìŠ¤ ë„˜ê²¨ì¤„ë–„ ì‚¬ì „ì‘ì—…
+		map.put("pageNum",cri.getPageNum());
+		map.put("amount" , cri.getAmount());
+		map.put("m_num",m_num);
+		
+		// ì„œë¹„ìŠ¤ ê°’ ë„˜ê²¨ì£¼ëŠ” êµ¬ê°„
+		list = service.getMemberProductionList(map);
 
 		for (int i = 0; i < list.size(); i++) {
 			object = new JSONObject();
@@ -92,55 +102,60 @@ public class SellingController {
 
 		}
 
-		logger.info("»óÇ°°ü¸® : " + array);
+		logger.info("ìƒí’ˆê´€ë¦¬ : " + array);
 
+		// ìƒí’ˆì²˜ë¦¬
 		model.addAttribute("productList", array.toString());
+		
+		//í˜ì´ì§• ì²˜ë¦¬
+		model.addAttribute("pageMaker" , new PageDTO2(cri, service.getMemberProductionTotalCount(m_num))); 
+		
 
 		return "/sell/sell-ProductManage";
 
 	}
 
-	// ÃÂ ¸®½ºÆ®
+	// ì³‡ ë¦¬ìŠ¤íŠ¸
 	@RequestMapping(value = "chatList", method = RequestMethod.GET)
 	public String chatList(Model model) {
 
-		logger.info("Ã¤ÆÃ¸ñ·Ï ÀÌµ¿");
+		logger.info("ì±„íŒ…ëª©ë¡ ì´ë™");
 
 		return "sell/chatList";
 
 	}
 
-	// ±¸¸Å³»¿ª
+	// êµ¬ë§¤ë‚´ì—­
 	@RequestMapping(value = "purchaseList", method = RequestMethod.GET)
 	public String purchaseList(Model model) {
 
-		logger.info("±¸¸Å ³»¿ª ÀÌµ¿");
+		logger.info("êµ¬ë§¤ ë‚´ì—­ ì´ë™");
 
 		return "sell/purchaseList";
 
 	}
 
-	// ÆÇ¸Å³»¿ª
+	// íŒë§¤ë‚´ì—­
 	@RequestMapping(value = "sellList", method = RequestMethod.GET)
 	public String sellList(Model model) {
 
-		logger.info("ÆÇ¸Å ³»¿ª ÀÌµ¿");
+		logger.info("íŒë§¤ ë‚´ì—­ ì´ë™");
 
 		return "sell/sellList";
 
 	}
 
-	// Å»ÅğÇÏ±â
+	// íƒˆí‡´í•˜ê¸°
 	@RequestMapping(value = "memberOut", method = RequestMethod.GET)
 	public String memberOut(Model model) {
 
-		logger.info("È¸¿øÅ»Åğ");
+		logger.info("íšŒì›íƒˆí‡´");
 
 		return "sell/memberOut";
 
 	}
 
-	// Á÷ÇÃ·¹ÀÌ½º ¼±ÅÃÇÏ±â
+	// ì§í”Œë ˆì´ìŠ¤ ì„ íƒí•˜ê¸°
 	@GetMapping("directPick")
 	public String directPick(Model model) {
 		List<PartnerVO> list = service.directPickList();
@@ -149,14 +164,14 @@ public class SellingController {
 
 	}
 
-	// »óÇ° µî·ÏÇÏ±â
+	// ìƒí’ˆ ë“±ë¡í•˜ê¸°
 	@PostMapping("uploadProduct")
 	public String uploadProduct(ProductionVO productionVO, Model model, RedirectAttributes rttr) {
 
 		if (productionVO.getUploadVOList() != null) {
 			productionVO.getUploadVOList().forEach(attach -> logger.info("" + attach));
 		}
-		logger.info("¾ß ¹¹°¡ ³Ñ ¾î ¿È??" + productionVO);
+		logger.info("ì•¼ ë­ê°€ ë„˜ ì–´ ì˜´??" + productionVO);
 
 		service.insert(productionVO);
 

@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//src/main/java/com/ys/project/controller/member/SellingController.java=UTF-8
 encoding//src/main/java/com/ys/project/controller/upload/UploadController.java=UTF-8
 encoding//src/main/java/com/ys/project/projectVO/PartnerVO.java=UTF-8
 encoding//src/main/java/com/ys/project/service/member/PartnerService.java=UTF-8

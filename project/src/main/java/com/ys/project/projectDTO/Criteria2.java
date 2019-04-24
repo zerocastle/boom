@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Criteria {
+public class Criteria2 {
 
 	private int pageNum; // 현제 페이지
 	private int amount; //보여줄 페이지 양
@@ -17,11 +17,11 @@ public class Criteria {
 	private String type;
 	private String keyword;
 
-	public Criteria() {
-		this(1, 10);
+	public Criteria2() {
+		this(1, 6);
 	}
 
-	public Criteria(int pageNum, int amount) {
+	public Criteria2(int pageNum, int amount) {
 		this.pageNum = pageNum;
 		this.amount = amount;
 	}

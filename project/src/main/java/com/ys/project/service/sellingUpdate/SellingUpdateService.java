@@ -1,6 +1,7 @@
 package com.ys.project.service.sellingUpdate;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,9 +61,15 @@ public class SellingUpdateService implements ISellingUpdateService {
 
 	// 회원에 대한 상품 리스트 불러오기
 	@Override
-	public List<MemberProductionList> getMemberProductionList(int m_num) {
+	public List<MemberProductionList> getMemberProductionList(Map map) {
 		// TODO Auto-generated method stub
-		return sellingMapper.getMemberProductionList(m_num);
+		return sellingMapper.getMemberProductionList(map);
+	}
+
+	@Override
+	public int getMemberProductionTotalCount(int m_num) {
+		// TODO Auto-generated method stub
+		return sellingMapper.getMemberProductionTotalCount(m_num);
 	}
 
 }
