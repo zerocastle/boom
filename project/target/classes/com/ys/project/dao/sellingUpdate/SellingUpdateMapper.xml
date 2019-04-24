@@ -47,5 +47,9 @@
 		FROM PRODUCTION
 		WHERE M_NUM = #{m_num}
 	</select>
-
+	
+	<!-- 상품 삭제 -->
+	<delete id="delete">
+		DELETE FROM PRODUCTION_UPLOAD WHERE UUID = #{uuid}
+	</delete>
 </mapper>

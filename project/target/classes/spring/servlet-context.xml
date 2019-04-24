@@ -51,6 +51,7 @@
 	<interceptors>
 		<interceptor>
 			<mapping path="/selling/**" />
+			<mapping path="/member/myPage/**"/>
 			<beans:bean id="commonInterceptor"
 				class="com.ys.project.interceptor.CommonInterceptor" />
 		</interceptor>

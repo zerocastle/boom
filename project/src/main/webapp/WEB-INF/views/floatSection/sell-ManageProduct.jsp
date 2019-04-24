@@ -149,7 +149,6 @@
 		// 페이징 처리
 		var actionForm = $("#actionForm");
 		$(".page-item a").on("click", function(e) {
-			alert('a clicked');
 			e.preventDefault();
 
 			console.log('click');
