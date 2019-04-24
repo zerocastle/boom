@@ -26,12 +26,18 @@
 	<!-- 맴버에 대한 상품 리스트 -->
 	<select id="getMemberProductionList" parameterType="int"
 		resultType="com.ys.project.projectDTO.MemberProductionList">
-		SELECT
-		A.PRO_NUM,A.TITLE,A.STATE_MSG,A.PRICE,A.CATE_CODE,B.UUID,B.UPLOADPATH,B.FILENAME
-		FROM PRODUCTION A ,PRODUCTION_UPLOAD B
-		WHERE A.PRO_NUM = B.PRO_NUM AND
-		A.M_NUM = #{m_num} AND B.REP = 1
-
+		<![CDATA[
+		SELECT A.PRO_NUM,A.TITLE,A.STATE_MSG,A.PRICE,A.CATE_CODE,D.UUID,D.UPLOADPATH,D.FILENAME
+		FROM (SELECT ROWNUM RN,PRO_NUM,TITLE,STATE_MSG,PRICE,CATE_CODE,M_NUM
+				FROM PRODUCTION WHERE M_NUM = #{m_num} AND ROWNUM <= 6)A,(
+					SELECT *
+					FROM PRODUCTION_UPLOAD
+					WHERE REP = 1
+				) D
+		WHERE A.PRO_NUM = D.PRO_NUM AND
+		RN > 0
+		ORDER BY A.PRO_NUM DESC
+		]]>
 	</select>
 
 </mapper>

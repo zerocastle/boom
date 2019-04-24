@@ -1,138 +1,138 @@
-//ÇÑ±Û±úÁ®? can you read korean words? ÇÑ±Û¾È±úÁ®?
+//ï¿½Ñ±Û±ï¿½ï¿½ï¿½? can you read korean words? ï¿½Ñ±Û¾È±ï¿½ï¿½ï¿½?
 /* socket\room_chat\app.js */
-var express = require('express'); // express ¼­¹ö import
-var app = express(); // ¼­¹ö °´Ã¼ »ý¼º
-const http = require('http').Server(app); // http Åë½Å±Ô¾à import
+var express = require('express'); // express ï¿½ï¿½ï¿½ï¿½ import
+var app = express(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
+const http = require('http').Server(app); // http ï¿½ï¿½Å±Ô¾ï¿½ import
 const io = require('socket.io')(http); // socket.io import
 var redis = require("redis"); //redis import
 var session = require('express-session'); //express-session import
-var client; //redisÀÇ connection °´Ã¼°¡ µÉ º¯¼ö
-app.use(session({ // ¼¼¼Ç»ç¿ëÀ» À§ÇÑ ÀýÂ÷
-   secret: '12sdfwerwersdfserwerwef', //keboard cat (·£´ýÇÑ °ª)
+var client; //redisï¿½ï¿½ connection ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+app.use(session({ // ï¿½ï¿½ï¿½Ç»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+   secret: '12sdfwerwersdfserwerwef', //keboard cat (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½)
    resave: false,
    saveUninitialized: true
 }));
-app.use(express.static(__dirname + '/public')); // resourceÆÄÀÏµéÀÇ °æ·Î¼³Á¤À» À§ÇÑ ÀýÂ÷
-app.set('view engine', 'ejs'); //ºä ÅÛÇÃ¸´ ÁöÁ¤. .ejs ·Î ÀÛ¼ºµÇ¾î¾ßÇÑ´Ù. 
-app.set('views', './views'); //°æ·ÎÁöÁ¤. view´ÜÀÇ ÆÄÀÏµéÀº ÇØ´ç °æ·Î¿¡ ÀúÀåµÇ¾î¾ß ÇÑ´Ù.
+app.use(express.static(__dirname + '/public')); // resourceï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½Î¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+app.set('view engine', 'ejs'); //ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¸ï¿½ ï¿½ï¿½ï¿½ï¿½. .ejs ï¿½ï¿½ ï¿½Û¼ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½Ñ´ï¿½. 
+app.set('views', './views'); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. viewï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ ï¿½Ñ´ï¿½.
 
 
-let room = [10000];//socketIOÀÇ ¹æ °´Ã¼°¡ ´ã±æ ¹è¿­
-var conn; // DB connection °´Ã¼°¡ µÉ º¯¼ö
+let room = [10000];//socketIOï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½è¿­
+var conn; // DB connection ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 var oracledb = require("oracledb"); //oracleDB import
-oracledb.autoCommit = true;//ÀÚµ¿Ä¿¹Ô
-oracledb.getConnection({// Ä¿ÅØ¼Ç °´Ã¼ »ý¼º
-  user:"tom", //DB-name
-  password:"tom", //DB-password
-  connectString:"39.127.7.47/orcl"},function(err,con){ //ÄÝ¹éÇÔ¼ö. url/sid¸¦ ÅëÇØ Á¢±ÙÇÏ¸ç ¼º°ø½Ã con ÀÌ¶ó´Â Ä¿³Ø¼Ç °´Ã¼ ¹ÝÈ¯. 
-    if(err){//¿¡·¯°¡ ÀÖ´Ù¸é ½ÇÇà
-      console.log("Á¢¼Ó¿¡·¯",err);
+oracledb.autoCommit = true;//ï¿½Úµï¿½Ä¿ï¿½ï¿½
+oracledb.getConnection({// Ä¿ï¿½Ø¼ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
+  user:"kys", //DB-name
+  password:"kys", //DB-password
+  connectString:"39.127.7.51/orcl"},function(err,con){ //ï¿½Ý¹ï¿½ï¿½Ô¼ï¿½. url/sidï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ con ï¿½Ì¶ï¿½ï¿½ Ä¿ï¿½Ø¼ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½È¯. 
+    if(err){//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+      console.log("ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½",err);
     }
-    conn=con; //¾Õ¼­ Àü¿ªº¯¼ö·Î ¼±¾ðÇÑ conn¿¡ Áö¿ªº¯¼ö Ä¿³Ø¼Ç °´Ã¼ conÀ» ³Ö¾îÁØ´Ù.
+    conn=con; //ï¿½Õ¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ connï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä¿ï¿½Ø¼ï¿½ ï¿½ï¿½Ã¼ conï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½Ø´ï¿½.
 });
 
-var sRoom;//¹æ³Ñ¹ö¸¦ °øÀ¯ÇÏ±â À§ÇØ Àü¿ªº¯¼ö·Î ÁöÁ¤ÇÔ.
+var sRoom;//ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 var status;
 var c_address;
 var c_datetime;
 app.get('/testQR', (req,res) => {
-console.log('¿Í QRÄÚµå ¹Ý°¡¿ö¿ä!');
+console.log('ï¿½ï¿½ QRï¿½Úµï¿½ ï¿½Ý°ï¿½ï¿½ï¿½ï¿½ï¿½!');
     res.render('goTestQR');
 });
-app.get('/roomchat', (req, res) => {//¸ñ·ÏÁß ÇÏ³ª¸¦ Å¬¸¯ÇÏ¿´À»¶§ ½ÇÇà
-  console.log("¹æ¿¡ ÀÔÀå :", req.session)//request°´Ã¼ÀÇ ¼¼¼Ç°ª ÀÐÀ½
-  console.log("ÀÔÀåÇÑ ´Ð³×ÀÓ :", req.session.nickname)//¼¼¼ÇÀÇ nicknameº¯¼ö¿¡ ÀúÀåµÈ °ªÀ» Âï¾îº»´Ù.
-  sRoom = req.query.room_id;////--Äõ¸®½ºÆ®¸µ °ªÀ» ¹Þ¾Æ¿Â´Ù. req.query.º¯¼ö¸í;
-  status = req.query.talker; //»ó´ë¹æÀÌ Ã¤ÆÃ¹æ¿¡ Á¸ÀçÇÏ´Â°¡¿¡ ´ëÇÑ ¿©ºÎ//in °ú outÀÌ ÀÖ´Ù.
-  if(req.session.nickname==undefined){//¼¼¼Ç¿¡ ´Ð³×ÀÓÀÌ ¾ø´Ù¸é ½ÇÇà
-    res.render('tomson');//´Ð³×ÀÓÀÌ ºñ¾ú´Ù¸é ¿¡·¯Ã³¸®ÆäÀÌÁöÀÎ tomson.ejs·Î ÀÌµ¿ÇÑ´Ù.
+app.get('/roomchat', (req, res) => {//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+  console.log("ï¿½æ¿¡ ï¿½ï¿½ï¿½ï¿½ :", req.session)//requestï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½Ç°ï¿½ ï¿½ï¿½ï¿½ï¿½
+  console.log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ :", req.session.nickname)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ nicknameï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½îº»ï¿½ï¿½.
+  sRoom = req.query.room_id;////--ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿Â´ï¿½. req.query.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½;
+  status = req.query.talker; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¤ï¿½Ã¹æ¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Â°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½//in ï¿½ï¿½ outï¿½ï¿½ ï¿½Ö´ï¿½.
+  if(req.session.nickname==undefined){//ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+    res.render('tomson');//ï¿½Ð³ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ tomson.ejsï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ñ´ï¿½.
   }
   if(status== undefined){
     status = req.query.talker;
   }
-  if(sRoom == undefined){//Äõ¸®½ºÆ®¸µ°ªÀÌ ¾ø´Ù¸é
-  sRoom = req.query.room_id;} // Äõ¸®½ºÆ®¸µ °ªÀ» ¹Þ¾Æ¿Â´Ù.
-  console.log("ÀÔÀåÇÕ´Ï´Ù! : "+sRoom+"¹ø¹æÀÇ »óÅÂ : " + status);
+  if(sRoom == undefined){//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½
+  sRoom = req.query.room_id;} // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿Â´ï¿½.
+  console.log("ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½! : "+sRoom+"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : " + status);
   var renderMessage = function(c_address, c_datetime){
     
     var searchMessage = 'select message_num, sender_num,member.nickname, room_id, content from message, member' +
     ' where message.sender_num = member.m_num and room_id = '+parseInt(sRoom)+' order by message_num asc';
     conn.execute(searchMessage,function(err,result){
-      console.log('ÀÔÀåÇÑ ¹æ¹øÈ£:'+sRoom);
-    if(err){//¿¡·¯°¡ ¹ß»ýÇÑ´Ù¸é ½ÇÇà
-        console.log("/ROOMCHAT : µî·ÏÁß ¿¡·¯°¡ ¹ß»ý", err);
-    }else{//Á¤»óÀÛµ¿½Ã
-      console.log('·»´õÀå¼Ò´Â ' + c_address);
-      console.log('·»´õ½Ã°£´Â ' + c_datetime);
+      console.log('ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½È£:'+sRoom);
+    if(err){//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½Ñ´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+        console.log("/ROOMCHAT : ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½", err);
+    }else{//ï¿½ï¿½ï¿½ï¿½ï¿½Ûµï¿½ï¿½ï¿½
+      console.log('ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò´ï¿½ ' + c_address);
+      console.log('ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ï¿½ï¿½ ' + c_datetime);
       console.log("result: "+result);
       console.log("result: ",result.rows);
-      //roomchat2.ejs ·Î ÀÌµ¿ÇÑ´Ù. //ÀÌµ¿ÇÒ¶§ key:valueÇüÅÂ·Î Äõ¸®°á°ú, ¼¼¼ÇÀÇ ´Ð³×ÀÓ, ¹æ¹øÈ£¸¦ Àü´ÞÇÑ´Ù. 
-      res.render('roomchat2',{result:JSON.stringify(result), nickname:req.session.nickname, roomid:sRoom ,rstatus : status, datetime : c_datetime, address : c_address });// ¹æ¿¡´Ù°¡ ´øÁ®ÁÖÀÚ
+      //roomchat2.ejs ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ñ´ï¿½. //ï¿½Ìµï¿½ï¿½Ò¶ï¿½ key:valueï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. 
+      res.render('roomchat2',{result:JSON.stringify(result), nickname:req.session.nickname, roomid:sRoom ,rstatus : status, datetime : c_datetime, address : c_address });// ï¿½æ¿¡ï¿½Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     }
 
     });
   }
 
   conn.execute("select c_datetime, c_address from chatroom where room_id = ("+sRoom+")", function(err,result){
-    console.log('select : Àå¼Ò¿Í ½Ã°£' + result.rows);
+    console.log('select : ï¿½ï¿½Ò¿ï¿½ ï¿½Ã°ï¿½' + result.rows);
     c_datetime = result.rows[0][0];
     c_address = result.rows[0][1];
-    if(c_address == null){c_address = '¾à¼ÓÀå¼Ò ¼±Á¤'}
+    if(c_address == null){c_address = 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½'}
     else {
-      console.log('¾à¼ÓÀå¼Ò´Â ' + c_address);
+      console.log('ï¿½ï¿½ï¿½ï¿½ï¿½Ò´ï¿½ ' + c_address);
     }
-    if (c_datetime == null){c_datetime = '¾à¼Ó½Ã°£ ¼±Á¤'}
+    if (c_datetime == null){c_datetime = 'ï¿½ï¿½Ó½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½'}
     else {
-      console.log('¾à¼Ó½Ã°£¾à¼Ó½Ã°£Àº ' + c_datetime);
+      console.log('ï¿½ï¿½Ó½Ã°ï¿½ï¿½ï¿½Ó½Ã°ï¿½ï¿½ï¿½ ' + c_datetime);
     }
 
-    console.log('ÆÄ¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿¤¿Æ¼ÇÇÇÃ',c_address, c_datetime);
+    console.log('ï¿½Ä¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½',c_address, c_datetime);
     return renderMessage(c_address, c_datetime);
   });
   
-  //¸ñ·ÏÀÇ ¹æ¹øÈ£¸¦ ÀÌ¿ëÇØ ÇØ´çÇÏ´Â µðºñÀÇ ¸Þ½ÃÁö³»¿ªÀ» ºÒ·¯¿Â´Ù.
+  //ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½È£ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½Â´ï¿½.
   
   
 });
 
 
-// ¹æ¸ñ·Ï ºÒ·¯¿À±â
-app.get('/jackchat', (req, res) => {//localhost:3000/jackchat À¸·Î Á¢±Ù½Ã ½ÇÇà
-  client = redis.createClient(6379, "localhost");//localhost6379Æ÷Æ®ÀÇ redis°´Ã¼¿¡ Á¢±ÙÇÑ´Ù.
-    client.get("user", function(err, val) {//½ºÇÁ¸µ¿¡¼­ ÀúÀåÇÑ redis°´Ã¼¿¡ "user"¶ó´Â Å°ÀÇ °ªÀ» Ã£¾Æ ÇÔ¼ö½ÇÇà
+// ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
+app.get('/jackchat', (req, res) => {//localhost:3000/jackchat ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½
+  client = redis.createClient(6379, "localhost");//localhost6379ï¿½ï¿½Æ®ï¿½ï¿½ redisï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+    client.get("user", function(err, val) {//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ redisï¿½ï¿½Ã¼ï¿½ï¿½ "user"ï¿½ï¿½ï¿½ Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½
     testdata=val;
-    req.session.nickname = val;//¼¼¼ÇÀÇ nickname º¯¼ö¿¡ redis°´Ã¼¿¡¼­ ¹Þ¾Æ¿Â °ªÀ» ³Ö¾îÁØ´Ù.
-    console.log('Âï¾îº¾½Ã´Ù : ' , val) // Ã¤ÆÃ¼­¹ö¿¡ Á¢¼ÓÇÑ À¯ÀúÀÇ nicknameÀ» Âï¾îº»´Ù.
-    if(val === null) {//°ªÀÌ ¾ø´Ù¸é ¿ä°ÅÇÏ°í ¶¯
+    req.session.nickname = val;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ nickname ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ redisï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½Ø´ï¿½.
+    console.log('ï¿½ï¿½îº¾ï¿½Ã´ï¿½ : ' , val) // Ã¤ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ nicknameï¿½ï¿½ ï¿½ï¿½îº»ï¿½ï¿½.
+    if(val === null) {//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½
       console.log('>>>>> result : null ');
     }
-    else {//°ªÀÌ ÀÖ´Ù¸é ½ÇÇà
+    else {//ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½
       var loglogsql = "select c.room_id, c.buyer_num, c.seller_num, c.pro_num, o.title, (select nickname from member where m_num = c.buyer_num) C_buyer_nickname, (select nickname from member where m_num = c.seller_num) C_seller_nickname  from chatroom c, production o where o.pro_num = c.pro_num and (      seller_num = (select m_num from member where nickname = '"+val+"') or      buyer_num = (select m_num from member where nickname = '"+val+"')) order by room_id asc";
-      //´Ð³×ÀÓÀ¸·Î À¯ÀúÀÇ È¸¿ø¹øÈ£ ¾Ë¾Æ³»¾î ÇØ´ç ¹øÈ£°¡ ±¸¸ÅÀÚ ¶Ç´Â ÆÇ¸ÅÀÚ·Î Á¸ÀçÇÏ´Â Ã¤ÆÃ¹æÀ» °Ë»öÇÑ´Ù.
-      conn.execute(loglogsql,function(err, result){ // ±ä Äõ¸®¹®À» ½ÇÇàÇÑ´Ù.
+      //ï¿½Ð³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½È£ ï¿½Ë¾Æ³ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ ï¿½Ç¸ï¿½ï¿½Ú·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ Ã¤ï¿½Ã¹ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ñ´ï¿½.
+      conn.execute(loglogsql,function(err, result){ // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
         if(result == 'undefined'){
-          console.log('°á°ú°ªÀÌ undefinedÀÔ´Ï´Ù. ½ÇÇàÀÌ Á¤»óµ¿ÀÛÇÏÁö ¾Ê½À´Ï´Ù.');
+          console.log('ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ undefinedï¿½Ô´Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.');
         }
         else if(err){
-          console.log("/jackchat : ¿¡·¯°¡ ¹ß»ýÇß¾î¿ä!! ", err);
-        }else if(!result.rows.length){// 0Àº false¶ó°í ÆÇ´ÜÇÏ´Â°ÍÀ» ÀÌ¿ë, row°¡ 0ÀÌ ¾Æ´Ï¶ó¸é ´Ù½Ã¸»ÇØ rows°¡ 1ÀÌ»óÀÌ¶ó¸é.
-          console.log("result.rows: ¸®Àú¾î¾î¾óÆ®·Î¿ì",result.rows); //°á°ú°ª È®ÀÎ¿ë Âï¾îº»´Ù.
+          console.log("/jackchat : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½ß¾ï¿½ï¿½!! ", err);
+        }else if(!result.rows.length){// 0ï¿½ï¿½ falseï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ï¿½Ï´Â°ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½, rowï¿½ï¿½ 0ï¿½ï¿½ ï¿½Æ´Ï¶ï¿½ï¿½ ï¿½Ù½Ã¸ï¿½ï¿½ï¿½ rowsï¿½ï¿½ 1ï¿½Ì»ï¿½ï¿½Ì¶ï¿½ï¿½.
+          console.log("result.rows: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½Î¿ï¿½",result.rows); //ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½Î¿ï¿½ ï¿½ï¿½îº»ï¿½ï¿½.
           res.render('roomlist',{result:JSON.stringify(result),nickname:req.session.nickname}); 
         }else{  
               res.render('roomlist',{result:JSON.stringify(result),nickname:req.session.nickname});        
-        }//DBÄõ¸®¹®- if else 
-      });//if else- redisÀÇ °ª
-      }//client.get ÇÔ¼ö
-    });//redis create ÇÔ¼ö
-});//app.getÇÔ¼ö
+        }//DBï¿½ï¿½ï¿½ï¿½ï¿½ï¿½- if else 
+      });//if else- redisï¿½ï¿½ ï¿½ï¿½
+      }//client.get ï¿½Ô¼ï¿½
+    });//redis create ï¿½Ô¼ï¿½
+});//app.getï¿½Ô¼ï¿½
 
-io.on('connection', (socket) => {//socketIO¿¬°áÀÌ µÇ¸ç ¼ÒÄÏ¿¡ Àü¼ÛµÇ´Â ¹®ÀÚ¿­ÀÌ ÀÏÄ¡ÇÏ´Â ¸Þ¼Òµå¸¦ ½ÇÇàÇÑ´Ù.
+io.on('connection', (socket) => {//socketIOï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ÛµÇ´ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½Ï´ï¿½ ï¿½Þ¼Òµå¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 
-  socket.on('disconnect', () => {//socket¿¡ disconnect¶ó´Â ¸Þ½ÃÁö°¡ Àü¼ÛµÇ¸é ½ÇÇà
-    console.log('user disconnected');// ¤¾¤¾ ÀÌ°Å ÇÏ´Â°Å ¾øÀ½ ¤¾¤¾
+  socket.on('disconnect', () => {//socketï¿½ï¿½ disconnectï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÛµÇ¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+    console.log('user disconnected');// ï¿½ï¿½ï¿½ï¿½ ï¿½Ì°ï¿½ ï¿½Ï´Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
   });
 
-  //³»°¡ Á»´õ Ã£¾ÆºÁ¾ßÇÒ ºÎºÐÀÌ¶ó Á¦°ÅÇÏÁö ¾ÊÀ½. »ç¿ëµÇ¾îÁöÁø ¾Ê´Â´Ù.
+  //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Æºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½Ì¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
   socket.on('leaveRoom', (num, name) => {
     socket.leave(num, () => {
       console.log(name + ' leave a ' + room[num]);
@@ -140,18 +140,18 @@ io.on('connection', (socket) => {//socketIO¿¬°áÀÌ µÇ¸ç ¼ÒÄÏ¿¡ Àü¼ÛµÇ´Â ¹®ÀÚ¿­ÀÌ 
     });
   });
 
-  //roomchat2.ejs¿¡¼­ ¹æ³ª°¡±â ¹öÆ° Å¬¸¯½Ã ½ÇÇàµÈ´Ù.
+  //roomchat2.ejsï¿½ï¿½ï¿½ï¿½ ï¿½æ³ªï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È´ï¿½.
   socket.on('room_out', (num,name) => {
-      console.log(name+'È¸¿øÀÌ No.'+num+'¹æÀ» ³ª°¡¼Ì½À´Ï´Ù.' ); //¼­¹öÄÜ¼Ö¿¡ ³ª°£ È¸¿øÀ» Âï¾îº»´Ù.
+      console.log(name+'È¸ï¿½ï¿½ï¿½ï¿½ No.'+num+'ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ï¿½Ï´ï¿½.' ); //ï¿½ï¿½ï¿½ï¿½ï¿½Ü¼Ö¿ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½îº»ï¿½ï¿½.
           //    select seller_num, buyer_num from chatroom where room_id = 442;     
       var m_num;
       var buyer;
-      // ÇÔ¼ö ¼±¾ð½Ä funtion A() { ~~~ } - ºê¶ó¿ìÀú ½ÇÇà½Ã È£ÀÌ½ºÆÃ¿¡ ÀÇÇØ »ó´ÜÀ¸·Î ²ø¾î¿Ã·ÁÁø´Ù. -À§Ä¡¿¡ ±¸¾Ö¹ÞÁö ¾Ê°í ÇÔ¼ö »ç¿ë °¡´É.
-      // ÇÔ¼ö Ç¥Çö½Ä var A = function(){ ~~~ } - À§Ä¡¿¡ ±¸¾Ö¹Þ´Â´Ù, ÄÝ¹éÀ¸·Î »ç¿ë(ÇÔ¼öÀÇ ÀÎÀÚ·Î »ç¿ë)
-      // ÇÔ¼ö Ç¥Çö½Ä- Å¬·ÎÀú : return ÇÔ¼ö¸¦ µÎ¾î ÇÔ¼ö°¡³¡³ª¸é ´ÙÀ½ ÇÔ¼ö°¡ ½ÇÇàµÇ´Â½Ä
-      // ÇÔ¼ö Ç¥Çö½Ä- ÄÝ¹é : ÇÔ¼öÀÇ ÀÎÀÚ·Î ÇÔ¼ö¸¦ ¹Þ´Â°Í
+      // ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ funtion A() { ~~~ } - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ È£ï¿½Ì½ï¿½ï¿½Ã¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½. -ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+      // ï¿½Ô¼ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ var A = function(){ ~~~ } - ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½Ö¹Þ´Â´ï¿½, ï¿½Ý¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½(ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú·ï¿½ ï¿½ï¿½ï¿½)
+      // ï¿½Ô¼ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½- Å¬ï¿½ï¿½ï¿½ï¿½ : return ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½Î¾ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´Â½ï¿½
+      // ï¿½Ô¼ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½- ï¿½Ý¹ï¿½ : ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú·ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½Þ´Â°ï¿½
        
-      //callbackM()ÄÝ¹éÇÔ¼ö¸¦ ÀÌ¿ëÇØ ½ÃÀÛÇÑ´Ù. 
+      //callbackM()ï¿½Ý¹ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. 
       function callbackM(callback,name,num){
         console.log('start log :',name,num)
         return callback(name,num);
@@ -159,26 +159,26 @@ io.on('connection', (socket) => {//socketIO¿¬°áÀÌ µÇ¸ç ¼ÒÄÏ¿¡ Àü¼ÛµÇ´Â ¹®ÀÚ¿­ÀÌ 
       var firstCall = function(name,num){
         conn.execute("select m_num from member where nickname = '"+name+"'", function(err, result){
           m_num = result.rows[0][0]; 
-          console.log('¹æ³ª°¨first',m_num,buyer,name,num);
-          return secondCall(m_num,num);//ÁúÀÇ°á°ú¸¦ ÀÎÀÚ·Î Àü´ÞÇÏ¸ç Å¬·ÎÁ® ÇÔ¼ö »ç¿ë
+          console.log('ï¿½æ³ªï¿½ï¿½first',m_num,buyer,name,num);
+          return secondCall(m_num,num);//ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½
         });        
       }
       var secondCall = function(m_num,num){
         conn.execute("select buyer_num from chatroom where room_id = "+num+"",function(err,result){
           buyer = result.rows[0][0];
-          console.log('¹æ³ª°¨second',m_num,buyer,num);
+          console.log('ï¿½æ³ªï¿½ï¿½second',m_num,buyer,num);
           return thirdCall(m_num,buyer,num);
         });
       }
       var thirdCall = function(m_num,buyer,num){
-        if(m_num==buyer){//³ª°£ È¸¿øÀÇ ¹øÈ£¿Í ±¸¸ÅÀÚÀÇ ¹øÈ£¸¦ ´ëÁ¶. °°À¸¸é ³ª°£»ç¶÷Àº ±¸¸ÅÀÚ. ¾Æ´Ï¶ó¸é ³ª°£»ç¶÷Àº ÆÇ¸ÅÀÚ.
-          console.log('¹æ³ª°¨third-buyer',m_num,buyer,' Room',num);
+        if(m_num==buyer){//ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½Æ´Ï¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸ï¿½ï¿½ï¿½.
+          console.log('ï¿½æ³ªï¿½ï¿½third-buyer',m_num,buyer,' Room',num);
           upnull = "update chatroom set buyer_num = null where room_id = "+num;
           conn.execute(upnull,function(err,result){
             console.log('Buyer Logout  // his Meber-number is '+buyer);
           });
         } else {
-          //ÇöÀç µðºñ»óÀ¸·Î ¸ðµç ÆÇ¸ÅÀÚ´Â JackÀÌ´Ù. 
+          //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ç¸ï¿½ï¿½Ú´ï¿½ Jackï¿½Ì´ï¿½. 
           upnull = "update chatroom set seller_num = null where room_id = "+num;
           console.log('third-seller',m_num,buyer,' Room',num);
           conn.execute(upnull,function(err,result){
@@ -186,50 +186,50 @@ io.on('connection', (socket) => {//socketIO¿¬°áÀÌ µÇ¸ç ¼ÒÄÏ¿¡ Àü¼ÛµÇ´Â ¹®ÀÚ¿­ÀÌ 
           });
         }  
       }
-      callbackM(firstCall,name,num); //ÄÝ¹éÇÔ¼ö¸¦ ÀÌ¿ëÇØ ½ÃÀÛÇÑ´Ù. ÀÌÈÄ ³»Æ÷ÇÑ ¸ðµç ÇÔ¼öµéÀº Å¬·ÎÀú¿¡ ÀÇÇØ ¼ø¼­´ë·Î ÁøÇàµÈ´Ù.  
+      callbackM(firstCall,name,num); //ï¿½Ý¹ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È´ï¿½.  
     var change_countSql = "update production set chat_room_count = chat_room_count -1  where pro_num = (select pro_num from chatroom where room_id = "+num+")";
-    //»óÇ°Å×ÀÌºíÀÇ Ã¤ÆÃ¹æ °¹¼ö¸¦ ÁÙÀÎ´Ù. - (¹æ¹øÈ£¸¦ ÀÌ¿ëÇØ ¹æÀÇ »óÇ°¹øÈ£¸¦ ¾Ë¾Æ³½´Ù.) - ¾Ë¾Æ³½ »óÇ°¹øÈ£ÀÇ Ã¤ÆÃ¹æ°¹¼ö¸¦ ÇÏ³ª ÁÙÀÎ´Ù.
-    conn.execute(change_countSql,function(err,result){//¾÷µ¥ÀÌÆ®¹® ½ÇÇà
+    //ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ Ã¤ï¿½Ã¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î´ï¿½. - (ï¿½ï¿½ï¿½È£ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½È£ï¿½ï¿½ ï¿½Ë¾Æ³ï¿½ï¿½ï¿½.) - ï¿½Ë¾Æ³ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½È£ï¿½ï¿½ Ã¤ï¿½Ã¹æ°¹ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
+    conn.execute(change_countSql,function(err,result){//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
       if(err){
-        console.log("change_countSql ¿¡·¯ :",err);
+        console.log("change_countSql ï¿½ï¿½ï¿½ï¿½ :",err);
       } else {  
-      console.log('»óÇ° Å×ÀÌºí¿¡ Ã¤ÆÃ¹æ°¹¼ö ÁÙÀÌ±â', result); // Àû¿ëµÈ row ¼ö ¹ÝÈ¯
+      console.log('ï¿½ï¿½Ç° ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ Ã¤ï¿½Ã¹æ°¹ï¿½ï¿½ ï¿½ï¿½ï¿½Ì±ï¿½', result); // ï¿½ï¿½ï¿½ï¿½ï¿½ row ï¿½ï¿½ ï¿½ï¿½È¯
       }
     });
 
-    //½Ã½ºÅÛ¸Þ½ÃÁö¸¦ »ðÀÔÇÑ´Ù.
-    conn.execute("INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, 0, "+num+", '»ó´ë¹æÀÌ Ã¤ÆÃ¹æÀ» ³ª°¬½À´Ï´Ù.')",function(err,result){
+    //ï¿½Ã½ï¿½ï¿½Û¸Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+    conn.execute("INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, 0, "+num+", 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¤ï¿½Ã¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.')",function(err,result){
       if(err){
-          console.log("µî·ÏÁß ¿¡·¯°¡ ¹ß»ýÇß¾î¿ä!! ¸Þ½ÃÁö ÀÔ·Â¿¡·¯", err);
+          console.log("ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½ß¾ï¿½ï¿½!! ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½Ô·Â¿ï¿½ï¿½ï¿½", err);
       }else{
           console.log("result : ",result);
       }
     });
 
 
-    // ÇÑ È¸¿øÀÌ ³ª°¡±â¸¦ ½ÇÇàÇß´Ù´Â »ç½ÇÀ» ³²Àº È¸¿ø¿¡°Ô ¾Ë·ÁÁÖ±â À§ÇØ ·ëÃªÀ¸·Î room_out½ÅÈ£¸¦ º¸³½´Ù
+    // ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ß´Ù´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ãªï¿½ï¿½ï¿½ï¿½ room_outï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     io.to(num).emit('room_out', num, name);
-  });//·ë ¾Æ¿ô ¿Ï·á
+  });//ï¿½ï¿½ ï¿½Æ¿ï¿½ ï¿½Ï·ï¿½
 
-  //¹æ¿¡ ÀÔÀåÇÑ´Ù¸é ½ÇÇà
+  //ï¿½æ¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½
   socket.on('joinRoom', (num, name) => {
-    socket.join(num, () => {//socketÀÇ ¹æ ¹è¿­ Áß num¹øÂ° ¹æ¿¡ ÀÔÀåÇÑ´Ù.
+    socket.join(num, () => {//socketï¿½ï¿½ ï¿½ï¿½ ï¿½è¿­ ï¿½ï¿½ numï¿½ï¿½Â° ï¿½æ¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
       console.log(name + ' join a ' + num);
-      io.to(num).emit('joinRoom', num, name);//ÀÔÀåÇÑ ¹æ¿¡ ÀÔÀå½ÅÈ£¸¦ º¸³½´Ù.
+      io.to(num).emit('joinRoom', num, name);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½æ¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
     });
   });
 
 
-// Address Á¤º¸Ã³¸® Start
+// Address ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ Start
 var func_messageNum_a = function (num, address, name){
   var sSql = "select message_seq.NEXTVAL-1 from dual";
   conn.execute(sSql,function(err,result){
     if(err){
-        console.log("¿¡·¯³­ ¸Þ½ÃÁö¾ÆÀÌµð ¼¿·ºÆ®", err);
+        console.log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½Æ®", err);
     }else{
         var message_id = result.rows[0][0];
-        console.log("¼º°øÇÑ ¸Þ½ÃÁö¾ÆÀÌµð ¼¿·ºÆ®: ",result, sSql);
-        console.log("¼º°øÇÑ ¸Þ½ÃÁö¾ÆÀÌµð ¼¿·ºÆ®: ",message_id);
+        console.log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½Æ®: ",result, sSql);
+        console.log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½Æ®: ",message_id);
         io.to(num).emit('socket_address', num, address, name, message_id);
       }
   });
@@ -237,148 +237,148 @@ var func_messageNum_a = function (num, address, name){
 
 
 
-socket.on('socket_address', (num, address, name) => {//ÀÏÁ¤Àü¼Û ½ÅÈ£°¡ ¼­¹ö·Î µé¾î¿Ã¶§ ½ÇÇà.
-    var buttonSet = "<button class=''Ayes''>¼ö¶ô</button><button class=''Ano'' value='''||TO_CHAR(message_seq.NEXTVAL)||'''>°ÅÀý</button>";
-    var insertDate = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '"+name+"'), "+num+", 'Àå¼ÒÇùÀÇ - "+name+"´Ô¿¡ ÀÇÇØ ¾à¼ÓÀå¼Ò°¡ ¼±Á¤µÇ¾ú½À´Ï´Ù :<br><i class=''addressP''>"+address+"</i><br>"+buttonSet+"')";
+socket.on('socket_address', (num, address, name) => {//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¶ï¿½ ï¿½ï¿½ï¿½ï¿½.
+    var buttonSet = "<button class=''Ayes''>ï¿½ï¿½ï¿½ï¿½</button><button class=''Ano'' value='''||TO_CHAR(message_seq.NEXTVAL)||'''>ï¿½ï¿½ï¿½ï¿½</button>";
+    var insertDate = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '"+name+"'), "+num+", 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - "+name+"ï¿½Ô¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ :<br><i class=''addressP''>"+address+"</i><br>"+buttonSet+"')";
     conn.execute(insertDate,function(err,result){
       if(err){
-          console.log("¼ÒÄÏ¾à¼ÓÀÏ½Ã insert ¿¡·¯", err);
+          console.log("ï¿½ï¿½ï¿½Ï¾ï¿½ï¿½ï¿½Ï½ï¿½ insert ï¿½ï¿½ï¿½ï¿½", err);
       }else{
-          console.log("¼º°øÇÑ ÀÎ¼­Æ® : ",result, insertDate);
+          console.log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î¼ï¿½Æ® : ",result, insertDate);
         return func_messageNum_a(num, address, name);
         }
     });
 });
 
-socket.on('addressNo', (addressP,num, message_id)=> {//°ÅÀý¹öÆ°À» ´©¸¥´Ù¸é
+socket.on('addressNo', (addressP,num, message_id)=> {//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ù¸ï¿½
   message_id = Number(message_id);
-  var noSql = "update message set content = '<i>°ÅÀýÇÏ¼Ì½À´Ï´Ù</i><br>"+addressP+"' where message_num = "+message_id;
+  var noSql = "update message set content = '<i>ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼Ì½ï¿½ï¿½Ï´ï¿½</i><br>"+addressP+"' where message_num = "+message_id;
   conn.execute(noSql,function(err,result){
     if(err){
-      console.log("°ÅÀý ¿¡·¯", err);
+      console.log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½", err);
   }else{
       console.log(noSql);
-      console.log("°ÅÀý ¾÷µ¥ÀÌÆ® ¼º°ø! : ",result);
+      console.log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½! : ",result);
       io.to(num).emit('ref');
   }
   });
 });
 
 
-socket.on('addressYes', (addressP,num)=> {//ÀÏÁ¤¼ö¶ô ½ÅÈ£°¡ ¿Â´Ù¸é
+socket.on('addressYes', (addressP,num)=> {//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½Â´Ù¸ï¿½
   var updateDate = "update chatroom set c_address = '"+addressP+"' where room_id="+num+"";
   conn.execute(updateDate,function(err,result){
     if(err){
-      console.log("¼ÒÄÏ¾à¼ÓÀÏ½Ã update ¿¡·¯", err);
+      console.log("ï¿½ï¿½ï¿½Ï¾ï¿½ï¿½ï¿½Ï½ï¿½ update ï¿½ï¿½ï¿½ï¿½", err);
   }else{
-      console.log("¾÷µ¥ÀÌÆ® ¼º°ø! : ",result);
+      console.log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½! : ",result);
   }
   });
 
   console.log(addressP);
-  console.log('ÇÏÇÏÇÏÇÏ');
-  var yesSql = "update message set content = '<i>¼ö¶ôÇÏ¼Ì½À´Ï´Ù.</i><br>"+addressP+"' where content like 'Àå¼ÒÇùÀÇ%' and room_id = "+num;
+  console.log('ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½');
+  var yesSql = "update message set content = '<i>ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼Ì½ï¿½ï¿½Ï´ï¿½.</i><br>"+addressP+"' where content like 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½%' and room_id = "+num;
   conn.execute(yesSql,function(err,result){
     if(err){
-      console.log("ÇÏÈ÷È÷ÇÏÇÏÇÏÇÏ ¿¹¾²¿¡·¯", err);
+      console.log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", err);
   }else{
-      console.log("¿¹¤Æ¤Æ¤Æ¤Æ¤Æ¤Æ¤Æ¾²¾÷µ¥ÀÌÆ® ¼º°ø! : ",result);
+      console.log("ï¿½ï¿½ï¿½Æ¤Æ¤Æ¤Æ¤Æ¤Æ¤Æ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½! : ",result);
       io.to(num).emit('ref');
   }
   });
   
 });
-// Address Á¤º¸Ã³¸® End
-// Date Á¤º¸Ã³¸® Start
+// Address ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ End
+// Date ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ Start
   var func_messageNum = function (num, date, name){
     var sSql = "select message_seq.NEXTVAL-1 from dual";
     conn.execute(sSql,function(err,result){
       if(err){
-          console.log("¿¡·¯³­ ¸Þ½ÃÁö¾ÆÀÌµð ¼¿·ºÆ®", err);
+          console.log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½Æ®", err);
       }else{
           var message_id = result.rows[0][0];
-          console.log("¼º°øÇÑ ¸Þ½ÃÁö¾ÆÀÌµð ¼¿·ºÆ®: ",result, sSql);
-          console.log("¼º°øÇÑ ¸Þ½ÃÁö¾ÆÀÌµð ¼¿·ºÆ®: ",message_id);
+          console.log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½Æ®: ",result, sSql);
+          console.log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½Æ®: ",message_id);
           io.to(num).emit('socket_date', num, date, name, message_id);
         }
     });
   }
   
   //conn.execute(change_countSql,function(err,result){
-  //ÀÏÁ¤Àü¼Û ½ÅÈ£°¡ ¼­¹ö·Î µé¾î¿Ã¶§ ½ÇÇà.
+  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¶ï¿½ ï¿½ï¿½ï¿½ï¿½.
   socket.on('socket_date', (num, date, name) => {
-      var buttonSet = "<button class=''yes''>¼ö¶ô</button><button class=''no'' value='''||TO_CHAR(message_seq.NEXTVAL)||'''>°ÅÀý</button>";
-      var insertDate = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '"+name+"'), "+num+", '½Ã°£ÇùÀÇ - "+name+"´Ô¿¡ ÀÇÇØ ¾à¼ÓÀÏÁ¤ÀÌ ¼±Á¤µÇ¾ú½À´Ï´Ù :<i class=''dateP''>"+date+"</i><br>"+buttonSet+"')";
+      var buttonSet = "<button class=''yes''>ï¿½ï¿½ï¿½ï¿½</button><button class=''no'' value='''||TO_CHAR(message_seq.NEXTVAL)||'''>ï¿½ï¿½ï¿½ï¿½</button>";
+      var insertDate = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '"+name+"'), "+num+", 'ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ - "+name+"ï¿½Ô¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ :<i class=''dateP''>"+date+"</i><br>"+buttonSet+"')";
       conn.execute(insertDate,function(err,result){
         if(err){
-            console.log("¼ÒÄÏ¾à¼ÓÀÏ½Ã insert ¿¡·¯", err);
+            console.log("ï¿½ï¿½ï¿½Ï¾ï¿½ï¿½ï¿½Ï½ï¿½ insert ï¿½ï¿½ï¿½ï¿½", err);
         }else{
-            console.log("¼º°øÇÑ ÀÎ¼­Æ® : ",result, insertDate);
+            console.log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î¼ï¿½Æ® : ",result, insertDate);
           return func_messageNum(num, date, name);
           }
       });
   });
 
-  socket.on('dateNo', (dateP,num, message_id)=> {//°ÅÀý¹öÆ°À» ´©¸¥´Ù¸é
+  socket.on('dateNo', (dateP,num, message_id)=> {//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ù¸ï¿½
     message_id = Number(message_id);
-    var noSql = "update message set content = '<i>°ÅÀýÇÏ¼Ì½À´Ï´Ù</i><br>"+dateP+"' where message_num = "+message_id;
+    var noSql = "update message set content = '<i>ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼Ì½ï¿½ï¿½Ï´ï¿½</i><br>"+dateP+"' where message_num = "+message_id;
     conn.execute(noSql,function(err,result){
       if(err){
-        console.log("°ÅÀý ¿¡·¯", err);
+        console.log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½", err);
     }else{
         console.log(noSql);
-        console.log("°ÅÀý ¾÷µ¥ÀÌÆ® ¼º°ø! : ",result);
+        console.log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½! : ",result);
         io.to(num).emit('ref');
     }
     });
   });
 
 
-  socket.on('dateYes', (dateP,num)=> {//ÀÏÁ¤¼ö¶ô ½ÅÈ£°¡ ¿Â´Ù¸é
+  socket.on('dateYes', (dateP,num)=> {//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½Â´Ù¸ï¿½
     var updateDate = "update chatroom set c_datetime = '"+dateP+"' where room_id="+num+"";
     conn.execute(updateDate,function(err,result){
       if(err){
-        console.log("¼ÒÄÏ¾à¼ÓÀÏ½Ã update ¿¡·¯", err);
+        console.log("ï¿½ï¿½ï¿½Ï¾ï¿½ï¿½ï¿½Ï½ï¿½ update ï¿½ï¿½ï¿½ï¿½", err);
     }else{
-        console.log("¾÷µ¥ÀÌÆ® ¼º°ø! : ",result);
+        console.log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½! : ",result);
     }
     });
 
     console.log(dateP);
-    console.log('ÇÏÇÏÇÏÇÏ');
-    var yesSql = "update message set content = '<i>¼ö¶ôÇÏ¼Ì½À´Ï´Ù.</i><br>"+dateP+"' where content like '½Ã°£ÇùÀÇ%' and room_id = "+num;
+    console.log('ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½');
+    var yesSql = "update message set content = '<i>ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼Ì½ï¿½ï¿½Ï´ï¿½.</i><br>"+dateP+"' where content like 'ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½%' and room_id = "+num;
     conn.execute(yesSql,function(err,result){
       if(err){
-        console.log("ÇÏÈ÷È÷ÇÏÇÏÇÏÇÏ ¿¹¾²¿¡·¯", err);
+        console.log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", err);
     }else{
-        console.log("¿¹¤Æ¤Æ¤Æ¤Æ¤Æ¤Æ¤Æ¾²¾÷µ¥ÀÌÆ® ¼º°ø! : ",result);
+        console.log("ï¿½ï¿½ï¿½Æ¤Æ¤Æ¤Æ¤Æ¤Æ¤Æ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½! : ",result);
         io.to(num).emit('ref');
     }
     });
     
   });
-// Date Á¤º¸Ã³¸® End
+// Date ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ End
 
-  socket.on('chat message', (num, name, msg) => {//Ã¤ÆÃ ½ÅÈ£°¡ ¿Â´Ù¸é
-    a = num; //¿ÖÇßÁö ÀÌ°É
+  socket.on('chat message', (num, name, msg) => {//Ã¤ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½Â´Ù¸ï¿½
+    a = num; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì°ï¿½
 
-    console.log('È¸¿ø '+name+'ÀÇ ¸Þ½ÃÁöÀü´Þ : num :', num, msg);//Á¤»óÀûÀÎÁö Âï¾îº¸±â
+    console.log('È¸ï¿½ï¿½ '+name+'ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : num :', num, msg);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½îº¸ï¿½ï¿½
     
-    //insert ½ÇÇà
+    //insert ï¿½ï¿½ï¿½ï¿½
     conn.execute("INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '"+name+"'), "+num+", '"+msg+"')",function(err,result){
       if(err){
-          console.log("µî·ÏÁß ¿¡·¯°¡ ¹ß»ýÇß¾î¿ä!! ¸Þ½ÃÁö ÀÔ·Â¿¡·¯", err);
+          console.log("ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½ß¾ï¿½ï¿½!! ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½Ô·Â¿ï¿½ï¿½ï¿½", err);
       }else{
           console.log("result : ",result);
       }
     });
-    io.to(num).emit('chat message', name, msg);//ÇØ´ç ¹æ¿¡ ÀÌ¸§°ú ¸Þ½ÃÁö¸¦ Àü¼Û
+    io.to(num).emit('chat message', name, msg);//ï¿½Ø´ï¿½ ï¿½æ¿¡ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
   });
 });
 
 
 
 
-http.listen(3000, () => { // ¼­¹ö¸¦ ½ÇÇà½ÃÅ²´Ù.
+http.listen(3000, () => { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
   console.log('Connect at 3000');
 });
