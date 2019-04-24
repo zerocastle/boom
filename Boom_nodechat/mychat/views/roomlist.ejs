@@ -50,7 +50,7 @@ li{
     </style>
   </head>
   <body>
-    <b><%=nickname%></b> 회원님의 채팅방목록
+    <b><%=nickname%></b> 회원님의 직톡방목록
       
         <% var list = result%>
 <!-- [i][0]:room_id, [i][1]:buyer_num, [i][2]:seller_num, [i][3]:pro_num, [i][4]:pro_title, [i][5]:buyer_nickname, [i][6]:seller_nickname  -->
@@ -76,12 +76,11 @@ li{
           <ul class="mylist">
             
         <%for(var i =0; i<arr.length;i++){ %>
-            
               <%if(arr[i].buyer == null || arr[i].seller == null){ %>
-                <li>No.<%=arr[i].room_id%> 채팅방 : <a href="/roomchat?room_id=<%=arr[i].room_id%>&talker=out">: <%=arr[i].room_title%></a>
-                //상대방이 채팅방을 나갔습니다.
+                <li>No.<%=arr[i].room_id%> 직톡방 : <a href="/roomchat?room_id=<%=arr[i].room_id%>&talker=out">: <%=arr[i].room_title%></a>
+                //상대방이 직톡방을 나갔습니다.
               <%} else {%>
-                <li>No.<%=arr[i].room_id%> 채팅방 : <a href="/roomchat?room_id=<%=arr[i].room_id%>&talker=in&seller=<%=arr[i].seller%>&buyer=<%=arr[i].buyer%>&pro_num=<%=arr[i].pro_num%>">: <%=arr[i].room_title%></a>
+                <li>No.<%=arr[i].room_id%> 직톡방 : <a href="/roomchat?room_id=<%=arr[i].room_id%>&talker=in&seller=<%=arr[i].seller%>&buyer=<%=arr[i].buyer%>&pro_num=<%=arr[i].pro_num%>">: <%=arr[i].room_title%></a>
                 //구매자 : <%=arr[i].buyer%>, 판매자 : <%=arr[i].seller%>
               <%}%>
         </li>

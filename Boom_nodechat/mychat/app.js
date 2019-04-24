@@ -54,8 +54,6 @@ console.log('@@@@@@@@@@@@@@@@@@@@@상품번@호@@@@@@@@@@@@@@@@@@@@@@@@@@@' + re
           var price = result.rows[0][4];
           var p_quality = result.rows[0][5];
           var cate_name = result.rows[0][6];
-
-
           var sendData = {
             seller : req.query.seller,
             buyer : req.query.buyer,
@@ -67,11 +65,12 @@ console.log('@@@@@@@@@@@@@@@@@@@@@상품번@호@@@@@@@@@@@@@@@@@@@@@@@@@@@' + re
             p_quality : p_quality,
             cate_name : cate_name
           }
-
           res.render('goTestQR', sendData);
         }
       });
 });
+
+
 app.get('/roomchat', (req, res) => {//목록중 하나를 클릭하였을때 실행
   console.log("방에 입장 :", req.session)//request객체의 세션값 읽음
   console.log("입장한 닉네임 :", req.session.nickname)//세션의 nickname변수에 저장된 값을 찍어본다.
@@ -90,24 +89,49 @@ app.get('/roomchat', (req, res) => {//목록중 하나를 클릭하였을때 실
   if(sRoom == undefined){//쿼리스트링값이 없다면
   sRoom = req.query.room_id;} // 쿼리스트링 값을 받아온다.
   console.log("입장합니다! : "+sRoom+"번방의 상태 : " + status);
-  var renderMessage = function(c_address, c_datetime){
+  var prod_inf = function(c_address, c_datetime, pro_num){
+    var prodsql = "select pro_num, place_pick, title, content, price, p_quality, c.cate_name from production p, category c where c.cate_code = p.cate_code and pro_num ="+pro_num;
+    //--상품번호 거래장소 상품제목 상품내용 상품가격 상품품질 카테고리
+    conn.execute(prodsql, function(err,result){
+          if(err){
+            console.log('에러',err);
+          }else {
+            var place_pick = result.rows[0][1];
+            var title = result.rows[0][2];
+            var content = result.rows[0][3];
+            var price = result.rows[0][4];
+            var p_quality = result.rows[0][5];
+            var cate_name = result.rows[0][6];
+            var sendData = {
+              seller : req.query.seller,
+              buyer : req.query.buyer,
+              pro_num : req.query.pro_num,
+              place_pick : place_pick,
+              title : title,
+              content : content,
+              price : price,
+              p_quality : p_quality,
+              cate_name : cate_name
+            }
+            return renderMessage(c_address, c_datetime, sendData);  
+          }
+        });     
+  }
+  var renderMessage = function(c_address, c_datetime, sendData){
     var searchMessage = 'select message_num, sender_num,member.nickname, room_id, content from message, member' +
     ' where message.sender_num = member.m_num and room_id = '+parseInt(sRoom)+' order by message_num asc';
     conn.execute(searchMessage,function(err,result){
+      var pro_data = prod_inf(pro_num);
       console.log('입장한 방번호:'+sRoom);
     if(err){//에러가 발생한다면 실행
-        console.log("/ROOMCHAT : 등록중 에러가 발생", err);
+      console.log("/ROOMCHAT : 등록중 에러가 발생", err);
     }else{//정상작동시
-      console.log('렌더장소는 ' + c_address);
-      console.log('렌더시간는 ' + c_datetime);
-      console.log("result: "+result);
       console.log("result: ",result.rows);
       //roomchat2.ejs 로 이동한다. //이동할때 key:value형태로 쿼리결과, 세션의 닉네임, 방번호를 전달한다. 
-      res.render('roomchat2',{result:JSON.stringify(result), nickname:req.session.nickname, roomid:sRoom ,rstatus : status, datetime : c_datetime, address : c_address, seller : seller, buyer : buyer, pro_num : pro_num });// 방에다가 던져주자
+      res.render('roomchat2',{result:JSON.stringify(result), nickname:req.session.nickname, roomid:sRoom ,rstatus : status, datetime : c_datetime, address : c_address, seller : seller, buyer : buyer, pro_num : pro_num, pro_data : JSON.stringify(sendData) });// 방에다가 던져주자
     }
     });
   }
-
   conn.execute("select c_datetime, c_address from chatroom where room_id = ("+sRoom+")", function(err,result){
     console.log('select : 장소와 시간' + result.rows);
     c_datetime = result.rows[0][0];
@@ -120,16 +144,11 @@ app.get('/roomchat', (req, res) => {//목록중 하나를 클릭하였을때 실
     else {
       console.log('약속시간약속시간은 ' + c_datetime);
     }
-
     console.log('파ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ티피플',c_address, c_datetime);
-    return renderMessage(c_address, c_datetime);
+    return prod_inf(c_address, c_datetime, pro_num);
   });
 
 
-  var func_prod = function(){
-    var Sql = "select place_pick, from  "
-  }
-  
   //목록의 방번호를 이용해 해당하는 디비의 메시지내역을 불러온다.
   
   
@@ -183,7 +202,6 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
 
   socket.on('QRsend', (num,name,tag)=> { 
     console.log(num,name,tag);
-
     var QRsql2 = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '"+name+"'), "+num+", '"+tag+"')";
     conn.execute(QRsql2,function(err,result){
       if(err){
@@ -289,7 +307,18 @@ var func_messageNum_a = function (num, address, name){
   });
 }
 
-
+socket.on('socket_sendAcc',  (num, name, tag) => {
+  var insertSql = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '"+name+"'), "+num+", '"+tag+"')";
+  conn.execute(insertSql,function(err,result){
+    if(err){
+      console.log(err, '인서트실퓨ㅐ')    
+    }else {
+      console.log(result, '인서트성공')    
+      io.to(num).emit('socket_sendAcc', num, name, tag);
+    }
+  });
+  
+});
 
 socket.on('socket_address', (num, address, name) => {//일정전송 신호가 서버로 들어올때 실행.
     var buttonSet = "<button class=''Ayes''>수락</button><button class=''Ano'' value='''||TO_CHAR(message_seq.NEXTVAL)||'''>거절</button>";

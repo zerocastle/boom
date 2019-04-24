@@ -1,6 +1,4 @@
 <!-- /* socket\room_chat\views\chat.ejs */ -->
-
-
 <html>
 <head>
     <title>JickTalk-Room</title>
@@ -25,6 +23,7 @@
     <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>  
 
   <style>
+  
     form {
       background: #000;
       padding: 3px;
@@ -55,7 +54,7 @@
 }
     form button {
       width: 15%;
-      background: rgb(130, 224, 255);
+      background: #C1E4EC;
       border: none;
       padding: 10px;
     }
@@ -88,7 +87,7 @@
 }
  
 .chat-box .odd {
-    background-color: #aaaaaa;
+    background-color: #cfcccd;
     height: auto;
     clear: both;
     float: left;
@@ -107,7 +106,7 @@
     top: auto;
     bottom: auto;
     border: 12px solid;
-    border-color: transparent transparent #aaaaaa transparent;
+    border-color: transparent transparent #cfcccd transparent;
     margin: 0 0 0 -24px;
     float: left;
 }
@@ -132,7 +131,7 @@
  
 .chat-box li span {
     padding: 0 0 5px;
-    color: #7f8c8d;
+    color: #cfcccd;
     display: block;
 }
 
@@ -167,12 +166,16 @@
   <% var list = result%>
   <% var date = datetime%>
   <div id="pro_num" style="display:none;"><%=pro_num%></div>
+
+
   <div id="buyer" style="display:none;"><%=buyer%></div>
   <div id="seller" style="display:none;"><%=seller%></div>
   <div id="nickname" style="display:none;"><%=nickname%></div>
   <div id="room_id" style="display:none;"><%=roomid%></div>
   <div id="status" style="display:none;"><%=rstatus%></div>
+
 <%  
+  var jprod = JSON.parse(pro_data);
 var subDate;
   var arr=[];
     var jsonoobj = {};
@@ -204,7 +207,22 @@ var subDate;
       arr.push(realJson);
     }
 %>
-
+<div id="pro_data" style="display:none;">
+    <ol id='pro_data'>
+        판매자 : <%=jprod.seller%> //
+        구매자 : <%=jprod.buyer%> //
+        상품번호 : <%=jprod.pro_num%><hr>
+        제목 : <%=jprod.title%><br>
+        분류 : <%=jprod.cate_name%><br>
+        내용 : <%=jprod.content%><br>
+        가격 : <%=jprod.price%><br>
+        품질 : <%=jprod.p_quality%><br>
+        <hr>
+        직플레이스 : <br><%=jprod.place_pick%><br>
+        입금할 가상계좌 : (대구은행) 308-29-80376732-8<br>
+        <i><small>입금 시 거래상태가 판매중에서 거래중으로 바뀝니다...</small></i>
+  </ol>
+</div>
 
 <%for(var i =0; i<arr.length;i++){ %>
   <%if(arr[i].tnickname == 'System'){%>
@@ -239,6 +257,11 @@ var subDate;
     <a class="item nullmenu" id='QRsend'>
     명세서 전달
   </a>
+    <%if(nickname == seller){%>
+    <a class="item nullmenu" id='buy'>
+        결제 명세서 전송
+    </a>
+    <%}%>
   
   
 </div>
@@ -292,7 +315,20 @@ var subDate;
     socket.on('ref', () => {
       window.location.reload();
     });
-    
+    $('#buy').click(function(){
+      var tag = $('#pro_data').html();
+      $('#messages').append($('<li class="even">').html(name +' : '+tag));//버튼은 상대방에게만 보인다.
+      alert(num, name, tag);
+      socket.emit('socket_sendAcc', num, name, tag);
+    });
+    socket.on('socket_sendAcc', (num, name, tag) => {
+      if(name==$('#nickname').text()){
+        
+      } else{
+        $('#messages').append($('<li class="odd">').html(name +' : '+tag));//버튼은 상대방에게만 보인다.
+      }
+      $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+    });
 
     $('#send_address').click(function(){
       if($('#set_address').val()=='약속장소 선정'){
@@ -410,7 +446,6 @@ var subDate;
           console.log('회원 '+name+'님이 탈주 취소하셨습니다!');
         return false;
       }
-      
     });
     socket.on('room_out', (num, name) => {// 소켓에 room_out신호가 온다면
       $('.nullmenu').css("display","none");//상대방이 없다면 사용불가의 메뉴:입력태그, send버튼, 채팅방나가기를 제외한 추가기능들을 안보이게한다.
@@ -448,13 +483,9 @@ var subDate;
         $('#messages').append($('<li class="odd">').text(name + '  :  ' +
         msg));
       }
-        
         console.log('chat message' + name + msg);
         $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
-
-
     });
-
   });
   function sample4_execDaumPostcode() {
   daum.postcode.load(function(){
@@ -466,9 +497,6 @@ var subDate;
               var addr;
               var roadAddr = data.roadAddress; // 도로명 주소 변수
               var extraRoadAddr = ''; // 참고 항목 변수
-
-
-
               // 법정동명이 있을 경우 추가한다. (법정리는 제외)
               // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
               if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
@@ -492,10 +520,6 @@ var subDate;
               //document.getElementById('zip_code').value = data.zonecode;
               //document.getElementById("set_address").value = roadAddr;
               document.getElementById("set_address").value = addr;
-
-              
-
-              
             }
           }).open();
        

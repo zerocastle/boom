@@ -208,7 +208,7 @@
 						<div class="service-btn">
 							<a href="#" id="chat"
 								style="font-size: 18px; margin-right: 10px;"><img
-								src="/resources/image/chat.png" style="margin-right: 5px;">채팅목록</a>
+								src="/resources/image/chat.png" style="margin-right: 5px;">직톡목록</a>
 						</div>
 					</div>
 				</div>
