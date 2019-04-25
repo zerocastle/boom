@@ -5,7 +5,7 @@
 	integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
 	crossorigin="anonymous">
 
-
+<!-- 인덱스 사진들 -->
 
 <div id="floatMenu">
 	<span class="kjim">최근찜한상품</span> <span><i class="fas fa-heart"></i></span>
@@ -111,7 +111,7 @@
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter++;
-				
+
 				break;
 
 			}
@@ -133,7 +133,7 @@
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter2++;
-				
+
 				break;
 			}
 
@@ -155,7 +155,7 @@
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter3++;
-				
+
 				break;
 
 			}
@@ -178,7 +178,7 @@
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter4++;
-				
+
 				break;
 
 			}
@@ -200,7 +200,7 @@
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter5++;
-				
+
 				break;
 
 			}
@@ -222,7 +222,7 @@
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter6++;
-				
+
 				break;
 
 			}
@@ -244,7 +244,7 @@
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter6++;
-				
+
 				break;
 
 			}
@@ -267,7 +267,7 @@
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter8++;
-				
+
 				break;
 
 			}
@@ -290,7 +290,7 @@
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter9++;
-				
+
 				break;
 
 			}
@@ -313,7 +313,7 @@
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter10++;
-				
+
 				break;
 
 			}
@@ -336,7 +336,7 @@
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter11++;
-				
+
 				break;
 
 			}
@@ -359,7 +359,7 @@
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter12++;
-				
+
 				break;
 			}
 
@@ -376,7 +376,7 @@
 			var cate_code = production[i].cate_code;
 			var place_signal = production[i].place_signal;
 			var state_msg = production[i].state_msg;
-			
+
 			var test = comma(price);
 			console.log("콤바 변환 : " + test);
 
@@ -389,6 +389,42 @@
 		function comma(num) {
 			return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		}
+
+		// 상품 클릭시 발생 이벤트
+		$('.img-fluid').click(function() {
+			var init = $(this);
+			var parent = init.parent();
+			var target = parent.children().last();
+			var sendData = target.html();
+			var length = sendData.length;
+			if (length == 0) {
+				alert("해당 상품이 없습니다.");
+				return;
+			}
+
+			var cal = length - 8;
+
+			var result = sendData.substr(8, (8 + cal));
+			
+			window.location.href="/production/index_productView?pro_num="+result;
+
+			/* $.ajax({
+				type : 'GET',
+				url : '/production/index_productView',
+				data : data,
+				dataType : 'json',
+				contentType : 'application/json;charset=UTF-8',
+				success : function(data){
+					alert("이동");
+					
+				},
+				error : function(err){
+					console.log(err);
+				}
+
+			}) */
+
+		})
 
 	})
 </script>

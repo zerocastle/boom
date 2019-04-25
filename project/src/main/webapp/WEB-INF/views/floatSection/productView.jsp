@@ -4,35 +4,25 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css"
    integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y" crossorigin="anonymous">   
 <link rel="stylesheet" type="text/css" href="/resources/css/productView.css" />
-<script src="resources/customJs/productView.js"></script>
+<script src="/resources/customJs/productView.js"></script>
 
 <script>
+// 상대방 계정 접근
 $(document).ready(function(){
  	$('.nick').click(function(e){  
 
 		 var query = { nick : $('.nick').text()};
 			console.log(query);
 			window.location.href="/member/other/"+$('.nick').text();
-			/* $.ajax({
-			type : 'post',
-			url: '/member/other',
-	        data: query,
-	        dataType : 'json', 
-	        contentType : "application/json;charset=UTF-8",
-	        success: function(data){
-	        	console.log(data);
-	     		alert("success");
-	     		window.location.href = "/member/other/"+data; 
-	        },
-	        error: function(){
-	            alert("error");
-	            
-	        } */
-		//});  
- 		/* e.preventDefault();
-		window.location.href = "/member/other";  */
 	});
+ 	
+ 	var result = ${requestScope.productView};
+ 	console.log(result);
+ 	
 });
+
+
+
 </script>
 
            <div id="floatMenu">
@@ -49,13 +39,15 @@ $(document).ready(function(){
 							<!-- 상품이미지 -->
 							<div class="productImg">
 								<div class="mainImg">
-									<img src="main.jpg" alt="">
+									<img src="http://placehold.it/500x500" alt="">
 								</div>
 								<ul class="subImg">
-									<li><img src="sub01.jpg" alt="서브 이미지1"></li>
-									<li><img src="sub02.jpg" alt="서브 이미지2"></li>
-									<li><img src="sub01.jpg" alt="서브 이미지3"></li>
-									<li><img src="sub01.jpg" alt="서브 이미지4"></li>
+									
+									<li><img src="http://placehold.it/85x85" alt="서브이미지1" ></li>
+									<li><img src="http://placehold.it/85x85" alt="서브이미지2" ></li>
+									<li><img src="http://placehold.it/85x85" alt="서브이미지3" ></li>
+									<li><img src="http://placehold.it/85x85" alt="서브이미지4" ></li>
+								
 								</ul>
 							</div>
 							<!-- 상품 설명 -->

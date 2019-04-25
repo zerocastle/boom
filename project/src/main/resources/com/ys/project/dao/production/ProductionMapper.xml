@@ -33,7 +33,7 @@
 		FROM
 		PRODUCTION A , (SELECT * FROM MEMBER) B
 		WHERE A.M_NUM = B.M_NUM AND
-		A.PRO_NUM = #{pro_num};
+		A.PRO_NUM = #{pro_num}
 	</select>
 
 
