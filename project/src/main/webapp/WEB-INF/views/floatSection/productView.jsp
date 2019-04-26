@@ -41,15 +41,27 @@ $(document).ready(function(){
  	var subImg = target.find('ul'); // 이미지 서브 타겟
  	var imgLength = result[0].Production_uploadVO.length; // 이미지 갯수
 	
- 	
+ 	var j = 0;
    	 for(var i = 0; i < imgLength ; i++){
+   		
  		if(result[0].Production_uploadVO[i].rep == 1){
  			 mainImg.attr('src',realPath+
  					 result[0].Production_uploadVO[i].uploadPath +'/'+ 
  					 result[0].Production_uploadVO[i].uuid+'_'+
  					 result[0].Production_uploadVO[i].fileName
  					 );
+ 			 j++;
+ 		}else{
+ 			var temp = subImg.children().eq(i - j).find("img");
+ 			temp.width(85).height(85);
+ 	 		temp.attr('src',realPath+
+ 					 result[0].Production_uploadVO[i].uploadPath +'/s_'+ 
+ 					 result[0].Production_uploadVO[i].uuid+'_'+
+ 					 result[0].Production_uploadVO[i].fileName
+ 					 );
  		}
+ 	
+ 		
  	}    
  	
  	
