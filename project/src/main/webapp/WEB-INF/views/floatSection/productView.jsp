@@ -19,8 +19,45 @@ $(document).ready(function(){
  	var result = ${requestScope.productView};
  	console.log(result);
  	
+ 	// 오른쪽 상품 정보
+ 	var title = $('.productInfo').children().first();
+ 	var price = title.next();
+ 	var p_quality = price.next();
+ 	var add = p_quality.next();
+ 	var pick = add.next();
+ 	
+ 	title.html(result[0].ProMemberJoinDTO.title);
+ 	price.find("span").html(comma(result[0].ProMemberJoinDTO.price) + "원");
+ 	p_quality.find("span").html(result[0].ProMemberJoinDTO.p_quality);
+ 	add.find("span").html(result[0].ProMemberJoinDTO.addr);
+ 	pick.find("span").html(result[0].ProMemberJoinDTO.place_pick);
+ 	
+ 	// 이미지 
+ 	var realPath = "${pageContext.request.contextPath}/resources/";
+ 	
+ 	var target = $('.productImg') // 이미지 처음 타겟
+ 	var mainImg = target.children().first().find('img'); // 이미지 메인타겟
+ 	mainImg.width(500).height(500);
+ 	var subImg = target.find('ul'); // 이미지 서브 타겟
+ 	var imgLength = result[0].Production_uploadVO.length; // 이미지 갯수
+	
+ 	
+   	 for(var i = 0; i < imgLength ; i++){
+ 		if(result[0].Production_uploadVO[i].rep == 1){
+ 			 mainImg.attr('src',realPath+
+ 					 result[0].Production_uploadVO[i].uploadPath +'/'+ 
+ 					 result[0].Production_uploadVO[i].uuid+'_'+
+ 					 result[0].Production_uploadVO[i].fileName
+ 					 );
+ 		}
+ 	}    
+ 	
+ 	
+	// 콤마찍기 정규 표현식
+	function comma(num) {
+		return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
 });
-
 
 
 </script>
@@ -39,14 +76,14 @@ $(document).ready(function(){
 							<!-- 상품이미지 -->
 							<div class="productImg">
 								<div class="mainImg">
-									<img src="http://placehold.it/500x500" alt="">
+									<img src="http://placehold.it/500x500" alt=""/>
 								</div>
 								<ul class="subImg">
 									
-									<li><img src="http://placehold.it/85x85" alt="서브이미지1" ></li>
-									<li><img src="http://placehold.it/85x85" alt="서브이미지2" ></li>
-									<li><img src="http://placehold.it/85x85" alt="서브이미지3" ></li>
-									<li><img src="http://placehold.it/85x85" alt="서브이미지4" ></li>
+									<li><img src="http://placehold.it/85x85" alt="서브이미지1" /></li>
+									<li><img src="http://placehold.it/85x85" alt="서브이미지2" /></li>
+									<li><img src="http://placehold.it/85x85" alt="서브이미지3" /></li>
+									<li><img src="http://placehold.it/85x85" alt="서브이미지4" /></li>
 								
 								</ul>
 							</div>
@@ -56,11 +93,12 @@ $(document).ready(function(){
 								<div class="price">
 									<span class="sale-price">35,000원</span>
 								</div>
-								<div class="manufact">상품상태 <span>미사용(새물품)</span></div>
-								<div class="categori">교환여부 <span>교환 불가능</span></div>
-								<div class="origin">거래지역 <span>대구 광역시 북구 복현동 1동</span></div>
-								<div class="race"> 직플레이스 <span> #복현 1동 다이소</span></div>
-
+								<div class="manufact" style="color:#000000;">상품상태 :  <span>미사용(새물품)</span></div>
+								<!-- <div class="categori">교환여부 <span>교환 불가능</span></div> --> <!-- 없애 -->
+								<div class="origin">거래지역 :  <span>대구 광역시 북구 복현동 1동</span></div>
+								<div class="race"> 직플레이스 :  <span> #복현 1동 다이소</span></div>
+								
+								<!-- 매너 게이지 !!! -->
 								<div class="manner">
 									<span>
 										<i class="fas fa-user-circle"></i>
@@ -77,10 +115,9 @@ $(document).ready(function(){
 										<canvas id="foo" height="120px" width="200px" class="foo" ></canvas>
 								
 										</div>
-								
-								
-								
 								</div>
+								<!-- 매너게이지 부분 영역 끝 -->
+								
 								<div class="btn">
 									<button class="djim" id="jimclick">찜</button>
 									<button class="djim1">연락하기</button>
@@ -112,28 +149,6 @@ $(document).ready(function(){
 										</div>
 									</div>
 
-										<div class="user" style="z-index: 1; position: relative;">
-											<div style="display: inline-block; z-index: 2; position: relative;">
-											<span>
-												<i class="fas fa-user-circle" style="top:15px;"></i>
-											</span>
-											</div>
-											<div style="display: inline-block; z-index: 3; position: relative;">
-											<!-- <div class="nick1"> -->
-												<div>
-												<label>샘 해밍턴</label>
-											</div>
-											<!-- <div class="adrs1"> -->
-												<div style="display: inline-block; z-index: 4; position: relative;">
-												<label>대구 북구 복현1동</label>
-											</div>
-										</div>
-
-										<!--shit-->
-										<div >
-											<canvas id="foo2" height="90px" width="150px" class="foo2" ></canvas>
-										</div>
-										</div>
 									
 								</div>
 								
@@ -154,6 +169,9 @@ $(document).ready(function(){
 							</div>
 							
 							</div>
+							
+							<!-- 상품정보 끝나는 시점 -->
+							
 							</div>
 							</div>
 							</div>

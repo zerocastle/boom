@@ -14,7 +14,7 @@ public class ProMemberJoinDTO {
 	private Timestamp create_date;
 	private String addr;
 	private String place_pick;
-	private String p_qality;
+	private String p_quality;
 	private String state_msg;
 	private String cate_code;
 	private int m_num;
