@@ -94,7 +94,7 @@ app.get('/roomchat', (req, res) => {//목록중 하나를 클릭하였을때 실
     //--상품번호 거래장소 상품제목 상품내용 상품가격 상품품질 카테고리
     conn.execute(prodsql, function(err,result){
           if(err){
-            console.log('에러',err);
+            console.log('prod_inf 함수 에러 ',err);
           }else {
             var place_pick = result.rows[0][1];
             var title = result.rows[0][2];
@@ -121,7 +121,6 @@ app.get('/roomchat', (req, res) => {//목록중 하나를 클릭하였을때 실
     var searchMessage = 'select message_num, sender_num,member.nickname, room_id, content from message, member' +
     ' where message.sender_num = member.m_num and room_id = '+parseInt(sRoom)+' order by message_num asc';
     conn.execute(searchMessage,function(err,result){
-      var pro_data = prod_inf(pro_num);
       console.log('입장한 방번호:'+sRoom);
     if(err){//에러가 발생한다면 실행
       console.log("/ROOMCHAT : 등록중 에러가 발생", err);
@@ -136,6 +135,7 @@ app.get('/roomchat', (req, res) => {//목록중 하나를 클릭하였을때 실
     console.log('select : 장소와 시간' + result.rows);
     c_datetime = result.rows[0][0];
     c_address = result.rows[0][1];
+    c_pro_num = pro_num;
     if(c_address == null){c_address = '약속장소 선정'}
     else {
       console.log('약속장소는 ' + c_address);
@@ -145,7 +145,7 @@ app.get('/roomchat', (req, res) => {//목록중 하나를 클릭하였을때 실
       console.log('약속시간약속시간은 ' + c_datetime);
     }
     console.log('파ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ티피플',c_address, c_datetime);
-    return prod_inf(c_address, c_datetime, pro_num);
+    return prod_inf(c_address, c_datetime, c_pro_num);
   });
 
 
