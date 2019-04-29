@@ -1,7 +1,7 @@
      
       //매너게이지
       $(function() {
-   var jack = 2525;
+   var manner = "result[0].ProMemberJoinDTO.manner";
    function startFoo(){
       var opts = {
               angle: 0.15, // The span of the gauge arc
@@ -23,18 +23,14 @@
             };
             var target = document.getElementById('foo'); // your canvas element
             var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
-            gauge.maxValue = 3000; // set max gauge value
+            gauge.maxValue = 100; // set max gauge value
             gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
             gauge.animationSpeed = 49; // set animation speed (32 is default value)
-            gauge.set(jack); // set actual value
+            gauge.set(manner); // set actual value
    }
    
    startFoo();
-  
-   $('#zero').click(function (){
-      startFoo();
-      startFoo2();
-   });
+
    
             
 });

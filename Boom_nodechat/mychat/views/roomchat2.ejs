@@ -17,13 +17,10 @@
 		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/ripples.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/material.min.js"></script>
-		<!--<script type="text/javascript" src="https://rawgit.com/FezVrasta/bootstrap-material-design/master/dist/js/material.min.js"></script>-->
+		<script type="text/javascript" src="https://rawgit.com/FezVrasta/bootstrap-material-design/master/dist/js/material.min.js"></script>
 		<script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="javascripts/bootstrap-material-datetimepicker.js"></script>
     <script src="javascripts/semantic.js"></script>
-    <script src="javascripts/qrcode.js"></script>
-    <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>  
-
   <style>
     form {
       background: #000;
@@ -152,13 +149,6 @@
 #plusbtn {
   font-size : 10px;
 }
-#set_address {
-  font-size : 15px;
-}
-.send {
-  color : black;
-}
-
   </style>
 </head>
 <body>
@@ -170,7 +160,6 @@
   <div id="room_id" style="display:none;"><%=roomid%></div>
   <div id="status" style="display:none;"><%=rstatus%></div>
 <%  
-var subDate;
   var arr=[];
     var jsonoobj = {};
    list = JSON.parse(list);
@@ -180,21 +169,9 @@ var subDate;
           tnickname : list.rows[i][2],
           tmessage : list.rows[i][4]
       }
-      if(jsonoobj.tnickname == nickname){//메시지의 발신자와 입장한 사용자가 동일인이라면
+      if(jsonoobj.tnickname == nickname){//메시지의 발신자와 입장한 사용자가 동일인이라면  발신자와 
         if(jsonoobj.tmessage.indexOf('시간협의') == 0){
-          var end = jsonoobj.tmessage.indexOf('</i><br>');
-          var start = jsonoobj.tmessage.indexOf("P'>");
-          start = start +3;
-          subDate = jsonoobj.tmessage.substring(start,end);
-          jsonoobj.tmessage = '<i>상대방에게 시간협의를 제안하셨습니다</i><br><i>'+subDate+'</i>';
-        } else if(jsonoobj.tmessage.indexOf('장소협의') == 0){
-          var end = jsonoobj.tmessage.indexOf('</i><br>');
-          var start = jsonoobj.tmessage.indexOf("P'>");
-          start = start +3;
-          subDate = jsonoobj.tmessage.substring(start,end);
-          console.log(subDate);
-          console.log(jsonoobj.tmessage.length);
-          jsonoobj.tmessage = '<i>상대방에게 장소협의를 제안하셨습니다</i><br><i>'+subDate+'</i>';
+          jsonoobj.tmessage = '<i>상대방에게 시간협의를 제안하셨습니다</i><br><i>'+date+'</i>';
         }
       }
       var realJson = JSON.parse(JSON.stringify(jsonoobj));
@@ -222,16 +199,15 @@ var subDate;
   <button class="nullmenu">Send</button>
 </form>
 <div class="ui sidebar inverted vertical menu">
-  <a class="item" id='room_out'>
+      <a class="item" id='room_out'>
     채팅방 나가기
   </a>
-  <a class="item nullmenu"> 
-        <input type="button" id="set_address" style="width:100%;white-space: normal;padding-top:5px;text-align:left;" class="item form-control floating-label nullmenu " onclick="sample4_execDaumPostcode()" value="<%=address%>"/>
-      <button id="send_address" class="send">전송</button>  
+      <a class="item nullmenu" id='set_place'> 
+    <%=address%>
   </a>
   <a class="item nullmenu">  
-    <input type="text" id="set_date" class="item form-control floating-label nullmenu"  value="<%=datetime%>">
-    <button id="send_date" class="send" >전송</button>
+    <input type="text" id="set_date" class="item form-control floating-label nullmenu" value="<%=datetime%>">
+    <button id="send_date" >전송</button>
   </a>
     <a class="item nullmenu" id='nothing'>
     이거 클릭해도 아무것도 안됨
@@ -269,59 +245,18 @@ var subDate;
     });
 
 
-    $('#send_address').click(function(){
-      if($('#set_address').val()=='약속장소 선정'){
-        alert('장소를 지정해 주시기 바랍니다.');
-        return false;
-      }
-      alert($('#set_address').val()); // 고른 시간 한번 알려주고
-      var address = $('#set_address').val();
-      socket.emit('socket_address', num, address, name); //서버로 전송한다.
-    });
-    socket.on('socket_address', (num, address, name, message_id) => {// 상대방으로부터 채팅방에 소켓데이트 신호가 온다면 실행.
-      var buttonSet = "<button class='Ayes'>수락</button><button class='Ano' value="+message_id+">거절</button>";
-      if(name==$('#nickname').text()){
-        $('#messages').append($('<li class="even">').html(name +' : '+'<i>상대방에게 장소협의를 제안하셨습니다</i><br><i >'+address+'</i>'));//버튼은 상대방에게만 보인다.
-      } else{
-        $('#messages').append($('<li class="odd">').html(name +' : '+'장소협의 - '+name + '님에 의해 약속장소가 선정되었습니다 :<br><i class="addressP">'+address+"</i><br>"+buttonSet));//시스템메시지 약속지정정보를 보낸다.
-      }
-      $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
-    });
-    $(document).on("click",".Ayes",function(event){
-        alert($(event.target).siblings('.addressP').text());
-         var addressP = $(event.target).siblings('.addressP').text();
-       alert('약속 :'+addressP+'으로 지정되었습니다.');
-       $('#set_address').val(addressP);//제안들중 선택 
-      socket.emit('addressYes', addressP,num); //서버로 전송한다.
-    });
-    $(document).on("click",".Ano",function(event){// 거절버튼 클릭시
-      var addressP = $(event.target).siblings('.addressP').text();
-      message_id = $(event.target).val();
-      alert('클릭된 거절버튼의 메시지 아이디' + message_id + '입니다');
-      alert('약속제안 ('+$(event.target).siblings('.addressP').text()+')을 거절하셨습니다.');
-      socket.emit('addressNo', addressP,num,message_id); //서버로 전송한다.
-    });
-
-
-
-
-
     $('#send_date').click(function(){
-      if($('#set_date').val()=='약속시간 선정'){
-        alert('날짜를 지정해 주시기 바랍니다.');
-        return false;
-      }
       alert($('#set_date').val()); // 고른 시간 한번 알려주고
       var date = $('#set_date').val();
       socket.emit('socket_date', num, date, name); //서버로 전송한다.
     });
-
 //A가 날짜 전송
 //B가 날짜 수신
 //B가 수락버튼 클릭
 //A,B의 DatePicker의 값이 해당 수락된 날짜로 변경.
-    socket.on('socket_date', (num, date, name, message_id) => {// 상대방으로부터 채팅방에 소켓데이트 신호가 온다면 실행.
-      var buttonSet = "<button class='yes'>수락</button><button class='no' value="+message_id+">거절</button>";
+    socket.on('socket_date', (num, date, name) => {// 상대방으로부터 채팅방에 소켓데이트 신호가 온다면 실행.
+      
+      var buttonSet = "<button class='yes'>수락</button><button class='no'>거절</button>";
       if(name==$('#nickname').text()){
         $('#messages').append($('<li class="even">').html(name +' : '+'<i>상대방에게 시간협의를 제안하셨습니다</i><br><i >'+date+'</i>'));//버튼은 상대방에게만 보인다.
       } else{
@@ -332,38 +267,16 @@ var subDate;
     $(document).on("click",".yes",function(event){
         alert($(event.target).siblings('.dateP').text());
          var dateP = $(event.target).siblings('.dateP').text();
-       alert('약속 :'+dateP+'으로 지정되었습니다.');
+       alert('약속시간 :'+dateP+'으로 지정되었습니다.');
        $('#set_date').val(dateP);//제안들중 선택 
       socket.emit('dateYes', dateP,num); //서버로 전송한다.
-    });
-    $(document).on("click",".no",function(event){// 거절버튼 클릭시
-      var dateP = $(event.target).siblings('.dateP').text();
-      message_id = $(event.target).val();
-      alert('클릭된 거절버튼의 메시지 아이디' + message_id + '입니다');
-      alert('약속일시 제안 ('+$(event.target).siblings('.dateP').text()+')을 거절하셨습니다.');
-      socket.emit('dateNo', dateP,num,message_id); //서버로 전송한다.
+  
     });
 
-    var func_qr = function(){
-      var qrcode = new QRCode(document.getElementById("qrcode"), {
-        text: "http://39.127.7.47:3000/testQR",
-        width: 128,
-        height: 128,
-        colorDark : "#000000",
-        colorLight : "#ffffff",
-        correctLevel : QRCode.CorrectLevel.H
-      });
-      return func_changeID();
-    }
-    var func_changeID = function(){
-      var aa = document.getElementById('qrcode').id;
-      document.getElementById('qrcode').id = '응큐알아니야';
-    }
     $('#nothing').click(function(){// 아무것도 아닌 추가기능을 실행하면 일단 귀여운 강아지 보여줌 ㅎㅎ
-      $('#messages').append($('<li class="even"><div id="qrcode"></div><img src="images/dog4.png" width="300px" height="300px">'));
+      $('#messages').append($('<li class="even"><img src="images/dog4.png" width="300px" height="300px">'));
         $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
       //socket의 emit()함수가 없어서 전송도 안됨 ㅎㅎ
-      return func_qr();
     });
 
     $('#room_out').click(function(){
@@ -385,17 +298,12 @@ var subDate;
       $('#status').text = 'out';//방의 상태를 out으로 지정
       window.location.search='?room_id='+num+'&talker=out';//url의 queryString도 나갔다고 바꿔준다. 새로고침이 되어도 out값을 가지기에 .nullMenu들이 여전히 안보여진다.
     } );
-    var i = 0;
+
     $('form').submit(() => {// Enter칠때마다 Send 할때마다 실행
-      if($('#m').val()==""){
-        alert('공백을 전송할 수 없습니다.');
-        return false;
-      }else{
       socket.emit('chat message', num, name, $('#m').val());// 서버로  작성자, 방번호, 메시지를 전달한다.
       $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
       $('#m').val('');//입력창 비워주기
-      return false;
-    } //원하는 작업만 마친 후 submit의 동작을 멈춘다.
+      return false; //원하는 작업만 마친 후 submit의 동작을 멈춘다.
     });
 
     /* API 좀더 참조해야함. seller_num, buyer_num, room_id, c_address, c_date, pro_num과 pro_num에 해당하는 production 테이블의 모든 컬럼들을 뿌려준다.
@@ -423,51 +331,6 @@ var subDate;
     });
 
   });
-  function sample4_execDaumPostcode() {
-  daum.postcode.load(function(){
-          new daum.Postcode({
-            oncomplete : function(data) {
-              // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-              // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-              // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-              var addr;
-              var roadAddr = data.roadAddress; // 도로명 주소 변수
-              var extraRoadAddr = ''; // 참고 항목 변수
-
-
-
-              // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-              // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-              if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-                extraRoadAddr += data.bname;
-              }
-              // 건물명이 있고, 공동주택일 경우 추가한다.
-              if (data.buildingName !== '' && data.apartment === 'Y') {
-                extraRoadAddr += (extraRoadAddr !== '' ? ', '
-                    + data.buildingName : data.buildingName);
-              }
-              // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-              if (extraRoadAddr !== '') {
-                extraRoadAddr = ' (' + extraRoadAddr + ')';
-              }
-              if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                    addr = data.roadAddress;
-                } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                    addr = data.jibunAddress;
-                }
-              // 우편번호와 주소 정보를 해당 필드에 넣는다.
-              //document.getElementById('zip_code').value = data.zonecode;
-              //document.getElementById("set_address").value = roadAddr;
-              document.getElementById("set_address").value = addr;
-
-              
-
-              
-            }
-          }).open();
-       
-      }); }
 </script>
 
 </body>

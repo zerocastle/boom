@@ -62,13 +62,61 @@ $(document).ready(function(){
  		}
  	
  		
- 	}    
+ 	} 
+   	//상품정보 ~!!!
+   	var contentInfo = $('.account');
+   	
+   	contentInfo.html("<label class='ac'>"+result[0].ProMemberJoinDTO.content + "</label>");
  	
  	
 	// 콤마찍기 정규 표현식
 	function comma(num) {
 		return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}
+	
+	// 직플레이스 선정
+	var pick = $('.box2');
+	pick.html("<label># " + result[0].ProMemberJoinDTO.place_pick + "</label>");
+	
+	// 맴버
+	var member = $('.nick').html(result[0].ProMemberJoinDTO.nickname);
+	var intro = $('.adrs').html(""+result[0].ProMemberJoinDTO.intro);
+	if(result[0].ProMemberJoinDTO.intro == ""){
+		 $('.adrs').html("소개글이 없습니다.");
+	}
+	
+	// 매너 게이지
+	var manner = result[0].ProMemberJoinDTO.manner;
+	   function startFoo(){
+	      var opts = {
+	              angle: 0.15, // The span of the gauge arc
+	              lineWidth: 0.44, // The line thickness
+	              radiusScale: 1, // Relative radius
+	              pointer: {
+	                length: 0.51, // // Relative to gauge radius
+	                strokeWidth: 0.077, // The thickness
+	                color: '#000000' // Fill color
+	              },
+	              limitMax: false,     // If false, max value increases automatically if value > maxValue
+	              limitMin: false,     // If true, the min value of the gauge will be fixed
+	              colorStart: '#f70000',   // Colors
+	              colorStop: '#f70000',    // just experiment with them
+	              strokeColor: '#E0E0E0',  // to see which ones work best for you
+	              generateGradient: true,
+	              highDpiSupport: true,     // High resolution support
+	              
+	            };
+	            var target = document.getElementById('foo'); // your canvas element
+	            var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+	            gauge.maxValue = 100; // set max gauge value
+	            gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+	            gauge.animationSpeed = 49; // set animation speed (32 is default value)
+	            gauge.set(manner); // set actual value
+	   }
+	   
+	   startFoo();
+	
+	
 });
 
 
@@ -151,12 +199,9 @@ $(document).ready(function(){
 									<hr style="margin-top: 50px; border-color: gray">
 
 									<div class="cont">
-										<div class="username">
-											<label>샘오취리</label>
-										</div>
 
 										<div class="account">
-											<label class="ac">나이키 공홈에서 산 정품입니다. <br>한번도 신지 않았습니다.<br>쿨거래 합니다 </label>
+											나이키 공홈에서 산 정품입니다. <br>한번도 신지 않았습니다.<br>쿨거래 합니다 
 
 										</div>
 									</div>

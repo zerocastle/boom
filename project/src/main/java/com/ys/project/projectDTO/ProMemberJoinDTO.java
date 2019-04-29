@@ -17,11 +17,12 @@ public class ProMemberJoinDTO {
 	private String p_quality;
 	private String state_msg;
 	private String cate_code;
-	private int m_num;
+	private int m_num; 
 	private String nickname;
 	private String phone;
 	private int manner;
 	private String img_path;
 	private String filename;
+	private String intro;
 
 }
