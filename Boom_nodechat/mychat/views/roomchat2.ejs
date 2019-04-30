@@ -188,6 +188,8 @@ var subDate;
           tnickname : list.rows[i][2],
           tmessage : list.rows[i][4]
       }
+
+
       if(jsonoobj.tnickname == nickname){//메시지의 발신자와 입장한 사용자가 동일인이라면
         if(jsonoobj.tmessage.indexOf('시간협의') == 0){
           var end = jsonoobj.tmessage.indexOf('</i><br>');
@@ -269,7 +271,7 @@ var subDate;
 </div>
 <button id="plusbtn"><b>3+2</b></button>
 </div>
-<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="http://cdn.socket.io/socket.io-1.0.3.js"></script>
 <script>
   $(() => {
     var ref = function(){

@@ -70,7 +70,9 @@ console.log('@@@@@@@@@@@@@@@@@@@@@상품번@호@@@@@@@@@@@@@@@@@@@@@@@@@@@' + re
       });
 });
 
-
+app.get('/tom', (req,res) => {
+  res.render('tomson');
+});
 app.get('/roomchat', (req, res) => {//목록중 하나를 클릭하였을때 실행
   console.log("방에 입장 :", req.session)//request객체의 세션값 읽음
   console.log("입장한 닉네임 :", req.session.nickname)//세션의 nickname변수에 저장된 값을 찍어본다.
@@ -441,6 +443,19 @@ socket.on('addressYes', (addressP,num)=> {//일정수락 신호가 온다면
     
   });
 // Date 정보처리 End
+
+socket.on('chat message phone', (num, name, msg) => {
+  console.log(name + ' ('+num+'): ' + msg);
+  io.to(num).emit('chat message phone', name, msg);//해당 방에 이름과 메시지를 전송
+});
+socket.on('phoneIn', (num, name) => {
+  socket.join(num, () => {//socket의 방 배열 중 num번째 방에 입장한다.
+    console.log(name + ' join a ' + num);
+    io.to(num).emit('phoneIn', num, name);//입장한 방에 입장신호를 보낸다.
+  });
+});
+
+
 
   socket.on('chat message', (num, name, msg) => {//채팅 신호가 온다면
     a = num; //왜했지 이걸
