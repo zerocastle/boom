@@ -7,11 +7,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -156,5 +158,34 @@ public class MemberController {
 
 	}
 
+	@CrossOrigin(maxAge = 3600)
+	   @ResponseBody
+	   @RequestMapping(value = "mlogin", method = RequestMethod.POST)
+	   public String mlogin(Model model, @RequestBody Map<String, String> map) throws Exception {
+	      //JSONParser parser;
+	      //parser=new JSONParser();
+//	      Object a =parser.parse(param);
+//	      JSONObject jsonobj=(JSONObject) a;
+//	      String nickname=(String)jsonobj.get("nickname");
+//	      String m_password=(String)jsonobj.get("m_password");
+		
+		
+//	      System.out.println(nickname + m_password);
+//	      System.out.println("mlogin");
+	      // Map<String, String> map = new HashMap<String, String>();
+	      //JSONObject hh = (JSONObject) parser.parse(param);
+	      //logger.info("닉네임 : " + param);
+		logger.info("닉네임 : sdsdddddddddddddddddddddddddddddddddddddddddddd" + map);
+	      String name = (String) map.get("nickname");
+	      MemberVO member = service.nickNameCheck(name);
+	      logger.info("닉네임 : sdsdddddddddddddddddddddddddddddddddddddddddddd" + member);
+	      /*
+	       * if (nickName == null) { map.put("signal", "SUCCESS"); } else
+	       * map.put("signal", "fail");
+	       */
+	      return "ok";
+	   }
+	
+	
 
 }

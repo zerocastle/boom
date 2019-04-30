@@ -180,7 +180,7 @@ $(document).ready(function(){
 								
 								<div class="btn">
 									<button class="djim" id="jimclick">찜</button>
-									<button class="djim1">연락하기</button>
+									<button class="djim1">직톡하기</button>
 								</div>
 							</div>
 						</div>
