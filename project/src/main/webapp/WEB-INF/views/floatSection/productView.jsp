@@ -4,35 +4,122 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css"
    integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y" crossorigin="anonymous">   
 <link rel="stylesheet" type="text/css" href="/resources/css/productView.css" />
-<script src="resources/customJs/productView.js"></script>
+<script src="/resources/customJs/productView.js"></script>
 
 <script>
+// 상대방 계정 접근
 $(document).ready(function(){
  	$('.nick').click(function(e){  
 
 		 var query = { nick : $('.nick').text()};
 			console.log(query);
 			window.location.href="/member/other/"+$('.nick').text();
-			/* $.ajax({
-			type : 'post',
-			url: '/member/other',
-	        data: query,
-	        dataType : 'json', 
-	        contentType : "application/json;charset=UTF-8",
-	        success: function(data){
-	        	console.log(data);
-	     		alert("success");
-	     		window.location.href = "/member/other/"+data; 
-	        },
-	        error: function(){
-	            alert("error");
-	            
-	        } */
-		//});  
- 		/* e.preventDefault();
-		window.location.href = "/member/other";  */
 	});
+ 	
+ 	var result = ${requestScope.productView};
+ 	console.log(result);
+ 	
+ 	// 오른쪽 상품 정보
+ 	var title = $('.productInfo').children().first();
+ 	var price = title.next();
+ 	var p_quality = price.next();
+ 	var add = p_quality.next();
+ 	var pick = add.next();
+ 	
+ 	title.html(result[0].ProMemberJoinDTO.title);
+ 	price.find("span").html(comma(result[0].ProMemberJoinDTO.price) + "원");
+ 	p_quality.find("span").html(result[0].ProMemberJoinDTO.p_quality);
+ 	add.find("span").html(result[0].ProMemberJoinDTO.addr);
+ 	pick.find("span").html(result[0].ProMemberJoinDTO.place_pick);
+ 	
+ 	// 이미지 
+ 	var realPath = "${pageContext.request.contextPath}/resources/";
+ 	
+ 	var target = $('.productImg') // 이미지 처음 타겟
+ 	var mainImg = target.children().first().find('img'); // 이미지 메인타겟
+ 	mainImg.width(500).height(500);
+ 	var subImg = target.find('ul'); // 이미지 서브 타겟
+ 	var imgLength = result[0].Production_uploadVO.length; // 이미지 갯수
+	
+ 	var j = 0;
+   	 for(var i = 0; i < imgLength ; i++){
+   		
+ 		if(result[0].Production_uploadVO[i].rep == 1){
+ 			 mainImg.attr('src',realPath+
+ 					 result[0].Production_uploadVO[i].uploadPath +'/'+ 
+ 					 result[0].Production_uploadVO[i].uuid+'_'+
+ 					 result[0].Production_uploadVO[i].fileName
+ 					 );
+ 			 j++;
+ 		}else{
+ 			var temp = subImg.children().eq(i - j).find("img");
+ 			temp.width(85).height(85);
+ 	 		temp.attr('src',realPath+
+ 					 result[0].Production_uploadVO[i].uploadPath +'/s_'+ 
+ 					 result[0].Production_uploadVO[i].uuid+'_'+
+ 					 result[0].Production_uploadVO[i].fileName
+ 					 );
+ 		}
+ 	
+ 		
+ 	} 
+   	//상품정보 ~!!!
+   	var contentInfo = $('.account');
+   	
+   	contentInfo.html("<label class='ac'>"+result[0].ProMemberJoinDTO.content + "</label>");
+ 	
+ 	
+	// 콤마찍기 정규 표현식
+	function comma(num) {
+		return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+	
+	// 직플레이스 선정
+	var pick = $('.box2');
+	pick.html("<label># " + result[0].ProMemberJoinDTO.place_pick + "</label>");
+	
+	// 맴버
+	var member = $('.nick').html(result[0].ProMemberJoinDTO.nickname);
+	var intro = $('.adrs').html(""+result[0].ProMemberJoinDTO.intro);
+	if(result[0].ProMemberJoinDTO.intro == ""){
+		 $('.adrs').html("소개글이 없습니다.");
+	}
+	
+	// 매너 게이지
+	var manner = result[0].ProMemberJoinDTO.manner;
+	   function startFoo(){
+	      var opts = {
+	              angle: 0.15, // The span of the gauge arc
+	              lineWidth: 0.44, // The line thickness
+	              radiusScale: 1, // Relative radius
+	              pointer: {
+	                length: 0.51, // // Relative to gauge radius
+	                strokeWidth: 0.077, // The thickness
+	                color: '#000000' // Fill color
+	              },
+	              limitMax: false,     // If false, max value increases automatically if value > maxValue
+	              limitMin: false,     // If true, the min value of the gauge will be fixed
+	              colorStart: '#f70000',   // Colors
+	              colorStop: '#f70000',    // just experiment with them
+	              strokeColor: '#E0E0E0',  // to see which ones work best for you
+	              generateGradient: true,
+	              highDpiSupport: true,     // High resolution support
+	              
+	            };
+	            var target = document.getElementById('foo'); // your canvas element
+	            var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+	            gauge.maxValue = 100; // set max gauge value
+	            gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+	            gauge.animationSpeed = 49; // set animation speed (32 is default value)
+	            gauge.set(manner); // set actual value
+	   }
+	   
+	   startFoo();
+	
+	
 });
+
+
 </script>
 
            <div id="floatMenu">
@@ -49,13 +136,15 @@ $(document).ready(function(){
 							<!-- 상품이미지 -->
 							<div class="productImg">
 								<div class="mainImg">
-									<img src="main.jpg" alt="">
+									<img src="http://placehold.it/500x500" alt=""/>
 								</div>
 								<ul class="subImg">
-									<li><img src="sub01.jpg" alt="서브 이미지1"></li>
-									<li><img src="sub02.jpg" alt="서브 이미지2"></li>
-									<li><img src="sub01.jpg" alt="서브 이미지3"></li>
-									<li><img src="sub01.jpg" alt="서브 이미지4"></li>
+									
+									<li><img src="http://placehold.it/85x85" alt="서브이미지1" /></li>
+									<li><img src="http://placehold.it/85x85" alt="서브이미지2" /></li>
+									<li><img src="http://placehold.it/85x85" alt="서브이미지3" /></li>
+									<li><img src="http://placehold.it/85x85" alt="서브이미지4" /></li>
+								
 								</ul>
 							</div>
 							<!-- 상품 설명 -->
@@ -64,11 +153,12 @@ $(document).ready(function(){
 								<div class="price">
 									<span class="sale-price">35,000원</span>
 								</div>
-								<div class="manufact">상품상태 <span>미사용(새물품)</span></div>
-								<div class="categori">교환여부 <span>교환 불가능</span></div>
-								<div class="origin">거래지역 <span>대구 광역시 북구 복현동 1동</span></div>
-								<div class="race"> 직플레이스 <span> #복현 1동 다이소</span></div>
-
+								<div class="manufact" style="color:#000000;">상품상태 :  <span>미사용(새물품)</span></div>
+								<!-- <div class="categori">교환여부 <span>교환 불가능</span></div> --> <!-- 없애 -->
+								<div class="origin">거래지역 :  <span>대구 광역시 북구 복현동 1동</span></div>
+								<div class="race"> 직플레이스 :  <span> #복현 1동 다이소</span></div>
+								
+								<!-- 매너 게이지 !!! -->
 								<div class="manner">
 									<span>
 										<i class="fas fa-user-circle"></i>
@@ -85,13 +175,12 @@ $(document).ready(function(){
 										<canvas id="foo" height="120px" width="200px" class="foo" ></canvas>
 								
 										</div>
-								
-								
-								
 								</div>
+								<!-- 매너게이지 부분 영역 끝 -->
+								
 								<div class="btn">
 									<button class="djim" id="jimclick">찜</button>
-									<button class="djim1">연락하기</button>
+									<button class="djim1">직톡하기</button>
 								</div>
 							</div>
 						</div>
@@ -110,38 +199,13 @@ $(document).ready(function(){
 									<hr style="margin-top: 50px; border-color: gray">
 
 									<div class="cont">
-										<div class="username">
-											<label>샘오취리</label>
-										</div>
 
 										<div class="account">
-											<label class="ac">나이키 공홈에서 산 정품입니다. <br>한번도 신지 않았습니다.<br>쿨거래 합니다 </label>
+											나이키 공홈에서 산 정품입니다. <br>한번도 신지 않았습니다.<br>쿨거래 합니다 
 
 										</div>
 									</div>
 
-										<div class="user" style="z-index: 1; position: relative;">
-											<div style="display: inline-block; z-index: 2; position: relative;">
-											<span>
-												<i class="fas fa-user-circle" style="top:15px;"></i>
-											</span>
-											</div>
-											<div style="display: inline-block; z-index: 3; position: relative;">
-											<!-- <div class="nick1"> -->
-												<div>
-												<label>샘 해밍턴</label>
-											</div>
-											<!-- <div class="adrs1"> -->
-												<div style="display: inline-block; z-index: 4; position: relative;">
-												<label>대구 북구 복현1동</label>
-											</div>
-										</div>
-
-										<!--shit-->
-										<div >
-											<canvas id="foo2" height="90px" width="150px" class="foo2" ></canvas>
-										</div>
-										</div>
 									
 								</div>
 								
@@ -162,6 +226,9 @@ $(document).ready(function(){
 							</div>
 							
 							</div>
+							
+							<!-- 상품정보 끝나는 시점 -->
+							
 							</div>
 							</div>
 							</div>

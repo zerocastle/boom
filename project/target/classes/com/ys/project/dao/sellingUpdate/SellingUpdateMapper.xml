@@ -23,5 +23,33 @@
 
 	</insert>
 
+	<!-- 맴버에 대한 상품 리스트 -->
+	<select id="getMemberProductionList" parameterType="hashMap"
+		resultType="com.ys.project.projectDTO.MemberProductionList">
+		<![CDATA[
+		SELECT A.PRO_NUM,A.TITLE,A.STATE_MSG,A.PRICE,A.CATE_CODE,D.UUID,D.UPLOADPATH,D.FILENAME
+		FROM (SELECT ROWNUM RN,PRO_NUM,TITLE,STATE_MSG,PRICE,CATE_CODE,M_NUM
+				FROM PRODUCTION WHERE M_NUM = #{m_num} AND ROWNUM <= #{pageNum} * #{amount})A,(
+					SELECT *
+					FROM PRODUCTION_UPLOAD
+					WHERE REP = 1
+				) D
+		WHERE A.PRO_NUM = D.PRO_NUM AND
+		RN > (#{pageNum} -1) * #{amount}
+		ORDER BY A.PRO_NUM DESC
+		]]>
+	</select>
 
+	<!-- 맴버가 가지고 있는 상품 목록의 총 갯수 -->
+	<select id="getMemberProductionTotalCount" resultType="int" parameterType="int">
+		SELECT
+		COUNT(*)
+		FROM PRODUCTION
+		WHERE M_NUM = #{m_num}
+	</select>
+	
+	<!-- 상품 삭제 -->
+	<delete id="delete">
+		DELETE FROM PRODUCTION_UPLOAD WHERE UUID = #{uuid}
+	</delete>
 </mapper>

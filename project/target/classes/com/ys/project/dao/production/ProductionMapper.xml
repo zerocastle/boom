@@ -5,13 +5,47 @@
 <mapper
 	namespace="com.ys.project.dao.production.ProductionMapper">
 
+	<!-- 인덱스 대표 사진 뿌리기 -->
 	<select id="productionJoin"
 		resultType="com.ys.project.projectDTO.IndexProductionDTO">
 
 		SELECT
 		A.PRO_NUM,A.TITLE,A.PRICE,A.CATE_CODE,A.STATE_MSG,A.PLACE_SIGNAL,B.UUID,B.UPLOADPATH,B.FILENAME,B.REP
 		FROM PRODUCTION A , PRODUCTION_UPLOAD B
-		WHERE B.REP = 1 AND A.PRO_NUM = B.PRO_NUM
+		WHERE B.REP = 1 AND A.PRO_NUM =
+		B.PRO_NUM
 	</select>
+
+	<!-- 상품 상세보기 중 상품에 대한 업로드 된 파일 경로 들고오기 -->
+	<select id="fineByPro" resultType="Production_uploadVO"
+		parameterType="int">
+		SELECT * FROM
+		PRODUCTION_UPLOAD WHERE PRO_NUM =
+		#{pro_num}
+	</select>
+
+	<!--상품에 대한 맴버 조인 -->
+	<select id="proMemberJoin" parameterType="int"
+		resultType="com.ys.project.projectDTO.ProMemberJoinDTO">
+		SELECT
+		A.PRO_NUM,A.TITLE,A.PRICE,A.CONTENT,A.CREATE_DATE,A.ADDR,
+		A.PLACE_PICK,A.P_QUALITY,A.STATE_MSG,A.CATE_CODE,
+		B.M_NUM,B.NICKNAME,B.PHONE,B.MANNER,B.IMG_PATH,B.FILENAME,B.INTRO
+		FROM
+		PRODUCTION A , (SELECT * FROM MEMBER) B
+		WHERE A.M_NUM = B.M_NUM AND
+		A.PRO_NUM = #{pro_num}
+	</select>
+
+	<!-- 인덱스에서 상품 리스트로 보기 -->
+	<select id="productionListJoin"
+		resultType="com.ys.project.projectDTO.IndexProductionDTO" parameterType="String">
+		SELECT
+		A.PRO_NUM,A.TITLE,A.PRICE,A.CATE_CODE,A.STATE_MSG,A.PLACE_SIGNAL,A.CREATE_DATE,B.UUID,B.UPLOADPATH,B.FILENAME,B.REP
+		FROM PRODUCTION A , PRODUCTION_UPLOAD B
+		WHERE B.REP = 1 AND CATE_CODE=#{cate_code} AND A.PRO_NUM =
+		B.PRO_NUM
+	</select>
+
 
 </mapper>

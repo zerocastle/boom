@@ -14,12 +14,20 @@
 
 	</insert>
 
-	<delete id="delete">
-		DELETE FROM PRODUCTION_UPLOAD WHERE UUID = #{uuid}
-	</delete>
-	
-	<select id="fineByPro" resultType="ProductionVO">
-		SELECT * FROM PRODUCTION_UPLOAD WHERE PRO_NUM = #{pro_num}
+
+	<!-- 상품 상세보기 중 상품에 대한 업로드 된 파일 경로 들고오기 -->
+	<select id="fineByPro" resultType="Production_uploadVO">
+		SELECT * FROM
+		PRODUCTION_UPLOAD WHERE PRO_NUM = #{pro_num}
+	</select>
+
+	<!--상품에 대한 맴버 조인 -->
+	<select id="proMemberJoin" parameterType="int">
+		SELECT A.PRO_NUM,A.TITLE,A.PRICE,A.CONTENT,A.CREATE_DATE,A.ADDR,
+		A.PLACE_PICK,A.P_QUALITY,A.STATE_MSG,A.CATE_CODE,
+		B.M_NUM,B.NICKNAME,B.PHONE,B.MANNER,B.IMG_PATH,B.FILENAME
+		FROM PRODUCTION A , (SELECT * FROM MEMBER) B
+		WHERE A.M_NUM = B.M_NUM AND A.PRO_NUM = #{pro_num};
 	</select>
 
 </mapper>

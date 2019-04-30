@@ -121,14 +121,10 @@
 				<!-- 전송할 페이지 정보 -->
 				<form id="actionForm" action="/warningBoard/warningBoard"
 					method="get">
-					<input type="hidden" name="pageNum"
-						value='${pageMaker.cri.pageNum}' /> <input type="hidden"
-						name="amount" value='${pageMaker.cri.amount}' /> <input
-						type="hidden" name="type" value='${pageMaker.cri.type}' /> <input
-						type="hidden" name="keyword" value='${pageMaker.cri.keyword}' />
-
-
-
+					<input type="hidden" name="pageNum" value='${pageMaker.cri.pageNum}' /> 
+					<input type="hidden" name="amount" value='${pageMaker.cri.amount}' /> 
+					<input type="hidden" name="type" value='${pageMaker.cri.type}' />
+					<input type="hidden" name="keyword" value='${pageMaker.cri.keyword}' />
 				</form>
 
 
@@ -159,6 +155,7 @@
 			}
 
 		});
+		// 페이징 넘기기
 		var actionForm = $("#actionForm");
 		$(".page-item a").on("click", function(e) {
 
