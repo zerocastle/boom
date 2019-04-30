@@ -408,22 +408,15 @@
 			
 			window.location.href="/production/index_productView?pro_num="+result;
 
-			/* $.ajax({
-				type : 'GET',
-				url : '/production/index_productView',
-				data : data,
-				dataType : 'json',
-				contentType : 'application/json;charset=UTF-8',
-				success : function(data){
-					alert("이동");
-					
-				},
-				error : function(err){
-					console.log(err);
-				}
 
-			}) */
-
+		})
+		
+		// 상품 카테고리를 눌렀을때
+		$('.productList').click(function(e){
+			e.preventDefault();
+			var cate_code = $(this).attr('data-cate');
+			window.location.href="/production/index_productList?cate_code="+cate_code;
+			
 		})
 
 	})
@@ -431,7 +424,7 @@
 
 <!-- 메인 프로덕트 -->
 <div class="main-product">
-	<a id="productList" href="#">남성의류</a>
+	<a class="productList" href="#" data-cate="man">남성의류</a>
 	<div class="main-product-div">
 		<div id="productNo1" class="carousel slide col-xs-12"
 			data-ride="carousel">
@@ -502,7 +495,7 @@
 
 <!-- 여성의류 -->
 <div class="main-product">
-	<a id="productList" href="#">여성의류</a>
+	<a class="productList" href="#" data-cate="woman">여성의류</a>
 	<div class="main-product-div">
 		<div id="productNo1" class="carousel slide col-xs-12"
 			data-ride="carousel">
@@ -573,7 +566,7 @@
 
 <!-- 전자제품 -->
 <div class="main-product">
-	<a id="productList" href="#">전자제품</a>
+	<a class="productList" href="#" data-cate="elect">전자제품</a>
 	<div class="main-product-div">
 		<div id="productNo1" class="carousel slide col-xs-12"
 			data-ride="carousel">
@@ -644,7 +637,7 @@
 
 <!-- 가구/인테리어 -->
 <div class="main-product">
-	<a id="productList" href="#">가구/인테리어</a>
+	<a class="productList" href="#" data-cate="furniture">가구/인테리어</a>
 	<div class="main-product-div">
 		<div id="productNo1" class="carousel slide col-xs-12"
 			data-ride="carousel">
@@ -714,7 +707,7 @@
 
 <!-- 유아용품 -->
 <div class="main-product">
-	<a id="productList" href="#">유아용품</a>
+	<a class="productList" href="#" data-cate="baby">유아용품</a>
 	<div class="main-product-div">
 		<div id="productNo1" class="carousel slide col-xs-12"
 			data-ride="carousel">
@@ -785,7 +778,7 @@
 
 <!-- 스포츠/레저 -->
 <div class="main-product">
-	<a id="productList" href="#">스포츠/레저</a>
+	<a class="productList" href="#" data-cate="sport">스포츠/레저</a>
 	<div class="main-product-div">
 		<div id="productNo1" class="carousel slide col-xs-12"
 			data-ride="carousel">
@@ -855,7 +848,7 @@
 
 <!-- 게임/취미 -->
 <div class="main-product">
-	<a id="productList" href="#">게임/취미</a>
+	<a class="productList" href="#" data-cate="hobby">게임/취미</a>
 	<div class="main-product-div">
 		<div id="productNo1" class="carousel slide col-xs-12"
 			data-ride="carousel">
@@ -927,7 +920,7 @@
 
 <!-- 뷰티/미용 -->
 <div class="main-product">
-	<a id="productList" href="#">뷰티/미용</a>
+	<a class="productList" href="#" data-cate="beauty">뷰티/미용</a>
 	<div class="main-product-div">
 		<div id="productNo1" class="carousel slide col-xs-12"
 			data-ride="carousel">
@@ -998,7 +991,7 @@
 
 <!-- 생활/가공품 -->
 <div class="main-product">
-	<a id="productList" href="#">생활/가공품</a>
+	<a class="productList" href="#" data-cate="life">생활/가공품</a>
 	<div class="main-product-div">
 		<div id="productNo1" class="carousel slide col-xs-12"
 			data-ride="carousel">
@@ -1069,7 +1062,7 @@
 
 <!-- 반려동물 -->
 <div class="main-product">
-	<a id="productList" href="#">반려동물</a>
+	<a class="productList" href="#" data-cate="animal">반려동물</a>
 	<div class="main-product-div">
 		<div id="productNo1" class="carousel slide col-xs-12"
 			data-ride="carousel">
@@ -1141,7 +1134,7 @@
 
 <!-- 도서/티켓/음반 -->
 <div class="main-product">
-	<a id="productList" href="#">도서/티켓/음반</a>
+	<a class="productList" href="#" data-cate="book">도서/티켓/음반</a>
 	<div class="main-product-div">
 		<div id="productNo1" class="carousel slide col-xs-12"
 			data-ride="carousel">
@@ -1212,7 +1205,7 @@
 
 <!-- 기타/잡화 -->
 <div class="main-product">
-	<a id="productList" href="#">기타/잡화</a>
+	<a class="productList" href="#" data-cate="else">기타/잡화</a>
 	<div class="main-product-div">
 		<div id="productNo1" class="carousel slide col-xs-12"
 			data-ride="carousel">
