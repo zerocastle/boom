@@ -9,6 +9,20 @@
 <script>
 // 상대방 계정 접근
 $(document).ready(function(){
+	var result = ${requestScope.productView};
+	$('#doChat').click(function(){
+		var session = ${sessionScope.loginSession.m_num};
+		var result = ${requestScope.productView};
+		var m_num = result[0].ProMemberJoinDTO.m_num;
+		var pro_num = result[0].ProMemberJoinDTO.pro_num;
+		console.log(result[0].ProMemberJoinDTO);
+		if(m_num == session){
+			alert('해당 판매글을 작성한 판매자 계정입니다, 채팅을 진행 할 수 없습니다.');
+		}
+		else{
+			window.open('/chatting/doChat?m_num='+m_num+'&pro_num='+pro_num, 'doChat', 'width=850,height=600');
+		}
+	});
  	$('.nick').click(function(e){  
 
 		 var query = { nick : $('.nick').text()};
@@ -16,8 +30,8 @@ $(document).ready(function(){
 			window.location.href="/member/other/"+$('.nick').text();
 	});
  	
- 	var result = ${requestScope.productView};
- 	console.log(result);
+ 	
+ 	console.log(result, "ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣ");
  	
  	// 오른쪽 상품 정보
  	var title = $('.productInfo').children().first();
@@ -180,7 +194,7 @@ $(document).ready(function(){
 								
 								<div class="btn">
 									<button class="djim" id="jimclick">찜</button>
-									<button class="djim1">직톡하기</button>
+									<button class="djim1" id="doChat">직톡하기</button>
 								</div>
 							</div>
 						</div>

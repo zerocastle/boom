@@ -32,7 +32,6 @@
       width: 100%;
       margin-block-end: 0em;
     }
-
     form input {
       border: 0;
       padding: 10px;
@@ -92,7 +91,6 @@
     clear: both;
     float: left;
 }
-
 .chat-box .system {
     background-color: black;
     color : white;
@@ -100,7 +98,6 @@
     float: left;
 }
  
-
  
 .chat-box .odd:after {
     content: ' ';
@@ -136,12 +133,9 @@
     color: #cfcccd;
     display: block;
 }
-
 .item {
   font-style : 25px;
 }
-
-
 #talk {
   width:auto;
   height: auto;
@@ -159,7 +153,6 @@
 .send {
   color : black;
 }
-
   </style>
 </head>
 <body>
@@ -188,23 +181,21 @@ var subDate;
           tnickname : list.rows[i][2],
           tmessage : list.rows[i][4]
       }
-
-
-      if(jsonoobj.tnickname == nickname){//ë©”ì‹œì§??˜ ë°œì‹ ??? ?…?¥?•œ ?‚¬?š©?ê°? ?™?¼?¸?´?¼ë©?
-        if(jsonoobj.tmessage.indexOf('?‹œê°„í˜‘?˜') == 0){
+      if(jsonoobj.tnickname == nickname){//ë©”ì‹œì§€ì˜ ë°œì‹ ìì™€ ì…ì¥í•œ ì‚¬ìš©ìê°€ ë™ì¼ì¸ì´ë¼ë©´
+        if(jsonoobj.tmessage.indexOf('ì‹œê°„í˜‘ì˜') == 0){
           var end = jsonoobj.tmessage.indexOf('</i><br>');
           var start = jsonoobj.tmessage.indexOf("P'>");
           start = start +3;
           subDate = jsonoobj.tmessage.substring(start,end);
-          jsonoobj.tmessage = '<i>?ƒ??ë°©ì—ê²? ?‹œê°„í˜‘?˜ë¥? ? œ?•ˆ?•˜?…¨?Šµ?‹ˆ?‹¤</i><br><i>'+subDate+'</i>';
-        } else if(jsonoobj.tmessage.indexOf('?¥?†Œ?˜‘?˜') == 0){
+          jsonoobj.tmessage = '<i>ìƒëŒ€ë°©ì—ê²Œ ì‹œê°„í˜‘ì˜ë¥¼ ì œì•ˆí•˜ì…¨ìŠµë‹ˆë‹¤</i><br><i>'+subDate+'</i>';
+        } else if(jsonoobj.tmessage.indexOf('ì¥ì†Œí˜‘ì˜') == 0){
           var end = jsonoobj.tmessage.indexOf('</i><br>');
           var start = jsonoobj.tmessage.indexOf("P'>");
           start = start +3;
           subDate = jsonoobj.tmessage.substring(start,end);
           console.log(subDate);
           console.log(jsonoobj.tmessage.length);
-          jsonoobj.tmessage = '<i>?ƒ??ë°©ì—ê²? ?¥?†Œ?˜‘?˜ë¥? ? œ?•ˆ?•˜?…¨?Šµ?‹ˆ?‹¤</i><br><i>'+subDate+'</i>';
+          jsonoobj.tmessage = '<i>ìƒëŒ€ë°©ì—ê²Œ ì¥ì†Œí˜‘ì˜ë¥¼ ì œì•ˆí•˜ì…¨ìŠµë‹ˆë‹¤</i><br><i>'+subDate+'</i>';
         }
       }
       var realJson = JSON.parse(JSON.stringify(jsonoobj));
@@ -213,18 +204,18 @@ var subDate;
 %>
 <div id="pro_data" style="display:none;">
     <ol id='pro_data'>
-        ?Œë§¤ì : <%=jprod.seller%> //
-        êµ¬ë§¤? : <%=jprod.buyer%> //
-        ?ƒ?’ˆë²ˆí˜¸ : <%=jprod.pro_num%><hr>
-        ? œëª? : <%=jprod.title%><br>
+        íŒë§¤ì : <%=jprod.seller%> //
+        êµ¬ë§¤ì : <%=jprod.buyer%> //
+        ìƒí’ˆë²ˆí˜¸ : <%=jprod.pro_num%><hr>
+        ì œëª© : <%=jprod.title%><br>
         ë¶„ë¥˜ : <%=jprod.cate_name%><br>
-        ?‚´?š© : <%=jprod.content%><br>
-        ê°?ê²? : <%=jprod.price%><br>
-        ?’ˆì§? : <%=jprod.p_quality%><br>
+        ë‚´ìš© : <%=jprod.content%><br>
+        ê°€ê²© : <%=jprod.price%><br>
+        í’ˆì§ˆ : <%=jprod.p_quality%><br>
         <hr>
-        ì§í”Œ? ˆ?´?Š¤ : <br><%=jprod.place_pick%><br>
-        ?…ê¸ˆí•  ê°??ƒê³„ì¢Œ : (??êµ¬ì??–‰) 308-29-80376732-8<br>
-        <i><small>?…ê¸? ?‹œ ê±°ë˜?ƒ?ƒœê°? ?Œë§¤ì¤‘?—?„œ ê±°ë˜ì¤‘ìœ¼ë¡? ë°”ë?ë‹ˆ?‹¤...</small></i>
+        ì§í”Œë ˆì´ìŠ¤ : <br><%=jprod.place_pick%><br>
+        ì…ê¸ˆí•  ê°€ìƒê³„ì¢Œ : (ëŒ€êµ¬ì€í–‰) 308-29-80376732-8<br>
+        <i><small>ì…ê¸ˆ ì‹œ ê±°ë˜ìƒíƒœê°€ íŒë§¤ì¤‘ì—ì„œ ê±°ë˜ì¤‘ìœ¼ë¡œ ë°”ë€ë‹ˆë‹¤...</small></i>
   </ol>
 </div>
 
@@ -248,22 +239,22 @@ var subDate;
 </form>
 <div class="ui sidebar inverted vertical menu">
   <a class="item" id='room_out'>
-    ì±„íŒ…ë°? ?‚˜ê°?ê¸?
+    ì±„íŒ…ë°© ë‚˜ê°€ê¸°
   </a>
   <a class="item nullmenu"> 
         <input type="button" id="set_address" style="width:100%;white-space: normal;padding-top:5px;text-align:left;" class="item form-control floating-label nullmenu " onclick="sample4_execDaumPostcode()" value="<%=address%>"/>
-      <button id="send_address" class="send">? „?†¡</button>  
+      <button id="send_address" class="send">ì „ì†¡</button>  
   </a>
   <a class="item nullmenu">  
     <input type="text" id="set_date" class="item form-control floating-label nullmenu"  value="<%=datetime%>">
-    <button id="send_date" class="send" >? „?†¡</button>
+    <button id="send_date" class="send" >ì „ì†¡</button>
   </a>
     <a class="item nullmenu" id='QRsend'>
-    ëª…ì„¸?„œ ? „?‹¬
+    ëª…ì„¸ì„œ ì „ë‹¬
   </a>
     <%if(nickname == seller){%>
     <a class="item nullmenu" id='buy'>
-        ê²°ì œ ëª…ì„¸?„œ ? „?†¡
+        ê²°ì œ ëª…ì„¸ì„œ ì „ì†¡
     </a>
     <%}%>
   
@@ -271,7 +262,7 @@ var subDate;
 </div>
 <button id="plusbtn"><b>3+2</b></button>
 </div>
-<script type="text/javascript" src="http://cdn.socket.io/socket.io-1.0.3.js"></script>
+<script src="javascripts/socket.js"></script>
 <script>
   $(() => {
     var ref = function(){
@@ -294,20 +285,18 @@ var subDate;
       });
       }
     }
-
     road_and_QR();   
     var a = $('#status').text();
-    $('#set_date').bootstrapMaterialDatePicker({ format : 'YYYY/MM/DD HH:mm', minDate : new Date() });//ìº˜ë¦°?” - datePickerë¥? ?‹¬?•„ì¤??‹¤.
+    $('#set_date').bootstrapMaterialDatePicker({ format : 'YYYY/MM/DD HH:mm', minDate : new Date() });//ìº˜ë¦°ë” - datePickerë¥¼ ë‹¬ì•„ì¤€ë‹¤.
     
    
-
     if(a=='out'){
       $('.nullmenu').css("display","none");
     }
     $('#plusbtn').click(function(){
             $('.ui.sidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
         });
-    $(document).scrollTop($(document).height()); // ?Š¤?¬ë¡? ê°??¥?•„?˜ë¡? ?‚´ë¦?
+    $(document).scrollTop($(document).height()); // ìŠ¤í¬ë¡¤ ê°€ì¥ì•„ë˜ë¡œ ë‚´ë¦¼
     const name = $('#nickname').text();
     const room_id= $('#room_id').text();
     const socket = io();
@@ -315,13 +304,12 @@ var subDate;
     let qrCount;
     qrCount = 0;
     socket.emit('joinRoom', num, name);
-
     socket.on('ref', () => {
       window.location.reload();
     });
     $('#buy').click(function(){
       var tag = $('#pro_data').html();
-      $('#messages').append($('<li class="even">').html(name +' : '+tag));//ë²„íŠ¼?? ?ƒ??ë°©ì—ê²Œë§Œ ë³´ì¸?‹¤.
+      $('#messages').append($('<li class="even">').html(name +' : '+tag));//ë²„íŠ¼ì€ ìƒëŒ€ë°©ì—ê²Œë§Œ ë³´ì¸ë‹¤.
       alert(num, name, tag);
       socket.emit('socket_sendAcc', num, name, tag);
     });
@@ -329,84 +317,77 @@ var subDate;
       if(name==$('#nickname').text()){
         
       } else{
-        $('#messages').append($('<li class="odd">').html(name +' : '+tag));//ë²„íŠ¼?? ?ƒ??ë°©ì—ê²Œë§Œ ë³´ì¸?‹¤.
+        $('#messages').append($('<li class="odd">').html(name +' : '+tag));//ë²„íŠ¼ì€ ìƒëŒ€ë°©ì—ê²Œë§Œ ë³´ì¸ë‹¤.
       }
-      $(document).scrollTop($(document).height()); // ?Š¤?¬ë¡? ê°??¥?•„?˜ë¡? ?‚´ë¦?
+      $(document).scrollTop($(document).height()); // ìŠ¤í¬ë¡¤ ê°€ì¥ì•„ë˜ë¡œ ë‚´ë¦¼
     });
-
     $('#send_address').click(function(){
-      if($('#set_address').val()=='?•½?†?¥?†Œ ?„ ? •'){
-        alert('?¥?†Œë¥? ì§?? •?•´ ì£¼ì‹œê¸? ë°”ë?‹ˆ?‹¤.');
+      if($('#set_address').val()=='ì•½ì†ì¥ì†Œ ì„ ì •'){
+        alert('ì¥ì†Œë¥¼ ì§€ì •í•´ ì£¼ì‹œê¸° ë°”ëë‹ˆë‹¤.');
         return false;
       }
-      alert($('#set_address').val()); // ê³ ë¥¸ ?‹œê°? ?•œë²? ?•Œ? ¤ì£¼ê³ 
+      alert($('#set_address').val()); // ê³ ë¥¸ ì‹œê°„ í•œë²ˆ ì•Œë ¤ì£¼ê³ 
       var address = $('#set_address').val();
-      socket.emit('socket_address', num, address, name); //?„œë²„ë¡œ ? „?†¡?•œ?‹¤.
+      socket.emit('socket_address', num, address, name); //ì„œë²„ë¡œ ì „ì†¡í•œë‹¤.
     });
-    socket.on('socket_address', (num, address, name, message_id) => {// ?ƒ??ë°©ìœ¼ë¡œë??„° ì±„íŒ…ë°©ì— ?†Œì¼“ë°?´?Š¸ ?‹ ?˜¸ê°? ?˜¨?‹¤ë©? ?‹¤?–‰.
-      var buttonSet = "<button class='Ayes'>?ˆ˜?½</button><button class='Ano' value="+message_id+">ê±°ì ˆ</button>";
+    socket.on('socket_address', (num, address, name, message_id) => {// ìƒëŒ€ë°©ìœ¼ë¡œë¶€í„° ì±„íŒ…ë°©ì— ì†Œì¼“ë°ì´íŠ¸ ì‹ í˜¸ê°€ ì˜¨ë‹¤ë©´ ì‹¤í–‰.
+      var buttonSet = "<button class='Ayes'>ìˆ˜ë½</button><button class='Ano' value="+message_id+">ê±°ì ˆ</button>";
       if(name==$('#nickname').text()){
-        $('#messages').append($('<li class="even">').html(name +' : '+'<i>?ƒ??ë°©ì—ê²? ?¥?†Œ?˜‘?˜ë¥? ? œ?•ˆ?•˜?…¨?Šµ?‹ˆ?‹¤</i><br><i >'+address+'</i>'));//ë²„íŠ¼?? ?ƒ??ë°©ì—ê²Œë§Œ ë³´ì¸?‹¤.
+        $('#messages').append($('<li class="even">').html(name +' : '+'<i>ìƒëŒ€ë°©ì—ê²Œ ì¥ì†Œí˜‘ì˜ë¥¼ ì œì•ˆí•˜ì…¨ìŠµë‹ˆë‹¤</i><br><i >'+address+'</i>'));//ë²„íŠ¼ì€ ìƒëŒ€ë°©ì—ê²Œë§Œ ë³´ì¸ë‹¤.
       } else{
-        $('#messages').append($('<li class="odd">').html(name +' : '+'?¥?†Œ?˜‘?˜ - '+name + '?‹˜?— ?˜?•´ ?•½?†?¥?†Œê°? ?„ ? •?˜?—ˆ?Šµ?‹ˆ?‹¤ :<br><i class="addressP">'+address+"</i><br>"+buttonSet));//?‹œ?Š¤?…œë©”ì‹œì§? ?•½?†ì§?? •? •ë³´ë?? ë³´ë‚¸?‹¤.
+        $('#messages').append($('<li class="odd">').html(name +' : '+'ì¥ì†Œí˜‘ì˜ - '+name + 'ë‹˜ì— ì˜í•´ ì•½ì†ì¥ì†Œê°€ ì„ ì •ë˜ì—ˆìŠµë‹ˆë‹¤ :<br><i class="addressP">'+address+"</i><br>"+buttonSet));//ì‹œìŠ¤í…œë©”ì‹œì§€ ì•½ì†ì§€ì •ì •ë³´ë¥¼ ë³´ë‚¸ë‹¤.
       }
-      $(document).scrollTop($(document).height()); // ?Š¤?¬ë¡? ê°??¥?•„?˜ë¡? ?‚´ë¦?
+      $(document).scrollTop($(document).height()); // ìŠ¤í¬ë¡¤ ê°€ì¥ì•„ë˜ë¡œ ë‚´ë¦¼
     });
     $(document).on("click",".Ayes",function(event){
         alert($(event.target).siblings('.addressP').text());
          var addressP = $(event.target).siblings('.addressP').text();
-       alert('?•½?† :'+addressP+'?œ¼ë¡? ì§?? •?˜?—ˆ?Šµ?‹ˆ?‹¤.');
-       $('#set_address').val(addressP);//? œ?•ˆ?“¤ì¤? ?„ ?ƒ 
-      socket.emit('addressYes', addressP,num); //?„œë²„ë¡œ ? „?†¡?•œ?‹¤.
+       alert('ì•½ì† :'+addressP+'ìœ¼ë¡œ ì§€ì •ë˜ì—ˆìŠµë‹ˆë‹¤.');
+       $('#set_address').val(addressP);//ì œì•ˆë“¤ì¤‘ ì„ íƒ 
+      socket.emit('addressYes', addressP,num); //ì„œë²„ë¡œ ì „ì†¡í•œë‹¤.
     });
-    $(document).on("click",".Ano",function(event){// ê±°ì ˆë²„íŠ¼ ?´ë¦??‹œ
+    $(document).on("click",".Ano",function(event){// ê±°ì ˆë²„íŠ¼ í´ë¦­ì‹œ
       var addressP = $(event.target).siblings('.addressP').text();
       message_id = $(event.target).val();
-      alert('?´ë¦??œ ê±°ì ˆë²„íŠ¼?˜ ë©”ì‹œì§? ?•„?´?””' + message_id + '?…?‹ˆ?‹¤');
-      alert('?•½?†? œ?•ˆ ('+$(event.target).siblings('.addressP').text()+')?„ ê±°ì ˆ?•˜?…¨?Šµ?‹ˆ?‹¤.');
-      socket.emit('addressNo', addressP,num,message_id); //?„œë²„ë¡œ ? „?†¡?•œ?‹¤.
+      alert('í´ë¦­ëœ ê±°ì ˆë²„íŠ¼ì˜ ë©”ì‹œì§€ ì•„ì´ë””' + message_id + 'ì…ë‹ˆë‹¤');
+      alert('ì•½ì†ì œì•ˆ ('+$(event.target).siblings('.addressP').text()+')ì„ ê±°ì ˆí•˜ì…¨ìŠµë‹ˆë‹¤.');
+      socket.emit('addressNo', addressP,num,message_id); //ì„œë²„ë¡œ ì „ì†¡í•œë‹¤.
     });
-
-
-
-
-
     $('#send_date').click(function(){
-      if($('#set_date').val()=='?•½?†?‹œê°? ?„ ? •'){
-        alert('?‚ ì§œë?? ì§?? •?•´ ì£¼ì‹œê¸? ë°”ë?‹ˆ?‹¤.');
+      if($('#set_date').val()=='ì•½ì†ì‹œê°„ ì„ ì •'){
+        alert('ë‚ ì§œë¥¼ ì§€ì •í•´ ì£¼ì‹œê¸° ë°”ëë‹ˆë‹¤.');
         return false;
       }
-      alert($('#set_date').val()); // ê³ ë¥¸ ?‹œê°? ?•œë²? ?•Œ? ¤ì£¼ê³ 
+      alert($('#set_date').val()); // ê³ ë¥¸ ì‹œê°„ í•œë²ˆ ì•Œë ¤ì£¼ê³ 
       var date = $('#set_date').val();
-      socket.emit('socket_date', num, date, name); //?„œë²„ë¡œ ? „?†¡?•œ?‹¤.
+      socket.emit('socket_date', num, date, name); //ì„œë²„ë¡œ ì „ì†¡í•œë‹¤.
     });
-
-//Aê°? ?‚ ì§? ? „?†¡
-//Bê°? ?‚ ì§? ?ˆ˜?‹ 
-//Bê°? ?ˆ˜?½ë²„íŠ¼ ?´ë¦?
-//A,B?˜ DatePicker?˜ ê°’ì´ ?•´?‹¹ ?ˆ˜?½?œ ?‚ ì§œë¡œ ë³?ê²?.
-    socket.on('socket_date', (num, date, name, message_id) => {// ?ƒ??ë°©ìœ¼ë¡œë??„° ì±„íŒ…ë°©ì— ?†Œì¼“ë°?´?Š¸ ?‹ ?˜¸ê°? ?˜¨?‹¤ë©? ?‹¤?–‰.
-      var buttonSet = "<button class='yes'>?ˆ˜?½</button><button class='no' value="+message_id+">ê±°ì ˆ</button>";
+//Aê°€ ë‚ ì§œ ì „ì†¡
+//Bê°€ ë‚ ì§œ ìˆ˜ì‹ 
+//Bê°€ ìˆ˜ë½ë²„íŠ¼ í´ë¦­
+//A,Bì˜ DatePickerì˜ ê°’ì´ í•´ë‹¹ ìˆ˜ë½ëœ ë‚ ì§œë¡œ ë³€ê²½.
+    socket.on('socket_date', (num, date, name, message_id) => {// ìƒëŒ€ë°©ìœ¼ë¡œë¶€í„° ì±„íŒ…ë°©ì— ì†Œì¼“ë°ì´íŠ¸ ì‹ í˜¸ê°€ ì˜¨ë‹¤ë©´ ì‹¤í–‰.
+      var buttonSet = "<button class='yes'>ìˆ˜ë½</button><button class='no' value="+message_id+">ê±°ì ˆ</button>";
       if(name==$('#nickname').text()){
-        $('#messages').append($('<li class="even">').html(name +' : '+'<i>?ƒ??ë°©ì—ê²? ?‹œê°„í˜‘?˜ë¥? ? œ?•ˆ?•˜?…¨?Šµ?‹ˆ?‹¤</i><br><i >'+date+'</i>'));//ë²„íŠ¼?? ?ƒ??ë°©ì—ê²Œë§Œ ë³´ì¸?‹¤.
+        $('#messages').append($('<li class="even">').html(name +' : '+'<i>ìƒëŒ€ë°©ì—ê²Œ ì‹œê°„í˜‘ì˜ë¥¼ ì œì•ˆí•˜ì…¨ìŠµë‹ˆë‹¤</i><br><i >'+date+'</i>'));//ë²„íŠ¼ì€ ìƒëŒ€ë°©ì—ê²Œë§Œ ë³´ì¸ë‹¤.
       } else{
-        $('#messages').append($('<li class="odd">').html(name +' : '+'?‹œê°„í˜‘?˜ - '+name + '?‹˜?— ?˜?•´ ?•½?†?¼? •?´ ?„ ? •?˜?—ˆ?Šµ?‹ˆ?‹¤ :<i class="dateP">'+date+"</i><br>"+buttonSet));//?‹œ?Š¤?…œë©”ì‹œì§? ?•½?†ì§?? •? •ë³´ë?? ë³´ë‚¸?‹¤.
+        $('#messages').append($('<li class="odd">').html(name +' : '+'ì‹œê°„í˜‘ì˜ - '+name + 'ë‹˜ì— ì˜í•´ ì•½ì†ì¼ì •ì´ ì„ ì •ë˜ì—ˆìŠµë‹ˆë‹¤ :<i class="dateP">'+date+"</i><br>"+buttonSet));//ì‹œìŠ¤í…œë©”ì‹œì§€ ì•½ì†ì§€ì •ì •ë³´ë¥¼ ë³´ë‚¸ë‹¤.
       }
-      $(document).scrollTop($(document).height()); // ?Š¤?¬ë¡? ê°??¥?•„?˜ë¡? ?‚´ë¦?
+      $(document).scrollTop($(document).height()); // ìŠ¤í¬ë¡¤ ê°€ì¥ì•„ë˜ë¡œ ë‚´ë¦¼
     });
     $(document).on("click",".yes",function(event){
         alert($(event.target).siblings('.dateP').text());
          var dateP = $(event.target).siblings('.dateP').text();
-       alert('?•½?† :'+dateP+'?œ¼ë¡? ì§?? •?˜?—ˆ?Šµ?‹ˆ?‹¤.');
-       $('#set_date').val(dateP);//? œ?•ˆ?“¤ì¤? ?„ ?ƒ 
-      socket.emit('dateYes', dateP,num); //?„œë²„ë¡œ ? „?†¡?•œ?‹¤.
+       alert('ì•½ì† :'+dateP+'ìœ¼ë¡œ ì§€ì •ë˜ì—ˆìŠµë‹ˆë‹¤.');
+       $('#set_date').val(dateP);//ì œì•ˆë“¤ì¤‘ ì„ íƒ 
+      socket.emit('dateYes', dateP,num); //ì„œë²„ë¡œ ì „ì†¡í•œë‹¤.
     });
-    $(document).on("click",".no",function(event){// ê±°ì ˆë²„íŠ¼ ?´ë¦??‹œ
+    $(document).on("click",".no",function(event){// ê±°ì ˆë²„íŠ¼ í´ë¦­ì‹œ
       var dateP = $(event.target).siblings('.dateP').text();
       message_id = $(event.target).val();
-      alert('?´ë¦??œ ê±°ì ˆë²„íŠ¼?˜ ë©”ì‹œì§? ?•„?´?””' + message_id + '?…?‹ˆ?‹¤');
-      alert('?•½?†?¼?‹œ ? œ?•ˆ ('+$(event.target).siblings('.dateP').text()+')?„ ê±°ì ˆ?•˜?…¨?Šµ?‹ˆ?‹¤.');
-      socket.emit('dateNo', dateP,num,message_id); //?„œë²„ë¡œ ? „?†¡?•œ?‹¤.
+      alert('í´ë¦­ëœ ê±°ì ˆë²„íŠ¼ì˜ ë©”ì‹œì§€ ì•„ì´ë””' + message_id + 'ì…ë‹ˆë‹¤');
+      alert('ì•½ì†ì¼ì‹œ ì œì•ˆ ('+$(event.target).siblings('.dateP').text()+')ì„ ê±°ì ˆí•˜ì…¨ìŠµë‹ˆë‹¤.');
+      socket.emit('dateNo', dateP,num,message_id); //ì„œë²„ë¡œ ì „ì†¡í•œë‹¤.
     });
     
     var func_qr = function(){
@@ -417,7 +398,7 @@ var subDate;
       var seller = $('#seller').text();
       var buyer = $('#buyer').text();
       var pro_num = $('#pro_num').text();
-      var tag = '<div class="qrcode"></div><h2>ëª…ì„¸?„œ</h2><br>?Œë§¤ì :'+seller+'<hr>êµ¬ë§¤? :'+buyer+'<hr>?ƒ?’ˆë²ˆí˜¸ :'+pro_num+'<hr><i><small>ëª…ì„¸?„œ ?ƒ?„¸ ?‚´?š©?? QRì½”ë“œ ?¸ì¦? ?›„ ?™•?¸ ê°??Š¥?•©?‹ˆ?‹¤.</small></i>';
+      var tag = '<div class="qrcode"></div><h2>ëª…ì„¸ì„œ</h2><br>íŒë§¤ì :'+seller+'<hr>êµ¬ë§¤ì :'+buyer+'<hr>ìƒí’ˆë²ˆí˜¸ :'+pro_num+'<hr><i><small>ëª…ì„¸ì„œ ìƒì„¸ ë‚´ìš©ì€ QRì½”ë“œ ì¸ì¦ í›„ í™•ì¸ ê°€ëŠ¥í•©ë‹ˆë‹¤.</small></i>';
       socket.emit('QRsend', num,name,tag);
     }
     socket.on('QRsend', (num1, name1, tag1) => {
@@ -429,98 +410,95 @@ var subDate;
       return ref();
     });
     
-    //1. qrê°? ?“¤?–´ê°? divë¥? ?ƒ?„±.
-    //2. div?˜ ?´?˜?Š¤ ì¤? qrcountë²ˆì§¸ ê°ì²´?— qrì½”ë“œ?ƒ?„±
+    //1. qrê°€ ë“¤ì–´ê°ˆ divë¥¼ ìƒì„±.
+    //2. divì˜ í´ë˜ìŠ¤ ì¤‘ qrcountë²ˆì§¸ ê°ì²´ì— qrì½”ë“œìƒì„±
     //3. qrcount++;
-    //4. ?„˜?–´?™”?„?•Œ. ?•„?‹ˆ QRì½”ë“œ?™” ?˜?•œ ?–´?–»ê²? ?•˜ì§?. ?™œ ?‚«?µ?´ë¦??•˜ë©? ë©”ì‹œì§? append?•˜?–?•„ ê·¸ë•Œ db?— ???¥?„ ?•˜?. ?‹¨ QRì½”ë“œ ë³´ë‚¼?•Œ ?ƒ?„±?˜?–´ì§??Š” div?— ?š°ë¦¬ê? ?„£?„? ¤ê³? ?•˜?Š” ê°’ë“¤:(êµ¬ë§¤??Œë§¤ì?ƒ?’ˆë²ˆí˜¸ê°?ê²©ë“±?“±)?„ ?„£?Š”?‹¤.
-    $('#QRsend').click(function(){// ?•„ë¬´ê²ƒ?„ ?•„?‹Œ ì¶”ê?ê¸°ëŠ¥?„ ?‹¤?–‰?•˜ë©? ?¼?‹¨ ê·??—¬?š´ ê°•ì•„ì§? ë³´ì—¬ì¤? ?…?…
+    //4. ë„˜ì–´ì™”ì„ë•Œ. ì•„ë‹ˆ QRì½”ë“œí™” ë˜í•œ ì–´ë–»ê²Œ í•˜ì§€. ì™œ ë‚«ëµí´ë¦­í•˜ë©´ ë©”ì‹œì§€ appendí•˜ì–ì•„ ê·¸ë•Œ dbì— ì €ì¥ì„ í•˜ì. ë‹¨ QRì½”ë“œ ë³´ë‚¼ë•Œ ìƒì„±ë˜ì–´ì§€ëŠ” divì— ìš°ë¦¬ê°€ ë„£ì„ë ¤ê³  í•˜ëŠ” ê°’ë“¤:(êµ¬ë§¤ìíŒë§¤ììƒí’ˆë²ˆí˜¸ê°€ê²©ë“±ë“±)ë„ ë„£ëŠ”ë‹¤.
+    $('#QRsend').click(function(){// ì•„ë¬´ê²ƒë„ ì•„ë‹Œ ì¶”ê°€ê¸°ëŠ¥ì„ ì‹¤í–‰í•˜ë©´ ì¼ë‹¨ ê·€ì—¬ìš´ ê°•ì•„ì§€ ë³´ì—¬ì¤Œ ã…ã…
       $('#messages').append($('<li class="even"><div class="qrcode"></div><img src="images/dog4.png" width="300px" height="300px">'));
-        $(document).scrollTop($(document).height()); // ?Š¤?¬ë¡? ê°??¥?•„?˜ë¡? ?‚´ë¦?
-      //socket?˜ emit()?•¨?ˆ˜ê°? ?—†?–´?„œ ? „?†¡?„ ?•ˆ?¨ ?…?…
+        $(document).scrollTop($(document).height()); // ìŠ¤í¬ë¡¤ ê°€ì¥ì•„ë˜ë¡œ ë‚´ë¦¼
+      //socketì˜ emit()í•¨ìˆ˜ê°€ ì—†ì–´ì„œ ì „ì†¡ë„ ì•ˆë¨ ã…ã…
       return func_qr();
     });
-
     $('#room_out').click(function(){
       console.log('Room Out // no.'+num+' room //left user name : ', name );
-        if (confirm("ì±„íŒ…?‚´?—­?„ ?•¨ê»? ?‚­? œ?©?‹ˆ?‹¤. ? •ë§? ?‚˜ê°??‹œê² ìŠµ?‹ˆê¹??") == true){    //?™•?¸
+        if (confirm("ì±„íŒ…ë‚´ì—­ë„ í•¨ê»˜ ì‚­ì œë©ë‹ˆë‹¤. ì •ë§ ë‚˜ê°€ì‹œê² ìŠµë‹ˆê¹Œ?") == true){    //í™•ì¸
           socket.emit('room_out', num, name);
-        console.log('?šŒ?› '+name+'?‹˜?´ ë°©ë‚˜ê°?ê¸? ?‹¤?–‰?„ ?ˆ˜?½?•˜?…¨?Šµ?‹ˆ?‹¤.');
+        console.log('íšŒì› '+name+'ë‹˜ì´ ë°©ë‚˜ê°€ê¸° ì‹¤í–‰ì„ ìˆ˜ë½í•˜ì…¨ìŠµë‹ˆë‹¤.');
         window.close();
         }else{   //ì·¨ì†Œ
-          console.log('?šŒ?› '+name+'?‹˜?´ ?ƒˆì£? ì·¨ì†Œ?•˜?…¨?Šµ?‹ˆ?‹¤!');
+          console.log('íšŒì› '+name+'ë‹˜ì´ íƒˆì£¼ ì·¨ì†Œí•˜ì…¨ìŠµë‹ˆë‹¤!');
         return false;
       }
     });
-    socket.on('room_out', (num, name) => {// ?†Œì¼“ì— room_out?‹ ?˜¸ê°? ?˜¨?‹¤ë©?
-      $('.nullmenu').css("display","none");//?ƒ??ë°©ì´ ?—†?‹¤ë©? ?‚¬?š©ë¶ˆê??˜ ë©”ë‰´:?…? ¥?ƒœê·?, sendë²„íŠ¼, ì±„íŒ…ë°©ë‚˜ê°?ê¸°ë?? ? œ?™¸?•œ ì¶”ê?ê¸°ëŠ¥?“¤?„ ?•ˆë³´ì´ê²Œí•œ?‹¤.
-      $('#messages').append($('<li class="system">').text('System : '+name + ' ?šŒ?›?‹˜?´ ë°©ì„ ?ƒˆì£¼í•˜?…¨?Šµ?‹ˆ?‹¤.  ' ));//?‹œ?Š¤?…œë©”ì‹œì§? ?ƒ??ë°©ì´ ?‚˜ê°”ë‹¤ê³? ?•Œ? ¤ì¤??‹¤.
-      $('#status').text = 'out';//ë°©ì˜ ?ƒ?ƒœë¥? out?œ¼ë¡? ì§?? •
-      window.location.search='?room_id='+num+'&talker=out';//url?˜ queryString?„ ?‚˜ê°”ë‹¤ê³? ë°”ê¿”ì¤??‹¤. ?ƒˆë¡œê³ ì¹¨ì´ ?˜?–´?„ outê°’ì„ ê°?ì§?ê¸°ì— .nullMenu?“¤?´ ?—¬? „?ˆ ?•ˆë³´ì—¬ì§„ë‹¤.
+    socket.on('room_out', (num, name) => {// ì†Œì¼“ì— room_outì‹ í˜¸ê°€ ì˜¨ë‹¤ë©´
+      $('.nullmenu').css("display","none");//ìƒëŒ€ë°©ì´ ì—†ë‹¤ë©´ ì‚¬ìš©ë¶ˆê°€ì˜ ë©”ë‰´:ì…ë ¥íƒœê·¸, sendë²„íŠ¼, ì±„íŒ…ë°©ë‚˜ê°€ê¸°ë¥¼ ì œì™¸í•œ ì¶”ê°€ê¸°ëŠ¥ë“¤ì„ ì•ˆë³´ì´ê²Œí•œë‹¤.
+      $('#messages').append($('<li class="system">').text('System : '+name + ' íšŒì›ë‹˜ì´ ë°©ì„ íƒˆì£¼í•˜ì…¨ìŠµë‹ˆë‹¤.  ' ));//ì‹œìŠ¤í…œë©”ì‹œì§€ ìƒëŒ€ë°©ì´ ë‚˜ê°”ë‹¤ê³  ì•Œë ¤ì¤€ë‹¤.
+      $('#status').text = 'out';//ë°©ì˜ ìƒíƒœë¥¼ outìœ¼ë¡œ ì§€ì •
+      window.location.search='?room_id='+num+'&talker=out';//urlì˜ queryStringë„ ë‚˜ê°”ë‹¤ê³  ë°”ê¿”ì¤€ë‹¤. ìƒˆë¡œê³ ì¹¨ì´ ë˜ì–´ë„ outê°’ì„ ê°€ì§€ê¸°ì— .nullMenuë“¤ì´ ì—¬ì „íˆ ì•ˆë³´ì—¬ì§„ë‹¤.
     } );
     var i = 0;
-    $('form').submit(() => {// Enterì¹ ë•Œë§ˆë‹¤ Send ?• ?•Œë§ˆë‹¤ ?‹¤?–‰
+    $('form').submit(() => {// Enterì¹ ë•Œë§ˆë‹¤ Send í• ë•Œë§ˆë‹¤ ì‹¤í–‰
       if($('#m').val()==""){
-        alert('ê³µë°±?„ ? „?†¡?•  ?ˆ˜ ?—†?Šµ?‹ˆ?‹¤.');
+        alert('ê³µë°±ì„ ì „ì†¡í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.');
         return false;
       }else{
-      socket.emit('chat message', num, name, $('#m').val());// ?„œë²„ë¡œ  ?‘?„±?, ë°©ë²ˆ?˜¸, ë©”ì‹œì§?ë¥? ? „?‹¬?•œ?‹¤.
-      $(document).scrollTop($(document).height()); // ?Š¤?¬ë¡? ê°??¥?•„?˜ë¡? ?‚´ë¦?
-      $('#m').val('');//?…? ¥ì°? ë¹„ì›Œì£¼ê¸°
+      socket.emit('chat message', num, name, $('#m').val());// ì„œë²„ë¡œ  ì‘ì„±ì, ë°©ë²ˆí˜¸, ë©”ì‹œì§€ë¥¼ ì „ë‹¬í•œë‹¤.
+      $(document).scrollTop($(document).height()); // ìŠ¤í¬ë¡¤ ê°€ì¥ì•„ë˜ë¡œ ë‚´ë¦¼
+      $('#m').val('');//ì…ë ¥ì°½ ë¹„ì›Œì£¼ê¸°
       return false;
-    } //?›?•˜?Š” ?‘?—…ë§? ë§ˆì¹œ ?›„ submit?˜ ?™?‘?„ ë©ˆì¶˜?‹¤.
+    } //ì›í•˜ëŠ” ì‘ì—…ë§Œ ë§ˆì¹œ í›„ submitì˜ ë™ì‘ì„ ë©ˆì¶˜ë‹¤.
     });
-
-    /* API ì¢??” ì°¸ì¡°?•´?•¼?•¨. seller_num, buyer_num, room_id, c_address, c_date, pro_numê³? pro_num?— ?•´?‹¹?•˜?Š” production ?…Œ?´ë¸”ì˜ ëª¨ë“  ì»¬ëŸ¼?“¤?„ ë¿Œë ¤ì¤??‹¤.
-    êµ¬ë§¤? ?‹‰?„¤?„, ?Œë§¤ì ?‹‰?„¤?„, ê°?ê²?, ?•½?†?¥?†Œ ?˜?Š” ì§?? •ì§í”Œ? ˆ?´?Š¤, ?•½?†?‹œê°?, ,  
-    socket.on('chat QR', (name, ) => {// ì±„íŒ…ë°©í…Œ?´ë¸”ì˜ pro_num, seller_num, buyer_num?„ ? „?†¡?•œ?‹¤.???????????????????????????????????
+    /* API ì¢€ë” ì°¸ì¡°í•´ì•¼í•¨. seller_num, buyer_num, room_id, c_address, c_date, pro_numê³¼ pro_numì— í•´ë‹¹í•˜ëŠ” production í…Œì´ë¸”ì˜ ëª¨ë“  ì»¬ëŸ¼ë“¤ì„ ë¿Œë ¤ì¤€ë‹¤.
+    êµ¬ë§¤ì ë‹‰ë„¤ì„, íŒë§¤ì ë‹‰ë„¤ì„, ê°€ê²©, ì•½ì†ì¥ì†Œ ë˜ëŠ” ì§€ì •ì§í”Œë ˆì´ìŠ¤, ì•½ì†ì‹œê°„, ,  
+    socket.on('chat QR', (name, ) => {// ì±„íŒ…ë°©í…Œì´ë¸”ì˜ pro_num, seller_num, buyer_numì„ ì „ì†¡í•œë‹¤.???????????????????????????????????
       $('#messages').append($('<li class="even">').text(name + '  :  ' +
         msg));
         
     });*/ 
-
     
-    socket.on('chat message', (name, msg) => {// ?†Œì¼“ì— ?‹ ?˜¸ê°? ?˜¤ë©? chat message ê¸°ëŠ¥ ?‹¤?–‰.
-      if(name == $('#nickname').text()){//?‚ ?•„?˜¨ ë©”ì‹œì§??˜ ?´ë¦„ì´ ?„¸?…˜?˜ ?‹‰?„¤?„ê³? ê°™ë‹¤ë©?
+    socket.on('chat message', (name, msg) => {// ì†Œì¼“ì— ì‹ í˜¸ê°€ ì˜¤ë©´ chat message ê¸°ëŠ¥ ì‹¤í–‰.
+      if(name == $('#nickname').text()){//ë‚ ì•„ì˜¨ ë©”ì‹œì§€ì˜ ì´ë¦„ì´ ì„¸ì…˜ì˜ ë‹‰ë„¤ì„ê³¼ ê°™ë‹¤ë©´
       $('#messages').append($('<li class="even">').text(name + '  :  ' +
-        msg));}//?š°ì¸¡ì— ?œ„ì¹˜í•œ?‹¤. ?‚´ê°??“´ë©”ì‹œì§?
-      else{//?•„?‹ˆ?¼ë©? ì¢Œì¸¡?— ?œ„ì¹˜í•œ?‹¤. ?‚¨?´?“´ë©”ì‹œì§?
+        msg));}//ìš°ì¸¡ì— ìœ„ì¹˜í•œë‹¤. ë‚´ê°€ì“´ë©”ì‹œì§€
+      else{//ì•„ë‹ˆë¼ë©´ ì¢Œì¸¡ì— ìœ„ì¹˜í•œë‹¤. ë‚¨ì´ì“´ë©”ì‹œì§€
         $('#messages').append($('<li class="odd">').text(name + '  :  ' +
         msg));
       }
         console.log('chat message' + name + msg);
-        $(document).scrollTop($(document).height()); // ?Š¤?¬ë¡? ê°??¥?•„?˜ë¡? ?‚´ë¦?
+        $(document).scrollTop($(document).height()); // ìŠ¤í¬ë¡¤ ê°€ì¥ì•„ë˜ë¡œ ë‚´ë¦¼
     });
   });
   function sample4_execDaumPostcode() {
   daum.postcode.load(function(){
           new daum.Postcode({
             oncomplete : function(data) {
-              // ?Œ?—…?—?„œ ê²??ƒ‰ê²°ê³¼ ?•­ëª©ì„ ?´ë¦??–ˆ?„?•Œ ?‹¤?–‰?•  ì½”ë“œë¥? ?‘?„±?•˜?Š” ë¶?ë¶?.
-              // ?„ë¡œëª… ì£¼ì†Œ?˜ ?…¸ì¶? ê·œì¹™?— ?”°?¼ ì£¼ì†Œë¥? ?‘œ?‹œ?•œ?‹¤.
-              // ?‚´? ¤?˜¤?Š” ë³??ˆ˜ê°? ê°’ì´ ?—†?Š” ê²½ìš°?—” ê³µë°±('')ê°’ì„ ê°?ì§?ë¯?ë¡?, ?´ë¥? ì°¸ê³ ?•˜?—¬ ë¶„ê¸° ?•œ?‹¤.
+              // íŒì—…ì—ì„œ ê²€ìƒ‰ê²°ê³¼ í•­ëª©ì„ í´ë¦­í–ˆì„ë•Œ ì‹¤í–‰í•  ì½”ë“œë¥¼ ì‘ì„±í•˜ëŠ” ë¶€ë¶„.
+              // ë„ë¡œëª… ì£¼ì†Œì˜ ë…¸ì¶œ ê·œì¹™ì— ë”°ë¼ ì£¼ì†Œë¥¼ í‘œì‹œí•œë‹¤.
+              // ë‚´ë ¤ì˜¤ëŠ” ë³€ìˆ˜ê°€ ê°’ì´ ì—†ëŠ” ê²½ìš°ì—” ê³µë°±('')ê°’ì„ ê°€ì§€ë¯€ë¡œ, ì´ë¥¼ ì°¸ê³ í•˜ì—¬ ë¶„ê¸° í•œë‹¤.
               var addr;
-              var roadAddr = data.roadAddress; // ?„ë¡œëª… ì£¼ì†Œ ë³??ˆ˜
-              var extraRoadAddr = ''; // ì°¸ê³  ?•­ëª? ë³??ˆ˜
-              // ë²•ì •?™ëª…ì´ ?ˆ?„ ê²½ìš° ì¶”ê??•œ?‹¤. (ë²•ì •ë¦¬ëŠ” ? œ?™¸)
-              // ë²•ì •?™?˜ ê²½ìš° ë§ˆì?ë§? ë¬¸ìê°? "?™/ë¡?/ê°?"ë¡? ??‚œ?‹¤.
-              if (data.bname !== '' && /[?™|ë¡?|ê°?]$/g.test(data.bname)) {
+              var roadAddr = data.roadAddress; // ë„ë¡œëª… ì£¼ì†Œ ë³€ìˆ˜
+              var extraRoadAddr = ''; // ì°¸ê³  í•­ëª© ë³€ìˆ˜
+              // ë²•ì •ë™ëª…ì´ ìˆì„ ê²½ìš° ì¶”ê°€í•œë‹¤. (ë²•ì •ë¦¬ëŠ” ì œì™¸)
+              // ë²•ì •ë™ì˜ ê²½ìš° ë§ˆì§€ë§‰ ë¬¸ìê°€ "ë™/ë¡œ/ê°€"ë¡œ ëë‚œë‹¤.
+              if (data.bname !== '' && /[ë™|ë¡œ|ê°€]$/g.test(data.bname)) {
                 extraRoadAddr += data.bname;
               }
-              // ê±´ë¬¼ëª…ì´ ?ˆê³?, ê³µë™ì£¼íƒ?¼ ê²½ìš° ì¶”ê??•œ?‹¤.
+              // ê±´ë¬¼ëª…ì´ ìˆê³ , ê³µë™ì£¼íƒì¼ ê²½ìš° ì¶”ê°€í•œë‹¤.
               if (data.buildingName !== '' && data.apartment === 'Y') {
                 extraRoadAddr += (extraRoadAddr !== '' ? ', '
                     + data.buildingName : data.buildingName);
               }
-              // ?‘œ?‹œ?•  ì°¸ê³ ?•­ëª©ì´ ?ˆ?„ ê²½ìš°, ê´„í˜¸ê¹Œì? ì¶”ê??•œ ìµœì¢… ë¬¸ì?—´?„ ë§Œë“ ?‹¤.
+              // í‘œì‹œí•  ì°¸ê³ í•­ëª©ì´ ìˆì„ ê²½ìš°, ê´„í˜¸ê¹Œì§€ ì¶”ê°€í•œ ìµœì¢… ë¬¸ìì—´ì„ ë§Œë“ ë‹¤.
               if (extraRoadAddr !== '') {
                 extraRoadAddr = ' (' + extraRoadAddr + ')';
               }
-              if (data.userSelectedType === 'R') { // ?‚¬?š©?ê°? ?„ë¡œëª… ì£¼ì†Œë¥? ?„ ?ƒ?–ˆ?„ ê²½ìš°
+              if (data.userSelectedType === 'R') { // ì‚¬ìš©ìê°€ ë„ë¡œëª… ì£¼ì†Œë¥¼ ì„ íƒí–ˆì„ ê²½ìš°
                     addr = data.roadAddress;
-                } else { // ?‚¬?š©?ê°? ì§?ë²? ì£¼ì†Œë¥? ?„ ?ƒ?–ˆ?„ ê²½ìš°(J)
+                } else { // ì‚¬ìš©ìê°€ ì§€ë²ˆ ì£¼ì†Œë¥¼ ì„ íƒí–ˆì„ ê²½ìš°(J)
                     addr = data.jibunAddress;
                 }
-              // ?š°?¸ë²ˆí˜¸?? ì£¼ì†Œ ? •ë³´ë?? ?•´?‹¹ ?•„?“œ?— ?„£?Š”?‹¤.
+              // ìš°í¸ë²ˆí˜¸ì™€ ì£¼ì†Œ ì •ë³´ë¥¼ í•´ë‹¹ í•„ë“œì— ë„£ëŠ”ë‹¤.
               //document.getElementById('zip_code').value = data.zonecode;
               //document.getElementById("set_address").value = roadAddr;
               document.getElementById("set_address").value = addr;

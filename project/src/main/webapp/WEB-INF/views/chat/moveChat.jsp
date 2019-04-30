@@ -12,13 +12,13 @@
 <title>Document</title>
 </head>
 <body>
-	<%@include file="../fixsection/header.jsp"%>
-	<h1>체팅 목록 페이지 !!!!!!</h1>
-
-
-	<%@include file="../fixsection/footer.jsp"%>
-
-
+<script>
+$(document).ready(function() {
+	var pro_num = ${requestScope.pro_num};
+	var m_num = ${requestScope.m_num};
+	window.location.href="http://localhost:3000/doChat?m_num="+m_num+"&pro_num="+pro_num;
+});
+</script>
 </body>
 </html>
 
