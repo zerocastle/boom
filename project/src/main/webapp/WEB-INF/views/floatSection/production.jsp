@@ -29,7 +29,7 @@
 				alt="..." height="300px">
 		</div>
 		<div class="carousel-item">
-			<img src="http://placehold.it/1236x300" class="d-block w-100"
+			<img src="/resources/image/banner/3.jpg" class="d-block w-100"
 				alt="..." height="300px">
 		</div>
 	</div>
