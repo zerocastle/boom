@@ -19,5 +19,8 @@ public interface IProductionService {
 //
 //	// 상품에 대한 맴버 조인
 //	public ProMemberJoinDTO proMemberJoin(int pro_num);
+	
+	// 상품 리스트별로 출력
+	public List<IndexProductionDTO> productionListJoin(String cate_code);
 
 }

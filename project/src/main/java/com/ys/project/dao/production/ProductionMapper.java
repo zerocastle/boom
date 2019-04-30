@@ -16,4 +16,7 @@ public interface ProductionMapper {
 	
 	// 상품에 대한 맴버 조인
 	public ProMemberJoinDTO proMemberJoin(int pro_num);
+	
+	// 인덱스 상품에서 
+	public List<IndexProductionDTO> productionListJoin(String cate_code);
 }

@@ -5,6 +5,7 @@
 <mapper
 	namespace="com.ys.project.dao.production.ProductionMapper">
 
+	<!-- 인덱스 대표 사진 뿌리기 -->
 	<select id="productionJoin"
 		resultType="com.ys.project.projectDTO.IndexProductionDTO">
 
@@ -34,6 +35,16 @@
 		PRODUCTION A , (SELECT * FROM MEMBER) B
 		WHERE A.M_NUM = B.M_NUM AND
 		A.PRO_NUM = #{pro_num}
+	</select>
+
+	<!-- 인덱스에서 상품 리스트로 보기 -->
+	<select id="productionListJoin"
+		resultType="com.ys.project.projectDTO.IndexProductionDTO" parameterType="String">
+		SELECT
+		A.PRO_NUM,A.TITLE,A.PRICE,A.CATE_CODE,A.STATE_MSG,A.PLACE_SIGNAL,A.CREATE_DATE,B.UUID,B.UPLOADPATH,B.FILENAME,B.REP
+		FROM PRODUCTION A , PRODUCTION_UPLOAD B
+		WHERE B.REP = 1 AND CATE_CODE=#{cate_code} AND A.PRO_NUM =
+		B.PRO_NUM
 	</select>
 
 

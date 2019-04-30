@@ -55,4 +55,12 @@ public class ProductionService implements IProductionService {
 		return list;
 	}
 
+	// 상품 카테고리별 상품 출력
+	@Override
+	public List<IndexProductionDTO> productionListJoin(String cate_code) {
+		// TODO Auto-generated method stub
+		log.info("상품 리스트 별로 출력");
+		return mapper.productionListJoin(cate_code);
+	}
+
 }
