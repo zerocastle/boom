@@ -95,7 +95,8 @@
 					+	"</div>"
 					+"</div>"
 					+"</div>"
-					+"</a></li>" ;
+					+"</a></li>" 
+					+"<input type='hidden' value='"+list[j].pro_num+"' class='pro_num' />";
 					array.push(str);
 			}
 			$('.category-product-list').append(array[i]);
@@ -109,7 +110,12 @@
 			window.location.href="/production/index_productList?cate_code="+$('#field1').val();
 		});
 		
-		
+		// 상품 상세보기
+		$('.productNext').click(function(e){
+			e.preventDefault();
+			console.log($(this).parent());
+			window.location.href="/production/index_productView?pro_num="+$(this).parent().next().val(); 
+		});
 		
 		// 콤마찍기 정규 표현식
 		function comma(num) {
