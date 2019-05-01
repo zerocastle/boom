@@ -60,43 +60,47 @@
 		}
 		cate.val(input_cate);
 		
-		// 상품 이름 변경
+		// 상품 대제목 변견
 		$('.main-productList>h3').html(input_cate);
 		
 		//상품 변경하기
 		var productionLength = list.length;
-		console.log(productionLength);
+		var realPath = "${pageContext.request.contextPath}/resources/";
 		
-		var str = "<li><a href='#' class='productNext'>"
-					+ "<div class='product'>"
-			+"<div class='product-img'>"
-			+	"<img src='http://placehold.it/194x194'>"
-			+"</div>"
-			+ "<div class='product-title'>제목</div>"
-			+ "<div class='product-info'>"
-			+	"<div class='product-price'>가격</div>"
-			+	"<div class='product-update-time'>"
-			+		"<div class='time'>업데이트 ex)3분전</div>"
-			+	"</div>"
-			+"</div>"
-			+"<div class='product-location'>"
-			+	"<div class='icon location-md'>"
-			+		"<i class='fa fa-map-marker-alt'></i>지역명"
-			+	"</div>"
-			+"</div>"
-			+"</div>"
-			+"</a></li>" ;
-			var counter = 0;
+		
+		var array = new Array();
+
+			
 		for(var i = 0; i < productionLength; i++){
-			
-			$('.category-product-list').append(str);
-			
-			
-			
+			for(var j = 0; j < productionLength; j++){
+				var str = "<li><a href='#' class='productNext'>"
+					+ "<div class='product'>"
+					+"<div class='product-img'>"
+					+	"<img src='"+realPath+list[j].uploadPath+"/"+list[j].uuid+"_"+list[j].fileName+"' width=194 height=194>"
+					+"</div>"
+					+ "<div class='product-title'>제목 : "+list[j].title+"</div>"
+					+ "<div class='product-info'>"
+					+	"<div class='product-price'>가격 : "+comma(list[j].price)+" 원</div>"
+					+	"<div class='product-update-time'>"
+					+	"</div>"
+					+"</div>"
+					+"<div class='product-location'>"
+					+	"<div class='icon location-md'>"
+					+		"<i class='fa fa-map-marker-alt'></i>"+" "+list[j].addr+""
+					+	"</div>"
+					+"</div>"
+					+"</div>"
+					+"</a></li>" ;
+					array.push(str);
+			}
+			$('.category-product-list').append(array[i]);
 		}
 		
 		
-		
+		// 콤마찍기 정규 표현식
+		function comma(num) {
+			return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
 		
 	})	
 </script>
@@ -119,9 +123,6 @@
 
 
 
-
-<!-- contents 내용 파트 시작-->
-<!--     <div id="wrap" style="background: #f9f9f9; z-index: 4;"> -->
 <div class="main">
 	<div class="productList-div1">
 		<i class="fa fa-home nav_icon"

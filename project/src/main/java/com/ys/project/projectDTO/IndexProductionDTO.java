@@ -19,6 +19,10 @@ public class IndexProductionDTO {
 	private String uploadPath;
 	private String fileName;
 	private int rep;
+	
 	private Timestamp create_date; //상품 리스트에서 추가한 내용
+	
+	private String addr;
+	private String place_pick;
 
 }
