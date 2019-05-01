@@ -16,8 +16,12 @@
 		    return results[2];
 		}
 		
+		//쿼리 스트링 값 들고 오기
 		var cate_code = getParameterByName('cate_code');
+		cate.val(cate_code);
 		
+		
+		// 상품 제목을 바꿔주기 위한 작업 
 	 	switch(cate_code){
 			
 		case "man":
@@ -58,9 +62,9 @@
 			break;
 		
 		}
-		cate.val(input_cate);
 		
-		// 상품 대제목 변견
+		
+		// 상품 대제목 변경
 		$('.main-productList>h3').html(input_cate);
 		
 		//상품 변경하기
@@ -68,9 +72,10 @@
 		var realPath = "${pageContext.request.contextPath}/resources/";
 		
 		
+		// 값 담기위한 작업
 		var array = new Array();
 
-			
+		//돌려 돌려
 		for(var i = 0; i < productionLength; i++){
 			for(var j = 0; j < productionLength; j++){
 				var str = "<li><a href='#' class='productNext'>"
@@ -95,6 +100,15 @@
 			}
 			$('.category-product-list').append(array[i]);
 		}
+		
+		//상품 카테고리별 바꿔주기
+		console.log($('#field1').val());
+		
+		$('#field1').change(function(){
+			//alert("test");
+			window.location.href="/production/index_productList?cate_code="+$('#field1').val();
+		});
+		
 		
 		
 		// 콤마찍기 정규 표현식
@@ -135,18 +149,18 @@
 			style="display: inline-block; margin: 0; padding: 0; width: 150px;">
 			<select class="input form-control pdi-spacing-02" id="field1"
 				name="prof1">
-				<option>여성의류</option>
-				<option>남성의류</option>
-				<option>전자제품</option>
-				<option>가구/인테리어</option>
-				<option>유아용품</option>
-				<option>스포츠/레저</option>
-				<option>게임/취미</option>
-				<option>뷰티/미용</option>
-				<option>생활/가공품</option>
-				<option>반려동물용품</option>
-				<option>도서/티켓/음반</option>
-				<option>기타/잡화</option>
+				<option value="woman">여성의류</option>
+				<option value="man">남성의류</option>
+				<option value="elect">전자제품</option>
+				<option value="furniture">가구/인테리어</option>
+				<option value="baby">유아용품</option>
+				<option value="sport">스포츠/레저</option>
+				<option value="hobby">게임/취미</option>
+				<option value="beauty">뷰티/미용</option>
+				<option value="life">생활/가공품</option>
+				<option value="animal">반려동물용품</option>
+				<option value="book">도서/티켓/음반</option>
+				<option value="ele">기타/잡화</option>
 			</select>
 		</div>
 
@@ -158,142 +172,7 @@
 		<!-- 상품 4개 -->
 		<div>
 			<ul class="category-product-list">
-				<!-- <li><a href="#" id="productNext">
-						<div class="product">
-							<div class="product-img">
-								<img src="http://placehold.it/194x194">
-							</div>
-							<div class="product-title">제목</div>
-							<div class="product-info">
-								<div class="product-price">가격</div>
-								<div class="product-update-time">
-									<div class="time">업데이트 ex)3분전</div>
-								</div>
-							</div>
-							<div class="product-location">
-								<div class="icon location-md">
-									<i class="fa fa-map-marker-alt"></i>지역명
-								</div>
-							</div>
-						</div>
-				</a></li>
-
-				<li><a>
-						<div class="product">
-							<div class="product-img">
-								<img src="http://placehold.it/194x194">
-							</div>
-							<div class="product-title">제목</div>
-							<div class="product-info">
-								<div class="product-price">가격</div>
-								<div class="product-update-time">
-									<div class="time">업데이트 ex)3분전</div>
-								</div>
-							</div>
-							<div class="product-location">
-								<div class="icon location-md">
-									<i class="fa fa-map-marker-alt"></i>지역명
-								</div>
-							</div>
-						</div>
-				</a></li>
-
-				<li><a>
-						<div class="product">
-							<div class="product-img">
-								<img src="http://placehold.it/194x194">
-							</div>
-							<div class="product-title">제목</div>
-							<div class="product-info">
-								<div class="product-price">가격</div>
-								<div class="product-update-time">
-									<div class="time">업데이트 ex)3분전</div>
-								</div>
-							</div>
-							<div class="product-location">
-								<div class="icon location-md">
-									<i class="fa fa-map-marker-alt"></i>지역명
-								</div>
-							</div>
-						</div>
-				</a></li>
-				<li><a>
-						<div class="product">
-							<div class="product-img">
-								<img src="http://placehold.it/194x194">
-							</div>
-							<div class="product-title">제목</div>
-							<div class="product-info">
-								<div class="product-price">가격</div>
-								<div class="product-update-time">
-									<div class="time">업데이트 ex)3분전</div>
-								</div>
-							</div>
-							<div class="product-location">
-								<div class="icon location-md">
-									<i class="fa fa-map-marker-alt"></i>지역명
-								</div>
-							</div>
-						</div>
-				</a></li>
-				<li><a>
-						<div class="product">
-							<div class="product-img">
-								<img src="http://placehold.it/194x194">
-							</div>
-							<div class="product-title">제목</div>
-							<div class="product-info">
-								<div class="product-price">가격</div>
-								<div class="product-update-time">
-									<div class="time">업데이트 ex)3분전</div>
-								</div>
-							</div>
-							<div class="product-location">
-								<div class="icon location-md">
-									<i class="fa fa-map-marker-alt"></i>지역명
-								</div>
-							</div>
-						</div>
-				</a></li>
-
-				<li><a>
-						<div class="product">
-							<div class="product-img">
-								<img src="http://placehold.it/194x194">
-							</div>
-							<div class="product-title">제목</div>
-							<div class="product-info">
-								<div class="product-price">가격</div>
-								<div class="product-update-time">
-									<div class="time">업데이트 ex)3분전</div>
-								</div>
-							</div>
-							<div class="product-location">
-								<div class="icon location-md">
-									<i class="fa fa-map-marker-alt"></i>지역명
-								</div>
-							</div>
-						</div>
-				</a></li>
-				<li><a>
-						<div class="product">
-							<div class="product-img">
-								<img src="http://placehold.it/194x194">
-							</div>
-							<div class="product-title">제목</div>
-							<div class="product-info">
-								<div class="product-price">가격</div>
-								<div class="product-update-time">
-									<div class="time">업데이트 ex)3분전</div>
-								</div>
-							</div>
-							<div class="product-location">
-								<div class="icon location-md">
-									<i class="fa fa-map-marker-alt"></i>지역명
-								</div>
-							</div>
-						</div>
-				</a></li> -->
+				<!-- 애들 들어올자리 -->
 			</ul>
 		</div>
 	</div>
