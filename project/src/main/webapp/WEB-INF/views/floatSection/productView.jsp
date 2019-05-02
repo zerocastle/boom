@@ -10,7 +10,6 @@
 // 상대방 계정 접근
 $(document).ready(function(){
  	$('.nick').click(function(e){  
-
 		 var query = { nick : $('.nick').text()};
 			console.log(query);
 			window.location.href="/member/other/"+$('.nick').text();
@@ -18,6 +17,24 @@ $(document).ready(function(){
  	
  	var result = ${requestScope.productView};
  	console.log(result);
+ 	
+ 	 $('#doChat').click(function(){
+ 		 var temp = "${sessionScope.loginSession.m_num}";
+ 		 if(temp == ""){
+ 			 alert("로인을 먼저 해주세요");
+ 			 return ;
+ 		 }
+ 		var session;
+		var m_num = result[0].ProMemberJoinDTO.m_num;
+		var pro_num = result[0].ProMemberJoinDTO.pro_num;
+		console.log(result[0].ProMemberJoinDTO);
+		if(m_num == temp){
+			alert('해당 판매글을 작성한 판매자 계정입니다, 채팅을 진행 할 수 없습니다.');
+		}
+		else{
+			window.open('/chatting/doChat?m_num='+m_num+'&pro_num='+pro_num, 'doChat', 'width=850,height=600');
+		}
+	}); 
  	
  	// 오른쪽 상품 정보
  	var title = $('.productInfo').children().first();
@@ -118,8 +135,6 @@ $(document).ready(function(){
 	
 	
 });
-
-
 </script>
 
            <div id="floatMenu">
@@ -180,7 +195,7 @@ $(document).ready(function(){
 								
 								<div class="btn">
 									<button class="djim" id="jimclick">찜</button>
-									<button class="djim1">직톡하기</button>
+									<button class="djim1" id="doChat">직톡하기</button>
 								</div>
 							</div>
 						</div>
