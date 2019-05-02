@@ -36,7 +36,7 @@ public class ProductController {
 		
 		List<IndexProductionDTO> dto = service.productionListJoin(cate_code);
 		log.info("값 모가 넘오옮 ? " + dto);
-		model.addAttribute("production",dto);
+		model.addAttribute("production",JSONArray.fromObject(dto));
 		
 		
 		return "/mainIndex/index-productList";
