@@ -1,17 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+    .youcannotseethis {
+        display:none;
+        
+    }
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-
+    <div class='youcannotseethis' id="room_id"><%=room_id%></div>
+    <div class='youcannotseethis' id="seller_num"><%=seller_num%></div>
+    <div class='youcannotseethis' id="buyer_num"><%=buyer_num%></div>
+    <div class='youcannotseethis' id="pro_num"><%=pro_num%></div>
+    <div class='youcannotseethis' id="nickname"><%=nickname%></div>
 </head>
 <body>
     <script>
         $(document).ready(function(){
-            window.location.href = "<%=href%>";
+            //console.log("/roomchat?room_id="+room_id+"&talker=in&seller="+seller_num+"&buyer="+buyer_num+"pro_num="+pro_num);
+            var nickname = $('#nickname').text();
+            sessionStorage.setItem('nickname', nickname);
+            var room_id = $('#room_id').text();
+            var seller_num = $('#seller_num').text();
+            var buyer_num = $('#buyer_num').text();
+            var pro_num = $('#pro_num').text();
+            var urlString = "/roomchat?room_id="+room_id+"&talker=in&seller="+seller_num+"&buyer="+buyer_num+"&pro_num="+pro_num;
+            window.location.href = urlString;
         });
     </script>
 </body>

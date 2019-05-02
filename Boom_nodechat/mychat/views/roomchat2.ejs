@@ -307,6 +307,10 @@ var subDate;
     socket.on('ref', () => {
       window.location.reload();
     });
+    $(window).bind("beforeunload", function (e){
+      socket.emit('leaveRoom', num, name);
+    });
+
     $('#buy').click(function(){
       var tag = $('#pro_data').html();
       $('#messages').append($('<li class="even">').html(name +' : '+tag));//버튼은 상대방에게만 보인다.
@@ -506,6 +510,12 @@ var subDate;
           }).open();
        
       }); }
+
+
+      
+
+
+
 </script>
 
 </body>

@@ -16,7 +16,7 @@
 $(document).ready(function() {
 	var pro_num = ${requestScope.pro_num};
 	var m_num = ${requestScope.m_num};
-	window.location.href="http://localhost:3000/doChat?m_num="+m_num+"&pro_num="+pro_num;
+	window.location.href="http://39.127.7.47:3000/doChat2?m_num="+m_num+"&pro_num="+pro_num;
 });
 </script>
 </body>
