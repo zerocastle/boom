@@ -14,8 +14,8 @@
 	<insert id="insert" parameterType="ProductionVO">
 
 		INSERT INTO
-		PRODUCTION(PRO_NUM,TITLE,PRICE,CONTENT,ADDR,PLACE_PICK,P_QUALITY,CATE_CODE,M_NUM)
-		VALUES(production_seq.nextval,#{title},#{price},#{content},#{addr},#{place_pick},#{p_quality},#{cate_code},#{m_num})
+		PRODUCTION(PRO_NUM,TITLE,PRICE,CONTENT,ADDR,PLACE_PICK,P_QUALITY,CATE_CODE,PLACE_SIGNAL,M_NUM)
+		VALUES(production_seq.nextval,#{title},#{price},#{content},#{addr},#{place_pick},#{p_quality},#{cate_code},#{place_signal},#{m_num})
 		<selectKey keyProperty="pro_num" resultType="int"
 			order="AFTER">
 			SELECT PRODUCTION_SEQ.CURRVAL FROM DUAL

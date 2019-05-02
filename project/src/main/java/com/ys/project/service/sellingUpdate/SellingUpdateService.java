@@ -37,15 +37,23 @@ public class SellingUpdateService implements ISellingUpdateService {
 		return sellingMapper.directPickList();
 	}
 
+	
+	// 상품 등록 하기
 	@Transactional
 	@Override
 	public void insert(ProductionVO productionVO) {
 		// TODO Auto-generated method stub
 
 		log.info("등록하기 ...." + productionVO);
+		String place = productionVO.getPlace_pick();
+		
+		if(place.trim().length() != 0) {
+			productionVO.setPlace_signal(1);
+			System.out.println("직플레이스를 희망 하였기에 값을 1로 바꿈");
+		}
 
-		int result = sellingMapper.insert(productionVO);
-		int pro_num = productionVO.getPro_num();
+		int result = sellingMapper.insert(productionVO); 
+		int pro_num = productionVO.getPro_num(); // 시퀀스 키 값을 들고옴
 		log.info("상품 인선트 반환 값 프로 넘 : " + pro_num);
 		if (productionVO.getUploadVOList() == null || productionVO.getUploadVOList().size() <= 0) {
 
