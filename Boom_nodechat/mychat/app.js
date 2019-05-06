@@ -2,6 +2,8 @@
 /* socket\room_chat\app.js */
 var express = require('express'); // express 서버 import
 var app = express(); // 서버 객체 생성
+var cors = require('cors'); // 채팅앱을 위한 설정 -상세내용 http://guswnsxodlf.github.io/enable-CORS-on-express
+app.use(cors());            //                  -상세내용2 https://forums.adobe.com/thread/2197794
 const http = require('http').Server(app); // http 통신규약 import
 const io = require('socket.io')(http); // socket.io import
 var redis = require("redis"); //redis import
