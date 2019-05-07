@@ -1,8 +1,11 @@
 package com.ys.project.dao.member;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.ys.project.projectVO.MemberVO;
+import com.ys.project.projectVO.ProductionReviewVO;
 
 public interface IMemberDao {
 	
@@ -21,4 +24,18 @@ public interface IMemberDao {
 	//회원수정
 	public void memberUpdate(MemberVO vo) throws Exception;
 
+	//상점후기 데이터
+	public List<ProductionReviewVO> getReviewData(MemberVO member) throws Exception;
+
+	public List<ProductionReviewVO> getReviewData2(String data) throws Exception;
+
+	public List<ProductionReviewVO> getPagingList(ProductionReviewVO pv) throws Exception;
+
+	public List<ProductionReviewVO> scrollPaging(String nickname) throws Exception;
+
+	public List<ProductionReviewVO> infiniteScrollDown(Map map) throws Exception;
+
+	int getPagingListCount(int i) throws Exception;
+
+	public int usingData(String data) throws Exception;
 }

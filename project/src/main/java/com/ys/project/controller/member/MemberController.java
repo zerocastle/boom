@@ -1,28 +1,33 @@
 package com.ys.project.controller.member;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ys.project.projectVO.MemberVO;
+import com.ys.project.projectVO.PageVO;
+import com.ys.project.projectVO.PartnerVO;
+import com.ys.project.projectVO.ProductionReviewVO;
 import com.ys.project.service.member.IMemberService;
 
 import lombok.AllArgsConstructor;
@@ -51,17 +56,17 @@ public class MemberController {
 		System.out.println("뭐가 넘어 왔냐 ? " + vo);
 
 		HttpSession session = request.getSession();
-		
+
 		JSONObject object = new JSONObject();
 		vo = service.loginMember(vo);
 		if (vo != null) {
 			session.setAttribute("loginSession", vo);
 			object.put("signal", "success");
-			object.put("nickname",vo.getNickname());
+			object.put("nickname", vo.getNickname());
 			return object.toString();
 		} else {
 			System.out.println("========================띠발띠발 띠발========");
-			object.put("signal","fail");
+			object.put("signal", "fail");
 			return object.toString();
 		}
 
@@ -110,9 +115,9 @@ public class MemberController {
 
 	}
 
-	// 마이페이지 , // 해당 세션의 닉네임 정보 조회
+	// 마이페이지 , // 해당 세션의 닉네임 정보 조회 , // 닉네임으로 상점 후기 정보 데이터 추출
 	@RequestMapping(value = "myPage", method = RequestMethod.GET)
-	public String myPage(Model model, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
+	public String myPage(Model model, Model model2, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
 
 		HttpSession session = request.getSession();
 		MemberVO member = (MemberVO) session.getAttribute("loginSession"); // 로그인된 세션의 닉네임
@@ -120,16 +125,22 @@ public class MemberController {
 		logger.info("현재 세션의 정보 : " + member);
 
 		model.addAttribute("member", member);
+		int num = member.getM_num();
+		//--페이징 처리
+	    int totalCount = service.getPagingListCount(num); //게시물 총갯수를 구한다
+	    PageVO pv = new PageVO();
+	    pv.setTotalCount(totalCount); //페이징 처리를 위한 setter 호출
+	    model.addAttribute("pv", pv.getTotalCount());
+	    logger.info("totalCount // 게시 글 전체 수 : " + totalCount);
 
 		System.out.println("마이 페이지 : member/myPage");
 
 		return "myPage/myPage";
 	}
 
-	
-	// post 데이터 수정 
+	// post 데이터 수정
 	@RequestMapping(value = "myPage", method = RequestMethod.POST)
-	@ResponseBody
+	@ResponseBody 
 	public MemberVO memberUpdate(Model model, @RequestBody MemberVO vo, HttpServletRequest request,
 			RedirectAttributes rttr) throws Exception {
 
@@ -145,46 +156,84 @@ public class MemberController {
 
 		return vo;
 	}
-	
-	// 타인 페이지
-	@RequestMapping(value = "other/"+"{data}", method = RequestMethod.GET)
-	public String otherGET(Model model , @PathVariable String data) throws Exception {
-		
-		MemberVO member = service.nickNameCheck(data);
 
-		model.addAttribute("other",member);
-		 
-		return "/myPage/other"; 
+
+
+	// 타인 페이지
+	@RequestMapping(value = "other/" + "{data}", method = RequestMethod.GET)
+	public String otherGET(Model model, @PathVariable String data) throws Exception {
+
+		MemberVO member = service.nickNameCheck(data);
+		System.out.println("otherPage : "+member);
+		model.addAttribute("other", member);
+		int num = member.getM_num();
+		
+		  //--페이징 처리
+	    int totalCount = service.getPagingListCount(num); //게시물 총갯수를 구한다
+	    PageVO pv = new PageVO();
+	    pv.setTotalCount(totalCount); //페이징 처리를 위한 setter 호출
+	    model.addAttribute("pv", pv.getTotalCount());
+	    logger.info("totalCount // 게시 글 전체 수 : " + totalCount);
+		
+		return "/myPage/other";
 
 	}
+	
+	// review 페이지
+		@RequestMapping(value = "review/" + "{data}", method = RequestMethod.GET)
+		public String otherReviewGET(Model model, @PathVariable String data, @ModelAttribute("ProductionReviewVO") ProductionReviewVO pv) throws Exception {
+			int usingData = service.usingData(data);
+			
+			if(usingData == 1) {
+			MemberVO member = service.nickNameCheck(data);
+			System.out.println("otherPage : "+member);
+			model.addAttribute("other", member);
+			int num = member.getM_num();
+			
+			  //--페이징 처리
+		    int totalCount = service.getPagingListCount(num); //게시물 총갯수를 구한다
+		    pv.setM_num(num);
+		    pv.setTotalCount(totalCount); //페이징 처리를 위한 setter 호출
+		    model.addAttribute("pageVO", pv);
+		    //--페이징 처리
+		  
+		    List<ProductionReviewVO> reviewList = service.getPagingList(pv);
+		    model.addAttribute("resultList", reviewList);
+		    	return "/myPage/review";
+			}
+			else{
+				return "/myPage/notReview";
+			}
+			
 
-	@CrossOrigin(maxAge = 3600)
-	   @ResponseBody
-	   @RequestMapping(value = "mlogin", method = RequestMethod.POST)
-	   public String mlogin(Model model, @RequestBody Map<String, String> map) throws Exception {
-	      //JSONParser parser;
-	      //parser=new JSONParser();
-//	      Object a =parser.parse(param);
-//	      JSONObject jsonobj=(JSONObject) a;
-//	      String nickname=(String)jsonobj.get("nickname");
-//	      String m_password=(String)jsonobj.get("m_password");
+		}
 		
 		
-//	      System.out.println(nickname + m_password);
-//	      System.out.println("mlogin");
-	      // Map<String, String> map = new HashMap<String, String>();
-	      //JSONObject hh = (JSONObject) parser.parse(param);
-	      //logger.info("닉네임 : " + param);
-		logger.info("닉네임 : sdsdddddddddddddddddddddddddddddddddddddddddddd" + map);
-	      String name = (String) map.get("nickname");
-	      MemberVO member = service.nickNameCheck(name);
-	      logger.info("닉네임 : sdsdddddddddddddddddddddddddddddddddddddddddddd" + member);
-	      /*
-	       * if (nickName == null) { map.put("signal", "SUCCESS"); } else
-	       * map.put("signal", "fail");
-	       */
-	      return "ok";
-	   }
+	@RequestMapping(value = "test", method = RequestMethod.GET)
+	public String gettest(Model model) throws Exception {
+		
+		String nickname = "지다빈";
+		
+		List<ProductionReviewVO> list = service.scrollPaging(nickname);
+		model.addAttribute("review",list);
+		return "myPage/test";
+
+	}
+	
+	@RequestMapping(value = "test", method = RequestMethod.POST)
+	@ResponseBody
+	public List<ProductionReviewVO> posttest(@RequestBody ProductionReviewVO vo) throws Exception {
+		
+		String nick = "지다빈";
+		MemberVO vo2 = new MemberVO();
+		vo2.setNickname(nick);
+		vo2.getNickname();
+		Integer prnum = vo.getPr_num()-1;
+		Map map = new HashMap();
+		map.put("pr_num",prnum);
+		map.put("nickname",vo2.getNickname());
+		return service.infiniteScrollDown(map);
+	}
 	
 	
 
