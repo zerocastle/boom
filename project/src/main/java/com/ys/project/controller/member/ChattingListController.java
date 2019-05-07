@@ -63,7 +63,7 @@ public class ChattingListController {
 			 
 		   System.out.println(">>>>> has : " + redisTemplate.hasKey("user"));// key 존재하면 TRUE 없으면FALSE 
 		   redisTemplate.opsForValue().set("user", user);    // "user"라는 키값,user.name이라는 valuer값
-		   String value = redisTemplate.opsForValue( ).get("user");   
+		   String value = redisTemplate.opsForValue().get("user");   
 		   
 		   System.out.println(">>>>> redis value :" + value);
 		logger.info("클릭된 상품정보로 채팅방 생성하고 바로 채팅방입장");} 

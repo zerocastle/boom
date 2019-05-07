@@ -169,6 +169,18 @@
 				<option value="ele">기타/잡화</option>
 			</select>
 		</div>
+		
+		<!-- 상품 정렬 -->
+		<div class="col-sm-3"
+			style="display: inline-block; margin: 0; padding: 0; width: 150px;">
+			<select class="input form-control pdi-spacing-02" id="field2"
+				name="prof1">
+				<option value="down">낮은 가격 순</option>
+				<option value="up">높은 가격 순</option>
+				<option value="recent">최근 올라온 상품</option>
+				<option value="chat">인가상품</option>
+			</select>
+		</div>
 
 	</div>
 
