@@ -74,7 +74,6 @@
 		
 		// 값 담기위한 작업
 		var array = new Array();
-
 		//돌려 돌려
 		for(var i = 0; i < productionLength; i++){
 			for(var j = 0; j < productionLength; j++){
@@ -140,6 +139,7 @@
 		<button class="top2" onclick="goTop()">TOP</button>
 	</div>
 </div>
+
 
 
 

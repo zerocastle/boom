@@ -101,7 +101,6 @@
 
 
 				</div>
-
 				<div class="bb">
 					<h1 class="h2">상품등록</h1>
 					<form id="proRegi" method="post" enctype="multipart/form-data"
@@ -190,7 +189,8 @@
 
 <script>
 	$(function() {
-
+		let check = ['|대표사진| ','|제목| ','|설명| ', '|가격| ', '|거래지역| '];//미작성된 부분 알려주기 위해. 작성이 된다면 작성된 부분은 ''으로 변경됨.
+		
 		// 상품 이미지 업로드 부분
 		var formObj = $("form[role='form']");
 		// 전송 버튼
@@ -200,6 +200,29 @@
 						function(e) {
 							e.preventDefault();
 							console.log("submit clicked");
+							var check_msg = '';
+							
+							
+							if($('#title').val()!=''){//제목이 있다면 에러메시지 없앤다.
+								check[1] = '';	
+							}if($('#content').val()!=''){//내용이 있다면 에러메시지 없앤다.
+								check[2] = '';
+							}if($('#price').val()!=''){//가격이 있다면 에러메시지 없앤다.
+								check[3] = '';
+							}if($('#sample4_jibunAddress').val()!=''){//주소가 있다면 에러메시지 없앤다.
+								check[4] = '';
+							}
+							
+							for(var i = 0; i < check.length; i++){//에러메시지들을 통합한다.
+								check_msg += check[i];
+							}
+							console.log(check_msg);
+							if(check_msg!=''){//만약 에러메시지가 남아있다면
+								alert('다음 요소들을 작성해 주시길 바랍니다. \n ' + check_msg);//에러메시지 보여주기.
+								return false;
+							}
+							
+							
 							var str = "";
 							$(".uploadResult ul li")
 									.each(
@@ -280,15 +303,20 @@
 			var formData = new FormData();
 
 			var inputFile = $("input[name='uploadFile']");
-
 			var files = inputFile[0].files; // 첫번째 태그 들고온거에 파일을 files에 넣어준다.
 			console.log(files);
-
+			console.log(files.length);
+			
+			if(parseInt(files.length) > 5){//업로드할 파일이 5개를 초과한다면
+				alert('이미지 5장 초과 불과입니다.');
+				inputFile.wrap('<form>').closest('form').get(0).reset(); //<input type='file'>에 담긴 파일정보 리셋.
+				return false;
+			}
+			
 			for (var i = 0; i < files.length; i++) {
 				if (!checkExtension(files[i].name, files[i].size)) {
 					return false;
 					// 함수 적용 해서  체크 해보고 반환값이 true 가 아니면 return false;
-
 				}
 				formData.append("uploadFile", files[i]); //폼 데이터에 uploadFile 네임값 즉 input 태그를 여러개 formdata에 붙친다.
 			}
@@ -312,9 +340,7 @@
 
 		var uploadResult = $(".uploadResult ul"); //결과가 들어갈 부분
 		function showUploadedFile(uploadResultArr) {
-
 			var str = "";
-
 			$(uploadResultArr)
 					.each(
 							function(i, obj) {
@@ -364,6 +390,7 @@
 			uploadResult.append(str);
 			// 대표 사진 정하기 속성명,속성값
 			$(".hi").click(function() {
+				check[0] = ''; 
 				var choice = $(this).parent();
 				console.log(choice);
 				var targetTemp = choice.find("img").clone();
@@ -372,6 +399,7 @@
 				result.attr("data-rep", "1");
 				result.empty();
 				result.append(target);
+				
 
 			})
 		}

@@ -77,6 +77,7 @@
 			}
 		}).open();
 	}
+	
 </script>
 
 
@@ -92,7 +93,7 @@
 					method="post">
 					<fieldset>
 						<div>
-							<label for="store"></label> <input type="text" id="part_name"
+							<label for="store"></label> <input type="text" id="part_name" maxlength="10"
 								name="part_name" placeholder="점포명을 정확히 입력해주세요" required>
 							<span class="store"> <i class="fas fa-store"></i>
 							</span>
@@ -110,7 +111,7 @@
 
 
 						<div>
-							<label for="name"></label> <input type="text" id="boss_name"
+							<label for="name"></label> <input type="text" id="boss_name" maxlength="7"
 								name="boss_name" placeholder="대표자 성명을 입력해주세요" required>
 							<span class="name"> <i class="fas fa-user"></i>
 							</span>
@@ -127,11 +128,11 @@
 
 						<div>
 							<label for="home"></label> <input type="text" id="zip_code"
-								name="zip_code" placeholder="우편번호" required> <input
+								name="zip_code" placeholder="우편번호" required disabled> <input
 								type="text" id="road_name" name="road_name" placeholder="도로명주소"
-								required> <input type="text" id="addr" name="addr"
-								placeholder="지번주소" required> <input type="text"
-								id="detail_addr" name="detail_addr" placeholder="상세주소">
+								required disabled> <input type="text" id="addr" name="addr"
+								placeholder="지번주소" required disabled> <input type="text"
+								id="detail_addr" name="detail_addr" maxlength="20" placeholder="상세주소">
 							<span class="home"> <i class="fas fa-home"></i>
 							</span>
 
@@ -149,12 +150,34 @@
 	</div>
 	<script>
 		$(function() {
+			let check = ['점포명  ', '사업자등록번호  ', '대표자성명  ', '전화번호  ', '우편번호 및 주소  '];
 			var target = $('#form')
-			$('#submit').click(function(e) {
-				console.log(target);
+			$('#submit').on('click',function(e) {
+				e.preventDefault();
+				console.log(target, 'submit 클릭됨 ㅎ');
+				
+				if($('#part_name').val()!=''){
+					check[0]='';
+				}if($('#company_number').val()!=''){
+					check[1]='';
+				}if($('#boss_name').val()!=''){
+					check[2]='';
+				}if($('#part_phone').val()!=''){
+					check[3]='';
+				}if($('#zip_code').val()!=''){
+					check[4]='';
+				}
+				if(check.toString != ''){
+					alert('다음 요소들을 작성해 주시길 바랍니다. \n ' + check.toString());	
+					return false;
+				}
+				
+				
+				
+				
 				target.submit();
 				alert("가입완료");
-
+				
 				$.ajax({
 					url : "/partner/partnerPage",
 					success : function(data) {
