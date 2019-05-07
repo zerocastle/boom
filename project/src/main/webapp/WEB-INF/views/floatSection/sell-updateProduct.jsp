@@ -308,7 +308,7 @@
 			console.log(files.length);
 			
 			if(parseInt(files.length) > 5){//업로드할 파일이 5개를 초과한다면
-				alert('이미지 5장 초과 불과입니다.');
+				alert('이미지는 최대 5장 등록가능합니다.');
 				inputFile.wrap('<form>').closest('form').get(0).reset(); //<input type='file'>에 담긴 파일정보 리셋.
 				return false;
 			}
