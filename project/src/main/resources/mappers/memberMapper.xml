@@ -48,6 +48,51 @@
 	<delete id="memberDelete">
 		DELETE FROM MEMBER WHERE NICKNAME = #{nickname}
 	</delete>
+	
+	<select id="pagingListCount" parameterType="int" resultType="int">
+    	SELECT COUNT(*)  FROM PRODUCTIONREVIEW WHERE M_NUM = #{m_num}
+	</select>
+	
+	<select id="pagingReivewList" parameterType="ProductionReviewVO" resultType="ProductionReviewVO">
+    	SELECT 
+	        A.PR_NUM, A.STARPOINT, A.REPLY, A.REPLYER, A.CREATE_DATE, A.M_NUM
+	    FROM (
+	
+	        SELECT ROWNUM RNUM, S.*
+	
+	        FROM (
+	            SELECT PR_NUM, STARPOINT, REPLY, REPLYER, CREATE_DATE, M_NUM
+	
+	            FROM PRODUCTIONREVIEW
+	
+	            WHERE 1=1 AND M_NUM = #{m_num}
+	            ORDER BY PR_NUM DESC
+	        )S
+	    )A 
+		WHERE RNUM BETWEEN #{startRowNo} AND #{endRowNo}
+	</select>
 
-
+	<select id="scrollPaging" parameterType="string" resultType="ProductionReviewVO">
+	<![CDATA[
+		SELECT * FROM
+			(SELECT * FROM PRODUCTIONREVIEW
+				WHERE PR_NUM > 0 AND M_NUM = 
+				(SELECT M_NUM FROM MEMBER WHERE NICKNAME = #{nickname})
+			ORDER BY PR_NUM DESC , CREATE_DATE DESC) 
+		WHERE ROWNUM <= 10
+	]]>
+	</select>
+	
+	<select id="infiniteScrollDown" parameterType="hashmap" resultType="ProductionReviewVO">
+	<![CDATA[
+		SELECT * FROM (SELECT * FROM PRODUCTIONREVIEW
+		WHERE PR_NUM <= #{pr_num} AND PR_NUM > #{pr_num}-10 AND M_NUM = (SELECT M_NUM FROM MEMBER WHERE NICKNAME = #{nickname})
+		ORDER BY PR_NUM DESC , CREATE_DATE DESC)
+	]]>
+	</select>
+	
+	<select id="usingData" resultType="int">
+		SELECT COUNT(NICKNAME) FROM MEMBER WHERE NICKNAME = #{nickname}
+	</select>
+	
 </mapper>

@@ -29,7 +29,8 @@
 }
 .other-info{
 	border: 1px solid #6d767f;
-	margin-top: 45px; 	
+	margin-top: 45px; 
+	height: 400px;	
 }
 .other-profile1{
 	/* border-bottom: 1px solid black; */
@@ -39,7 +40,7 @@
 }
 .other-profile2{
 	/* border: 1px solid black; */
-	/* height: 250px; */
+	height: 250px;
 }
 .other-profile2-left{
 	border-right: 1px solid #6d767f;
@@ -83,13 +84,12 @@
 
 .other-manner-top{
 	text-align: center;
-	border-bottom: 0.1px solid #6d767f;
 }
 .other-manner-bottom{
 	text-align: center;
 }
 .line{
-	border-top : 0.1px solid #6d767f;
+	border-top: 0.1px solid #6d767f;
 }
 .product-title-line{
 	border-bottom: 0.1px solid #6d767f;
@@ -97,51 +97,4 @@
 }
 .btn{
 	width: 300px;
-}
-
-.updateDiv{
-	text-align: center;
-}
-
-#acc_name2{
-	display:none;
-}
-
-#phone2{
-	display:none;
-}
-
-#nickname2{
-	display: none;
-	height: 30px;
-	text-align: center;
-}
-#email2{
-	display:none;
-}
-#acc_num2{
-	display: none;
-}
-#intro2{
-	display:none;
-}
-.infoInput{
-	width: 170px;
-	height: 30px;
-	text-align: center;
-}
-#intro{
-	 height: 100px;
-}
-.introDiv{
-	display:inline-block;
-}
-
-.updateDiv2{
-	display:none;
-	text-align: center;
-}
-
-#acc_name{
-	text-align: center;
 }
