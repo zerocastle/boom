@@ -16,6 +16,42 @@ $(document).ready(function(){
 		e.preventDefault();
 		window.location.href = "/member/review/"+'${data}'
 	});
+	
+	var searchNick = $('#searchNick').val();
+
+	$('#searchBtn').click(function(e) {
+		e.preventDefault();
+		window.location.href = "/member/review/"+$('#searchNick').val();
+	});
+	
+	var jack = ${other.manner};
+	function startFoo() {
+	     var opts = {
+	         angle: 0.15, // The span of the gauge arc
+	         lineWidth: 0.44, // The line thickness
+	         radiusScale: 1, // Relative radius
+	         pointer: {
+	            length: 0.51, // // Relative to gauge radius
+	            strokeWidth: 0.077, // The thickness
+	            color: '#000000' // Fill color
+	         },
+	         limitMax: false,     // If false, max value increases automatically if value > maxValue
+	         limitMin: false,     // If true, the min value of the gauge will be fixed
+	         colorStart: '#f70000',   // Colors
+	         colorStop: '#f70000',    // just experiment with them
+	         strokeColor: '#E0E0E0',  // to see which ones work best for you
+	         generateGradient: true,
+	         highDpiSupport: true,     // High resolution support
+
+	     };
+	      var target = document.getElementById('foo'); // your canvas element
+	      var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+	      gauge.maxValue = 100; // set max gauge value
+	      gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+	      gauge.animationSpeed = 49; // set animation speed (32 is default value)
+	      gauge.set(jack); // set actual value
+	   }
+	   startFoo();
 });
 </script>
 
@@ -196,5 +232,4 @@ $(document).ready(function(){
 	</div>
 </div>
 
-<script src="/resources/customJs/mypage-info.js"></script>
 <script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>

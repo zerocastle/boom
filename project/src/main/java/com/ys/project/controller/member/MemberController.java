@@ -135,7 +135,7 @@ public class MemberController {
 
 		System.out.println("마이 페이지 : member/myPage");
 
-		return "myPage/myPage";
+		return "/myPage/myPage";
 	}
 
 	// post 데이터 수정
