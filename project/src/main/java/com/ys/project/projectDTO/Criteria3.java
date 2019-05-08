@@ -6,11 +6,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-/* 내가 올린 상품 리스트 */
+/* 상품 리스트  */
 @Getter
 @Setter
 @ToString
-public class Criteria2 {
+public class Criteria3 {
 
 	private int pageNum; // 현제 페이지
 	private int amount; //보여줄 페이지 양
@@ -18,11 +18,11 @@ public class Criteria2 {
 	private String type;
 	private String keyword;
 
-	public Criteria2() {
-		this(1, 6);
+	public Criteria3() {
+		this(1, 12);
 	}
 
-	public Criteria2(int pageNum, int amount) {
+	public Criteria3(int pageNum, int amount) {
 		this.pageNum = pageNum;
 		this.amount = amount;
 	}

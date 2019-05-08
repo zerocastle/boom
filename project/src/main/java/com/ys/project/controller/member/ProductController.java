@@ -10,11 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ys.project.projectDTO.Criteria3;
 import com.ys.project.projectDTO.IndexProductionDTO;
 import com.ys.project.service.production.IProductionService;
-import com.ys.project.service.production.ProductionService;
 
 import lombok.AllArgsConstructor;
 import net.sf.json.JSONArray;
@@ -30,7 +29,7 @@ public class ProductController {
 
 	// 상품목록으로 이동
 	@RequestMapping(value = "/index_productList", method = RequestMethod.GET)
-	public String productList(Model model , String cate_code) {
+	public String productList(Model model , String cate_code , Criteria3 cri) {
 
 		log.info("상품목록로 이동 한다.");
 		
