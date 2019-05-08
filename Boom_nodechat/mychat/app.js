@@ -172,6 +172,7 @@ app.get('/roomchat', (req, res) => {//목록중 하나를 클릭하였을때 실
   seller = req.query.seller;
   buyer = req.query.buyer;
   pro_num = req.query.pro_num;
+  mobile = req.query.mobile;//접속경로가 모바일이라면 render()가 아니라 데이터만 전달한다.
   console.log('roomchat 쿼리스트링받아옴........................................................');
   if(req.session.nickname==undefined){//세션에 닉네임이 없다면 실행
     console.log('뭐이');
@@ -180,9 +181,23 @@ app.get('/roomchat', (req, res) => {//목록중 하나를 클릭하였을때 실
     testdata=val;
     req.session.nickname = val;//세션의 nickname 변수에 redis객체에서 받아온 값을 넣어준다.
     if(err){
-      res.render('tomson');//닉네임이 비었다면 에러처리페이지인 tomson.ejs로 이동한다.
+      console.log('웰컴!225웰컴!' , err)
+      if(mobile==0) {
+        console.log('웹접속이지만 닉이 없다.!');
+        res.render('tomson');//닉네임이 비었다면 에러처리페이지인 tomson.ejs로 이동한다.
+      }
+      else {
+        console.log('모바일접속!');
+        req.session.nickname='Anonymous-Mobile-Guest'//
+      }
+    
+    }else{//에러가 아니라면
+      console.log('html이면1 ejs면0');
+      console.log(mobile);
+      req.session.nickname='Anonymous-Mobile-Guest';//아직까진 폰접속은 무조건 익명임
+      console.log('왜 형이 여기서 나와?' , req.session.nickname);
     }});
-  }else{
+  }if(true){
       console.log("방에 입장 :", req.session)//request객체의 세션값 읽음
       console.log("입장한 닉네임 :", req.session.nickname)//세션의 nickname변수에 저장된 값을 찍어본다.
       if(status== undefined){
@@ -229,7 +244,16 @@ app.get('/roomchat', (req, res) => {//목록중 하나를 클릭하였을때 실
         }else{//정상작동시
           console.log("result: ",result.rows);
           //roomchat2.ejs 로 이동한다. //이동할때 key:value형태로 쿼리결과, 세션의 닉네임, 방번호를 전달한다. 
-          res.render('roomchat2',{result:JSON.stringify(result), nickname:req.session.nickname, roomid:sRoom ,rstatus : status, datetime : c_datetime, address : c_address, seller : seller, buyer : buyer, pro_num : pro_num, pro_data : JSON.stringify(sendData) });// 방에다가 던져주자
+          if(mobile==0){
+            res.render('roomchat2',{result:JSON.stringify(result), nickname:req.session.nickname, roomid:sRoom ,rstatus : status, datetime : c_datetime, address : c_address, seller : seller, buyer : buyer, pro_num : pro_num, pro_data : JSON.stringify(sendData) });// 방에다가 던져주자
+          } else {
+            console.log('');
+            console.log('');
+            console.log(sendData);
+            console.log('');
+            console.log('');
+            res.send({result:JSON.stringify(result), nickname:'Anonymous-Mobile-Guest', roomid:sRoom ,rstatus : status, datetime : c_datetime, address : c_address, seller : seller, buyer : buyer, pro_num : pro_num, pro_data : JSON.stringify(sendData) });
+          }
         }
         });
       }
@@ -547,12 +571,6 @@ socket.on('addressYes', (addressP,num)=> {//일정수락 신호가 온다면
 socket.on('chat message phone', (num, name, msg) => {
   console.log(name + ' ('+num+'): ' + msg);
   io.to(num).emit('chat message phone', name, msg);//해당 방에 이름과 메시지를 전송
-});
-socket.on('phoneIn', (num, name) => {
-  socket.join(num, () => {//socket의 방 배열 중 num번째 방에 입장한다.
-    console.log(name + ' join a ' + num);
-    io.to(num).emit('phoneIn', num, name);//입장한 방에 입장신호를 보낸다.
-  });
 });
 
 

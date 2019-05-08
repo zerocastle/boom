@@ -183,47 +183,7 @@
 
 				<!-- 값 뿌리는거 -->
 				<div class="pro-div1" id="content">
-					<div class="pro-title1">test</div>
-					<div class="pro-img1">test</div>
-					<div class="pro-status1">test</div>
-					<div class="pro-price1">test</div>
-					<div class="pro-category1">test</div>
-					<button class='button'>삭제</button>
-
-					<div class="pro-title1">test</div>
-					<div class="pro-img1">test</div>
-					<div class="pro-status1">test</div>
-					<div class="pro-price1">test</div>
-					<div class="pro-category1">test</div>
-					<button class='button'>삭제</button>
-
-					<div class="pro-title1">test</div>
-					<div class="pro-img1">test</div>
-					<div class="pro-status1">test</div>
-					<div class="pro-price1">test</div>
-					<div class="pro-category1">test</div>
-					<button class='button'>삭제</button>
-
-					<div class="pro-title1">test</div>
-					<div class="pro-img1">test</div>
-					<div class="pro-status1">test</div>
-					<div class="pro-price1">test</div>
-					<div class="pro-category1">test</div>
-					<button class='button'>삭제</button>
-
-					<div class="pro-title1">test</div>
-					<div class="pro-img1">test</div>
-					<div class="pro-status1">test</div>
-					<div class="pro-price1">test</div>
-					<div class="pro-category1">test</div>
-					<button class='button'>삭제</button>
-
-					<div class="pro-title1">test</div>
-					<div class="pro-img1">test</div>
-					<div class="pro-status1">test</div>
-					<div class="pro-price1">test</div>
-					<div class="pro-category1">test</div>
-					<button class='button'>삭제</button>
+					
 
 				</div>
 
