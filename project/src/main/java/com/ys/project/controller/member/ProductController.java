@@ -30,10 +30,9 @@ public class ProductController {
 
 	// 상품목록으로 이동
 	@RequestMapping(value = "/index_productList", method = RequestMethod.GET)
-	public String productList(Model model , String cate_code , Criteria3 cri3) {
+	public String productList(Model model , String cate_code , Criteria3 cri3 , String order) {
 
 		log.info("상품목록로 이동 한다.");
-		String order = "desc";
 		int pageNum = cri3.getPageNum();
 		int amount = cri3.getAmount();
 		

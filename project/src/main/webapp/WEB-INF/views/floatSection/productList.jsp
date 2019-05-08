@@ -5,7 +5,8 @@
 		var list = ${requestScope.production};
 		console.log(list);
 		var input_cate;
-		var cate=$('#field1');
+		var cate=$('#field1'); // 필드값 1 바꿔주기
+		var order=$('#field2'); // 필드값 2 바꿔주기
 		// 쿼리 스트링 가져오는 정규 표현식
 		function getParameterByName(name, url) {
 		    if (!url) url = window.location.href;
@@ -18,6 +19,7 @@
 		//쿼리 스트링 값 들고 오기
 		var cate_code = getParameterByName('cate_code');
 		cate.val(cate_code);
+		
 		// 히든에다가 갑 넣기
 		$('#actionForm>input:eq(2)').val(cate_code);
 		
@@ -110,6 +112,17 @@
 			window.location.href="/production/index_productList?cate_code="+$('#field1').val();
 		});
 		
+		// 상품 가격 순 정렬
+		$('#field2').change(function(){
+			alert("바꿔준다");
+		
+			$('#actionForm>input:eq(3)').val("desc");
+			$('#field2').val("desc");	
+			$('#actionForm').submit();
+			
+
+		})
+		
 		// 상품 상세보기
 		$('.productNext').click(function(e){
 			e.preventDefault();
@@ -125,9 +138,8 @@
 		// 페이징 넘기기
 		var actionForm = $("#actionForm");
 		$(".page-item a").on("click", function(e) {
-
+			 
 			e.preventDefault();
-
 			console.log('click');
 
 			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
@@ -188,9 +200,9 @@
 		<div class="col-sm-3"
 			style="display: inline-block; margin: 0; padding: 0; width: 150px;">
 			<select class="input form-control pdi-spacing-02" id="field2"
-				name="prof1">
-				<option value="down">낮은 가격 순</option>
-				<option value="up">높은 가격 순</option>
+				name="order">
+				<option value="asc">낮은 가격 순</option>
+				<option value="desc">높은 가격 순</option>
 			</select>
 		</div>
 
@@ -236,6 +248,7 @@
 	<input type="hidden" name="pageNum" value='${pageMaker.cri3.pageNum}' />
 	<input type="hidden" name="amount" value='${pageMaker.cri3.amount}' />
 	<input type="hidden" name="cate_code" value=""/>
+	<input type="hidden" name="order" value=""/>
 </form>
 <!--  end Pagination -->
 
