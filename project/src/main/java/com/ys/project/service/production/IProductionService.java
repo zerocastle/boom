@@ -26,10 +26,15 @@ public interface IProductionService {
 	public List<IndexProductionDTO> productionListJoin(String cate_code);
 	
 	// 상품 리스트 정렬
-		public List<IndexProductionDTO> sort(@Param("order") String order,
+	public List<IndexProductionDTO> sort(@Param("order") String order,
 				@org.apache.ibatis.annotations.Param("cate_code") String cate_code,
 				@org.apache.ibatis.annotations.Param("pageNum") int pageNum,
 				@org.apache.ibatis.annotations.Param("amount") int amount
 				);
+	
+	// 상품 갯수 들고오기
+	public int getTotalCount(String cate_code);
+		
+	
 
 }

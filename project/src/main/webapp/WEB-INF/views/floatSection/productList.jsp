@@ -6,7 +6,6 @@
 		console.log(list);
 		var input_cate;
 		var cate=$('#field1');
-		
 		// 쿼리 스트링 가져오는 정규 표현식
 		function getParameterByName(name, url) {
 		    if (!url) url = window.location.href;
@@ -19,7 +18,8 @@
 		//쿼리 스트링 값 들고 오기
 		var cate_code = getParameterByName('cate_code');
 		cate.val(cate_code);
-		
+		// 히든에다가 갑 넣기
+		$('#actionForm>input:eq(2)').val(cate_code);
 		
 		// 상품 제목을 바꿔주기 위한 작업 
 	 	switch(cate_code){
@@ -122,6 +122,20 @@
 			return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		}
 		
+		// 페이징 넘기기
+		var actionForm = $("#actionForm");
+		$(".page-item a").on("click", function(e) {
+
+			e.preventDefault();
+
+			console.log('click');
+
+			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+			actionForm.submit();
+		});
+		
+		
+		
 	})	
 </script>
 
@@ -169,7 +183,7 @@
 				<option value="ele">기타/잡화</option>
 			</select>
 		</div>
-		
+
 		<!-- 상품 정렬 -->
 		<div class="col-sm-3"
 			style="display: inline-block; margin: 0; padding: 0; width: 150px;">
@@ -193,5 +207,37 @@
 		</div>
 	</div>
 </div>
+
+<div class='pull-center'>
+	<ul class="pagination justify-content-center">
+
+
+		<c:if test="${pageMaker.prev}">
+			<li class="page-item previous"><a class="page-link"
+				href="${pageMaker.startPage -1}">Previous</a></li>
+		</c:if>
+
+		<c:forEach var="num" begin="${pageMaker.startPage}"
+			end="${pageMaker.endPage}">
+			<li class="page-item ${pageMaker.cri3.pageNum == num ? "active":""} ">
+				<a class="page-link" href="${num}">${num}</a>
+			</li>
+		</c:forEach>
+
+		<c:if test="${pageMaker.next}">
+			<li class="page-item next"><a class="page-link"
+				href="${pageMaker.endPage +1 }">Next</a></li>
+		</c:if>
+	</ul>
+</div>
+
+<!-- 전송할 페이지 정보 -->
+<form id="actionForm" action="/production/index_productList" method="get">
+	<input type="hidden" name="pageNum" value='${pageMaker.cri3.pageNum}' />
+	<input type="hidden" name="amount" value='${pageMaker.cri3.amount}' />
+	<input type="hidden" name="cate_code" value=""/>
+</form>
+<!--  end Pagination -->
+
 <!--           </div> -->
 <!-- contents 내용 파트 끝-->

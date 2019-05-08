@@ -28,5 +28,7 @@ public interface ProductionMapper {
 			@org.apache.ibatis.annotations.Param("pageNum") int pageNum,
 			@org.apache.ibatis.annotations.Param("amount") int amount
 			);
+	// 상품 갯수 들고오기
+	public int getTotalCount(@Param("cate_code") String cate_code);
 
 }

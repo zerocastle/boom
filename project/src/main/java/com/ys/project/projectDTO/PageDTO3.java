@@ -12,19 +12,19 @@ public class PageDTO3 {
 	private boolean prev, next;
 
 	private int total;
-	private Criteria2 cri;
+	private Criteria3 cri3;
 
-	public PageDTO3(Criteria2 cri2, int total) {
-		this.cri = cri2;
+	public PageDTO3(Criteria3 cri3, int total) {
+		this.cri3 = cri3;
 		this.total = total;
 
 		// 현제 페이지가 11 페이지라고 한다면 2 * 6 = 12이 마지막 페이지에 개수가 된다
-		this.endPage = (int) (Math.ceil(cri2.getPageNum() / 10.0)) * 10;
+		this.endPage = (int) (Math.ceil(cri3.getPageNum() / 10.0)) * 10;
 
 		this.startPage = this.endPage - 9; // 여기는 11 이 되고
 
 		// 총 112 페이가 있다고 한다면 12페이지 실제 마지막 페이지라고 알수 있다.
-		int realEnd = (int) (Math.ceil((total * 1.0) / cri2.getAmount()));
+		int realEnd = (int) (Math.ceil((total * 1.0) / cri3.getAmount()));
 
 		// 계산된 마지막 페이지는 20 인데 만약 마지막 페이지가 작다면 그 새끼를 대입해준다.
 		if (realEnd < this.endPage) {

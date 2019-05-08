@@ -78,6 +78,12 @@
 		</if>
 
 	</select>
+	
+	<!-- 상품에대한 갯수 들고오기 -->
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*) FROM PRODUCTION 
+		WHERE CATE_CODE = #{cate_code}
+	</select>
 
 
 
