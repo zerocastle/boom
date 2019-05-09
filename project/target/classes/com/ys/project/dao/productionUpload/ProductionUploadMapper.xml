@@ -29,5 +29,12 @@
 		FROM PRODUCTION A , (SELECT * FROM MEMBER) B
 		WHERE A.M_NUM = B.M_NUM AND A.PRO_NUM = #{pro_num};
 	</select>
+	
+	<!-- 쓸데 없는 파일을 스캔 -->
+	<select id="getOldFiles" resultType="Production_uploadVO">
+		SELECT * FROM PRODUCTION_UPLOAD WHERE UPLOADPATH = TO_CHAR(SYSDATE -1,'YYYY\MM\DD')
+	</select>
+	
+	
 
 </mapper>
