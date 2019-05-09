@@ -51,9 +51,11 @@
 		var operForm = $("#operForm");
 
 		$("button[data-oper='modify']").on("click", function(e) {
-
-			operForm.attr("action", "/admin/modify").submit();
-
+			if("${sessionScope.loginSession.nickname}"!='admin'){
+				alert("관리자 계정이 아닙니다.");
+			}else{
+				operForm.attr("action", "/admin/modify").submit();
+			}
 		});
 
 		$("button[data-oper='list']").on("click", function(e) {

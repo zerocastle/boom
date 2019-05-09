@@ -177,9 +177,11 @@
 		}
 
 		$("#regBtn").on("click", function() {
-
+			if("${sessionScope.loginSession.nickname}"!='admin'){
+				alert("관리자 계정이 아닙니다."+ "${sessionScope.loginSession.nickname}");
+			}else{
 			self.location = "/admin/noticeRegister";
-
+			}
 		});
 		var actionForm = $("#actionForm");
 		$(".page-item a").on("click", function(e) {

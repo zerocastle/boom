@@ -132,7 +132,7 @@
 		</div>
 
 		<button type="button" class="btn btn-primary" data-toggle="modal"
-			data-target="#exampleModal">댓글작성</button>
+			data-target="#exampleModal" id='saveReply'>댓글작성</button>
 
 
 
@@ -141,7 +141,17 @@
 
 	<script>
 		$(function() {
-
+			$('#saveReply').on('click', function(){
+				if(!("${sessionScope.loginSession}")){
+					alert('로그인 해 주시기 바랍니다.');
+					return false;
+				} else if('${sessionScope.loginSession.nickname}'!='admin'){
+					alert('답변댓글은 관리자만 작성할 수 있습니다.');
+					return false;
+				}
+				
+				
+			});
 			var wa_numValue = '<c:out value="${board.wa_num}"/>';
 			var replyUL = $(".chat");
 

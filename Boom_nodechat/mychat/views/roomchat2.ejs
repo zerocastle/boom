@@ -46,6 +46,7 @@
     position: fixed;
     height: 30px;
     bottom: 0;
+    font-size : 15px;
     width: 9%;
     margin-block-end: 0em;
     margin-bottom: 5px;
@@ -153,6 +154,9 @@
 .send {
   color : black;
 }
+.menu {
+  font-size : 15px;
+}
   </style>
 </head>
 <body>
@@ -238,29 +242,34 @@ var subDate;
   <button class="nullmenu">Send</button>
 </form>
 <div class="ui sidebar inverted vertical menu">
-  <a class="item" id='room_out'>
+  <a class="item menu" id='room_out'>
     채팅방 나가기
   </a>
   <a class="item nullmenu"> 
-        <input type="button" id="set_address" style="width:100%;white-space: normal;padding-top:5px;text-align:left;" class="item form-control floating-label nullmenu " onclick="sample4_execDaumPostcode()" value="<%=address%>"/>
-      <button id="send_address" class="send">전송</button>  
+        <input type="button" id="set_address" style="font-size:15px; width:100%;line-height: 100%;white-space: normal;padding-top: 0px;text-align:left;padding-left: 5px;padding-bottom: 0px;margin-bottom: 0px;" class="item form-control floating-label nullmenu " onclick="sample4_execDaumPostcode()" value="<%=address%>"/>
+      <button id="send_address" class="send menu send_addr plus_send" style="margin-left:7px; font-weight:bold;">전송</button>  
   </a>
   <a class="item nullmenu">  
-    <input type="text" id="set_date" class="item form-control floating-label nullmenu"  value="<%=datetime%>">
-    <button id="send_date" class="send" >전송</button>
+    <input type="text" id="set_date" style="font-size:15px; width:100%;white-space: normal;padding-top: 0px;text-align:left;padding-bottom: 0px;margin-bottom: 0px;padding-left: 5.;padding-left: 5px;" class="item form-control floating-label nullmenu " style="
+    padding-bottom: 0px;
+    padding-top: 0px;
+    padding-left: 5px;
+    margin-bottom: 0px;
+" value="<%=datetime%>">
+    <button id="send_date" class="send menu send_date plus_send" style="margin-left:7px; font-weight:bold;" >전송</button>
   </a>
-    <a class="item nullmenu" id='QRsend'>
+    <a class="item nullmenu menu" id='QRsend'>
     명세서 전달
   </a>
     <%if(nickname == seller){%>
-    <a class="item nullmenu" id='buy'>
+    <a class="item nullmenu menu" id='buy'>
         결제 명세서 전송
     </a>
     <%}%>
   
   
 </div>
-<button id="plusbtn"><b>3+2</b></button>
+<button id="plusbtn"><b>Menu</b></button>
 </div>
 <script src="javascripts/socket.js"></script>
 <script>
