@@ -115,13 +115,10 @@
 </style>
 <script>
 	$(function() {
-		
-		
-		
 		var productList = ${requestScope.productList};
 		var realPath = "${pageContext.request.contextPath}/resources/";
 		console.log(productList);
-		$('.prodImg').on('click')
+
 		var perPage = 6; // 화면에 보여줄 상품 갯수
 		var content = $('#content').children(); // 돔트리 반환 값 36
 		var counterTest = content.length; //36
@@ -141,7 +138,8 @@
 			content.eq(counter++).html(state_msg);
 			content.eq(counter++).html(comma(productList[j].price) + "원");
 			content.eq(counter++).html(productList[j].cate_code);
-			counter++;
+			content.eq(counter -1).after("<button class='button'>삭제</button>");
+
 		}
 
 		// 콤마찍기 정규 표현식
@@ -191,41 +189,42 @@
 					<div class="pro-status1"></div>
 					<div class="pro-price1"></div>
 					<div class="pro-category1"></div>
-					<button class='button'>삭제</button>
-
-					<div class="pro-title1"></div>
-					<div class="pro-img1"></div>
-					<div class="pro-price1"></div>
-					<div class="pro-category1"></div>
-					<button class='button'>삭제</button>
+					<!--button class='button'>삭제</button-->
 
 					<div class="pro-title1"></div>
 					<div class="pro-img1"></div>
 					<div class="pro-status1"></div>
 					<div class="pro-price1"></div>
 					<div class="pro-category1"></div>
-					<button class='button'>삭제</button>
+					<!--button class='button'>삭제</button-->
 
 					<div class="pro-title1"></div>
 					<div class="pro-img1"></div>
 					<div class="pro-status1"></div>
 					<div class="pro-price1"></div>
 					<div class="pro-category1"></div>
-					<button class='button'>삭제</button>
+					<!--button class='button'>삭제</button-->
 
 					<div class="pro-title1"></div>
 					<div class="pro-img1"></div>
 					<div class="pro-status1"></div>
 					<div class="pro-price1"></div>
 					<div class="pro-category1"></div>
-					<button class='button'>삭제</button>
+					<!--button class='button'>삭제</button-->
 
 					<div class="pro-title1"></div>
 					<div class="pro-img1"></div>
 					<div class="pro-status1"></div>
 					<div class="pro-price1"></div>
 					<div class="pro-category1"></div>
-					<button class='button'>삭제</button>
+					<!--button class='button'>삭제</button-->
+
+					<div class="pro-title1"></div>
+					<div class="pro-img1"></div>
+					<div class="pro-status1"></div>
+					<div class="pro-price1"></div>
+					<div class="pro-category1"></div>
+					<!--button class='button'>삭제</button-->
 
 				</div>
 
@@ -266,6 +265,7 @@
 		</div>
 	</div>
 </div>
+
 <script>
 $(function() {
 	$('.proImg').on('click', function(e){//동적생성이미지
