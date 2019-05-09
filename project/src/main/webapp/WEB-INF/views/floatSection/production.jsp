@@ -5,14 +5,23 @@
 	integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
 	crossorigin="anonymous">
 
+
 <!-- 인덱스 사진들 -->
 
 <div id="floatMenu">
-	<span class="kjim">최근찜한상품</span> <span><i class="fas fa-heart"></i></span>
-	<input type="text" name="num" value="0" class="num" readonly />
-	<div class="top1">
-		<button class="top2" onclick="goTop()">TOP</button>
-	</div>
+   <span class="kjim">최근찜한상품</span> <span><i class="fas fa-heart"></i></span>
+   <input type="text" name="num" value="0" class="num" readonly />
+   <div id="floater">
+      <span class="pro-pro">최근본상품</span>
+      <hr class="dott" style="color:black;">
+      <div id="recentBanner">
+         <div class="recentView" id="recentView"></div>
+      </div>
+   </div>
+   
+   <div class="top1">
+      <button class="top2" onclick="goTop()">TOP</button>
+   </div>
 </div>
 
 
@@ -401,6 +410,9 @@
 							}
 							var cal = length - 8;
 							var result = sendData.substr(8, (8 + cal));
+							var pattern = /\\/g;
+						
+							setCookiePlus('recentView', result+','+$(this).attr("src").toString().replace(pattern,"/"),window.location.reload());
 
 							window.location.href = "/production/index_productView?pro_num="
 									+ result;

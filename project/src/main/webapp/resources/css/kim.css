@@ -249,3 +249,23 @@ a {
 	margin: auto;
 	border: 1px solid #bcbcbc;
 }
+
+#floater {
+	position : relative;
+	top : 20px;
+	border : 0.1px solid black;
+	text-align: center;
+}
+
+.pro-pro{
+	vertical-align: middle;
+	line-height: 3;
+}
+
+.dott{
+	margin-top: 0;
+}
+
+.recentDiv{
+	height: 100px;
+}

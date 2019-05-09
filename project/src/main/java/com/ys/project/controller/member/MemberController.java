@@ -202,6 +202,7 @@ public class MemberController {
 		    	return "/myPage/review";
 			}
 			else{
+			model.addAttribute("data",data);
 				return "/myPage/notReview";
 			}
 			

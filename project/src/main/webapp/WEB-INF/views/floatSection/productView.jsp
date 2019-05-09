@@ -137,12 +137,23 @@ $(document).ready(function(){
 });
 </script>
 
-           <div id="floatMenu">
-          <span class="kjim">최근찜한상품</span>
-          <span><i class="fas fa-heart"></i></span>
-          <input type="text" name="num" value="0" class="num" readonly/>
-          <div class="top1"><button class="top2" onclick="goTop()">TOP</button></div>
-        </div>
+         
+<div id="floatMenu">
+   <span class="kjim">최근찜한상품</span> <span><i class="fas fa-heart"></i></span>
+   <input type="text" name="num" value="0" class="num" readonly />
+   <div id="floater">
+      <span class="pro-pro">최근본상품</span>
+      <hr class="dott" style="color:black;">
+      <div id="recentBanner">
+         <div class="recentView" id="recentView"></div>
+      </div>
+      
+   </div>
+   
+   <div class="top1">
+      <button class="top2" onclick="goTop()">TOP</button>
+   </div>
+</div>
  
 				<div class="shCMSshop">
 					
