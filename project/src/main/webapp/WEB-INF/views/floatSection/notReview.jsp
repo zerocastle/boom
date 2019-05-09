@@ -561,11 +561,10 @@ $(document).ready(function() {
 	</div>
 	<div class="right-layout">
 		<div class="product-title-line">상점 후기</div>
-		<div>
-			닉네임 조회 결과가 없습니다.
+		<div style="text-align: center;">
+		<h3>	조회한 <span style="color: red">${data }</span> 닉네임은 조회결과에 없습니다.   </h3>
 		</div>
 	</div>
 </div>
 
-<script src="/resources/customJs/mypage-info.js"></script>
 <script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>

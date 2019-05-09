@@ -675,8 +675,5 @@ $(document).ready(function() {
 	</div>
 </div>
 
-<script>
-
-</script>
 
 <script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>

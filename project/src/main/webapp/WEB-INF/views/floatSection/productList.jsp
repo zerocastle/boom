@@ -79,14 +79,16 @@
 		
 		// 값 담기위한 작업
 		var array = new Array();
-
+		var test;
+		var pattern = /\\/g;
 		//돌려 돌려
 		for(var i = 0; i < productionLength; i++){
-			for(var j = 0; j < productionLength; j++){
-				var str = "<li><a href='#' class='productNext'>"
+			for(var j = 0; j < productionLength; j++){ 
+				var temp = list[j].uploadPath.toString();
+				var str = "<li><a href='#' class='productNext' onclick="+"setCookiePlus('recentView','"+list[j].pro_num+","+realPath+temp.toString().replace(pattern,'/')+"/"+list[j].uuid+"_"+list[j].fileName+"',window.location.reload())"+">"
 					+ "<div class='product'>"
 					+"<div class='product-img'>"
-					+	"<img src='"+realPath+list[j].uploadPath+"/"+list[j].uuid+"_"+list[j].fileName+"' width=194 height=194>"
+					+	"<img id='"+j+"' src='"+realPath+list[j].uploadPath+"/"+list[j].uuid+"_"+list[j].fileName+"' width=194 height=194>"
 					+"</div>"
 					+ "<div class='product-title'>제목 : "+list[j].title+"</div>"
 					+ "<div class='product-info'>"
@@ -105,6 +107,7 @@
 					array.push(str);
 			}
 			$('.category-product-list').append(array[i]);
+			console.log(i);
 		}
 		
 		//상품 카테고리별 바꿔주기
@@ -165,11 +168,19 @@
 	crossorigin="anonymous">
 
 <div id="floatMenu">
-	<span class="kjim">최근찜한상품</span> <span><i class="fas fa-heart"></i></span>
-	<input type="text" name="num" value="0" class="num" readonly />
-	<div class="top1">
-		<button class="top2" onclick="goTop()">TOP</button>
-	</div>
+   <span class="kjim">최근찜한상품</span> <span><i class="fas fa-heart"></i></span>
+   <input type="text" name="num" value="0" class="num" readonly />
+   <div id="floater">
+      <span class="pro-pro">최근본상품</span>
+      <hr class="dott" style="color:black;">
+      <div id="recentBanner">
+         <div class="recentView" id="recentView"></div>
+      </div>
+   </div>
+   
+   <div class="top1">
+      <button class="top2" onclick="goTop()">TOP</button>
+   </div>
 </div>
 
 
