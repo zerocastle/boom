@@ -198,7 +198,7 @@
 				<option value="life">생활/가공품</option>
 				<option value="animal">반려동물용품</option>
 				<option value="book">도서/티켓/음반</option>
-				<option value="ele">기타/잡화</option>
+				<option value="else">기타/잡화</option>
 			</select>
 		</div>
 
