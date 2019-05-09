@@ -423,7 +423,7 @@
 							e.preventDefault();
 							var cate_code = $(this).attr('data-cate');
 							window.location.href = "/production/index_productList?cate_code="
-									+ cate_code;
+									+ cate_code + "&order=asc";
 
 						})
 	})

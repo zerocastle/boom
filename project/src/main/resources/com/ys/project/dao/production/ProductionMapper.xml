@@ -51,7 +51,7 @@
 
 	<!-- 상품 리스트 정렬 페이징 처리 상품 리스트 보기 -->
 
-	<select id="sort"
+	<!-- <select id="sort"
 		resultType="com.ys.project.projectDTO.IndexProductionDTO">
 
 		SELECT
@@ -59,13 +59,46 @@
 		FROM (SELECT ROWNUM RN
 		,PRO_NUM,TITLE,PRICE,CATE_CODE,STATE_MSG,PLACE_SIGNAL,CREATE_DATE,ADDR,PLACE_PICK
 		FROM PRODUCTION 
-        <![CDATA[WHERE ROWNUM <= #{pageNum} * #{amount} + 1]]>
+        <![CDATA[WHERE ROWNUM <= #{pageNum} * #{amount}]]>
 		AND CATE_CODE = #{cate_code}
 		) A , PRODUCTION_UPLOAD B
 		WHERE A.PRO_NUM = B.PRO_NUM
 		AND B.REP = 1 
         <![CDATA[ AND A.rn > (#{pageNum} -1) * #{amount} ]]>
 		<if test="order == 'desc'">
+			ORDER BY A.PRICE DESC
+		</if>
+
+		<if test="order == 'asc'">
+			ORDER BY A.PRICE ASC
+		</if>
+
+		<if test="order == null">
+			ORDER BY A.PRICE ASC
+		</if>
+
+	</select> -->
+	
+	<select id="sort"
+		resultType="com.ys.project.projectDTO.IndexProductionDTO">
+
+	 	SELECT
+		A.PRO_NUM,A.TITLE,A.PRICE,A.CATE_CODE,A.STATE_MSG,A.PLACE_SIGNAL,A.CREATE_DATE,A.ADDR,A.PLACE_PICK,B.UUID,B.UPLOADPATH,B.FILENAME,B.REP
+		FROM (SELECT ROW_NUMBER()over(<if test="order == 'desc'">order by price DESC</if>
+		<if test="order == 'asc'">order by price ASC</if>
+		<if test="order == null">order by price ASC</if>
+		) as rn
+		,PRO_NUM,TITLE,PRICE,CATE_CODE,STATE_MSG,PLACE_SIGNAL,CREATE_DATE,ADDR,PLACE_PICK
+		FROM PRODUCTION  
+        WHERE CATE_CODE = #{cate_code}
+		) A , PRODUCTION_UPLOAD B
+		WHERE A.PRO_NUM = B.PRO_NUM
+		AND B.REP = 1
+		<![CDATA[
+        AND A.rn <= #{pageNum} * #{amount} 
+        AND A.rn > (#{pageNum} -1) * #{amount}
+        ]]>
+        <if test="order == 'desc'">
 			ORDER BY A.PRICE DESC
 		</if>
 

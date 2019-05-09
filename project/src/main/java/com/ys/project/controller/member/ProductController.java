@@ -2,6 +2,7 @@ package com.ys.project.controller.member;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,15 +31,17 @@ public class ProductController {
 
 	// 상품목록으로 이동
 	@RequestMapping(value = "/index_productList", method = RequestMethod.GET)
-	public String productList(Model model , String cate_code , Criteria3 cri3) {
-
+	public String productList(Model model , String cate_code , Criteria3 cri3 ,  String order) {
+		
+//		Stack<IndexProductionDTO> stack = new Stack<>(); // 오름 차순으로 볼라고 할때 
+		
 		log.info("상품목록로 이동 한다.");
-		String order = "desc";
+		/* String order = "desc"; */
 		int pageNum = cri3.getPageNum();
 		int amount = cri3.getAmount();
 		
-//		List<IndexProductionDTO> dto = service.productionListJoin(cate_code);
 		List<IndexProductionDTO> dto = service.sort(order, cate_code, pageNum, amount);
+
 		log.info("값 모가 넘오옮 ? " + dto);
 		model.addAttribute("production",JSONArray.fromObject(dto));
 		model.addAttribute("pageMaker", new PageDTO3(cri3, service.getTotalCount(cate_code))); // 여기에다가 count(*) 을 적용
