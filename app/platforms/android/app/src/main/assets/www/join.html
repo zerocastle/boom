@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="js/jquery-3.4.0.min.js"></script>
+    <link rel="stylesheet" href="css/jack.css" />
+    <script src="js/join.js"></script>
+    <title>Document</title>
+    <style>
+        .join{
+            margin-top:30px;
+            margin-bottom:20px;
+            text-align:right;
+            margin-right:40px;
+            font-size:20px;
+        }
+        #select{
+            margin-left:15px;
+            font-size:20px;
+        }
+        #bankAccountNo{
+            width:185px;
+            font-size:20px;
+        }
+        .agree{
+            margin-bottom:10px;
+            text-align:right;
+            margin-right:20px;
+        }
+        #pho{
+            margin-top:50px;
+        }
+        #sjoin{
+            margin-top:40px;
+        }
+        #joinbtn{
+            margin-top:0px;
+            margin-left:170px;
+        }
+        #nickbtn{
+            position: relative;
+            bottom: 517px;
+            left: 80px;
+        }
+        #name2, #password2, #phone2, #passwordcf2, #email2{
+            height:25px;
+        }
+        #select{
+            display:inline-block;
+        }
+    </style>
+</head>
+<body>
+<div id = "join">
+    <div id = "back">
+        <button id = "backbtn">뒤로</button>
+        <label for = "back" id = "backlb">회원가입</label>
+        <hr>
+    </div>
+    <form role="form" method="post">
+    <div id = "njoin" class = "join">
+        <div id = "name" class = "join">
+            <label for = "name" id = "name1">닉네임</label>
+            <input type = "text" id = "name2" placeholder = "닉네임" required>
+        </div>
+        <div id = "phone" class = "join">
+            <label for = "phone" id = "phone1">휴대폰번호</label>
+            <input type = "text" id = "phone2" placeholder = "숫자만허용" required>
+        </div>
+        <div id = "password" class = "join">
+            <label for = "password" id = "password1">비밀번호</label>
+            <input type = "password" id = "password2" placeholder = "●●●●●●●●" required>
+        </div>
+        <div id = "passwordcf" class = "join">
+            <label for = "password" id = "passwordcf1">비밀번호확인</label>
+            <input type = "password" id = "passwordcf2" placeholder = "●●●●●●●●" required>
+        </div>
+        <div id = "email" class = "join">
+            <label for = "email" id = "email1">이메일</label>
+            <input type = "email" id = "email2" placeholder = "haehong95@naver.com" required>
+        </div>
+
+        <div id = "select" class = "bank">
+            <select id="bankName" name="acc_name">
+                <option value="" hidden selected>은행 선택</option>
+                <option value="NH농협">NH농협</option>
+                <option value="KB국민">KB국민은행</option>
+                <option value="신한">신한은행</option>
+                <option value="우리">우리은행</option>
+                <option value="하나">KEB하나은행</option>
+                <option value="IBK기업">IBK기업은행</option>
+                <option value="외환">외환은행</option>
+                <option value="SC제일">SC제일은행</option>
+                <option value="씨티">씨티은행</option>
+                <option value="KDB산업">KDB산업은행</option>
+                <option value="새마을">새마을금고</option>
+                <option value="대구">대구은행</option>
+                <option value="광주">광주은행</option>
+                <option value="우체국">우체국</option>
+                <option value="신협">신협중앙회</option>
+                <option value="전북">전북은행</option>
+                <option value="경남">경남은행</option>
+                <option value="부산">부산은행</option>
+                <option value="수협">수협중앙회</option>
+                <option value="제주">제주은행</option>
+                <option value="저축은행">상호저축은행</option>
+                <option value="산림조합">산림조합중앙회</option>
+                <option value="케이뱅크">케이뱅크</option>
+                <option value="카카오뱅크">카카오뱅크</option>
+            </select>
+            <input type="text" class="bank"
+                   id="bankAccountNo" name="acc_num"
+                   placeholder="계좌번호 입력" required="required">
+        </div>
+    </div>
+    </form>
+    <div id = "sjoin" >
+        <div id = "agreelist" class = "agree">
+            <lavel for = "cpagree">전체동의</lavel>
+            <input type = "checkbox" id = "agreebtn" />동의</input>
+        </div>
+        <form id = "form1">
+        <div id = "list" class = "agree">
+            <label for = "list1" name = "list" id = "list1">(필수)직거래플러스 이용약관 동의</label>
+            <input type = "checkbox" name = "list" id = "listbtn" name = "plist" required>동의</input><br/>
+            <label for = "list2" name = "list" id = "list2" class = "agreels">(필수)개인정보 처리방침 동의</label>
+            <input type = "checkbox" name = "list" id = "listbtn2" name = "plist" required>동의</input><br/>
+            <label for = "list3" name = "list" id = "list3" >(선택)위치기반 서비스 동의</label>
+            <input type = "checkbox" name = "list" id = "listbtn3" >동의</input><br/>
+            <label for = "list4" name = "list" id = "list4" >(선택)이메일 SMS광고 수신 동의</label>
+            <input type = "checkbox" name = "list" id = "listbtn4">동의</input><br/>
+        </div>
+        </form>
+    </div>
+    <input type = "button" id = "joinbtn" value = "회원가입"/>
+    <input type = "button" id = "nickbtn" value = "중복체크" required/>
+</div>
+</body>
+</html>
