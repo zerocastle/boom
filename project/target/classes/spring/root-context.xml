@@ -5,7 +5,9 @@
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
@@ -37,6 +39,7 @@
 			value="classpath:mybatis/mybatis-config.xml" />
 		<property name="mapperLocations"
 			value="classpath:mappers/**/*Mapper.xml"></property>
+			
 	</bean>
 
 
@@ -52,10 +55,8 @@
 		class="org.springframework.data.redis.core.StringRedisTemplate">
 		<property name="connectionFactory" ref="connectionFactory" />
 	</bean>
-
-
-
-
+	
+	
 	<!-- sqlSession 사용 부분 -->
 	<bean id="sqlSession_fdc"
 		class="org.mybatis.spring.SqlSessionTemplate"
@@ -71,7 +72,11 @@
 		<property name="dataSource" ref="dataSource_fdc"></property>
 	</bean>
 
+	<!-- 트랜잭션 어노 테이션 사용 -->
 	<tx:annotation-driven />
+
+	<!-- quartz 스캐줄러 어노테이션 -->
+	<task:annotation-driven />
 
 
 	<!-- @Repoitory를 컴포너트 스캔을한다. -->

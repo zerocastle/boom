@@ -26,7 +26,7 @@
 
 				<form role="form" action="/warningBoard/register" method="post">
 					<div class="form-group">
-						<label>제목</label> <input class="form-control" name='title'>
+						<label>제목</label> <input class="form-control" name='title' id='title'>
 					</div>
 					<div class="form-group">
 						<label>신고 분류를 선택</label> <select name="wa_type">
@@ -39,15 +39,15 @@
 
 					<div class="form-group">
 						<label>content</label>
-						<textarea class="form-control" rows="3" name='content'></textarea>
+						<textarea class="form-control" rows="3" name='content' id='content'></textarea>
 					</div>
 
 					<div class="form-group">
 						<label>작성자</label> <input type="hidden" class="form-control" name='m_num' value="${sessionScope.loginSession.m_num }"  />
-						<input value="${sessionScope.loginSession.nickname}" readonly="readonly"/>
+						<input value="${sessionScope.loginSession.nickname}" readonly/>
 						
 					</div>
-					<button type="submit" class="btn btn-default">저장</button>
+					<button type="button" class="btn btn-default" id='save'>저장</button>
 					<button type="reset" class="btn btn-default">초기화</button>
 					<button class="btn btn-defaul" id="list">리스트로 가기</button>
 				</form>
@@ -62,6 +62,15 @@
 </div>
 <script>
 	$(function() {
+		$('#save').click(function(e){
+			if(($('#title').val()=='') || ($('#content').val()=='')){
+				e.preventDefault();
+				alert('빈칸이 없어야 합니다.');
+				return false;
+			}else{
+				$('form').submit();				
+			} 
+		});
 		$('#list').click(function(e) {
 			e.preventDefault();
 			window.location.href = "/warningBoard/warningBoard";

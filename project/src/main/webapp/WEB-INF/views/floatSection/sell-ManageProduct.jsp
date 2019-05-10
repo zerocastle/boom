@@ -134,11 +134,12 @@
 				state_msg = "거래완료";
 			}
 			content.eq(counter++).html(productList[j].title);
-			content.eq(counter++).html("<img src='"+realPath + productList[j].path +"' width='80' height='80'/>");
+			content.eq(counter++).html("<img class='proImg' src='"+realPath + productList[j].path +"' width='80' height='80' alt='"+productList[j].pro_num+"'/>");
 			content.eq(counter++).html(state_msg);
 			content.eq(counter++).html(comma(productList[j].price) + "원");
 			content.eq(counter++).html(productList[j].cate_code);
-			counter++;
+			content.eq(counter -1).after("<button class='button'>삭제</button>");
+
 		}
 
 		// 콤마찍기 정규 표현식
@@ -183,47 +184,47 @@
 
 				<!-- 값 뿌리는거 -->
 				<div class="pro-div1" id="content">
-					<div class="pro-title1">test</div>
-					<div class="pro-img1">test</div>
-					<div class="pro-status1">test</div>
-					<div class="pro-price1">test</div>
-					<div class="pro-category1">test</div>
-					<button class='button'>삭제</button>
+					<div class="pro-title1"></div>
+					<div class="pro-img1"></div>
+					<div class="pro-status1"></div>
+					<div class="pro-price1"></div>
+					<div class="pro-category1"></div>
+					<!--button class='button'>삭제</button-->
 
-					<div class="pro-title1">test</div>
-					<div class="pro-img1">test</div>
-					<div class="pro-status1">test</div>
-					<div class="pro-price1">test</div>
-					<div class="pro-category1">test</div>
-					<button class='button'>삭제</button>
+					<div class="pro-title1"></div>
+					<div class="pro-img1"></div>
+					<div class="pro-status1"></div>
+					<div class="pro-price1"></div>
+					<div class="pro-category1"></div>
+					<!--button class='button'>삭제</button-->
 
-					<div class="pro-title1">test</div>
-					<div class="pro-img1">test</div>
-					<div class="pro-status1">test</div>
-					<div class="pro-price1">test</div>
-					<div class="pro-category1">test</div>
-					<button class='button'>삭제</button>
+					<div class="pro-title1"></div>
+					<div class="pro-img1"></div>
+					<div class="pro-status1"></div>
+					<div class="pro-price1"></div>
+					<div class="pro-category1"></div>
+					<!--button class='button'>삭제</button-->
 
-					<div class="pro-title1">test</div>
-					<div class="pro-img1">test</div>
-					<div class="pro-status1">test</div>
-					<div class="pro-price1">test</div>
-					<div class="pro-category1">test</div>
-					<button class='button'>삭제</button>
+					<div class="pro-title1"></div>
+					<div class="pro-img1"></div>
+					<div class="pro-status1"></div>
+					<div class="pro-price1"></div>
+					<div class="pro-category1"></div>
+					<!--button class='button'>삭제</button-->
 
-					<div class="pro-title1">test</div>
-					<div class="pro-img1">test</div>
-					<div class="pro-status1">test</div>
-					<div class="pro-price1">test</div>
-					<div class="pro-category1">test</div>
-					<button class='button'>삭제</button>
+					<div class="pro-title1"></div>
+					<div class="pro-img1"></div>
+					<div class="pro-status1"></div>
+					<div class="pro-price1"></div>
+					<div class="pro-category1"></div>
+					<!--button class='button'>삭제</button-->
 
-					<div class="pro-title1">test</div>
-					<div class="pro-img1">test</div>
-					<div class="pro-status1">test</div>
-					<div class="pro-price1">test</div>
-					<div class="pro-category1">test</div>
-					<button class='button'>삭제</button>
+					<div class="pro-title1"></div>
+					<div class="pro-img1"></div>
+					<div class="pro-status1"></div>
+					<div class="pro-price1"></div>
+					<div class="pro-category1"></div>
+					<!--button class='button'>삭제</button-->
 
 				</div>
 
@@ -264,5 +265,15 @@
 		</div>
 	</div>
 </div>
+
+<script>
+$(function() {
+	$('.proImg').on('click', function(e){//동적생성이미지
+		var alt = $(this).attr("alt");//alt값 가져오기
+	    alert(alt);
+		window.location.href = '/production/index_productView?pro_num='+alt;
+	});
+});
+</script>
 <!--//grid-->
 <!---->

@@ -1,251 +1,271 @@
 @import
-	url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&subset=korean')
-	;
+   url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&subset=korean')
+   ;
 
 body {
-	font-family: 'Noto Sans KR', sans-serif, "留묒� 怨좊뵓";
+   font-family: 'Noto Sans KR', sans-serif, "留묒� 怨좊뵓";
 }
 
 * {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
 }
 
 a {
-	/*           text-align: center;  */
-	font-weight: bold;
+   /*           text-align: center;  */
+   font-weight: bold;
 }
 
 /* �젅�씠�븘�썐 */
 #wrap {
-	width: 100%;
-	/* height: auto; */
-	/* margin: auto; */
+   width: 100%;
+   /* height: auto; */
+   /* margin: auto; */
 }
 
 .header-line-div {
-	border-bottom: 1px solid black;
+   border-bottom: 1px solid black;
 }
 
 .header-line {
-	border-bottom: 1px solid black;
-	width: 100%;
-	position: fixed;
-	z-index: 3;
-	background-color: white;
+   border-bottom: 1px solid black;
+   width: 100%;
+   position: fixed;
+   z-index: 3;
+   background-color: white;
 }
 
 .header {
-	/* 湲곗〈 �눥�븨紐� �빐�긽�룄 1242px 2208px 9 : 16 */
-	width: 1242px;
-	margin: auto;
-	height: auto;
-	/* border: 1px solid #bcbcbc; */
+   /* 湲곗〈 �눥�븨紐� �빐�긽�룄 1242px 2208px 9 : 16 */
+   width: 1242px;
+   margin: auto;
+   height: auto;
+   /* border: 1px solid #bcbcbc; */
 }
 
 .header-1 {
-	/* 湲곗〈 �눥�븨紐� �빐�긽�룄 1242px 2208px 9 : 16 */
-	/* width: 1242px; 諛묒뿉 援щ텇�븯湲곗쐞�빐 �떎�젣濡쒕뒗 1242 */
-	width: 1238px;
-	margin: 1px;
-	height: 40px;
-	/* border: 1px solid #bcbcbc; */
+   /* 湲곗〈 �눥�븨紐� �빐�긽�룄 1242px 2208px 9 : 16 */
+   /* width: 1242px; 諛묒뿉 援щ텇�븯湲곗쐞�빐 �떎�젣濡쒕뒗 1242 */
+   width: 1238px;
+   margin: 1px;
+   height: 40px;
+   /* border: 1px solid #bcbcbc; */
 }
 
 .header-2 {
-	/* 湲곗〈 �눥�븨紐� �빐�긽�룄 1242px 2208px 9 : 16 */
-	/* width: 1242px; 諛묒뿉 援щ텇�븯湲곗쐞�빐 �떎�젣濡쒕뒗 1242 */
-	/* position: fixed; */
-	width: 1242px;
-	margin: auto;
-	height: 170px;
-	/* border: 1px solid #bcbcbc; */
-	background-color: white;
+   /* 湲곗〈 �눥�븨紐� �빐�긽�룄 1242px 2208px 9 : 16 */
+   /* width: 1242px; 諛묒뿉 援щ텇�븯湲곗쐞�빐 �떎�젣濡쒕뒗 1242 */
+   /* position: fixed; */
+   width: 1242px;
+   margin: auto;
+   height: 170px;
+   /* border: 1px solid #bcbcbc; */
+   background-color: white;
 }
 
 .main {
-	width: 1242px;
-	margin: auto;
-	/* margin-top: 100px; */
-	height: auto;
-	border: 1px solid white;
+   width: 1242px;
+   margin: auto;
+   /* margin-top: 100px; */
+   height: auto;
+   border: 1px solid white;
 }
 
 .banner {
-	/* 湲곗〈 �눥�븨紐� �빐�긽�룄 1242px 2208px 9 : 16 */
-	/* width: 1242px; 諛묒뿉 援щ텇�븯湲곗쐞�빐 �떎�젣濡쒕뒗 1242 */
-	width: 1238px;
-	margin: auto;
-	margin-top: 220px;
-	height: 300px;
-	border: 1px solid #bcbcbc;
+   /* 湲곗〈 �눥�븨紐� �빐�긽�룄 1242px 2208px 9 : 16 */
+   /* width: 1242px; 諛묒뿉 援щ텇�븯湲곗쐞�빐 �떎�젣濡쒕뒗 1242 */
+   width: 1238px;
+   margin: auto;
+   margin-top: 220px;
+   height: 300px;
+   border: 1px solid #bcbcbc;
 }
 
 .main-categori {
-	/* 湲곗〈 �눥�븨紐� �빐�긽�룄 1242px 2208px 9 : 16 */
-	/* width: 1242px; 諛묒뿉 援щ텇�븯湲곗쐞�빐 �떎�젣濡쒕뒗 1242 */
-	width: 1238px;
-	margin: 1px;
-	margin-top: 30px;
-	height: 50px;
-	border: 1px solid #bcbcbc;
+   /* 湲곗〈 �눥�븨紐� �빐�긽�룄 1242px 2208px 9 : 16 */
+   /* width: 1242px; 諛묒뿉 援щ텇�븯湲곗쐞�빐 �떎�젣濡쒕뒗 1242 */
+   width: 1238px;
+   margin: 1px;
+   margin-top: 30px;
+   height: 50px;
+   border: 1px solid #bcbcbc;
 }
 
 .main-product {
-	/* 湲곗〈 �눥�븨紐� �빐�긽�룄 1242px 2208px 9 : 16 */
-	/* width: 1242px; 諛묒뿉 援щ텇�븯湲곗쐞�빐 �떎�젣濡쒕뒗 1242 */
-	width: 1238px;
-	margin: 1px;
-	height: 300px;
-	border: 1px solid #bcbcbc;
+   /* 湲곗〈 �눥�븨紐� �빐�긽�룄 1242px 2208px 9 : 16 */
+   /* width: 1242px; 諛묒뿉 援щ텇�븯湲곗쐞�빐 �떎�젣濡쒕뒗 1242 */
+   width: 1238px;
+   margin: 1px;
+   height: 300px;
+   border: 1px solid #bcbcbc;
 }
 
 .footer {
-	width: 1242px;
-	margin: auto;
-	margin-top: 10px;
-	height: 80px;
-	border: 1px solid #bcbcbc;
-	background-color: black;
+   width: 1242px;
+   margin: auto;
+   margin-top: 10px;
+   height: 80px;
+   border: 1px solid #bcbcbc;
+   background-color: black;
 }
 
 /* header */
 .header-1-div {
-	position: relative;
-	float: right;
-	display: table;
-	height: 100%;
+   position: relative;
+   float: right;
+   display: table;
+   height: 100%;
 }
 
 .header-1-a {
-	position: relative;
-	padding: 0 15px;
-	display: table-cell;
-	vertical-align: middle;
-	height: 100%;
-	line-height: 18px;
+   position: relative;
+   padding: 0 15px;
+   display: table-cell;
+   vertical-align: middle;
+   height: 100%;
+   line-height: 18px;
 }
 
 .header-2-body {
-	height: 120px;
-	padding-top: 22px;
-	/* border: 1px solid #bcbcbc; */
+   height: 120px;
+   padding-top: 22px;
+   /* border: 1px solid #bcbcbc; */
 }
 
 .header-logo {
-	float: left;
-	display: inline-block;
-	width: 220px;
-	margin-left: 15px;
-	margin-right: 80px;
-	height: 64px;
-	/* border: 1px solid black; */
+   float: left;
+   display: inline-block;
+   width: 220px;
+   margin-left: 15px;
+   margin-right: 80px;
+   height: 64px;
+   /* border: 1px solid black; */
 }
 
 .logo {
-	/* background-image: url("logo.png"); */
-	/* width: 195px;
+   /* background-image: url("logo.png"); */
+   /* width: 195px;
             height: 58px; */
-	
+   
 }
 
 .header-search {
-	width: 500px;
-	height: 64px;
-	margin-right: 30px;
-	display: inline-block;
-	/* border: 1px solid black; */
+   width: 500px;
+   height: 64px;
+   margin-right: 30px;
+   display: inline-block;
+   /* border: 1px solid black; */
 }
 
 .header-service {
-	padding-left: 10px;
-	display: inline;
-	/* border: 1px solid black; */
+   padding-left: 10px;
+   display: inline;
+   /* border: 1px solid black; */
 }
 
 .header-2-body-2 {
-	height: 50px;
-	padding-top: 1px;
-	/* border: 1px solid #bcbcbc; */
+   height: 50px;
+   padding-top: 1px;
+   /* border: 1px solid #bcbcbc; */
 }
 
 .header-categori {
-	float: left;
-	display: inline-block;
-	width: 55px;
-	margin-left: 15px;
-	margin-right: 30px;
-	height: 45px;
-	/* border: 1px solid black; */
+   float: left;
+   display: inline-block;
+   width: 55px;
+   margin-left: 15px;
+   margin-right: 30px;
+   height: 45px;
+   /* border: 1px solid black; */
 }
 
 .header-zicplus-btn {
-	width: auto;
-	height: 45px;
-	display: inline-block;
+   width: auto;
+   height: 45px;
+   display: inline-block;
 }
 
 .zicplus-btn {
-	display: inline-block;
-	margin: auto;
-	margin-right: 15px;
-	vertical-align: -10px;
+   display: inline-block;
+   margin: auto;
+   margin-right: 15px;
+   vertical-align: -10px;
 
-	/* border: 1px solid black; */
+   /* border: 1px solid black; */
 }
 
 .service-btn {
-	display: inline-block;
+   display: inline-block;
 }
 
 /* product */
 .main-product-div {
-	margin: 20px;
-	width: 1195px;
-	height: 240px;
-	border: 1px solid #bcbcbc;
+   margin: 20px;
+   width: 1195px;
+   height: 240px;
+   border: 1px solid #bcbcbc;
 }
 
 .main-product-div2 {
-	display: inline-block;
-	margin: 10px;
-	margin-left: 17.5px;
-	margin-right: 17.5px;
-	width: 200px;
-	height: 220px;
-	border: 1px solid #bcbcbc;
+   display: inline-block;
+   margin: 10px;
+   margin-left: 17.5px;
+   margin-right: 17.5px;
+   width: 200px;
+   height: 220px;
+   border: 1px solid #bcbcbc;
 }
 
 .input-group.md-form.form-sm.form-1 input {
-	border: 1px solid #bdbdbd;
-	border-top-right-radius: 0.25rem;
-	border-bottom-right-radius: 0.25rem;
+   border: 1px solid #bdbdbd;
+   border-top-right-radius: 0.25rem;
+   border-bottom-right-radius: 0.25rem;
 }
 
 .input-group.md-form.form-sm.form-2 input {
-	border: 1px solid #bdbdbd;
-	border-top-left-radius: 0.25rem;
-	border-bottom-left-radius: 0.25rem;
+   border: 1px solid #bdbdbd;
+   border-top-left-radius: 0.25rem;
+   border-bottom-left-radius: 0.25rem;
 }
 
 .input-group.md-form.form-sm.form-2 input.red-border {
-	border: 1px solid #ef9a9a;
+   border: 1px solid #ef9a9a;
 }
 
 .input-group.md-form.form-sm.form-2 input.lime-border {
-	border: 1px solid #cddc39;
+   border: 1px solid #cddc39;
 }
 
 .input-group.md-form.form-sm.form-2 input.amber-border {
-	border: 1px solid #ffca28;
+   border: 1px solid #ffca28;
 }
 
 /* �긽�뭹 紐⑸줉 css */
 .productList-div1 {
-	/* 湲곗〈 �눥�븨紐� �빐�긽�룄 1242px 2208px 9 : 16 */
-	/* width: 1242px; 諛묒뿉 援щ텇�븯湲곗쐞�빐 �떎�젣濡쒕뒗 1242 */
-	width: 1238px;
-	margin: auto;
-	border: 1px solid #bcbcbc;
+   /* 湲곗〈 �눥�븨紐� �빐�긽�룄 1242px 2208px 9 : 16 */
+   /* width: 1242px; 諛묒뿉 援щ텇�븯湲곗쐞�빐 �떎�젣濡쒕뒗 1242 */
+   width: 1238px;
+   margin: auto;
+   border: 1px solid #bcbcbc;
+}
+
+#floater {
+   position : relative;
+   top : 20px;
+   border : 0.1px solid black;
+   text-align: center;
+}
+
+.pro-pro{
+   vertical-align: middle;
+   line-height: 3;
+}
+
+.dott{
+   margin-top: 0;
+}
+
+.recentDiv{
+   height: 100px;
 }

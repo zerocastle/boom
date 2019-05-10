@@ -42,7 +42,6 @@ public class ProductionService implements IProductionService {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		
 		map.put("Production_uploadVO", fineByPro);
 
 		map.put("ProMemberJoinDTO", proMemberJoin);
@@ -56,11 +55,23 @@ public class ProductionService implements IProductionService {
 	}
 
 	// 상품 카테고리별 상품 출력
+
 	@Override
-	public List<IndexProductionDTO> productionListJoin(String cate_code) {
-		// TODO Auto-generated method stub
-		log.info("상품 리스트 별로 출력");
+	public List<IndexProductionDTO> productionListJoin(String cate_code) { // TODO Auto-generated method stub
+																			// log.info("상품 리스트 별로 출력");
 		return mapper.productionListJoin(cate_code);
+	}
+
+	@Override
+	public List<IndexProductionDTO> sort(String order, String cate_code, int pageNum, int amount) {
+		// TODO Auto-generated method stub
+		return mapper.sort(order, cate_code, pageNum, amount);
+	}
+
+	@Override
+	public int getTotalCount(String cate_code) {
+		// TODO Auto-generated method stub
+		return mapper.getTotalCount(cate_code);
 	}
 
 }

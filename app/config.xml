@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="kr.yjc.wd3" version="1.0.0"
+    xmlns="http://www.w3.org/ns/widgets"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <!--
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    코르도바 현 버젼 기준 http통신은 보안상의 이유로 막아놓음
+    http통신허용을 위해선
+    <platform name="android">
+            <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
+                <application android:usesCleartextTraffic="true" />
+            </edit-config>
+    </platform> 태그를 달아줘야 한다.
+    현 코르도바 버젼에선 기본적으로 androidmanifest.xml 고쳐쓰는것을 막아놓음.
+    사용하기 위해선 xmlns:android="http://schemas.android.com/apk/res/android"
+    를 <widget> 태그에 애트리뷰트로 달아줘야함.( IOS는 별도로 찾아봐야한다 )
+
+    http 통신을 위해 필수로 위 주석에 적힌 절차들을 사용헤야 한다.
+    몇일간 삽질끝에 알아냈다. -->
+    <name>HelloChatTest</name>
+    <description>
+        A sample Apache Cordova application that responds to the deviceready event.
+    </description>
+    <author email="dev@cordova.apache.org" href="http://cordova.io">
+        Apache Cordova Team
+    </author>
+    <content src="index.html" />
+    <!--    <plugin name="cordova-plugin-whitelist" spec="1" />-->
+    <plugin name="cordova-plugin-whitelist" spec="~1.2.1" source="npm"/>
+    <access origin="*" />
+    <!--
+    allow-intent
+    브라우저에서 웹페이지로의 모든 http, https링크를 열수 있도록 허용한다.
+     -->
+    <allow-intent href="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" /><!-- 전화번호 유형의 링크가 전화를 걸 수 있도록 한다. -->
+    <allow-intent href="sms:*" /><!-- SMS 링크가 메시징 앱을 열수 있도록 허용한다. -->
+    <allow-intent href="mailto:*" /><!-- 메일이겠지? -->
+    <allow-intent href="geo:*" /><!-- 지도의 좌표를 나타내는 링크가 맵을 열수 있도록 허용한다. -->
+
+    <!--App WebView가 이동할 수 있는 URL을 통제. 기본값은 file://Url 만 허용
+        다른 url 허용할려면 추가해야함 -->
+    <allow-navigation href="*" /><!--모든 url 허용. 보안상의 문제가 발생하지만 일단 편의상 오픈한다 ㅎㅎ -->
+    <allow-navigation href="http://*/*" />
+    <allow-navigation href="https://*/*" />
+    <allow-navigation href="data:*" />
+    <platform name="android">
+        <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
+            <application android:usesCleartextTraffic="true" /><!--안드로이드 플랫폼에서 앱 실행시 http 경로 실행 허용. -->
+        </edit-config>
+        <allow-intent href="market:*" /><!--안드로이드 플랫폼에서 마켓 유형의 링크는 플레이스토어 오픈 -->
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" /><!--아이폰 플랫폼은 뭐..아이폰용 마켓 여는거겠지-->
+        <allow-intent href="itms-apps:*" />
+    </platform>
+</widget>

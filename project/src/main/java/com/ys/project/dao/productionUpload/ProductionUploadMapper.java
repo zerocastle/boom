@@ -19,5 +19,8 @@ public interface ProductionUploadMapper {
 	// 이미지 뿌려주기 위한 
 	/* public List<ProductionVO> indexProduct */
 	
+	// 쓸데 없는 파일을 지우기 위해 스캔하기 
+	public List<Production_uploadVO> getOldFiles();
+	
 	
 }

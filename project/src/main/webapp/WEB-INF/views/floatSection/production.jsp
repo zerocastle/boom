@@ -4,15 +4,32 @@
 	href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
 	integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
 	crossorigin="anonymous">
-
+<style>
+.pro-title-span {
+	display: inline-block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	width: 120px;
+	height: 20px;
+}
+</style>
 <!-- 인덱스 사진들 -->
 
 <div id="floatMenu">
-	<span class="kjim">최근찜한상품</span> <span><i class="fas fa-heart"></i></span>
-	<input type="text" name="num" value="0" class="num" readonly />
-	<div class="top1">
-		<button class="top2" onclick="goTop()">TOP</button>
-	</div>
+   <span class="kjim">최근찜한상품</span> <span><i class="fas fa-heart"></i></span>
+   <input type="text" name="num" value="0" class="num" readonly />
+   <div id="floater">
+      <span class="pro-pro">최근본상품</span>
+      <hr class="dott" style="color:black;">
+      <div id="recentBanner">
+         <div class="recentView" id="recentView"></div>
+      </div>
+   </div>
+   
+   <div class="top1">
+      <button class="top2" onclick="goTop()">TOP</button>
+   </div>
 </div>
 
 
@@ -108,7 +125,7 @@
 				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
 				var pro_num = price.next().html(
 						"상품 번호 : " + production[i].pro_num); // 상품 번호
-				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;' class='pro-title-span'>"
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter++;
@@ -131,7 +148,7 @@
 				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
 				var pro_num = price.next().html(
 						"상품 번호 : " + production[i].pro_num); // 상품 번호
-				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;' class='pro-title-span'>"
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter2++;
@@ -154,7 +171,7 @@
 				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
 				var pro_num = price.next().html(
 						"상품 번호 : " + production[i].pro_num); // 상품 번호
-				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;' class='pro-title-span'>"
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter3++;
@@ -177,7 +194,7 @@
 				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
 				var pro_num = price.next().html(
 						"상품 번호 : " + production[i].pro_num); // 상품 번호
-				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;' class='pro-title-span'>"
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter4++;
@@ -200,7 +217,7 @@
 				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
 				var pro_num = price.next().html(
 						"상품 번호 : " + production[i].pro_num); // 상품 번호
-				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;' class='pro-title-span'>"
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter5++;
@@ -223,7 +240,7 @@
 				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
 				var pro_num = price.next().html(
 						"상품 번호 : " + production[i].pro_num); // 상품 번호
-				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;' class='pro-title-span'>"
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter6++;
@@ -246,7 +263,7 @@
 				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
 				var pro_num = price.next().html(
 						"상품 번호 : " + production[i].pro_num); // 상품 번호
-				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;' class='pro-title-span'>"
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter6++;
@@ -269,7 +286,7 @@
 				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
 				var pro_num = price.next().html(
 						"상품 번호 : " + production[i].pro_num); // 상품 번호
-				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;' class='pro-title-span'>"
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter8++;
@@ -292,7 +309,7 @@
 				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
 				var pro_num = price.next().html(
 						"상품 번호 : " + production[i].pro_num); // 상품 번호
-				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;' class='pro-title-span'>"
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter9++;
@@ -315,7 +332,7 @@
 				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
 				var pro_num = price.next().html(
 						"상품 번호 : " + production[i].pro_num); // 상품 번호
-				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;' class='pro-title-span'>"
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter10++;
@@ -338,7 +355,7 @@
 				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
 				var pro_num = price.next().html(
 						"상품 번호 : " + production[i].pro_num); // 상품 번호
-				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;' class='pro-title-span'>"
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter11++;
@@ -361,7 +378,7 @@
 				var price = title.next().html("가격 : " + commaPrice + " 원"); // 가격
 				var pro_num = price.next().html(
 						"상품 번호 : " + production[i].pro_num); // 상품 번호
-				title.html("제목 : <span style='color:#FE2E2E; font:bold;'>"
+				title.html("제목 : <span style='color:#FE2E2E; font:bold;' class='pro-title-span'>"
 						+ production[i].title + "</span>"); //타이틀
 				img.attr('src', path);
 				counter12++;
@@ -401,6 +418,9 @@
 							}
 							var cal = length - 8;
 							var result = sendData.substr(8, (8 + cal));
+							var pattern = /\\/g;
+						
+							setCookiePlus('recentView', result+','+$(this).attr("src").toString().replace(pattern,"/"),window.location.reload());
 
 							window.location.href = "/production/index_productView?pro_num="
 									+ result;
@@ -413,7 +433,7 @@
 							e.preventDefault();
 							var cate_code = $(this).attr('data-cate');
 							window.location.href = "/production/index_productList?cate_code="
-									+ cate_code;
+									+ cate_code + "&order=asc";
 
 						})
 	})

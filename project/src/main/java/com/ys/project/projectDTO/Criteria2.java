@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/* 내가 올린 상품 리스트 */
 @Getter
 @Setter
 @ToString
