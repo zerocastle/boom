@@ -1,0 +1,55 @@
+{
+  "_from": "cordova-plugin-restful",
+  "_id": "cordova-plugin-restful@0.0.4",
+  "_inBundle": false,
+  "_integrity": "sha1-+9grO/uJBAkpthsizISshiqMWPQ=",
+  "_location": "/cordova-plugin-restful",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "cordova-plugin-restful",
+    "name": "cordova-plugin-restful",
+    "escapedName": "cordova-plugin-restful",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-restful/-/cordova-plugin-restful-0.0.4.tgz",
+  "_shasum": "fbd82b3bfb89040929b61b22cc84ac862a8c58f4",
+  "_spec": "cordova-plugin-restful",
+  "_where": "C:\\Users\\bon300-10\\Documents\\GitHub\\boom\\app",
+  "author": {
+    "name": "K.Mohamed Raouf"
+  },
+  "bugs": {
+    "url": "https://github.com/yajuve/cordova-plugin-RESTful/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-restful",
+    "platforms": [
+      "android"
+    ]
+  },
+  "deprecated": false,
+  "description": "Use RESTful api with your cordova, ionic project",
+  "homepage": "https://github.com/yajuve/cordova-plugin-restful.git#readme",
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "RESTful",
+    "api"
+  ],
+  "license": "MIT",
+  "name": "cordova-plugin-restful",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yajuve/cordova-plugin-RESTful.git"
+  },
+  "version": "0.0.4"
+}

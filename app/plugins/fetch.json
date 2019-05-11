@@ -14,5 +14,13 @@
     },
     "is_top_level": true,
     "variables": {}
+  },
+  "cordova-plugin-restful": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-restful"
+    },
+    "is_top_level": true,
+    "variables": {}
   }
 }
