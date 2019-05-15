@@ -7,6 +7,9 @@
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="RESTful">
+        <param name="android-package" value="cordova.plugin.restful.RESTful" />
+    </feature>
     <name>HelloChatTest</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <!--뷰포트 설정으로 인해 확대, 축소비율이 고정되어있다. 또한 디바이스 화면에 가득차게 화면비율 설정-->
+    <!--<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />-->
+    <script src="js/jquery-3.4.0.min.js"></script>
+    <link rel="stylesheet" href="css/jack.css" />
+    <script src="js/login.js"></script>
+    <title>Hello World</title>
+
+</head>
+<body>
+<div data-role="page" >
+    <img src="img/logo2.PNG" />
+    <div id="loginForm">
+        <div class="dimi" data-role="fieldcontain" >
+            <input type="tel" placeholder="phone" id="id"/>
+        </div>
+        <div class="dimi" data-role="fieldcontain" >
+            <input type="password" placeholder="●●●●●●●"  id="pw"/>
+        </div>
+        <div class="dimi" data-role="fieldcontain" >
+            <input type="button" value="로그인" id="login">
+        </div>
+        <div class="dimi" data-role="fieldcontain" >
+            <input type="button" value="회원가입" id="join">
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

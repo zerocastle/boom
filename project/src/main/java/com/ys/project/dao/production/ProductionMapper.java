@@ -26,9 +26,14 @@ public interface ProductionMapper {
 	public List<IndexProductionDTO> sort(@Param("order") String order,
 			@org.apache.ibatis.annotations.Param("cate_code") String cate_code,
 			@org.apache.ibatis.annotations.Param("pageNum") int pageNum,
-			@org.apache.ibatis.annotations.Param("amount") int amount
-			);
+			@org.apache.ibatis.annotations.Param("amount") int amount);
+
 	// 상품 갯수 들고오기
 	public int getTotalCount(@Param("cate_code") String cate_code);
+
+	// 앱 상품 서비스 맵퍼
+	public List<IndexProductionDTO> appSort(
+			@Param("order") String order,
+			@Param("cate_code") String cate_code);
 
 }

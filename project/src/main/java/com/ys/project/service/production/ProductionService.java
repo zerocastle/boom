@@ -74,4 +74,13 @@ public class ProductionService implements IProductionService {
 		return mapper.getTotalCount(cate_code);
 	}
 
+	
+	//앱 상품 서비스 
+	@Override
+	public List<IndexProductionDTO> appSort(String order, String cate_code) {
+		// TODO Auto-generated method stub
+		return mapper.appSort(order, cate_code);
+	}
+
+
 }
