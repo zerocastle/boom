@@ -321,7 +321,7 @@ var subDate;
       var pro_num = $('#pro_num').text();
       for (var i = 0; i < document.getElementsByClassName("qrcode").length; i++) {
         var qrcode = new QRCode(document.getElementsByClassName("qrcode")[i], {
-          text: "http://39.127.7.51:3000/testQR?pro_num=" + pro_num + "&seller=" + seller + "&buyer=" + buyer,
+          text: "http://39.127.7.49:3000/testQR?pro_num=" + pro_num + "&seller=" + seller + "&buyer=" + buyer,
           width: 350,
           height: 350,
           colorDark: "#000000",

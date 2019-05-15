@@ -14,7 +14,7 @@ $(document).ready(function(){
         console.log(typeof test);
         $.ajax({
             type : 'post',
-            url : 'http://39.127.7.51:8080/app/mlogin',
+            url : 'http://39.127.7.47:8080/app/mlogin',
             data : test,
             contentType : "application/json; charset=UTF-8",
             success : function(result){

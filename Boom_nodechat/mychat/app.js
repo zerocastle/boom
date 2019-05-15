@@ -30,8 +30,8 @@ var conn; // DB connection 객체가 될 변수
 var oracledb = require("oracledb"); //oracleDB import
 oracledb.autoCommit = true;//자동커밋
 oracledb.getConnection({// 커텍션 객체 생성
-  user:"kys", //DB-name
-  password:"kys", //DB-password
+  user:"tom", //DB-name
+  password:"tom", //DB-password
   connectString:"localhost/orcl"},function(err,con){ //콜백함수. url/sid를 통해 접근하며 성공시 con 이라는 커넥션 객체 반환. 
     if(err){//에러가 있다면 실행
       console.log("접속에러",err);
@@ -286,23 +286,27 @@ app.get('/roomchat', (req, res) => {//목록중 하나를 클릭하였을때 실
 
 
   //목록의 방번호를 이용해 해당하는 디비의 메시지내역을 불러온다.
-  
-  
+// 방목록불러오기 
 
 
-// 방목록 불러오기
+// 방목록 불러오기(PC 브라우저)
 app.get('/jackchat', (req, res) => {//localhost:3000/jackchat 으로 접근시 실행
+  var mobile = req.query.mobile;
   client = redis.createClient(6379, "localhost");//localhost6379포트의 redis객체에 접근한다.
     client.get("user", function(err, val) {//스프링에서 저장한 redis객체에 "user"라는 키의 값을 찾아 함수실행
-    testdata=val;
-    req.session.nickname = val;//세션의 nickname 변수에 redis객체에서 받아온 값을 넣어준다.
-    console.log('찍어봅시다 : ' , val) // 채팅서버에 접속한 유저의 nickname을 찍어본다.
-    if(val === null) {//값이 없다면 요거하고 땡
-      console.log('>>>>> result : null ');
+    temp=val;
+    if(mobile == 1){//모바일 접속이라면
+      temp = req.query.nickname;
+    } else {//PC접속이라면
+      temp = val;
     }
-    else {//값이 있다면 실행
+  
+    
+    
+    console.log('찍어봅시다 : ' , temp) // 채팅서버에 접속한 유저의 nickname을 찍어본다.
+    //값이 있다면 실행
       console.log('목록1');
-      var loglogsql = "select c.room_id, c.buyer_num, c.seller_num, c.pro_num, o.title, (select nickname from member where m_num = c.buyer_num) C_buyer_nickname, (select nickname from member where m_num = c.seller_num) C_seller_nickname  from chatroom c, production o where o.pro_num = c.pro_num and (      seller_num = (select m_num from member where nickname = '"+val+"') or      buyer_num = (select m_num from member where nickname = '"+val+"')) order by room_id asc";
+      var loglogsql = "select c.room_id, c.buyer_num, c.seller_num, c.pro_num, o.title, (select nickname from member where m_num = c.buyer_num) C_buyer_nickname, (select nickname from member where m_num = c.seller_num) C_seller_nickname  from chatroom c, production o where o.pro_num = c.pro_num and (      seller_num = (select m_num from member where nickname = '"+temp+"') or      buyer_num = (select m_num from member where nickname = '"+temp+"')) order by room_id asc";
       console.log('목록2');
       //닉네임으로 유저의 회원번호 알아내어 해당 번호가 구매자 또는 판매자로 존재하는 채팅방을 검색한다.
       conn.execute(loglogsql,function(err, result){ // 긴 쿼리문을 실행한다.
@@ -314,12 +318,14 @@ app.get('/jackchat', (req, res) => {//localhost:3000/jackchat 으로 접근시 �
           console.log("/jackchat : 에러가 발생했어요!! ", err);
         }else if(!result.rows.length){// 0은 false라고 판단하는것을 이용, row가 0이 아니라면 다시말해 rows가 1이상이라면.
           console.log("result.rows: 리저어어얼트로우",result.rows); //결과값 확인용 찍어본다.
-          res.render('roomlist',{result:JSON.stringify(result),nickname:req.session.nickname}); 
-        }else{  
-          res.render('roomlist',{result:JSON.stringify(result),nickname:req.session.nickname});        
+          if(mobile==1) res.send({result:JSON.stringify(result),nickname:req.session.nickname});
+          else res.render('roomlist',{result:JSON.stringify(result),nickname:req.session.nickname}); 
+        }else{
+          if(mobile==1) res.send({result:JSON.stringify(result),nickname:req.session.nickname});  
+          else res.render('roomlist',{result:JSON.stringify(result),nickname:req.session.nickname});   
         }//DB쿼리문- if else 
       });//if else- redis의 값
-      }//client.get 함수
+      //client.get 함수
     });//redis create 함수
 });//app.get함수
 
