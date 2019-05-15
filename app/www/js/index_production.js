@@ -28,10 +28,26 @@
                 +'<p>'+data[i].title+'</p>'
                 +'<p class="addr-name">'+data[i].addr+'</p>'
                 +'<p class="pro-price">'+data[i].price+ '</p>'
+                +'<input class="pro_num" type="hidden" value="'+data[i].pro_num+'" />'
                 +'</div>'
                 );
             }
             
+        })
+
+        // 상품 보기
+        $('.imgess').click(function(e){
+            alert("눌러지니?");
+            var pro_num = $('.content-wrap input').val();
+            console.log(pro_num);
+
+            $.ajax({
+                type : 'get',
+                url : 'http://39.127.7.51:8080/app/view/'+pro_num,
+                success : function(data){
+                    console.log("상품 넘어와라잇");
+                }
+            })
         })
 
         
