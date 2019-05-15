@@ -186,18 +186,30 @@
   <div id='talk'>
     <ul id="messages" class="chat-box">
       <% var list = result%>
-      <% var date = datetime%>
+      <% var date = datetime
+      var jprod = JSON.parse(pro_data);    
+      %>
+      <div class='hidden_pro' style="display:none;">
+        <div id="Hpro_num"><%=jprod.pro_num%></div>
+        <div id="Htitle"><%=jprod.title%></div>
+        <div id='Hcate'><%=jprod.cate_name%></div>
+        <div id='Hcontent'><%=jprod.content%></div>
+        <div id="Hprice"><%=jprod.price%></div>
+        <div id="Hquality"><%=jprod.p_quality%></div>
+        <div id="Hplace"><%=jprod.place_pick%></div>
+      </div>
+
+      <!--채빙방 관련 된거-->
       <div id="pro_num" style="display:none;"><%=pro_num%></div>
-
-
       <div id="buyer" style="display:none;"><%=buyer%></div>
       <div id="seller" style="display:none;"><%=seller%></div>
       <div id="nickname" style="display:none;"><%=nickname%></div>
       <div id="room_id" style="display:none;"><%=roomid%></div>
       <div id="status" style="display:none;"><%=rstatus%></div>
 
+      <!--메시지 목록 출력 : 약속 시간 , 장소 협의의 발신자와 수신자 구분처리-->
       <%  
-  var jprod = JSON.parse(pro_data);
+  
 var subDate;
   var arr=[];
     var jsonoobj = {};
@@ -560,39 +572,94 @@ var subDate;
 
 </script>
 
+
+
+
+<!--아래부터 결제하기 스크립트-->
+
+<!-- .done(function(){ console.log("요청 성공시 호출") })
+
+.fail(function(){ console.log("요청 실패시 호출") })
+
+.always(function(){ console.log("성공 실패 상관없이 호출") }) -->
+
 <script>
 
-var IMP = window.IMP; // 생략해도 괜찮습니다.
-IMP.init("imp57701295");
+  var IMP = window.IMP; // 생략해도 괜찮습니다.
+  IMP.init("imp57701295");
 
-function requestPay() {
+  function requestPay() {
     // IMP.request_pay(param, callback) 호출
+    // 결제 코드 uuid 생성
+    var merchant_uid = guid();
+    function guid() {
+      function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+          .toString(16)
+          .substring(1);
+      }
+      return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+        s4() + '-' + s4() + s4() + s4();
+    }
+
+    
     IMP.request_pay({ // param
-        pg: "html5_inicis",
-        pay_method: "vbank",
-        ascrow : true,
-        merchant_uid: "ORD20180131-0000015",
-        name: "노르웨이 회전 의자",
-        amount: 300,
-        buyer_email: "gildong@gmail.com",
-        buyer_name: "홍길동",
-        buyer_tel: "010-4242-4242",
-        buyer_addr: "서울특별시 강남구 신사동",
-        buyer_postcode: "01181"
+      pay_method: "card",
+      ascrow: true,
+      merchant_uid: merchant_uid,
+      name: $('#Htitle').html(), // title
+      amount: $('#Hprice').html(),
+      buyer_name: $('#buyer').html(),
     }, function (rsp) { // callback
       console.log(rsp);
-        if (rsp.success) {
-           
-            // 결제 성공 시 로직,
-           alert("성공");
+      if (rsp.success) {
+        alert("결제 성공");
+        jQuery.ajax({
+          url: "/payment", //cross-domain error가 발생하지 않도록 주의해주세요
+          type: 'POST',
+          dataType: 'json',
+          data: {
 
-        } else {
-           alert("실패");
-            // 결제 실패 시 로직,
-           
-        }
+            imp_uid: rsp.imp_uid, // 상점 번호
+            merchant_uid :rsp.merchant_uid, // 결제 번호
+            //기타 필요한 데이터가 있으면 추가 전달
+            addr : $('#Hplace').html(), //주소
+            cate_code : $('#Hcate').html(), //카테고리
+            quality : $('#Hquality').html(), // 상품질
+            ascrow : rsp.ascrow, // 에스크로우 여부
+            buyer_name : rsp.buyer_name,
+            card_name : rsp.card_name,
+            pg_type : rsp.payment,
+            title : rsp.name,
+            seller : $('#seller').html(),
+            price : $('#Hprice').html(),
+            pro_num : $('#pro_num').html()
+
+          }
+        }).done(function (data) {
+          //[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
+          if (everythings_fine) {
+            var msg = '결제가 완료되었습니다.';
+            console.log(data);
+            msg += '\n고유ID : ' + rsp.imp_uid;
+            msg += '\n상점 거래ID : ' + rsp.merchant_uid;
+            msg += '\결제 금액 : ' + rsp.paid_amount;
+            msg += '카드 승인번호 : ' + rsp.apply_num;
+            
+
+            alert(msg);
+          } else {
+            //[3] 아직 제대로 결제가 되지 않았습니다.
+            //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
+          }
+        });
+      } else {
+        alert("실패");
+        // 결제 실패 시 로직,
+
+      }
     });
-}
+  }
 
 
 </script>
