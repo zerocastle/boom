@@ -29,157 +29,7 @@
   <!-- iamport.payment.js -->
   <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 
-
-
-
-
-  <style>
-    form {
-      background: #000;
-      padding: 3px;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      margin-block-end: 0em;
-    }
-
-    form input {
-      border: 0;
-      padding: 10px;
-      width: 70%;
-      margin-right: .5%;
-      margin-left: 10%;
-    }
-
-    #plusbtn {
-      float: left;
-      background: #ffffff;
-      padding: 3px;
-      position: fixed;
-      height: 30px;
-      bottom: 0;
-      font-size: 15px;
-      width: 9%;
-      margin-block-end: 0em;
-      margin-bottom: 5px;
-      margin-left: 5px;
-    }
-
-    form button {
-      width: 15%;
-      background: #C1E4EC;
-      border: none;
-      padding: 10px;
-    }
-
-    .chat-box {
-      display: inline-block;
-      color: #34495e;
-      margin: 0 0 60px 0;
-      width: 90%;
-    }
-
-    .chat-box li {
-      display: table;
-      padding: 13px;
-      margin: 7px 10px;
-      font-size: 18px;
-      line-height: 25px;
-      margin-bottom: 5px;
-      -webkit-border-top-left-radius: 6px;
-      -webkit-border-top-right-radius: 6px;
-      -webkit-border-bottom-right-radius: 6px;
-      -webkit-border-bottom-left-radius: 6px;
-      -moz-border-radius-topleft: 6px;
-      -moz-border-radius-topright: 6px;
-      -moz-border-radius-bottomright: 6px;
-      -moz-border-radius-bottomleft: 6px;
-      border-top-left-radius: 6px;
-      border-top-right-radius: 6px;
-      border-bottom-right-radius: 6px;
-      border-bottom-left-radius: 6px;
-    }
-
-    .chat-box .odd {
-      background-color: #cfcccd;
-      height: auto;
-      clear: both;
-      float: left;
-    }
-
-    .chat-box .system {
-      background-color: black;
-      color: white;
-      clear: both;
-      float: left;
-    }
-
-
-    .chat-box .odd:after {
-      content: ' ';
-      position: relative;
-      top: auto;
-      bottom: auto;
-      border: 12px solid;
-      border-color: transparent transparent #cfcccd transparent;
-      margin: 0 0 0 -24px;
-      float: left;
-    }
-
-
-    .chat-box .even {
-      background-color: #C1E4EC;
-      height: auto;
-      clear: both;
-      float: right;
-    }
-
-    .chat-box .even:after {
-      content: ' ';
-      position: relative;
-      bottom: auto;
-      border: 12px solid;
-      border-color: transparent transparent #C1E4EC transparent;
-      margin: 0 -24px 0 0;
-      float: right;
-    }
-
-    .chat-box li span {
-      padding: 0 0 5px;
-      color: #cfcccd;
-      display: block;
-    }
-
-    .item {
-      font-style: 25px;
-    }
-
-    #talk {
-      width: auto;
-      height: auto;
-    }
-
-    #input-sets {
-      width: auto;
-      height: auto;
-    }
-
-    #plusbtn {
-      font-size: 10px;
-    }
-
-    #set_address {
-      font-size: 15px;
-    }
-
-    .send {
-      color: black;
-    }
-
-    .menu {
-      font-size: 15px;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="stylesheets/chat.css" />
 </head>
 
 <body>
@@ -307,7 +157,7 @@ var subDate;
           style="margin-left:7px; font-weight:bold;">전송</button>
       </a>
       <a class="item nullmenu menu" id='QRsend'>
-        명세서 전달
+         QR 영수증 전달
       </a>
       <%if(nickname == seller){%>
       <a class="item nullmenu menu" id='buy'>
@@ -361,19 +211,24 @@ var subDate;
     let qrCount;
     qrCount = 0;
     socket.emit('joinRoom', num, name);
+    // 일딴 세로 고침
     socket.on('ref', () => {
       window.location.reload();
     });
+    // 체팅방을 떠남
     $(window).bind("beforeunload", function (e) {
       socket.emit('leaveRoom', num, name);
     });
 
+    
     $('#buy').click(function () {
-      var tag = $('#pro_data').html();
+      var tag = $('#pro_data').html(); // 체팅방에 박혀있는 상품 정보 테그들
       $('#messages').append($('<li class="even">').html(name + ' : ' + tag));//버튼은 상대방에게만 보인다.
       alert(num, name, tag);
       socket.emit('socket_sendAcc', num, name, tag);
     });
+    
+
     socket.on('socket_sendAcc', (num, name, tag) => {
       if (name == $('#nickname').text()) {
 
@@ -382,6 +237,8 @@ var subDate;
       }
       $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
     });
+
+    // 약속장소 잡기 버튼
     $('#send_address').click(function () {
       if ($('#set_address').val() == '약속장소 선정') {
         alert('장소를 지정해 주시기 바랍니다.');
@@ -391,6 +248,8 @@ var subDate;
       var address = $('#set_address').val();
       socket.emit('socket_address', num, address, name); //서버로 전송한다.
     });
+
+    // 
     socket.on('socket_address', (num, address, name, message_id) => {// 상대방으로부터 채팅방에 소켓데이트 신호가 온다면 실행.
       var buttonSet = "<button class='Ayes'>수락</button><button class='Ano' value=" + message_id + ">거절</button>";
       if (name == $('#nickname').text()) {
@@ -460,7 +319,7 @@ var subDate;
       var buyer = $('#buyer').text();
       var pro_num = $('#pro_num').text();
       var tag = '<div class="qrcode"></div><h2>명세서</h2><br>판매자 :' + seller + '<hr>구매자 :' + buyer + '<hr>상품번호 :' + pro_num + '<hr><i><small>명세서 상세 내용은 QR코드 인증 후 확인 가능합니다.</small></i>';
-      socket.emit('QRsend', num, name, tag);
+      socket.emit('QRsend', num, name, tag); //서버에 내용을 포함한 신호 전송
     }
     socket.on('QRsend', (num1, name1, tag1) => {
       if (name1 == name) {
@@ -531,6 +390,10 @@ var subDate;
       $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
     });
   });
+  // 채팅방 전체기능
+
+
+  //주소
   function sample4_execDaumPostcode() {
     daum.postcode.load(function () {
       new daum.Postcode({
@@ -572,6 +435,8 @@ var subDate;
 
 </script>
 
+<!--주소-->
+
 
 
 
@@ -605,7 +470,7 @@ var subDate;
     
     IMP.request_pay({ // param
       pay_method: "card",
-      ascrow: true,
+      escrow: true,
       merchant_uid: merchant_uid,
       name: $('#Htitle').html(), // title
       amount: $('#Hprice').html(),
