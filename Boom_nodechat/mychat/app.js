@@ -62,7 +62,7 @@ app.post('/payment', (req, res) => {
   console.log("요청됨");
   console.log(req.body);
   var imp = req.body.imp_uid;
-  var mnumSql = "insert into payment(merchant_uid,imp_uid,place_pick,cate_code,quality,card_name,title,buyer_name,seller_name,price,pro_num) values ('"+req.body.merchant_uid+"','"+req.body.imp_uid+"','"+req.body.addr+"','"+req.body.cate_code+"','"+req.body.quality+"','"+req.body.card_name+"','"+req.body.title+"','"+req.body.buyer_name+"','"+req.body.seller+"',"+req.body.price+","+req.body.pro_num+")";
+  var mnumSql = "insert into payment(merchant_uid,imp_uid,place_pick,cate_code,quality,card_name,pg_tid,title,buyer_name,seller_name,price,pro_num) values ('"+req.body.merchant_uid+"','"+req.body.imp_uid+"','"+req.body.addr+"','"+req.body.cate_code+"','"+req.body.quality+"','"+req.body.card_name+"','"+req.body.pg_tid+"','"+req.body.title+"','"+req.body.buyer_name+"','"+req.body.seller+"',"+req.body.price+","+req.body.pro_num+")";
   console.log(mnumSql);
   conn.execute(mnumSql, function (err, result) {
     //흐흐 디비 저장용
