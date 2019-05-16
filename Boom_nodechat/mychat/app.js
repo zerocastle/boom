@@ -68,6 +68,11 @@ app.post('/payment', (req, res) => {
     //흐흐 디비 저장용
     console.log(result);
     console.log(err);
+    if(result.rowAffected == 1){
+      alert("결제가 완료 되었습니다.");
+      // 여기 명세서에 담겨있는 내용을 QR 코드화 영수증으로 만들어 메세지로 넘어 오는 작업 처리
+    }
+
   });
 
 })
