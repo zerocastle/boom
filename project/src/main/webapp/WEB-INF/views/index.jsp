@@ -6,7 +6,6 @@
 
 <%@include file="floatSection/production.jsp"%>
 
-
 <%@include file="fixsection/footer.jsp"%>
 
 
