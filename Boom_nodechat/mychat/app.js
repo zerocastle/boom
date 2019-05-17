@@ -53,15 +53,26 @@ app.post('/payment', (req, res) => {
   console.log(req.body);
   var imp = req.body.imp_uid;
   var mnumSql = "insert into payment(merchant_uid,imp_uid,place_pick,cate_code,quality,card_name,pg_tid,title,buyer_name,seller_name,price,pro_num) values ('" + req.body.merchant_uid + "','" + req.body.imp_uid + "','" + req.body.addr + "','" + req.body.cate_code + "','" + req.body.quality + "','" + req.body.card_name + "','" + req.body.pg_tid + "','" + req.body.title + "','" + req.body.buyer_name + "','" + req.body.seller + "'," + req.body.price + "," + req.body.pro_num + ")";
+  var updateState = "update production set state_msg = '1' where pro_num =" + req.body.pro_num;
   console.log(mnumSql);
+  console.log(updateState + '/업데이트 query');
   conn.execute(mnumSql, function (err, result) {
     //흐흐 디비 저장용
     console.log(result);
     console.log(err);
-    if (result.rowAffected == 1) {
-      
-      // 여기 명세서에 담겨있는 내용을 QR 코드화 영수증으로 만들어 메세지로 넘어 오는 작업 처리
-      
+    if (result.rowsAffected == 1) {
+
+      // 결제가 완료 되면 결제 내역을 담고 상품에 대한 정보를 수정한다.
+      conn.execute(updateState, function (err, result) {
+        console.log(err + "상품에 대한 정보를 수정");
+        console.log(result + '상품 정보 수정 결과 값');
+
+        if(result.rowAffected == 1){
+          console.log("완전한 상품 처리 끝");
+        }
+
+      })
+
     }
 
   });
@@ -628,8 +639,8 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
   });
 
   //결제 영수증 퐁
-  socket.on('receipt', function(room_id, buyer_name, tag){
-    console.log(room_id+"fucking=============");
+  socket.on('receipt', function (room_id, buyer_name, tag) {
+    console.log(room_id + "fucking=============");
     console.log(buyer_name + "sibal =================");
     console.log(tag + "tatatatatatatata=============");
     var insertSql = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '" + buyer_name + "'), " + room_id + ", '" + tag + "')";
