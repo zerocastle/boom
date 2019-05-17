@@ -47,30 +47,21 @@ var c_datetime;
 var seller;
 var buyer;
 
-// // 결제
-// app.get('/payment', (req, res) => {
-//   console.log(req);
-
-//   conn.execute(sqlpayment, function (err, result) {   
-
-//   });
-//   res.render('fucking');
-// })
-
 //결제 포스트
 app.post('/payment', (req, res) => {
   console.log("요청됨");
   console.log(req.body);
   var imp = req.body.imp_uid;
-  var mnumSql = "insert into payment(merchant_uid,imp_uid,place_pick,cate_code,quality,card_name,pg_tid,title,buyer_name,seller_name,price,pro_num) values ('"+req.body.merchant_uid+"','"+req.body.imp_uid+"','"+req.body.addr+"','"+req.body.cate_code+"','"+req.body.quality+"','"+req.body.card_name+"','"+req.body.pg_tid+"','"+req.body.title+"','"+req.body.buyer_name+"','"+req.body.seller+"',"+req.body.price+","+req.body.pro_num+")";
+  var mnumSql = "insert into payment(merchant_uid,imp_uid,place_pick,cate_code,quality,card_name,pg_tid,title,buyer_name,seller_name,price,pro_num) values ('" + req.body.merchant_uid + "','" + req.body.imp_uid + "','" + req.body.addr + "','" + req.body.cate_code + "','" + req.body.quality + "','" + req.body.card_name + "','" + req.body.pg_tid + "','" + req.body.title + "','" + req.body.buyer_name + "','" + req.body.seller + "'," + req.body.price + "," + req.body.pro_num + ")";
   console.log(mnumSql);
   conn.execute(mnumSql, function (err, result) {
     //흐흐 디비 저장용
     console.log(result);
     console.log(err);
-    if(result.rowAffected == 1){
-      alert("결제가 완료 되었습니다.");
+    if (result.rowAffected == 1) {
+      
       // 여기 명세서에 담겨있는 내용을 QR 코드화 영수증으로 만들어 메세지로 넘어 오는 작업 처리
+      
     }
 
   });
@@ -362,7 +353,6 @@ app.get('/jackchat', (req, res) => {//localhost:3000/jackchat 으로 접근시 �
 });//app.get함수
 
 io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되는 문자열이 일치하는 메소드를 실행한다.
-
   //내가 좀더 찾아봐야할 부분이라 제거하지 않음. 사용되어지진 않는다.
   socket.on('leaveRoom', (num, name) => {
     socket.leave(num, () => {
@@ -636,9 +626,27 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
     });
     io.to(num).emit('chat message', name, msg);//해당 방에 이름과 메시지를 전송
   });
+
+  //결제 영수증 퐁
+  socket.on('receipt', function(room_id, buyer_name, tag){
+    console.log(room_id+"fucking=============");
+    console.log(buyer_name + "sibal =================");
+    console.log(tag + "tatatatatatatata=============");
+    var insertSql = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '" + buyer_name + "'), " + room_id + ", '" + tag + "')";
+    console.log(insertSql);
+    conn.execute(insertSql, function (err, result) {
+      if (err) {
+        console.log(err, '인서트실퓨ㅐ')
+      } else {
+        console.log(result, '인서트성공')
+        io.to(room_id).emit('receipt', (room_id, buyer_name, tag));
+      }
+    });
+
+  });
+
+
 });
-
-
 
 
 http.listen(3000, () => { // 서버를 실행시킨다.
