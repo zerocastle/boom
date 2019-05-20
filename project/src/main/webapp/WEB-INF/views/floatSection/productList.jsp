@@ -85,6 +85,13 @@
 		for(var i = 0; i < productionLength; i++){
 			for(var j = 0; j < productionLength; j++){ 
 				var temp = list[j].uploadPath.toString();
+				var pickImage = list[j].place_signal;
+				if(list[j].place_signal == 1){
+					pickImage = '<br /><div><img src="/resources/image/place_signal/11.png" height="20" /></div>';
+				}else{
+					pickImage = '<br /><div><img src="/resources/image/place_signal/22.png" height="20" /></div>';
+				}
+					
 				var str = "<li><a href='#' class='productNext' onclick="+"setCookiePlus('recentView','"+list[j].pro_num+","+realPath+temp.toString().replace(pattern,'/')+"/"+list[j].uuid+"_"+list[j].fileName+"',window.location.reload())"+">"
 					+ "<div class='product'>"
 					+"<div class='product-img'>"
@@ -93,6 +100,7 @@
 					+ "<div class='product-title'>제목 : "+list[j].title+"</div>"
 					+ "<div class='product-info'>"
 					+	"<div class='product-price'>가격 : "+comma(list[j].price)+" 원</div>"
+					+	pickImage
 					+	"<div class='product-update-time'>"
 					+	"</div>"
 					+"</div>"
