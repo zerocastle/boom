@@ -5,6 +5,7 @@ var express = require('express'); // express 서버 import
 
 var app = express(); // 서버 객체 생성
 
+
 var cors = require('cors'); // 채팅앱을 위한 설정 -상세내용 http://guswnsxodlf.github.io/enable-CORS-on-express
 app.use(cors());            //                  -상세내용2 https://forums.adobe.com/thread/2197794
 const http = require('http').Server(app); // http 통신규약 import
@@ -24,7 +25,7 @@ app.use(express.static(__dirname + '/public')); // resource파일들의 경로�
 app.set('view engine', 'ejs'); //뷰 템플릿 지정. .ejs 로 작성되어야한다. 
 app.set('views', './views'); //경로지정. view단의 파일들은 해당 경로에 저장되어야 한다.
 app.use('/api/daumJuso', require('./routes/daumJuso'));//모바일 주소 출력용
-
+app.use('/api/push', require('./routes/push'));//push 알림 firebase 연동
 let room = [10000];//socketIO의 방 객체가 담길 배열
 var conn; // DB connection 객체가 될 변수
 var oracledb = require("oracledb"); //oracleDB import
