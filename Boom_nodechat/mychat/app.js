@@ -69,6 +69,8 @@ app.post('/payment', (req, res) => {
 
         if(result.rowAffected == 1){
           console.log("완전한 상품 처리 끝");
+          // qr 코드 작업 처리하는부분
+          
         }
 
       })
@@ -172,32 +174,49 @@ app.get('/doChat2', (req, res) => {
 app.get('/testQR', (req, res) => {
   console.log('@@@@@@@@@@@@@@@@@@@@@   QR코드를 통한 접근  @@@@@@@@@@@@@@');
   console.log('@@@@@@@@@@@@@@@@@@@@@   접근한 세션의 닉네임 @@@@@@@@@@@@@' + req.session.nickname);
-  console.log('@@@@@@@@@@@@@판매@@판매@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@' + req.query.seller);
-  console.log('@@@@@@@@@@@@@@@@@구매@@@@구매@@@@@@@@@@@@@@@@@@@@@@@@@@@@' + req.query.buyer);
-  console.log('@@@@@@@@@@@@@@@@@@@@@상품번@호@@@@@@@@@@@@@@@@@@@@@@@@@@@' + req.query.pro_num);
-  var QRsql = "select pro_num, place_pick, title, content, price, p_quality, c.cate_name from production p, category c where c.cate_code = p.cate_code and pro_num =" + req.query.pro_num;
+  console.log('@@@@@@@@@@@@@PAYMENT의 기본키@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@' + req.query.muid);
+  var QRsql = "select * from payment where merchant_uid ='" + req.query.muid+ "'";
   //--상품번호 거래장소 상품제목 상품내용 상품가격 상품품질 카테고리
-
+  console.log('    ' + QRsql);
   conn.execute(QRsql, function (err, result) {
-    if (err) {
 
+    if (err) {
+      console.log('에러' , err);
     } else {
-      var place_pick = result.rows[0][1];
-      var title = result.rows[0][2];
-      var content = result.rows[0][3];
-      var price = result.rows[0][4];
-      var p_quality = result.rows[0][5];
-      var cate_name = result.rows[0][6];
+      console.log(result.rows);
+      var muid = result.rows[0][0];
+      var imp = result.rows[0][1];
+      var place = result.rows[0][2];
+      var cate = result.rows[0][3];
+      var quality = result.rows[0][4];
+      var card_name = result.rows[0][5];
+      var pg_tid = result.rows[0][6];
+      var title = result.rows[0][7];
+      var ascrow = result.rows[0][8];
+      var pay_method = result.rows[0][9];
+      var buyer_name = result.rows[0][10];
+      var seller_name = result.rows[0][11];
+      var create_date = result.rows[0][12];
+      var price = result.rows[0][13];
+      var pro_num = result.rows[0][14];
+      
+      
       var sendData = {
-        seller: req.query.seller,
-        buyer: req.query.buyer,
-        pro_num: req.query.pro_num,
-        place_pick: place_pick,
-        title: title,
-        content: content,
-        price: price,
-        p_quality: p_quality,
-        cate_name: cate_name
+        muid : result.rows[0][0],
+        imp: result.rows[0][1],
+        place : result.rows[0][2],
+        cate : result.rows[0][3],
+        quality : result.rows[0][4],
+        card_name : result.rows[0][5],
+        pg_tid : result.rows[0][6],
+        title : result.rows[0][7],
+        ascrow : result.rows[0][8],
+        pay_method : result.rows[0][9],
+        buyer_name : result.rows[0][10],
+        seller_name : result.rows[0][11],
+        create_date : result.rows[0][12],
+        price : result.rows[0][13],
+        pro_num : result.rows[0][14]
       }
       res.render('goTestQR', sendData);
     }
@@ -482,12 +501,15 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
   }
 
   socket.on('socket_sendAcc', (num, name, tag) => {
-    var insertSql = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '" + name + "'), " + num + ", '" + tag + "')";
+    var tag = tag + "<input style=''display:none;'' type=''text'' class=''message_id'' value='''||TO_CHAR(message_seq.NEXTVAL)||'''></input>";
+    var insertSql = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '" + name + "'), " + num + ", '" + tag +"')";
+    console.log(insertSql);
     conn.execute(insertSql, function (err, result) {
       if (err) {
         console.log(err, '인서트실퓨ㅐ')
       } else {
         console.log(result, '인서트성공')
+        
         io.to(num).emit('socket_sendAcc', num, name, tag);
       }
     });
@@ -638,19 +660,41 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
     io.to(num).emit('chat message', name, msg);//해당 방에 이름과 메시지를 전송
   });
 
+  var updateReplace = function (room_id, buyer_name, tag){
+    console.log('updateReplace');
+    var target = '<button class="buy_no">거절</button><button class="payment">결제</button>';
+    var newval = "결제가 완료되었습니다.";
+    var sqlUpdateReplace = "update message set content = REPLACE(content, '"+target+"', '"+newval+"')";
+    conn.execute(sqlUpdateReplace, function(err,result){
+      console.log(err, result);
+      io.to(room_id).emit('receipt', (room_id, buyer_name, tag));
+    })
+
+
+  }
   //결제 영수증 퐁
   socket.on('receipt', function (room_id, buyer_name, tag) {
     console.log(room_id + "fucking=============");
     console.log(buyer_name + "sibal =================");
     console.log(tag + "tatatatatatatata=============");
+    //결제 메시지 0
+    //채팅메시지 n개 작성됨.
+    //영수증 메시지  n+1
+    //결제메시지 조작할려면?
     var insertSql = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '" + buyer_name + "'), " + room_id + ", '" + tag + "')";
+
     console.log(insertSql);
     conn.execute(insertSql, function (err, result) {
       if (err) {
         console.log(err, '인서트실퓨ㅐ')
       } else {
         console.log(result, '인서트성공')
-        io.to(room_id).emit('receipt', (room_id, buyer_name, tag));
+        
+        var target = "<button class=''buy_no''>거절</button><button class=''payment''>결제</button>";
+        var newval = "결제가 완료되었습니다.";
+        return updateReplace(room_id, buyer_name, tag);
+
+        
       }
     });
 

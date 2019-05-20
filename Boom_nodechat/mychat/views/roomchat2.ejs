@@ -93,6 +93,7 @@ var subDate;
 %>
       <div id="pro_data" style="display:none;">
         <ol id='pro_data'>
+          <div id='QRhidden'></div>
           판매자 : <%=jprod.seller%> //
           구매자 : <%=jprod.buyer%> //
           상품번호 : <%=jprod.pro_num%>
@@ -105,12 +106,11 @@ var subDate;
           <hr>
           직플레이스 : <br><%=jprod.place_pick%><br>
           입금할 가상계좌 : (대구은행) 308-29-80376732-8<br>
-          <button class="buy_no">거절</button>
-          <button class="payment">결제</button>
+          <button class="buy_no">거절</button><button class="payment">결제</button>
           <!--구매자에게만 보이는 이 버튼은 수락버튼 클릭시 결제창이 열리게 되며 에스크로 결제가 진행된다. 결제가 성공적으로 완료되면 서버에 QR코드 생성하라는 신호를 발생시킨다. 이 신호는 채팅방에 전달되며 판매자에게만 보여지게 된다. QR코드는
           명세서 정보가 담긴 쿼리스트링을 포함한 url 데이터이다. 이 QR코드는 판매자에게만 보이게 되며 직플스캐너가 아닌 카메라로 인식시 안내페이지를 반환하게 된다. 
         또한 거래당사자가 아닌 회원이 직플스캐너로 인식시에도 안내페이지를 반환하게 된다. 거래당사자가 인식한다면 거래과정을 진행하게 된다.-->
-          <i><small>수락버튼 클릭시 거래가 진행됩니다.</small></i>
+
         </ol>
       </div>
 
@@ -178,21 +178,27 @@ var subDate;
       $(document).scrollTop($(document).height());
     }
     var road_and_QR = function () {
-      var seller = $('#seller').text();
-      var buyer = $('#buyer').text();
-      var pro_num = $('#pro_num').text();
-      for (var i = 0; i < document.getElementsByClassName("qrcode").length; i++) {
-        var qrcode = new QRCode(document.getElementsByClassName("qrcode")[i], {
-          text: "http://39.127.7.51:3000/testQR?pro_num=" + pro_num + "&seller=" + seller + "&buyer=" + buyer,
-          width: 350,
-          height: 350,
-          colorDark: "#000000",
-          colorLight: "#ffffff",
-          correctLevel: QRCode.CorrectLevel.H
-        });
-      }
-    }
-    road_and_QR();
+              
+              var seller = $('#seller').text();
+              var buyer = $('#buyer').text();
+              var pro_num = $('#pro_num').text();
+              for (var i = 0; i < document.getElementsByClassName("qrcode").length; i++) {
+                //var muid = $('.qrcode').text();
+                var muid = $(".qrcode")[i].innerHTML;
+                console.log(muid);
+                var qrcode = new QRCode(document.getElementsByClassName("qrcode")[i], {
+                  text: "http://39.127.7.51:3000/testQR?muid=" + muid,
+                  width: 350,
+                  height: 350,
+                  colorDark: "#000000",
+                  colorLight: "#ffffff",
+                  correctLevel: QRCode.CorrectLevel.H
+                });
+              }
+            }
+            road_and_QR();
+
+
     var a = $('#status').text();
     $('#set_date').bootstrapMaterialDatePicker({ format: 'YYYY/MM/DD HH:mm', minDate: new Date() });//캘린더 - datePicker를 달아준다.
 
@@ -212,124 +218,128 @@ var subDate;
     qrCount = 0;
 
 
-      // =============================================================
-  var IMP = window.IMP; // 생략해도 괜찮습니다.
-  IMP.init("imp57701295");
-    
-  $(document).on('click','.payment',function(){
-    
-    // IMP.request_pay(param, callback) 호출
-    // 결제 코드 uuid 생성
-    var merchant_uid = guid();
-    function guid() {
-      function s4() {
-        return Math.floor((1 + Math.random()) * 0x10000)
-          .toString(16)
-          .substring(1);
+    // =============================================================
+    var IMP = window.IMP; // 생략해도 괜찮습니다.
+    IMP.init("imp57701295");
+
+    $(document).on('click', '.payment', function () {
+
+      // IMP.request_pay(param, callback) 호출
+      // 결제 코드 uuid 생성
+      var merchant_uid = guid();
+      function guid() {
+        function s4() {
+          return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+          s4() + '-' + s4() + s4() + s4();
       }
-      return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-        s4() + '-' + s4() + s4() + s4();
-    }
-    IMP.request_pay({ // param
-      pay_method: "card",
-      escrow: true,
-      merchant_uid: merchant_uid,
-      name: $('#Htitle').html(), // title
-      amount: $('#Hprice').html(),
-      buyer_name: $('#buyer').html(),
-    }, function (rsp) { // callback
-      console.log(rsp);
-      if (rsp.success) {
+      IMP.request_pay({ // param
+        pay_method: "card",
+        escrow: true,
+        merchant_uid: merchant_uid,
+        name: $('#Htitle').html(), // title
+        amount: $('#Hprice').html(),
+        buyer_name: $('#buyer').html(),
+      }, function (rsp) { // callback
+        console.log(rsp);
+        if (rsp.success) {
 
-        var msg = '결제 정보 확인 루틴';
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
-        var yyyy = today.getFullYear();
+          var msg = '결제 정보 확인 루틴';
+          var today = new Date();
+          var dd = today.getDate();
+          var mm = today.getMonth() + 1; //January is 0!
+          var yyyy = today.getFullYear();
 
-        if (dd < 10) {
-          dd = '0' + dd
-        }
+          if (dd < 10) {
+            dd = '0' + dd
+          }
 
-        if (mm < 10) {
-          mm = '0' + mm
-        }
+          if (mm < 10) {
+            mm = '0' + mm
+          }
 
-        today = yyyy + '/' + mm + '/' + dd;
-        console.log("투데이 : " + today);
+          today = yyyy + '/' + mm + '/' + dd;
+          console.log("투데이 : " + today);
 
-        
-        var buyer_name = rsp.buyer_name;
 
-        var tag2 ="<ol><div class=''receipt_title''>========== 영 수 증 ==========</div></ol>" 
-          + "<ol><div class=''imp_uid''>가맹점 코드 : " + rsp.imp_uid + "  </div></ol>"
-          + "<ol><div class=''merchant_uid''>결제코드 : " + rsp.merchant_uid + " </div></ol>"
-          + "<ol><div class=''pro_num''>상품번호 : " + $('#Hpro_num').html() + " </div></ol>"
-          + "<ol><div class=''cate_code''>상품 분류 : " + $('#Hcate').html() + " </div></ol>"
-          + "<ol><div class=''quality''>상품 품질 : " + $('#Hquality').html() + " </div></ol>"
-          + "<ol><div class=''title''>상품이름 : " + rsp.name + " </div></ol>"
-          + "<ol><div class=''price''>상품가격 : " + rsp.paid_amount + " </div></ol>"
-          + "<ol><div class=''card_name''>카드사 : " + rsp.card_name + " </div></ol>"
-          + "<ol><div class=''pg_tid''>카드결제 코드: " + rsp.pg_tid + " </div></ol>"
-          + "<ol><div class=''buyer_name''>구매자 : " + rsp.buyer_name + " </div></ol>"
-          + "<ol><div class=''seller_name''>판매자 : " + $('#seller').html() + " </div></ol>"
-          + "<ol><div class=''place_pick''>직플레이스 : " + $('#Hplace').html() + " </div></ol>"
-          + "<ol><div class=''seller_name''>결제날짜 : " + today + " </div></ol>";
+          var buyer_name = rsp.buyer_name;
+
+          var tag2 = "<ol><div class=''qrcode''>"+rsp.merchant_uid+"</div></ol>"
+            + "<ol><div class=''receipt_title''>========== 영 수 증 ==========</div></ol>"
+            + "<ol><div class=''imp_uid''>가맹점 코드 : " + rsp.imp_uid + "  </div></ol>"
+            + "<ol><div class=''merchant_uid''>결제코드 : " + rsp.merchant_uid + " </div></ol>"
+            + "<ol><div class=''pro_num''>상품번호 : " + $('#Hpro_num').html() + " </div></ol>"
+            + "<ol><div class=''cate_code''>상품 분류 : " + $('#Hcate').html() + " </div></ol>"
+            + "<ol><div class=''quality''>상품 품질 : " + $('#Hquality').html() + " </div></ol>"
+            + "<ol><div class=''title''>상품이름 : " + rsp.name + " </div></ol>"
+            + "<ol><div class=''price''>상품가격 : " + rsp.paid_amount + " </div></ol>"
+            + "<ol><div class=''card_name''>카드사 : " + rsp.card_name + " </div></ol>"
+            + "<ol><div class=''pg_tid''>카드결제 코드: " + rsp.pg_tid + " </div></ol>"
+            + "<ol><div class=''buyer_name''>구매자 : " + rsp.buyer_name + " </div></ol>"
+            + "<ol><div class=''seller_name''>판매자 : " + $('#seller').html() + " </div></ol>"
+            + "<ol><div class=''place_pick''>직플레이스 : " + $('#Hplace').html() + " </div></ol>"
+            + "<ol><div class=''seller_name''>결제날짜 : " + today + " </div></ol>";
 
           console.log(room_id + '' + buyer_name + '' + tag2);
 
-        //결제 완료후 핑
-        socket.emit('receipt', room_id,rsp.buyer_name,tag2);
+          //결제 완료후 핑
+          socket.emit('receipt', room_id, rsp.buyer_name, tag2);
 
-        jQuery.ajax({
-          url: "/payment", //cross-domain error가 발생하지 않도록 주의해주세요
-          type: 'POST',
-          data: {
+          jQuery.ajax({
+            url: "/payment", //cross-domain error가 발생하지 않도록 주의해주세요
+            type: 'POST',
+            data: {
 
-            imp_uid: rsp.imp_uid, // 상점 번호
-            merchant_uid: rsp.merchant_uid, // 결제 번호
-            //기타 필요한 데이터가 있으면 추가 전달
-            addr: $('#Hplace').html(), //주소
-            cate_code: $('#Hcate').html(), //카테고리
-            quality: $('#Hquality').html(), // 상품질
-            ascrow: rsp.ascrow, // 에스크로우 여부
-            buyer_name: rsp.buyer_name,
-            card_name: rsp.card_name,
-            pg_tid: rsp.pg_tid,
-            pg_type: rsp.payment,
-            title: rsp.name,
-            seller: $('#seller').html(),
-            price: $('#Hprice').html(),
-            pro_num: $('#pro_num').html(),
-            room_id: $('#room_id').html()
+              imp_uid: rsp.imp_uid, // 상점 번호
+              merchant_uid: rsp.merchant_uid, // 결제 번호
+              //기타 필요한 데이터가 있으면 추가 전달
+              addr: $('#Hplace').html(), //주소
+              cate_code: $('#Hcate').html(), //카테고리
+              quality: $('#Hquality').html(), // 상품질
+              ascrow: rsp.ascrow, // 에스크로우 여부
+              buyer_name: rsp.buyer_name,
+              card_name: rsp.card_name,
+              pg_tid: rsp.pg_tid,
+              pg_type: rsp.payment,
+              title: rsp.name,
+              seller: $('#seller').html(),
+              price: $('#Hprice').html(),
+              pro_num: $('#pro_num').html(),
+              room_id: $('#room_id').html()
 
-          }
+            }
 
-        }).done(function (data) {
-          //[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
-          if (everythings_fine) {
+          }).done(function (data) {
+            //[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
+            console.log(data + '...............................................');
+
+            if (everythings_fine) {
 
 
 
-          } else {
-            //[3] 아직 제대로 결제가 되지 않았습니다.
-            //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
-          }
-        });
-      } else {
-        alert("실패");
-        // 결제 실패 시 로직,
+            } else {
+              //[3] 아직 제대로 결제가 되지 않았습니다.
+              //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
+            }
+          });
+        } else {
+          alert("실패");
+          // 결제 실패 시 로직,
 
-      }
-    });
-  })
+        }
+      });
+    })
 
-  // =============================================================
+    // =============================================================
 
     socket.emit('joinRoom', num, name);
     // 일딴 세로 고침
     socket.on('ref', () => {
       window.location.reload();
+      $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
     });
     // 체팅방을 떠남
     $(window).bind("beforeunload", function (e) {
@@ -337,13 +347,8 @@ var subDate;
     });
 
     // 결제 완료시 영수증 ========================================================
-    socket.on('receipt', function(room_id, buyer_name, tag) {
+    socket.on('receipt', function (room_id, buyer_name, tag) {
       window.location.reload();
-      if (buyer_name == $('#nickname').text()) {
-        $('#messages').append($('<li class="even">').html(buyer_name + ' : ' + tag));//버튼은 상대방에게만 보인다.
-      } else {
-        $('#messages').append($('<li class="odd">').html(buyer_name + ' : ' + tag));//버튼은 상대방에게만 보인다.
-      }
       $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
     });
     // ========================================================
