@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <h1><%=buyer_num%></h1>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <div class='youcannotseethis' id="room_id"><%=room_id%></div>
     <div class='youcannotseethis' id="seller_num"><%=seller_num%></div>
@@ -22,13 +23,26 @@
     <script>
         $(document).ready(function(){
             //console.log("/roomchat?room_id="+room_id+"&talker=in&seller="+seller_num+"&buyer="+buyer_num+"pro_num="+pro_num);
+            alert('<%=seller_num%>');
+            alert('<%=buyer_num%>');
             var nickname = $('#nickname').text();
             sessionStorage.setItem('nickname', nickname);
             var room_id = $('#room_id').text();
             var seller_num = $('#seller_num').text();
             var buyer_num = $('#buyer_num').text();
             var pro_num = $('#pro_num').text();
+      //http://localhost:3000/roomchat?room_id=38&talker=in&seller=edge&buyer=jack&pro_num=46&mobile=0&nickname=edge
+          //  var urlString = "/roomchat?room_id="+room_id+"&talker=in&seller="+seller_num+"&buyer="+buyer_num+"&pro_num="+pro_num+'&mobile=0';
+          
+          
+          
+          
+          if(nickname != seller_num && nickname != buyer_num ){
+            var urlString = "/doChat2?m_num="+seller_num+"&pro_num="+pro_num+"&nickname="+nickname;    
+          }else {
             var urlString = "/roomchat?room_id="+room_id+"&talker=in&seller="+seller_num+"&buyer="+buyer_num+"&pro_num="+pro_num+'&mobile=0';
+          }
+          
             window.location.href = urlString;
         });
     </script>

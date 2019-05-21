@@ -47,6 +47,7 @@
 		WHERE B.REP = 1 AND
 		CATE_CODE=#{cate_code} AND A.PRO_NUM =
 		B.PRO_NUM
+		ORDER BY A.CREATE_DATE DESC
 	</select>
 
 	<select id="sort"

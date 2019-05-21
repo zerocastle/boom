@@ -9,7 +9,7 @@
     <!--<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />-->
     <script src="js/jquery-3.4.0.min.js"></script>
     <link rel="stylesheet" href="css/jack.css" />
-    <script src="js/login.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
     <title>Hello World</title>
 
 </head>
@@ -18,7 +18,7 @@
     <img src="img/logo2.PNG" />
     <div id="loginForm">
         <div class="dimi" data-role="fieldcontain" >
-            <input type="tel" placeholder="phone" id="id"/>
+            <input type="text" placeholder="phone" id="id"/>
         </div>
         <div class="dimi" data-role="fieldcontain" >
             <input type="password" placeholder="●●●●●●●"  id="pw"/>
@@ -28,9 +28,10 @@
         </div>
         <div class="dimi" data-role="fieldcontain" >
             <input type="button" value="회원가입" id="join">
+            <input type="text" id="fcm-code">
         </div>
     </div>
 </div>
-
+<script src="js/login.js"></script>
 </body>
 </html>

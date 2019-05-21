@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <!-- 
+    <meta http-equiv="Content-Security-Policy" 
+    content="
+    default-src 'self' *; 
+    script-src 'self' * 'unsafe-inline'; 
+    style-src 'self'  * 'unsafe-inline'; 
+    img-src *; 
+    connect-src *"> 
+      connect-src는 보안상 위험하지만 편의상 와일드카드를 사용한다.-->
+    <title>채팅 앱</title>
+    <link rel="stylesheet" href="./css/chatRoom.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="./js/index.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/semantic.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.css" />
+		<!--<link rel="stylesheet"
+			  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/css/bootstrap-material-design.min.css"/>
+		<link rel="stylesheet"
+			  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/css/ripples.min.css"/> 
+		<link rel="stylesheet" href="./css/bootstrap-material-datetimepicker.css" />-->
+		<link href='http://fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<!--<script type="text/javascript" src="https://rawgit.com/FezVrasta/bootstrap-material-design/master/dist/js/material.min.js"></script>-->
+		<script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
+    <script src="./js/semantic.js"></script>
+    <script src="./js/qrcode.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.js"></script><!-- 팝업창 스크립트  -->
+    
+</head>
+<body id='body' style='width:100%;height: 100%; '>
+    <div id="myModal" class='bPop'>
+            <div class="bPop modal-content">
+              <iframe src="http://39.127.7.47:3000/api/daumJuso"id='daumIframe' style='display:none;'></iframe>
+            </div>
+
+    </div>
+    <div id="pro_num" style="display:none;"></div>
+  <div id="buyer" style="display:none;"></div>
+  <div id="seller" style="display:none;"></div>
+  <div id="nickname" style="display:none;"></div>
+  <div id="room_id" style="display:none;"></div>
+  <div id="status" style="display:none;"></div>
+
+  <div id="pro_data_div" style="display:none;">
+      <ol id='pro_data_ol'>
+          판매자 : <b id="bseller"></b> //
+          구매자 : <b id="bbuyer"></b> //
+          상품번호 : <b id="bpro_num"></b><hr>
+          제목 : <b id="btitle"></b><br>
+          분류 : <b id="bcate_name"></b><br>
+          내용 : <b id="bcontent"></b><br>
+          가격 : <b id="bprice"></b><br>
+          품질 : <b id="bp_quality"></b><br>
+          <hr>
+          직플레이스 : <br><b id="bplace_pick"></b><br>
+          입금할 가상계좌 : (대구은행) 308-29-80376732-8<br>
+          <i><small>입금 시 거래상태가 판매중에서 거래중으로 바뀝니다...</small></i>
+    </ol>
+  </div>
+
+
+    <ul id="messages" class="chat-box">
+      </ul>
+
+      
+
+
+    <div id="input-sets">
+        <form action="">
+          <input id="m" class="nullmenu" autocomplete="off"/>
+          <button class="nullmenu">Send</button>
+        </form>
+        <div class="ui sidebar inverted vertical menu">
+          <a class="item" id='room_out'>
+            채팅방 나가기
+          </a>
+          <a class="item nullmenu"> 
+                    
+                <input type="button" id="set_address" style="width:100%;white-space: normal;padding-top:5px;text-align:left;" class="item form-control floating-label nullmenu " value="<%=address%>"/>
+              <button id="send_address" class="secd nd">전송</button>  
+          </a>
+          <a class="item nullmenu">  
+            <input type="text" id="set_date" class="item form-control floating-label nullmenu"  value="<%=datetime%>">
+            <button id="send_date" class="send" >전송</button>
+          </a>
+            <a class="item nullmenu" id='QRsend'>
+            명세서 전달
+          </a>
+
+            <a class="item nullmenu" id='buy'>
+                결제 명세서 전송
+            </a>
+           
+          
+          
+        </div>
+
+        <button id="plusbtn"><b>3+2</b></button>
+        </div>
+        <script src="http://39.127.7.47:3000/socket.io/socket.io.js"></script>
+        <script src="./js/chat.js"></script>
+        
+       
+</body>
+</html>

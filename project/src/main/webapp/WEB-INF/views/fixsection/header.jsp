@@ -29,123 +29,131 @@
 <script type="text/javascript" src="/resources/js/remote.js"></script>
 
 <script>
-   $(function() {
+	$(function() {
 
-      var msg = '${requestScope.msg}';
-      var loginDO = '${requestScope.loginDo}';
-      if (msg == 'SUCCESS') {
-         alert("회원 가입을 성공적으로 하였습니다.");
-         self.close();
-      }
-      if (msg == 'SUCCESSPARTNER') {
-         alert("직플레이드 등록이 완료되었습니다.");
-         history.replaceState({}, null, null);
-         window.close();
-      }
-      if (loginDO == '1') {
-         alert("잘못된 접근 입니다. 로그인부터 하세요");
-      }
+		var msg = '${requestScope.msg}';
+		var loginDO = '${requestScope.loginDo}';
+		if (msg == 'SUCCESS') {
+			alert("회원 가입을 성공적으로 하였습니다.");
+			self.close();
+		}
+		if (msg == 'SUCCESSPARTNER') {
+			alert("직플레이드 등록이 완료되었습니다.");
+			history.replaceState({}, null, null);
+			window.close();
+		}
+		if (loginDO == '1') {
+			alert("잘못된 접근 입니다. 로그인부터 하세요");
+		}
 
-      //마지막 스크롤 값을 저장할 lastScroll 변수
-      var lastScroll = 0;
-      $(window).scroll(function(event) { //스크롤이 움직일때 마다 이벤트 실행
-         //현재 스크롤의 위치를 저장할 st 변수
-         var st = $(this).scrollTop();
-         //스크롤 상하에 따른 반응 정의
-         if (st > lastScroll) {
-            if ($(window).scrollTop() >= 10) { //스크롤이 아래로 200px 이상 내려갔을때 실행되는 이벤트 정의
-               $('#btnTop').css('display', 'none');
-               $('#btnTop').css('top', '-30px');
-            }
-         } else {
-            //스크롤이 위로 올라갔을때 실행되는 이벤트 정의
-            $('#btnTop').css('display', 'block');
-         }
-      });
-      // 회원 
-      $('#register').click(
-            function() {
-               window.open('/member/memberRegister', 'register',
-                     'width=1920,height=1080');
-            })
-      //로그아웃
-      $('#logout').click(function(e) {
-         e.preventDefault();
-         window.location.href = "/member/logout"
-      })
-      //마이페이지 제어
-      var temp = null;
-      $('#myPage').click(function(e) {
-         temp = '<c:out value="${sessionScope.loginSession}"/>'
-         if (temp) {
-            e.preventDefault();
-            window.location.href = "/member/myPage";
-         } else {
-            alert("로그인 부터 하셔야 합니다.");
-            window.open('/member/login', 'login', 'width=600,height=600');
-         }
-      })
-      // 판매하기 제어
-      $("#sell").click(function(e) {
-         temp = '<c:out value="${sessionScope.loginSession}"/>';
-         if (temp) {
-            e.preventDefault();
-            window.location.href = "/selling/selling";
-         } else {
-            alert("로그인 부터 하셔야 합니다.");
-            window.open('/member/login', 'login', 'width=600,height=600');
-         }
-      })
+		//마지막 스크롤 값을 저장할 lastScroll 변수
+		var lastScroll = 0;
+		$(window).scroll(function(event) { //스크롤이 움직일때 마다 이벤트 실행
+			//현재 스크롤의 위치를 저장할 st 변수
+			var st = $(this).scrollTop();
+			//스크롤 상하에 따른 반응 정의
+			if (st > lastScroll) {
+				if ($(window).scrollTop() >= 10) { //스크롤이 아래로 200px 이상 내려갔을때 실행되는 이벤트 정의
+					$('#btnTop').css('display', 'none');
+					$('#btnTop').css('top', '-30px');
+				}
+			} else {
+				//스크롤이 위로 올라갔을때 실행되는 이벤트 정의
+				$('#btnTop').css('display', 'block');
+			}
+		});
+		// 회원 
+		$('#register').click(
+				function() {
+					window.open('/member/memberRegister', 'register',
+							'width=1920,height=1080');
+				})
+		//로그아웃
+		$('#logout').click(function(e) {
+			e.preventDefault();
+			window.location.href = "/member/logout"
+		})
+		//마이페이지 제어
+		var temp = null;
+		$('#myPage').click(function(e) {
+			temp = '<c:out value="${sessionScope.loginSession}"/>'
+			if (temp) {
+				e.preventDefault();
+				window.location.href = "/member/myPage";
+			} else {
+				alert("로그인 부터 하셔야 합니다.");
+				window.open('/member/login', 'login', 'width=600,height=600');
+			}
+		})
+		// 판매하기 제어
+		$("#sell").click(function(e) {
+			temp = '<c:out value="${sessionScope.loginSession}"/>';
+			if (temp) {
+				e.preventDefault();
+				window.location.href = "/selling/selling";
+			} else {
+				alert("로그인 부터 하셔야 합니다.");
+				window.open('/member/login', 'login', 'width=600,height=600');
+			}
+		})
 
-      // 체팅 목록 제어
-      $('#chat').click(function(e) {
-         temp = '<c:out value="${sessionScope.loginSession}"/>';
-         if (temp) {
-            e.preventDefault();
-            window.open('/chatting/chatting', 'chatList', 'width=850,height=600');
-         } else {
-            alert("로그인 부터 하셔야 합니다.");
-            window.open('/member/login', 'login', 'width=600,height=600');
-         }
-      })
+		// 체팅 목록 제어
+		$('#chat').click(
+				function(e) {
+					temp = '<c:out value="${sessionScope.loginSession}"/>';
+					if (temp) {
+						e.preventDefault();
+						window.open('/chatting/chatting', 'chatList',
+								'width=850,height=600');
+					} else {
+						alert("로그인 부터 하셔야 합니다.");
+						window.open('/member/login', 'login',
+								'width=600,height=600');
+					}
+				})
 
-      $('#productList').click(function(e) {
-         e.preventDefault();
-         window.location.href = "/index_productList";
-      });
+		$('#productList').click(function(e) {
+			e.preventDefault();
+			window.location.href = "/index_productList";
+		});
 
-      /* subnav partnerRegister */
-      $('#subnav :eq(2)').click(
-            function(e) {
-               if ("${not empty sessionScope.loginSession}" != 'false') {
+		/* subnav partnerRegister */
+		$('#subnav :eq(2)').click(
+				function(e) {
+					if ("${not empty sessionScope.loginSession}" != 'false') {
 
-                  window.open('/partner/partnerPage', 'partner',
-                        'width=1920,height=1080');
-               } else {
-                  alert('로그인을 먼저 하셔야 합니다.');
-               }
-            })
+						window.open('/partner/partnerPage', 'partner',
+								'width=1920,height=1080');
+					} else {
+						alert('로그인을 먼저 하셔야 합니다.');
+					}
+				})
 
-      /*공지사항*/
-      $('#noticeBoard').click(function(e) {
-         e.preventDefault();
-         alert("공지사항 이동");
-         window.location.href = "/admin/noticeBoard";
+		/*공지사항*/
+		$('#noticeBoard').click(function(e) {
+			e.preventDefault();
+			alert("공지사항 이동");
+			window.location.href = "/admin/noticeBoard";
 
-      })
+		})
 
-      //직플레이스 검색
-      $('#placeSearch').click(function(e) {
-         e.preventDefault();
-         window.location.href = "/partner/placeSearch"
-      })
+		//직플레이스 검색
+		$('#placeSearch').click(function(e) {
+			e.preventDefault();
+			window.location.href = "/partner/placeSearch"
+		})
 
-      $('#warningBoard').click(function(e) {
-         e.preventDefault();
-         window.location.href = "/warningBoard/warningBoard"
-      })
+		$('#warningBoard').click(function(e) {
+			e.preventDefault();
+			window.location.href = "/warningBoard/warningBoard"
+		})
+		
+		// 검색 누르기
+		$(".input-group-text").click(function(){
+			window.location.href=""
+		})
 
-   });
+	});
 </script>
 
 </head>
@@ -180,10 +188,18 @@
 						</div>
 					</div>
 
+					<!-- 검색 부분 -->
 					<div class="header-search" style="padding-top: 15px;">
+
 						<div class="input-group md-form form-sm form-2 pl-0">
-							<input class="form-control my-0 py-1 red-border" type="text"
-								placeholder="상품명 , 지역명 입력" aria-label="Search">
+						
+							<select class="choose">
+								<option value="place">지역명</option>
+								<option value="pName">상품명</option>
+							</select>
+							 <input class="form-control my-0 py-1 red-border" type="text"
+								placeholder="상품명 , 지역명 입력" aria-label="Search" />
+
 							<div class="input-group-append">
 								<span class="input-group-text red lighten-3" id="basic-text1">
 									<img src="/resources/image/search.png" width="15px"
@@ -191,7 +207,9 @@
 								</span>
 							</div>
 						</div>
+
 					</div>
+					<!-- ------------------------------------- -->
 
 					<div class="header-service">
 						<div class="service-btn">
