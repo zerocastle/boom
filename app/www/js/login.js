@@ -47,7 +47,13 @@ $(document).ready(function(){
                         //토큰 생성 시작
                         FCMPlugin.getToken(function(token){
                             localStorage.setItem("token", token);
-                            console.log("TOKEN FIREBASE : " + token);
+                            console.log("TOKEN FIREBASE : " + token + 'nickname :' + json2.nickname);
+                            alert("TOKEN FIREBASE : " + token + 'nickname :' + json2.nickname);
+                            $.ajax({
+                                type : 'post',
+                                url : 'http://39.127.7.47:3000/api/push/updateToken',
+                                data : { nickname : json2.nickname, token : token  } 
+                            });
                         }, function (error) {
                             console.error(error);
                         });

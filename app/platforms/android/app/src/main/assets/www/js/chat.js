@@ -17,6 +17,31 @@ $.urlParam = function(name){
 }
 
 $(document).ready(function(){
+  //구매자 토큰 정보 불러오기
+  var Tseller = $.urlParam('seller');
+  var Tbuyer = $.urlParam('buyer');
+  var other = '';
+  if(Tseller == Tname){
+    other = Tbuyer;
+  }else if(Tbuyer == Tname){
+    other = Tseller;
+  }
+  console.log("other's Token : " + other);
+  $.ajax({
+    type : 'post',
+    url : 'http://39.127.7.47:3000/api/push/getToken',
+    data : { nickname : other  },
+    success : function(result){
+                console.log(result);
+                $('#otherToken').text(result);
+    },
+    error : function(err){
+                console.log(err);
+  }
+});
+
+
+
   /* $('body').click(function(e){
     if($('iframe')!=e.target && $('iframe').attr("style")=='display: block;'){
       console.log('려차');
@@ -170,25 +195,27 @@ socket.on('phoneIn', (num, name) => {
 });
 $('form').submit(() => {// Enter칠때마다 Send 할때마다 실행
     if($('#m').val()==""){
-        
         return false;
     }else{
     socket.emit('chat message', num, Tname, $('#m').val());// 서버로  작성자, 방번호, 메시지를 전달한다.
     //socket.emit('chat message phone', num, Tname, $('#m').val());// 서버로  작성자, 방번호, 메시지를 전달한다.
     $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
-   
-    $.ajax({
-      url: "http://39.127.7.47:3000/api/push",
-      dataType: 'json',
-      type: 'POST',
-      data : {data:localStorage.getItem('token'), message : $('#m').val()+'', title : $('#btitle').text()+'', sender : Tname},
-      success: function () {
-          console.log("토큰전송ok");
-      }
-    });
+    var otherToken = $('#otherToken').text();
+    if(otherToken != null){
+      $.ajax({
+        url: "http://39.127.7.47:3000/api/push",
+        dataType: 'json',
+        type: 'POST',
+        data : {data:otherToken, message : $('#m').val()+'', title : $('#btitle').text()+'', sender : Tname},
+        success: function () {
+            console.log("토큰전송ok");
+        }
+      });
+    }
     $('#m').val('');//입력창 비워주기
+    }
     return false;
-} //원하는 작업만 마친 후 submit의 동작을 멈춘다. 퉤 시바
+ //원하는 작업만 마친 후 submit의 동작을 멈춘다. 퉤 시바
 });
 
 socket.on('chat message', (name, msg) => {// 소켓에 신호가 오면 chat message 기능 실행.
