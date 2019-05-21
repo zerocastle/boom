@@ -56,7 +56,12 @@
       <div id="nickname" style="display:none;"><%=nickname%></div>
       <div id="room_id" style="display:none;"><%=roomid%></div>
       <div id="status" style="display:none;"><%=rstatus%></div>
-
+<script>
+$(document).ready(function(){
+  
+});
+  var mknickname = sessionStorage.getItem('nickname');
+</script>
       <!--메시지 목록 출력 : 약속 시간 , 장소 협의의 발신자와 수신자 구분처리-->
       <%  
   
@@ -156,9 +161,6 @@ var subDate;
         <button id="send_date" class="send menu send_date plus_send"
           style="margin-left:7px; font-weight:bold;">전송</button>
       </a>
-      <a class="item nullmenu menu" id='QRsend'>
-        QR 영수증 전달
-      </a>
       <%if(nickname == seller){%>
       <a class="item nullmenu menu" id='buy'>
         결제 명세서 전송
@@ -187,7 +189,7 @@ var subDate;
                 var muid = $(".qrcode")[i].innerHTML;
                 console.log(muid);
                 var qrcode = new QRCode(document.getElementsByClassName("qrcode")[i], {
-                  text: "http://39.127.7.49:3000/testQR?muid=" + muid,
+                  text: "http://39.127.7.47:3000/testQR?muid=" + muid,
                   width: 350,
                   height: 350,
                   colorDark: "#000000",
@@ -223,7 +225,11 @@ var subDate;
     IMP.init("imp57701295");
 
     $(document).on('click', '.payment', function () {
-
+      if(name != $('#buyer').text()){
+        
+        alert('구매자만 결제가 가능합니다.');
+        return false;
+      }
       // IMP.request_pay(param, callback) 호출
       // 결제 코드 uuid 생성
       var merchant_uid = guid();
@@ -353,11 +359,39 @@ var subDate;
     });
     // ========================================================
 
+    //결제 명세서 전송버튼을 클릭하면(165번 라인)
     $('#buy').click(function () {
+      
+      //Nodejs 서버에 ajax요청을 한다.
+      $.ajax({
+        type: 'post',
+        url:'/payCheck',
+        data : {
+          pro_num : $('#Hpro_num').text()//상품번호를 전달.
+        },
+        success : function(result){
+          //결과 콘솔 출력
+          console.log('status( ' + result+ ' )');
+          
+          //결제가 완료되었다면 결제명세서 전송과정을 중단하고 안내문구 alert
+          if(result == 'done'){
+            alert('status( ' + result+ ') : 결제가 완료되어 결제를 진행 할 수 없습니다.');
+          
+          //결제가 아직 진행중이라면 결제명세서 전송과정을 마저 진행한다.  
+          }else {
+            $('#messages').append($('<li class="even">').html(name + ' : ' + tag));//명세서를 채팅방에 뿌려준다.
+            $(document).scrollTop($(document).height());//스크롤 최하단.
+            socket.emit('socket_sendAcc', num, name, tag);//서버를 통한 결제명세서 메시지를 상대방에게 전송한다.
+          }
+        }
+
+      })
+      
+      
       var tag = $('#pro_data').html(); // 체팅방에 박혀있는 상품 정보 테그들
-      $('#messages').append($('<li class="even">').html(name + ' : ' + tag));//버튼은 상대방에게만 보인다.
-      alert(num, name, tag);
-      socket.emit('socket_sendAcc', num, name, tag);
+      
+
+     
     });
 
 

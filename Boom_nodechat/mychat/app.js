@@ -89,17 +89,14 @@ app.get('/doChat2', (req, res) => {
   //순서 : func_redisDoChat -> func_selectDochat 채팅방에 없다면 -> func_buyerNum -> func_insertDoChat ->render('doChat')
   //                        -> func_selectDochat 채팅방 이 있다면 -> render('doChat')
   var func_redisDoChat = function (res, req, redis, conn) {
-    client = redis.createClient(6379, "localhost");//localhost6379포트의 redis객체에 접근한다.
-    client.get("user", function (err, val) {//스프링에서 저장한 redis객체에 "user"라는 키의 값을 찾아 함수실행
-      testdata = val;
-      req.session.nickname = val;//세션의 nickname 변수에 redis객체에서 받아온 값을 넣어준다.
-      console.log('찍어봅시다 : ', val) // 채팅서버에 접속한 유저의 nickname을 찍어본다.
-      if (val === null) {//값이 없다면 요거하고 땡
-        console.log('>>>>> result : null ');
-      } else {
-        return func_selectDochat(res, req, conn);
-      } 0
-    });
+    
+      req.session.nickname = req.query.nickname;
+      console.log('세션 : ' + req.session.nickname);
+       console.log('쿼리 : ' + req.query.nickname);
+      
+      
+      return func_selectDochat(res, req, conn);
+   
 
   }
 
@@ -128,7 +125,7 @@ app.get('/doChat2', (req, res) => {
           //                      /roomchat?room_id=44&talker=in&seller=grid&buyer=tom&pro_num=21
           ///                     roomchat?room_id=44&talker=in&seller=21&buyer=3&pro_num=21'
           //http://localhost:3000/roomchat?room_id=2&talker=in&seller=tom&buyer=jack&pro_num=2;
-          console.log("/roomchat?room_id=" + room_id + "&talker=in&seller=" + seller_num + "&buyer=" + buyer_num + "&pro_num=" + req.query.pro_num);
+          console.log("/roomchat?room_id=" + room_id + "&talker=in&seller=" + seller_num + "&buyer=" + buyer_num + "&pro_num=" + req.query.pro_num + "nickname" + req.session.nickname);
 
 
           res.render('doChat', { room_id: room_id, seller_num: seller_num, buyer_num: buyer_num, pro_num: req.query.pro_num, nickname: req.session.nickname });
@@ -223,6 +220,129 @@ app.get('/testQR', (req, res) => {
   });
 });
 
+var roomchat_func = function(req,res){
+  console.log("방에 입장 :", req.session)//request객체의 세션값 읽음
+  console.log("입장한 닉네임 :", req.session.nickname)//세션의 nickname변수에 저장된 값을 찍어본다.
+  if (status == undefined) {
+    status = req.query.talker;
+  }
+  if (sRoom == undefined) {//쿼리스트링값이 없다면
+    sRoom = req.query.room_id;
+  } // 쿼리스트링 값을 받아온다.
+  console.log("입장합니다! : " + sRoom + "번방의 상태 : " + status);
+  var prod_inf = function (c_address, c_datetime, pro_num, req, res) {
+    var prodsql = "select pro_num, place_pick, title, content, price, p_quality, c.cate_name from production p, category c where c.cate_code = p.cate_code and pro_num =" + req.query.pro_num;
+    //--상품번호 거래장소 상품제목 상품내용 상품가격 상품품질 카테고리
+    conn.execute(prodsql, function (err, result) {
+      if (err) {
+        console.log(req.query.pro_num);
+        console.log('prod_inf 함수 에러 ', err);
+      } else {
+        var place_pick = result.rows[0][1];
+        var title = result.rows[0][2];
+        var content = result.rows[0][3];
+        var price = result.rows[0][4];
+        var p_quality = result.rows[0][5];
+        var cate_name = result.rows[0][6];
+        var sendData = {
+          seller: req.query.seller,
+          buyer: req.query.buyer,
+          pro_num: req.query.pro_num,
+          place_pick: place_pick,
+          title: title,
+          content: content,
+          price: price,
+          p_quality: p_quality,
+          cate_name: cate_name
+        }
+        return renderMessage(c_address, c_datetime, sendData, req, res);
+      }
+    });
+  }
+  var renderMessage = function (c_address, c_datetime, sendData , req, res) {
+    var searchMessage = 'select message_num, sender_num,member.nickname, room_id, content from message, member' +
+      ' where message.sender_num = member.m_num and room_id = ' + parseInt(sRoom) + ' order by message_num asc';
+    conn.execute(searchMessage, function (err, result) {
+      console.log('입장한 방번호:' + sRoom);
+      if (err) {//에러가 발생한다면 실행
+        console.log("/ROOMCHAT : 등록중 에러가 발생", err);
+      } else {//정상작동시
+        console.log("result: ", result.rows);
+        //roomchat2.ejs 로 이동한다. //이동할때 key:value형태로 쿼리결과, 세션의 닉네임, 방번호를 전달한다. 
+        if (mobile == 0) {
+          res.render('roomchat2', { result: JSON.stringify(result), nickname: req.session.nickname, roomid: sRoom, rstatus: status, datetime: c_datetime, address: c_address, seller: seller, buyer: buyer, pro_num: pro_num, pro_data: JSON.stringify(sendData) });// 방에다가 던져주자
+        } else {
+          console.log('');
+          console.log('');
+          console.log(sendData);
+          console.log('');
+          console.log('');
+          res.send({ result: JSON.stringify(result), nickname: 'Anonymous-Mobile-Guest', roomid: sRoom, rstatus: status, datetime: c_datetime, address: c_address, seller: seller, buyer: buyer, pro_num: pro_num, pro_data: JSON.stringify(sendData) });
+        }
+      }
+    });
+  }
+  conn.execute("select c_datetime, c_address from chatroom where room_id = (" + sRoom + ")", function (err, result) {
+    console.log('select : 장소와 시간' + result.rows);
+
+    c_datetime = result.rows[0][0];
+    c_address = result.rows[0][1];
+    c_pro_num = req.query.pro_num;
+    if (c_address == null) { c_address = '약속장소 선정' }
+    else {
+      console.log('약속장소는 ' + c_address);
+    }
+    if (c_datetime == null) { c_datetime = '약속시간 선정' }
+    else {
+      console.log('약속시간약속시간은 ' + c_datetime);
+    }
+    console.log('파ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ티피플', c_address, c_datetime);
+    return prod_inf(c_address, c_datetime, c_pro_num , req, res);
+  });
+}
+
+
+
+//결제완료 여부를 ajax통신으로 확인한다.(roomchat2.ejs/361번 라인)
+app.post('/payCheck', (req,res) => {
+  console.log('payCheck   +++++++++ '+ req.body.pro_num);
+  var payCheckSql = 'select state_msg from production where pro_num =' + req.body.pro_num;
+  console.log('payCheckSql : ' + payCheckSql);
+  //쿼리문 실행
+  conn.execute(payCheckSql, function(err, result){
+    
+    //쿼리문 실행 중 에러 발생시
+    if(err){
+      console.log('payCheck SQL Error : ' + err);
+    
+    //쿼리문 정상 동작시
+    }else {
+      var payMsg = 'waiting for payment';
+      console.log('(결과: ' + result.rows[0][0] + ' )');
+      
+      //production테이블의 state_msg컬럼은 기본값이 null이므로
+      //정수형 변환시 에러가 발생한다. 따라서 가장 먼저 null Check 수행.
+      if(result.rows[0][0]==null){
+        payMsg = 'waiting for payment';
+        console.log('1왜니가거기서나와?'+result.rows[0][0] + '  ' + payMsg);
+      }
+
+      //결제가 이루어지면 state_msg컬럼의 값이 1로 바뀐다.
+      //따라서 null이 아니라면 쿼리 결과에 대한 정수형변환을 하여 진행한다.
+      else if((result.rows[0][0]*=1) >= 1){
+        payMsg = 'done';//결제가 완료됨.
+        console.log('2왜니가거기서나와?'+result.rows[0][0] + '  ' + payMsg);
+      }
+
+    //지정된 메시지값을 반환한다.
+    res.send(payMsg);
+    } 
+  });
+//결제완료 여부 확인
+  
+  
+  
+})
 
 app.get('/tom', (req, res) => {
   res.render('tomson');
@@ -237,109 +357,19 @@ app.get('/roomchat', (req, res) => {//목록중 하나를 클릭하였을때 실
   pro_num = req.query.pro_num;
   mobile = req.query.mobile;//접속경로가 모바일이라면 render()가 아니라 데이터만 전달한다.
   console.log('roomchat 쿼리스트링받아옴........................................................');
-  if (req.session.nickname == undefined) {//세션에 닉네임이 없다면 실행
+  //세션에 닉네임이 없다면 실행
     console.log('뭐이');
-    client = redis.createClient(6379, "localhost");//localhost6379포트의 redis객체에 접근한다.
-    client.get("user", function (err, val) {//스프링에서 저장한 redis객체에 "user"라는 키의 값을 찾아 함수실행
-      testdata = val;
-      req.session.nickname = val;//세션의 nickname 변수에 redis객체에서 받아온 값을 넣어준다.
-      if (err) {
-        console.log('웰컴!225웰컴!', err)
-        if (mobile == 0) {
-          console.log('웹접속이지만 닉이 없다.!');
-          res.render('tomson');//닉네임이 비었다면 에러처리페이지인 tomson.ejs로 이동한다.
-        }
-        else {
-          console.log('모바일접속!');
-          req.session.nickname = 'Anonymous-Mobile-Guest'//
-        }
+    
+      
 
-      } else {//에러가 아니라면
-        console.log('html이면1 ejs면0');
-        console.log(mobile);
-        req.session.nickname = 'Anonymous-Mobile-Guest';//아직까진 폰접속은 무조건 익명임
-        console.log('왜 형이 여기서 나와?', req.session.nickname);
-      }
-    });
-  } if (true) {
-    console.log("방에 입장 :", req.session)//request객체의 세션값 읽음
-    console.log("입장한 닉네임 :", req.session.nickname)//세션의 nickname변수에 저장된 값을 찍어본다.
-    if (status == undefined) {
-      status = req.query.talker;
-    }
-    if (sRoom == undefined) {//쿼리스트링값이 없다면
-      sRoom = req.query.room_id;
-    } // 쿼리스트링 값을 받아온다.
-    console.log("입장합니다! : " + sRoom + "번방의 상태 : " + status);
-    var prod_inf = function (c_address, c_datetime, pro_num) {
-      var prodsql = "select pro_num, place_pick, title, content, price, p_quality, c.cate_name from production p, category c where c.cate_code = p.cate_code and pro_num =" + pro_num;
-      //--상품번호 거래장소 상품제목 상품내용 상품가격 상품품질 카테고리
-      conn.execute(prodsql, function (err, result) {
-        if (err) {
-          console.log('prod_inf 함수 에러 ', err);
-        } else {
-          var place_pick = result.rows[0][1];
-          var title = result.rows[0][2];
-          var content = result.rows[0][3];
-          var price = result.rows[0][4];
-          var p_quality = result.rows[0][5];
-          var cate_name = result.rows[0][6];
-          var sendData = {
-            seller: req.query.seller,
-            buyer: req.query.buyer,
-            pro_num: req.query.pro_num,
-            place_pick: place_pick,
-            title: title,
-            content: content,
-            price: price,
-            p_quality: p_quality,
-            cate_name: cate_name
-          }
-          return renderMessage(c_address, c_datetime, sendData);
-        }
-      });
-    }
-    var renderMessage = function (c_address, c_datetime, sendData) {
-      var searchMessage = 'select message_num, sender_num,member.nickname, room_id, content from message, member' +
-        ' where message.sender_num = member.m_num and room_id = ' + parseInt(sRoom) + ' order by message_num asc';
-      conn.execute(searchMessage, function (err, result) {
-        console.log('입장한 방번호:' + sRoom);
-        if (err) {//에러가 발생한다면 실행
-          console.log("/ROOMCHAT : 등록중 에러가 발생", err);
-        } else {//정상작동시
-          console.log("result: ", result.rows);
-          //roomchat2.ejs 로 이동한다. //이동할때 key:value형태로 쿼리결과, 세션의 닉네임, 방번호를 전달한다. 
-          if (mobile == 0) {
-            res.render('roomchat2', { result: JSON.stringify(result), nickname: req.session.nickname, roomid: sRoom, rstatus: status, datetime: c_datetime, address: c_address, seller: seller, buyer: buyer, pro_num: pro_num, pro_data: JSON.stringify(sendData) });// 방에다가 던져주자
-          } else {
-            console.log('');
-            console.log('');
-            console.log(sendData);
-            console.log('');
-            console.log('');
-            res.send({ result: JSON.stringify(result), nickname: 'Anonymous-Mobile-Guest', roomid: sRoom, rstatus: status, datetime: c_datetime, address: c_address, seller: seller, buyer: buyer, pro_num: pro_num, pro_data: JSON.stringify(sendData) });
-          }
-        }
-      });
-    }
-    conn.execute("select c_datetime, c_address from chatroom where room_id = (" + sRoom + ")", function (err, result) {
-      console.log('select : 장소와 시간' + result.rows);
+      
+        console.log('roomchat redis 에러가 아닙니다 + ', req.session.nickname);
+      
+    
+    
 
-      c_datetime = result.rows[0][0];
-      c_address = result.rows[0][1];
-      c_pro_num = pro_num;
-      if (c_address == null) { c_address = '약속장소 선정' }
-      else {
-        console.log('약속장소는 ' + c_address);
-      }
-      if (c_datetime == null) { c_datetime = '약속시간 선정' }
-      else {
-        console.log('약속시간약속시간은 ' + c_datetime);
-      }
-      console.log('파ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ티피플', c_address, c_datetime);
-      return prod_inf(c_address, c_datetime, c_pro_num);
-    });
-  }//redis-if else
+    roomchat_func(req,res);
+  
 });
 
 
@@ -354,18 +384,20 @@ app.get('/roomchat', (req, res) => {//목록중 하나를 클릭하였을때 실
 // 방목록 불러오기(PC 브라우저)
 app.get('/jackchat', (req, res) => {//localhost:3000/jackchat 으로 접근시 실행
   var mobile = req.query.mobile;
-  client = redis.createClient(6379, "localhost");//localhost6379포트의 redis객체에 접근한다.
-    client.get("user", function(err, val) {//스프링에서 저장한 redis객체에 "user"라는 키의 값을 찾아 함수실행
-    temp=val;
+  req.session.nickname = req.query.nickname;
+    console.log('세션 : ' + req.session.nickname);
+    console.log('쿼리 : ' + req.query.nickname);
+    
+    
     if(mobile == 1){//모바일 접속이라면
       temp = req.query.nickname;
     } else {//PC접속이라면
-      temp = val;
+      temp = req.query.nickname;
     }
   
-    
-    
+    console.log('쿼리스트링 // ' + req.query.nickname);
     console.log('찍어봅시다 : ' , temp) // 채팅서버에 접속한 유저의 nickname을 찍어본다.
+    
     //값이 있다면 실행
       console.log('목록1');
       var loglogsql = "select c.room_id, c.buyer_num, c.seller_num, c.pro_num, o.title, (select nickname from member where m_num = c.buyer_num) C_buyer_nickname, (select nickname from member where m_num = c.seller_num) C_seller_nickname  from chatroom c, production o where o.pro_num = c.pro_num and (      seller_num = (select m_num from member where nickname = '"+temp+"') or      buyer_num = (select m_num from member where nickname = '"+temp+"')) order by room_id asc";
@@ -387,8 +419,8 @@ app.get('/jackchat', (req, res) => {//localhost:3000/jackchat 으로 접근시 �
           else res.render('roomlist',{result:JSON.stringify(result),nickname:req.session.nickname});   
         }//DB쿼리문- if else 
       });//if else- redis의 값
-      //client.get 함수
-    });//redis create 함수
+    
+   
 });//app.get함수
 
 io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되는 문자열이 일치하는 메소드를 실행한다.

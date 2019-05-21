@@ -14,7 +14,8 @@
 <body>
 <script>
 $(document).ready(function() {
-	window.location.href="http://localhost:3000/jackchat";
+	var nickname = '${sessionScope.loginSession.nickname}';
+	window.location.href="http://localhost:3000/jackchat?nickname=" +nickname; 
 });
 </script>
 

@@ -20,9 +20,9 @@ router.post('/', function(req,res) {
     // 안드로이드 단말에서 Node server로 POST방식 전송 후,
     // Node서버는 이 값을 DB에 보관하고 있으면 된다.
     
-    var client_token = 'fisgUMGsMLE:APA91bFIWBYRt0g_L2-rNuF_HI6-3zFkiCFYhl4mRSn9pzon9PYJSyhpT3p-EdG-A8UaTP_BDQm3b5aUqq7xlZVFOB5x3N_10iuWhKjh5YvcVzOTlM5OREn-f7EAAh_qujLwm3cDdMEI';
+    //var client_token = 'fisgUMGsMLE:APA91bFIWBYRt0g_L2-rNuF_HI6-3zFkiCFYhl4mRSn9pzon9PYJSyhpT3p-EdG-A8UaTP_BDQm3b5aUqq7xlZVFOB5x3N_10iuWhKjh5YvcVzOTlM5OREn-f7EAAh_qujLwm3cDdMEI';
     //에뮬레이터 FCM토큰
-    //var client_token='ezeIWyjBT0E:APA91bHZZJRmjVZVZrU1m2UilXvGbLHFYYDuxzCnVbzdUqzCj1o483I_S7BVpcqnfLbmzybYJfpqY_-_-gqkUOHYHz0tfuLsPJfXWl4mspNZ0ur4NEjsWQ5cZFfK_KBKHx2S2Uxq8_D-';
+    var client_token='ezeIWyjBT0E:APA91bHZZJRmjVZVZrU1m2UilXvGbLHFYYDuxzCnVbzdUqzCj1o483I_S7BVpcqnfLbmzybYJfpqY_-_-gqkUOHYHz0tfuLsPJfXWl4mspNZ0ur4NEjsWQ5cZFfK_KBKHx2S2Uxq8_D-';
     //일단내폰 FCM토큰 ㅎㅎ;; 원래 채팅방의 상대의 토큰값을 가져와야합니다.
     //따라서 토큰값을 DB에 저장할 필요가 있으며
     //
