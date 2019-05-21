@@ -47,9 +47,11 @@
 		WHERE B.REP = 1 AND
 		CATE_CODE=#{cate_code} AND A.PRO_NUM =
 		B.PRO_NUM
-		ORDER BY A.CREATE_DATE DESC
+		ORDER BY A.CREATE_DATE
+		DESC
 	</select>
 
+	<!-- 상품 리스트 -->
 	<select id="sort"
 		resultType="com.ys.project.projectDTO.IndexProductionDTO">
 
@@ -114,6 +116,40 @@
 		<if test="order == 'desc'">
 			ORDER BY A.PRICE DESC
 		</if>
+
+	</select>
+
+	<!-- 검색 처리하는 쿼리 -->
+
+	<!-- <sql id="dsearch"> <choose> <when test="choose == 'place'"> where a.ADDR 
+		like '%'||#{choose}||'%' </when> <otherwise> where a.title like '%'||#{choose}||'%' 
+		</otherwise> </choose> </sql> -->
+
+	<select id="searchSort"
+		resultType="com.ys.project.projectDTO.IndexProductionDTO">
+
+		SELECT
+		A.PRO_NUM,A.TITLE,A.PRICE,A.CATE_CODE,A.STATE_MSG,A.PLACE_SIGNAL,A.CREATE_DATE,A.ADDR,A.PLACE_PICK,B.UUID,B.UPLOADPATH,B.FILENAME,B.REP
+		FROM (SELECT ROWNUM RN
+		,PRO_NUM,TITLE,PRICE,CATE_CODE,STATE_MSG,PLACE_SIGNAL,CREATE_DATE,ADDR,PLACE_PICK
+		FROM PRODUCTION
+		<![CDATA[WHERE ROWNUM <= #{perPage}]]>
+		<choose>
+			<when test="choose == 'place'">
+				AND ADDR LIKE '%'||#{keyword}||'%'
+			</when>
+			<when test="choose == 'pName'">
+				AND TITLE LIKE '%'||#{keyword}||'%'
+			</when>
+		</choose>
+
+		) A ,
+		PRODUCTION_UPLOAD B
+		WHERE A.PRO_NUM = B.PRO_NUM
+		AND B.REP = 1 AND
+		A.RN > #{pageNum}
+		ORDER BY A.PRICE DESC
+
 
 	</select>
 

@@ -37,6 +37,8 @@ public interface ProductionMapper {
 	// 검색 상품 리스트 맵퍼
 	public List<IndexProductionDTO> searchSort(@Param("pageNum") int pageNum,
 			@org.apache.ibatis.annotations.Param("perPage") int perPage,
-			@org.apache.ibatis.annotations.Param("choose") String choose);
+			@org.apache.ibatis.annotations.Param("choose") String choose,
+			@Param("keyword") String keyword
+			);
 
 }

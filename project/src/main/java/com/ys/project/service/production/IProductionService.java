@@ -30,7 +30,9 @@ public interface IProductionService {
 	// 검색 상품 리스트 정렬
 	public List<IndexProductionDTO> searchSort(@Param("pageNum") int pageNum,
 			@org.apache.ibatis.annotations.Param("perPage") int perPage,
-			@org.apache.ibatis.annotations.Param("choose") String choose);
+			@org.apache.ibatis.annotations.Param("choose") String choose,
+			@Param("keyword") String keyword
+			);
 
 	// 앱 상품 인덱스 리스트 불러오기
 	public List<IndexProductionDTO> appSort(@Param("order") String order,

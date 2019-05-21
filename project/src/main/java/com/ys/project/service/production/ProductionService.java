@@ -85,9 +85,9 @@ public class ProductionService implements IProductionService {
 	
 	// 검색 서비스
 	@Override
-	public List<IndexProductionDTO> searchSort(int pageNum, int perPage, String choose) {
+	public List<IndexProductionDTO> searchSort(int pageNum, int perPage, String choose ,String keyword ) {
 		// TODO Auto-generated method stub
-		return mapper.searchSort(pageNum, perPage, choose);
+		return mapper.searchSort(pageNum, perPage, choose, keyword);
 	}
 
 
