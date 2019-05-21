@@ -1,4 +1,0 @@
-#Sun May 12 01:26:42 KST 2019
-base.0=C\:\\Users\\bon300-10\\Documents\\GitHub\\boom\\app\\platforms\\android\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
-path.0=classes.dex
-renamed.0=classes.dex

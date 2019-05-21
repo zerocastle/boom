@@ -48,6 +48,8 @@ li{
 
 }
     </style>
+     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
   </head>
   <body>
     <b><%=nickname%></b> 회원님의 직톡방목록
@@ -77,16 +79,14 @@ li{
             
         <%for(var i =0; i<arr.length;i++){ %>
               <%if(arr[i].buyer == null || arr[i].seller == null){ %>
-                <li>No.<%=arr[i].room_id%> 직톡방 : <a href="/roomchat?room_id=<%=arr[i].room_id%>&talker=out&mobile=0">: <%=arr[i].room_title%></a>
+                <li>No.<%=arr[i].room_id%> 직톡방 : <a href="/roomchat?room_id=<%=arr[i].room_id%>&talker=out&seller=<%=arr[i].seller%>&buyer=<%=arr[i].buyer%>&pro_num=<%=arr[i].pro_num%>&mobile=0&nickname=<%=nickname%>">: <%=arr[i].room_title%></a>
                 //상대방이 직톡방을 나갔습니다.
               <%} else {%>
-                <li>No.<%=arr[i].room_id%> 직톡방 : <a href="/roomchat?room_id=<%=arr[i].room_id%>&talker=in&seller=<%=arr[i].seller%>&buyer=<%=arr[i].buyer%>&pro_num=<%=arr[i].pro_num%>&mobile=0">: <%=arr[i].room_title%></a>
+                <li>No.<%=arr[i].room_id%> 직톡방 : <a href="/roomchat?room_id=<%=arr[i].room_id%>&talker=in&seller=<%=arr[i].seller%>&buyer=<%=arr[i].buyer%>&pro_num=<%=arr[i].pro_num%>&mobile=0&nickname=<%=nickname%>">: <%=arr[i].room_title%></a>
                 //구매자 : <%=arr[i].buyer%>, 판매자 : <%=arr[i].seller%>
               <%}%>
         </li>
         <%}%>
       </ul>
-  
-
   </body>
 </html>

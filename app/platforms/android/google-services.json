@@ -1,0 +1,40 @@
+{
+    "project_info": {
+      "project_number": "570197117123",
+      "firebase_url": "https://jick-talk-push.firebaseio.com",
+      "project_id": "jick-talk-push",
+      "storage_bucket": "jick-talk-push.appspot.com"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:570197117123:android:0457150c105a60e4",
+          "android_client_info": {
+            "package_name": "kr.yjc.wd3"
+          }
+        },
+        "oauth_client": [
+          {
+            "client_id": "570197117123-brs1jrmapc8nqfvuod0reg9qnp8q6nar.apps.googleusercontent.com",
+            "client_type": 3
+          }
+        ],
+        "api_key": [
+          {
+            "current_key": "AIzaSyB5N2vY81-JcXKkbhWr-rJuK-nkIjJslg0"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": [
+              {
+                "client_id": "570197117123-brs1jrmapc8nqfvuod0reg9qnp8q6nar.apps.googleusercontent.com",
+                "client_type": 3
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "configuration_version": "1"
+  }
