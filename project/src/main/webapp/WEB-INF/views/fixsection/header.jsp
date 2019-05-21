@@ -147,6 +147,11 @@
 			e.preventDefault();
 			window.location.href = "/warningBoard/warningBoard"
 		})
+		
+		// 검색 누르기
+		$(".input-group-text").click(function(){
+			window.location.href=""
+		})
 
 	});
 </script>
@@ -183,10 +188,18 @@
 						</div>
 					</div>
 
+					<!-- 검색 부분 -->
 					<div class="header-search" style="padding-top: 15px;">
+
 						<div class="input-group md-form form-sm form-2 pl-0">
-							<input class="form-control my-0 py-1 red-border" type="text"
-								placeholder="상품명 , 지역명 입력" aria-label="Search">
+						
+							<select class="choose">
+								<option value="place">지역명</option>
+								<option value="pName">상품명</option>
+							</select>
+							 <input class="form-control my-0 py-1 red-border" type="text"
+								placeholder="상품명 , 지역명 입력" aria-label="Search" />
+
 							<div class="input-group-append">
 								<span class="input-group-text red lighten-3" id="basic-text1">
 									<img src="/resources/image/search.png" width="15px"
@@ -194,7 +207,9 @@
 								</span>
 							</div>
 						</div>
+
 					</div>
+					<!-- ------------------------------------- -->
 
 					<div class="header-service">
 						<div class="service-btn">

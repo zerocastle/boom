@@ -72,14 +72,25 @@ $(document).ready(function(){
  			var temp = subImg.children().eq(i - j).find("img");
  			temp.width(85).height(85);
  	 		temp.attr('src',realPath+
- 					 result[0].Production_uploadVO[i].uploadPath +'/s_'+ 
+ 					 result[0].Production_uploadVO[i].uploadPath +'/'+ 
  					 result[0].Production_uploadVO[i].uuid+'_'+
  					 result[0].Production_uploadVO[i].fileName
  					 );
  		}
  	
  		
- 	} 
+ 	}
+   	 
+   	 // 서브 이미지 누를때마다 사진 바꿈
+   	$('.subImg img').mouseover(function(){
+   		var mainImageConst = $('.mainImg > img').attr('src');
+   		var temp = $(this).attr('src');
+   		$('.mainImg > img').attr('src',temp);
+   		
+   		$('.subImg img').mouseout(function(){
+   			$('.mainImg > img').attr('src',mainImageConst);
+   		})
+   	})
    	//상품정보 ~!!!
    	var contentInfo = $('.account');
    	
