@@ -126,6 +126,11 @@ app.get('/doChat2', (req, res) => {
           ///                     roomchat?room_id=44&talker=in&seller=21&buyer=3&pro_num=21'
           //http://localhost:3000/roomchat?room_id=2&talker=in&seller=tom&buyer=jack&pro_num=2;
           console.log("/roomchat?room_id=" + room_id + "&talker=in&seller=" + seller_num + "&buyer=" + buyer_num + "&pro_num=" + req.query.pro_num + "nickname" + req.session.nickname);
+            console.log('seller_num ' +seller_num);
+            console.log('buyer_num ' + buyer_num);
+            
+
+
 
 
           res.render('doChat', { room_id: room_id, seller_num: seller_num, buyer_num: buyer_num, pro_num: req.query.pro_num, nickname: req.session.nickname });

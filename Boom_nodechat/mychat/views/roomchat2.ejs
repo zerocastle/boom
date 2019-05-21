@@ -173,7 +173,17 @@ var subDate;
 </div>
 <script src="javascripts/socket.js"></script>
 <script>
+
   $(() => {
+    $.urlParam = function(name){
+  var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+  if (results==null){
+     return null;
+  }
+  else{
+     return results[1] || 0;
+  }
+}
     var ref = function () {
       $(document).scrollTop($(document).height());
       window.location.reload();
@@ -225,8 +235,12 @@ var subDate;
     IMP.init("imp57701295");
 
     $(document).on('click', '.payment', function () {
-      if(name != $('#buyer').text()){
-        
+      var buyer2 = $.urlParam('buyer');
+      
+      alert(buyer2);
+      alert(name == buyer2);
+
+      if(name+'' != buyer2){
         alert('구매자만 결제가 가능합니다.');
         return false;
       }
@@ -248,7 +262,7 @@ var subDate;
         merchant_uid: merchant_uid,
         name: $('#Htitle').html(), // title
         amount: $('#Hprice').html(),
-        buyer_name: $('#buyer').html(),
+        buyer_name: buyer2,
       }, function (rsp) { // callback
         console.log(rsp);
         if (rsp.success) {
