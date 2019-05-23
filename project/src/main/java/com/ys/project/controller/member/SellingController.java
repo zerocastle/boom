@@ -1,5 +1,6 @@
 package com.ys.project.controller.member;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ import com.ys.project.projectDTO.MemberProductionList;
 import com.ys.project.projectDTO.PageDTO2;
 import com.ys.project.projectVO.MemberVO;
 import com.ys.project.projectVO.PartnerVO;
+import com.ys.project.projectVO.PaymentVO;
 import com.ys.project.projectVO.ProductionVO;
 import com.ys.project.service.sellingUpdate.ISellingUpdateService;
 
@@ -52,10 +54,10 @@ public class SellingController {
 
 	// 상품 관리로 이동
 	@RequestMapping(value = "sell_productManage", method = RequestMethod.GET)
-	public String sell_productManage(Model model, HttpServletRequest request , Criteria2 cri) {
+	public String sell_productManage(Model model, HttpServletRequest request, Criteria2 cri) {
 		JSONObject object;
 		JSONArray array = new JSONArray();
-		
+
 		MemberVO memberVO = null;
 		Map map = new HashMap<>(); // 값 넘겨 줄때 쓰일 녀석
 //		MemberProductionList memberProductionList = null;
@@ -72,12 +74,12 @@ public class SellingController {
 		int price;
 		String cate_code;
 		String path;
-		
-		//서비스 넘겨줄떄 사전작업
-		map.put("pageNum",cri.getPageNum());
-		map.put("amount" , cri.getAmount());
-		map.put("m_num",m_num);
-		
+
+		// 서비스 넘겨줄떄 사전작업
+		map.put("pageNum", cri.getPageNum());
+		map.put("amount", cri.getAmount());
+		map.put("m_num", m_num);
+
 		// 서비스 값 넘겨주는 구간
 		list = service.getMemberProductionList(map);
 
@@ -106,10 +108,9 @@ public class SellingController {
 
 		// 상품처리
 		model.addAttribute("productList", array.toString());
-		
-		//페이징 처리
-		model.addAttribute("pageMaker" , new PageDTO2(cri, service.getMemberProductionTotalCount(m_num))); 
-		
+
+		// 페이징 처리
+		model.addAttribute("pageMaker", new PageDTO2(cri, service.getMemberProductionTotalCount(m_num)));
 
 		return "/sell/sell-ProductManage";
 
@@ -120,6 +121,7 @@ public class SellingController {
 	public String chatList(Model model) {
 
 		logger.info("채팅목록 이동");
+		// 없어져야함
 
 		return "sell/chatList";
 
@@ -127,10 +129,15 @@ public class SellingController {
 
 	// 구매내역
 	@RequestMapping(value = "purchaseList", method = RequestMethod.GET)
-	public String purchaseList(Model model) {
+	public String purchaseList(Model model, HttpServletRequest request) {
 
-		logger.info("구매 내역 이동");
-
+		logger.info("구매 역 이동");
+		HttpSession session = request.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("loginSession");
+		String nickName = memberVO.getNickname();
+		List<PaymentVO> list = new ArrayList<PaymentVO>();
+		list = service.getMemberPayment(nickName);
+		model.addAttribute("paymentList", list);
 		return "sell/purchaseList";
 
 	}

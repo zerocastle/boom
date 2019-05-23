@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.ys.project.projectDTO.Criteria3;
 import com.ys.project.projectDTO.IndexProductionDTO;
 import com.ys.project.projectDTO.ProMemberJoinDTO;
+import com.ys.project.projectVO.PaymentVO;
 import com.ys.project.projectVO.Production_uploadVO;
 
 public interface ProductionMapper {
@@ -40,5 +41,12 @@ public interface ProductionMapper {
 
 	// 검색 상품 리스트 토탈 카운트
 	public int searchGetTotalCount(@Param("type") String type, @Param("keyword") String keyword);
+	
+	// 상품 결제에 대한 리스트 불러오기 
+	public List<PaymentVO> getMemberPayment(@Param("nickname") String nickname);
+	
+	// 상품 결제 취소에 대한 처리
+	public int refuseDelete(@Param("imp_uid") String imp_uid);
+	
 
 }

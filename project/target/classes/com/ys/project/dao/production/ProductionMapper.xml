@@ -164,5 +164,16 @@
 	</select>
 
 
+	<!-- 구매내역 가지고오기 -->
+	<select id="getMemberPayment" resultType="PaymentVO">
+		SELECT * FROM PAYMENT
+		WHERE BUYER_NAME = #{nickname}
+	</select>
+
+	<!-- 환불 처리에 대한 삭제 -->
+	<delete id="refuseDelete">
+		DELETE FROM PAYMENT WHERE IMP_UID = # {imp_uid}
+	</delete>
+
 
 </mapper>

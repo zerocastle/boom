@@ -30,17 +30,41 @@ li {
 		<div class="grid-system">
 			<div class="horz-grid" style="height: 720px;">
 				<!-- content -  head -->
-				<ul style="display: inline-block;">
-					<li>상인아이디</li>
-					<li>가맹점코드</li>
-					<li>상품카테고리</li>
-					<li>상품이름</li>
-					<li>상품번호</li>
-					<li>상품가격</li>
-					<li>결제시간</li>
-				</ul>
-				<!-- content -->
-				<div class="buy-line-content"></div>
+
+
+				<table border="1">
+					<thead>
+						<tr>
+							<th>가맹점코드</th>
+							<th>상품번호</th>
+							<th>카테고리</th>
+							<th>상품 이름</th>
+							<th>상품 상태</th>
+							<th>상품 가격</th>
+							<th>판매자</th>
+							<th>결제시간</th>
+							<th>상세보기</th>
+						</tr>
+					</thead>
+
+					<tbody>
+
+						<c:forEach items="${paymentList}" var="list">
+							<tr>
+								<td><c:out value="${list.imp_uid}" /></td>
+								<td><c:out value="${list.pro_num}" /></td>
+								<td><c:out value="${list.cate_code}" /></td>
+								<td><c:out value="${list.title }" /></td>
+								<td><c:out value="${list.quality}" /></td>
+								<td><c:out value="${list.price}" /></td>
+								<td><c:out value="${list.buyer_name}" /></td>
+								<td><c:out value="${list.create_date}" /></td>
+								<td><button>보기</button></td>
+
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
 				<div class="line-footer">
 					<div style="width: 13%; margin: auto; height: auto;">
 						<ul class="pagination" style="margin: auto;">
