@@ -119,26 +119,21 @@
 
 	</select>
 
-	<!-- 검색 처리하는 쿼리 -->
 
-	<!-- <sql id="dsearch"> <choose> <when test="choose == 'place'"> where a.ADDR 
-		like '%'||#{choose}||'%' </when> <otherwise> where a.title like '%'||#{choose}||'%' 
-		</otherwise> </choose> </sql> -->
-
+	<!-- 검색하기 -->
 	<select id="searchSort"
 		resultType="com.ys.project.projectDTO.IndexProductionDTO">
-
 		SELECT
 		A.PRO_NUM,A.TITLE,A.PRICE,A.CATE_CODE,A.STATE_MSG,A.PLACE_SIGNAL,A.CREATE_DATE,A.ADDR,A.PLACE_PICK,B.UUID,B.UPLOADPATH,B.FILENAME,B.REP
 		FROM (SELECT ROWNUM RN
 		,PRO_NUM,TITLE,PRICE,CATE_CODE,STATE_MSG,PLACE_SIGNAL,CREATE_DATE,ADDR,PLACE_PICK
 		FROM PRODUCTION
-		<![CDATA[WHERE ROWNUM <= #{perPage}]]>
+		<![CDATA[WHERE ROWNUM <= #{pageNum} * #{amount}]]>
 		<choose>
-			<when test="choose == 'place'">
+			<when test="type == 'place'">
 				AND ADDR LIKE '%'||#{keyword}||'%'
 			</when>
-			<when test="choose == 'pName'">
+			<when test="type == 'pName'">
 				AND TITLE LIKE '%'||#{keyword}||'%'
 			</when>
 		</choose>
@@ -147,9 +142,24 @@
 		PRODUCTION_UPLOAD B
 		WHERE A.PRO_NUM = B.PRO_NUM
 		AND B.REP = 1 AND
-		A.RN > #{pageNum}
+		<![CDATA[A.RN > (#{pageNum} -1) * #{amount}]]>
 		ORDER BY A.PRICE DESC
 
+
+	</select>
+
+	<!-- 검색에 대한 페이징 토탈 카운트 -->
+	<select id="searchGetTotalCount" resultType="int">
+		SELECT COUNT(PRO_NUM)
+		FROM PRODUCTION
+		<choose>
+			<when test="type == 'place'">
+				WHERE ADDR LIKE '%'||#{keyword}||'%'
+			</when>
+			<otherwise>
+				WHERE TITLE LIKE '%'||#{keyword}||'%'
+			</otherwise>
+		</choose>
 
 	</select>
 

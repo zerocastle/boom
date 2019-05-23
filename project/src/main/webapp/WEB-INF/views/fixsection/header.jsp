@@ -150,24 +150,10 @@
 		
 		// 검색 누르기
 		$(".input-group-text").click(function(){
-			alert("작업중...");
+			
 			var choose = $('.choose').val();
 			var keyword = $('.form-control').val();
-			alert(choose);
-			alert(keyword);
-			$.ajax({
-				type : 'GET',
-				data : {
-					"choose" : choose,
-					"keyword" : keyword
-				},
-				url : '/search',
-				dataType : 'json',
-				contentType : 'application/json',
-				success : function(data){
-					console.log(data);
-				}
-			})
+			window.location.href="/search?type="+choose+"&keyword="+keyword;
 		})
 
 	});

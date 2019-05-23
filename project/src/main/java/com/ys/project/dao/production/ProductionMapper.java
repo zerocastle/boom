@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.ys.project.projectDTO.Criteria3;
 import com.ys.project.projectDTO.IndexProductionDTO;
 import com.ys.project.projectDTO.ProMemberJoinDTO;
 import com.ys.project.projectVO.Production_uploadVO;
@@ -35,10 +36,9 @@ public interface ProductionMapper {
 	public List<IndexProductionDTO> appSort(@Param("order") String order, @Param("cate_code") String cate_code);
 
 	// 검색 상품 리스트 맵퍼
-	public List<IndexProductionDTO> searchSort(@Param("pageNum") int pageNum,
-			@org.apache.ibatis.annotations.Param("perPage") int perPage,
-			@org.apache.ibatis.annotations.Param("choose") String choose,
-			@Param("keyword") String keyword
-			);
+	public List<IndexProductionDTO> searchSort(Criteria3 cri3);
+
+	// 검색 상품 리스트 토탈 카운트
+	public int searchGetTotalCount(@Param("type") String type, @Param("keyword") String keyword);
 
 }
