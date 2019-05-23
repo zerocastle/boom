@@ -26,6 +26,7 @@ app.set('view engine', 'ejs'); //뷰 템플릿 지정. .ejs 로 작성되어야�
 app.set('views', './views'); //경로지정. view단의 파일들은 해당 경로에 저장되어야 한다.
 app.use('/api/daumJuso', require('./routes/daumJuso'));//모바일 주소 출력용
 app.use('/api/push', require('./routes/push'));//push 알림 firebase 연동
+app.use('/api/QRpartner', require('./routes/QRpartner'));//QR스캐너
 let room = [10000];//socketIO의 방 객체가 담길 배열
 var conn; // DB connection 객체가 될 변수
 var oracledb = require("oracledb"); //oracleDB import
@@ -185,7 +186,13 @@ app.get('/testQR', (req, res) => {
     if (err) {
       console.log('에러' , err);
     } else {
+
       console.log(result.rows);
+      if(result.rows.length==0){
+        console.log('쿼리결과가 0입니다.')
+        res.render('goTestQR', sendData);
+        return false
+      }
       var muid = result.rows[0][0];
       var imp = result.rows[0][1];
       var place = result.rows[0][2];
@@ -234,6 +241,7 @@ var roomchat_func = function(req,res){
   if (sRoom == undefined) {//쿼리스트링값이 없다면
     sRoom = req.query.room_id;
   } // 쿼리스트링 값을 받아온다.
+  console.log('ttttttttttttttttttttttttttttt',req.query);
   console.log("입장합니다! : " + sRoom + "번방의 상태 : " + status);
   var prod_inf = function (c_address, c_datetime, pro_num, req, res) {
     var prodsql = "select pro_num, place_pick, title, content, price, p_quality, c.cate_name from production p, category c where c.cate_code = p.cate_code and pro_num =" + req.query.pro_num;

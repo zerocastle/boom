@@ -28,6 +28,7 @@
     <content src="index.html" />
     <!--    <plugin name="cordova-plugin-whitelist" spec="1" />-->
     <plugin name="cordova-plugin-whitelist" spec="~1.2.1" source="npm"/>
+    
     <access origin="*" />
     <!--
     allow-intent
@@ -47,9 +48,15 @@
     <allow-navigation href="http://*/*" />
     <allow-navigation href="https://*/*" />
     <allow-navigation href="data:*" />
+
+    <!--QR코드 안드로이드 -->
+    
+    <!--QR코드 안드로이드 -->
+    
     <platform name="android">
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
             <application android:usesCleartextTraffic="true" /><!--안드로이드 플랫폼에서 앱 실행시 http 경로 실행 허용. -->
+            
         </edit-config>
         <allow-intent href="market:*" /><!--안드로이드 플랫폼에서 마켓 유형의 링크는 플레이스토어 오픈 -->
     </platform>

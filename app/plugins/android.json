@@ -10,10 +10,16 @@
     "com.napolitano.cordova.plugin.intent": {
       "PACKAGE_NAME": "kr.yjc.wd3"
     },
+    "cordova-plugin-barcodescanner": {
+      "PACKAGE_NAME": "kr.yjc.wd3"
+    },
     "cordova-plugin-camera": {
       "PACKAGE_NAME": "kr.yjc.wd3"
     },
     "cordova-plugin-fcm-with-dependecy-updated": {
+      "PACKAGE_NAME": "kr.yjc.wd3"
+    },
+    "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "kr.yjc.wd3"
     },
     "cordova-plugin-restful": {

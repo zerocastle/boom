@@ -1,0 +1,26 @@
+img {
+
+    position:absolute;             /* position in the center of the screen */
+    left:25%;
+    top:20%;
+    height:30%;                   /* text area height */
+    width:50%;                   /* text area width */
+
+}
+
+#loginForm {
+    width: 100%;
+    text-align: center;
+    position:absolute;
+    align:center;
+    top:55%;
+}
+
+
+#dimi {
+    display: inline-block;
+ }
+
+.dimi {
+    margin-top:10px;
+}

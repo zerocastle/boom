@@ -50,6 +50,8 @@
       </div>
 
       <!--채빙방 관련 된거-->
+      <div id="other"style="display:none;"></div>
+      <div id="otherToken"style="display:none;"></div>
       <div id="pro_num" style="display:none;"><%=pro_num%></div>
       <div id="buyer" style="display:none;"><%=buyer%></div>
       <div id="seller" style="display:none;"><%=seller%></div>
@@ -213,6 +215,64 @@ var subDate;
 
     var a = $('#status').text();
     $('#set_date').bootstrapMaterialDatePicker({ format: 'YYYY/MM/DD HH:mm', minDate: new Date() });//캘린더 - datePicker를 달아준다.
+
+    /* 채팅방 입장시 상대방의 토큰 생성 및 안보이는 태그에 저장 */
+    /* <div id="other">상대방 닉네임~</div><div id='otherToken'>상대방토큰정보</div> */
+    /*1. 상대방의 닉네임 획득*/
+    var other = '';
+    if($('#seller').text() == $('#nickname').text()){
+      other = $('#buyer').text();
+      $('#other').text(other);
+    }else if($('#buyer').text() == $('#nickname').text()){
+      other = $('#seller').text();
+      $('#other').text(other);
+    }
+    /*1. 상대방의 닉네임 획득*/
+    /*2. 상대방의 토큰정보 획득*/
+    console.log("other's nickname is : " + other);
+    $.ajax({
+      type : 'post',
+      url : 'http://39.127.7.47:3000/api/push/getToken',
+      data : { nickname : other  },
+      success : function(result){
+                  console.log("other's token : "+result);
+                  $('#otherToken').text(result);
+      },
+      error : function(err){
+                  console.log('set token err : ' + err);
+      }
+    });
+    /*2. 상대방의 토큰정보 획득*/
+    /*3. 토큰 전송 함수로 만듬*/
+      /*sendToken(msg,title, sender); 로 실행하면 됨.*/
+      /*푸시 도착시 좌측부터 title(Bold) sender(small) : msg(small) 화 같은 형태로 도착한다.*/
+      /*채팅시 채팅방명 발신자:메시지*/
+      /*결제시 채팅방명 구매자:가 결제를 완료하였습니다.*/
+      /*상품 맡길 시 채팅방명 판매자:가 상품을 지정 직플레이스에 맡겼습니다.*/
+      /*상품 찾아가면 푸시알림을 보내야하나?*/
+    var sendToken = function(msg, title, sender){
+      var otherToken = $('#otherToken').text();
+      console.log('otherToken is ready for ' + otherToken);
+      if(otherToken != null){
+        console.log("other's Token is not null");
+        $.ajax({
+          url: "http://39.127.7.47:3000/api/push",
+          dataType: 'json',
+          type: 'POST',
+          data : {data: $('#otherToken').text(),//상대방토큰 
+                  message : msg, //전송메시지
+                  title : title, //전송메시지 제목
+                  sender : sender}, //발신자
+          success: function () {
+              console.log("토큰전송ok");
+          }
+        });
+      } else {
+        console.log("other's token is null");
+      }
+    }
+    /*3. 토큰 전송 함수로 만듬*/
+    /* 토큰 끝; */
 
 
     if (a == 'out') {
@@ -545,8 +605,11 @@ var subDate;
       } else {
         socket.emit('chat message', num, name, $('#m').val());// 서버로  작성자, 방번호, 메시지를 전달한다.
         $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+        sendToken($('#m').val(),$('#Htitle').text(),$('#nickname').text());//상대방에게 토큰을 전송한다.
         $('#m').val('');//입력창 비워주기
+        
         return false;
+
       } //원하는 작업만 마친 후 submit의 동작을 멈춘다.
     });
     /* API 좀더 참조해야함. seller_num, buyer_num, room_id, c_address, c_date, pro_num과 pro_num에 해당하는 production 테이블의 모든 컬럼들을 뿌려준다.

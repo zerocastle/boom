@@ -30,12 +30,19 @@
                     // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
                     var fullAddr = data.address; // 최종 주소 변수
                     var extraAddr = ''; // 조합형 주소 변수
-                    console.log(fullAddr);
+                    var road = data.roadAddress;
+                    var addr = data.jibunAddress;
+                    var zipcode = data.zonecode;
+                    console.log(road +'::::'+ addr +'::::'+ zipcode);
                     $.ajax({
                         url: "/api/daumJuso",
                         dataType: 'json',
                         type: 'POST',
-                        data : {data:fullAddr},
+                        data : {data:{
+                            road : road,
+                            addr : addr,
+                            zipcode : zipcode
+                        }},
                         success: function () {
                             console.log("ok");
                         }

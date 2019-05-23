@@ -8,6 +8,7 @@
     <script src="js/jquery-3.4.0.min.js"></script>
     <script src="js/mypage.js"></script>
     <link rel="stylesheet" href="css/mypage.css" />
+    <script src="cordova.js"></script>
     <title>Document</title>
 </head>
 <body>
@@ -38,11 +39,50 @@
             <div id = "zicpleb">
                 <button id = "zicplebtn">직플레이스 등록</button>
             </div>
+
+            <button id = "scan">QR 스캐너</button>
+            <div class="alert">ㅎㅎ</div>
         </div>
 
 
     </div>
 <button id = "logout" value = "로그아웃">로그아웃</button>
 
+<script>
+$('#scan').click(function(){
+    cordova.plugins.barcodeScanner.scan(
+        function(result) {
+            var list = $("<ul>").append("<li>" + result.text + "</li>")
+                .append("<li>" + result.format + "</li>")
+                .append("<li>" + result.cancelled + "</li>");
+            
+            $(".alert").html(list);
+            
+            var nickname = JSON.parse(sessionStorage.getItem('member')).nickname;
+            var url = result.text + '&nickname=' + nickname;
+            alert(url);
+            var ref = cordova.InAppBrowser.open(url, '_blank', 'location=yes');
+            ref.addEventListener('loadstop', function(){
+                var loop = window.setInterval(function(){
+                    ref.executeScript({
+                        code:"window.shouldClose"
+                    },
+                    function(values){
+                        if(values[0]){
+                            ref.close();
+                            window.clearInterval(loop);
+                        }
+                    });
+                },100);
+            });
+        },
+        function(error) {
+            // 에러정보 표시
+            $(".alert").html(error);
+        }
+    );
+});
+
+</script>
 </body>
 </html>
