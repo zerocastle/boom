@@ -104,9 +104,10 @@
 		FROM (SELECT
 		PRO_NUM,TITLE,PRICE,CATE_CODE,STATE_MSG,PLACE_SIGNAL,CREATE_DATE,ADDR,PLACE_PICK
 		FROM
-		<if test="cate_code == null">PRODUCTION</if>
-		<if test="cate_code != null">PRODUCTION WHERE CATE_CODE = #{cate_code}</if>
-
+		<choose>
+			<when test="cate_code == 'all'">PRODUCTION</when>
+			<otherwise>PRODUCTION WHERE CATE_CODE = #{cate_code}</otherwise>
+		</choose>
 		) A , PRODUCTION_UPLOAD B
 		WHERE A.PRO_NUM = B.PRO_NUM
 		AND B.REP = 1

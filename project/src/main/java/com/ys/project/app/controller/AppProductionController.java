@@ -50,4 +50,26 @@ public class AppProductionController {
 
 	}
 
+//	// 상품 정렬
+//	@CrossOrigin(origins = "*", maxAge = 3600)
+//	@GetMapping(value = "/view/{pro_num}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+//	public String productionSort(@PathVariable("pro_num") int pro_num) {
+//		log.info("상품 상세보기 : " + pro_num);
+//		List<Map<String, Object>> list = service.totalFineByPro(pro_num);
+//		log.info("" + list);
+//		return JSONArray.fromObject(list).toString();
+//
+//	}
+//
+//	// 상품 검색
+//	@CrossOrigin(origins = "*", maxAge = 3600)
+//	@GetMapping(value = "/view/{pro_num}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+//	public String productionSearch(@PathVariable("pro_num") int pro_num) {
+//		log.info("상품 상세보기 : " + pro_num);
+//		List<Map<String, Object>> list = service.totalFineByPro(pro_num);
+//		log.info("" + list);
+//		return JSONArray.fromObject(list).toString();
+//
+//	}
+
 }
