@@ -24,6 +24,7 @@
 
 
             <select class="category" id="field1" name="category">
+                <option value="all" selected>전체보기</option>
                 <option value="woman">여성의류</option>
                 <option value="man">남성의류</option>
                 <option value="elect">전자제품</option>
@@ -39,8 +40,8 @@
             </select>
 
             <select class="order" id="filed2" name="order">
-                <option>가격 낮은 순</option>
-                <option>가격 높은 순</option>
+                <option value="asc" selected>가격 낮은 순</option>
+                <option value="desc">가격 높은 순</option>
             </select>
 
 
@@ -55,7 +56,7 @@
 
         <!-- 컨텐츠들 뿌려주기-->
         <div class="contents-line">
-            <div class="pro">
+            <div class="pro" id="pro">
                 <!--
                     <div class="imgess">
                     <img class="pro-img" src="img/신발.jpg" width="90px;" height="85px;">
