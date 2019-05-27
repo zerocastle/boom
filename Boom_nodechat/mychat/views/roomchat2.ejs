@@ -100,7 +100,7 @@ var subDate;
 %>
       <div id="pro_data" style="display:none;">
         <ol id='pro_data'>
-          <div id='QRhidden'></div>
+          <div id='QRhidden' style="display:none;"></div>
           판매자 : <%=jprod.seller%> //
           구매자 : <%=jprod.buyer%> //
           상품번호 : <%=jprod.pro_num%>
@@ -112,7 +112,6 @@ var subDate;
           품질 : <%=jprod.p_quality%><br>
           <hr>
           직플레이스 : <br><%=jprod.place_pick%><br>
-          입금할 가상계좌 : (대구은행) 308-29-80376732-8<br>
           <button class="buy_no">거절</button><button class="payment">결제</button>
           <!--구매자에게만 보이는 이 버튼은 수락버튼 클릭시 결제창이 열리게 되며 에스크로 결제가 진행된다. 결제가 성공적으로 완료되면 서버에 QR코드 생성하라는 신호를 발생시킨다. 이 신호는 채팅방에 전달되며 판매자에게만 보여지게 된다. QR코드는
           명세서 정보가 담긴 쿼리스트링을 포함한 url 데이터이다. 이 QR코드는 판매자에게만 보이게 되며 직플스캐너가 아닌 카메라로 인식시 안내페이지를 반환하게 된다. 
@@ -475,7 +474,7 @@ var subDate;
       } else {
         $('#messages').append($('<li class="odd">').html(name + ' : ' + tag));//버튼은 상대방에게만 보인다.
       }
-      $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+      ref(); // 스크롤 가장아래로 내림
     });
 
     // 약속장소 잡기 버튼

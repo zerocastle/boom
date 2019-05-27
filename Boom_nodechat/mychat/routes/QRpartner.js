@@ -17,12 +17,10 @@ oracledb.getConnection({// 커텍션 객체 생성
 router.post('/', function(req,res) {
     console.log('QR큐알QR큐알QR큐알QR큐알QR큐알QR큐알');  
     console.log('QR큐알QR큐알QR큐알QR큐알QR큐알QR큐알');  
-    console.log(req.body.place + req.body.pro_num);
-    ////  되는거//var QR_partnerSql = "select nickname from member where m_num = (select m_num from partner where part_name = '"+req.body.place+"')";
-    var QR_partnerSql = "select m.nickname, p.state_msg from member m,production p where m.m_num = (select m_num from partner where part_name = '"+req.body.place+"') and m.m_num = "+req.body.pro_num;
-                      //"select nickname from member where m_num = (select m_num from partner where part_name = '"+tomsjack+"')";
-                      //"select m.nickname, p.state_msg from member m,production p where m.m_num = (select m_num from partner where part_name = '"+req.body.place+"')"and m.m_num = p.m_num";
-                      //"select m.nickname, p.state_msg from member m,production p where m.m_num = (select m_num from partner where part_name = '"+req.body.place+"')"and m.m_num = p.m_num";
+    console.log(req.body.nickname + req.body.pro_num);
+    
+    var QR_partnerSql = "select pd.state_msg from production pd, payment py where pd.pro_num = py.pro_num and py.pro_num = "+req.body.pro_num+" and SUBSTR(py.place_pick, 1, (instr(py.place_pick,'-')-1)) in (select part_name from partner where m_num = (select m_num from member where nickname = '"+req.body.nickname+"'))";
+                      
     console.log('QR_partnerSql 쿼리 실행 : ' + QR_partnerSql);
     conn.execute(QR_partnerSql, function (err, result) {
         if(err){
@@ -34,8 +32,8 @@ router.post('/', function(req,res) {
                 res.send({nickname : 'null',state_msg : 'null', state : 'false'});
             }else {
                 console.log('QR_partnerSql 쿼리 성공' + result.rows);
-                console.log('QR_partnerSql ajax-post에 응답할 데이터 : + ' + result.rows[0][0] + result.rows[0][1]);
-                res.send({nickname : result.rows[0][0],state_msg : result.rows[0][1], state : 'success'});
+                console.log('QR_partnerSql ajax-post에 응답할 데이터 : ' + result.rows[0][0] );
+                res.send({state_msg : result.rows[0][0], state : 'success'});
             }
         }
     });
@@ -45,7 +43,20 @@ router.post('/', function(req,res) {
 
 
 
-
+//
+router.post('/accept', function(req,res) {
+    console.log(req.body.pro_num +'///' + req.body.state);
+    var acceptSql = "update production set state_msg = '"+req.body.state+"' where pro_num = " + req.body.pro_num;
+    console.log('acceptSql : ' + acceptSql);
+    conn.execute(acceptSql, function(err,result){
+        if(err){
+            console.log(err);
+        } else {
+            console.log("acceptSql's accepted rows : " + result);
+            res.send();
+        }
+    })
+});
 
 
 
