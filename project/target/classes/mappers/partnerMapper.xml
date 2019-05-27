@@ -4,53 +4,83 @@
 
 <mapper namespace="partner">
 
-	<insert id="partnerRegister" parameterType="PartnerVO">
-		INSERT INTO PARTNER(
-		COMPANY_NUMBER,
-		PART_NAME,
-		BOSS_NAME,
-		PART_PHONE,
-		ZIP_CODE,
-		ROAD_NAME,
-		ADDR,
-		DETAIL_ADDR,
-		LAG,
-		LNG, 
-		M_NUM
-		)
-		VALUES(
-		#{company_number},
-		#{part_name},
-		#{boss_name},
-		#{part_phone},
-		#{zip_code},
-		#{road_name},
-		#{addr},
-		#{detail_addr},
-		#{lag},
-		#{lng}, 
-		#{m_num}
-		)
-	</insert>
+   <insert id="partnerRegister" parameterType="PartnerVO">
+      INSERT INTO PARTNER(
+      COMPANY_NUMBER,
+      PART_NAME,
+      BOSS_NAME,
+      PART_PHONE,
+      ZIP_CODE,
+      ROAD_NAME,
+      ADDR,
+      DETAIL_ADDR,
+      LAG,
+      LNG, 
+      M_NUM
+      )
+      VALUES(
+      #{company_number},
+      #{part_name},
+      #{boss_name},
+      #{part_phone},
+      #{zip_code},
+      #{road_name},
+      #{addr},
+      #{detail_addr},
+      #{lag},
+      #{lng}, 
+      #{m_num}
+      )
+   </insert>
 
-	<select id="selectnumber" resultType="int">
-		SELECT M_NUM
-		FROM MEMBER
-		WHERE nickname = #{nickname}
-	</select>
-	
-	<update id="updateNumber" parameterType="MemberVO">
-		UPDATE MEMBER
-		SET PARTNER_SIGNAL = #{partner_signal}
-		WHERE NICKNAME=#{nickname}
-		
-	</update>
+   <select id="selectnumber" resultType="int">
+      SELECT M_NUM
+      FROM MEMBER
+      WHERE nickname = #{nickname}
+   </select>
+   
+   <update id="updateNumber" parameterType="MemberVO">
+      UPDATE MEMBER
+      SET PARTNER_SIGNAL = #{partner_signal}
+      WHERE NICKNAME=#{nickname}
+   </update>
 
-	<select id="getList" resultType="PartnerVO">
-		SELECT * FROM PARTNER
-	</select>
-	
-	
+   <select id="getList" resultType="PartnerVO">
+      SELECT * FROM PARTNER
+   </select>
+   
+   <insert id="appUpdatePartner" parameterType="AppPartnerVO">
+      INSERT INTO PARTNER(
+      COMPANY_NUMBER,
+      PART_NAME,
+      BOSS_NAME,
+      PART_PHONE,
+      ZIP_CODE,
+      ROAD_NAME,
+      ADDR,
+      DETAIL_ADDR,
+      M_NUM
+      )
+      VALUES(
+      #{company_number},
+      #{part_name},
+      #{boss_name},
+      #{part_phone},
+      #{zip_code},
+      #{road_name},
+      #{addr},
+      #{detail_addr},
+      #{m_num}
+      )
+   </insert>
 
-
+   <update id="appUpdateSignal" parameterType="string">
+      UPDATE MEMBER
+      SET PARTNER_SIGNAL = partner_signal+1
+      WHERE NICKNAME = #{nickname}
+   </update>
+   
+   <select id="checkMember" parameterType="string" resultType="MemberVO">
+      SELECT * FROM MEMBER WHERE NICKNAME = #{nickname}
+   </select>
 </mapper>

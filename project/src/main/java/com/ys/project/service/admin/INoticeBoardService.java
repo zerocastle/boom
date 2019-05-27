@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.ys.project.projectDTO.Criteria;
 import com.ys.project.projectVO.NoticeBoardVO;
+import com.ys.project.projectVO.UserListVO;
+import com.ys.project.projectVO.buyListVO;
 
 public interface INoticeBoardService {
 
@@ -20,8 +22,10 @@ public interface INoticeBoardService {
 	//∆‰¿Ã¬°
 	public List<NoticeBoardVO> getList(Criteria cri);
 	
-	// ≈‰≈ª µÈ∞Ìø¿±‚
-		public int getTotalCount();
-	
+	public List<buyListVO> buy();
+    
+    public List<UserListVO> User();
+
+	public int getTotalCount();
 
 }

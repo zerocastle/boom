@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- jquery 모바일 , jquery -->
+    <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.5.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.mobile-1.4.5.js"></script>
+
+    <!-- 폰트애즈썸 -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+    <!-- 차트 cdn -->
+    <!-- Resources -->
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/dataviz.js"></script>
+    <script src="js/chat.js"></script>
+    <!-- 폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&amp;subset=korean"
+        rel="stylesheet">
+
+    <!-- cordova js  -->
+    <script type="text/javascript" src="cordova.js"></script>
+    <style>
+        * {
+            font-family: 'Noto Sans KR';
+            margin: 0;
+            padding: 0;
+        }
+
+        .profile-top {
+            position: relative;
+            height: 100px;
+            border: 1px solid #ddd;
+            background : url('img/프로필뒷배경.jpg');
+        }
+
+        .profile-bottom {
+            position: relative;
+            height: 100px;
+            border: 1px solid #ddd;
+        }
+
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            object-position: top;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 2;
+            transform: translateX(-50%);
+            background: white;
+            background-image: url('img/기본프로필.jpg');
+            background-size: 102px 102px;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+
+        .profile-edit {
+            width: 50%;
+        }
+
+        .pro-btn {
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        #chartdiv {
+            width: 100%;
+            height: 200px;
+            font-size: 10px;
+        }
+
+        .profile-content {
+
+            height: 350px;
+        }
+
+        .content-line {
+            border-bottom: solid 0.5px #ddd;
+            border-left: 0;
+            border-right: 0;
+
+            font-weight: bold;
+        }
+
+        .profile-name {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .profile-email-1,
+        .profile-phone-1,
+        .profile-acc_num-1,
+        .profile-acc_name-1,
+        .profile-intro-1 {
+            margin-top: 12px;
+            padding-bottom: 5px;
+        }
+
+        .profile-email-2,
+        .profile-phone-2,
+        .profile-acc_num-2,
+        .profile-acc_name-2,
+        .profile-intro-2 {
+            color: #695c5c;
+            margin-top: .5em 0;
+            font-size: 13px;
+            padding-bottom: 15px;
+        }
+
+        .manner-line{
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .profile-email-3,
+        .profile-phone-3,
+        .profile-acc_num-3,
+        .profile-acc_name-3,
+        .profile-intro-3 {
+            display: none;
+        }
+
+        .modal-title{
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .modal-content{
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .content{
+            padding-left: 0;
+            padding-right: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 첫번째 페이지 -->
+
+    <section id="profilePage" data-role="page">
+
+
+        <header data-role="header" data-add-back-btn="true" data-back-btn-text="back" data-theme="b">
+                <a href="#" class="ui-btn" data-rel="back" style="background-color : #1d1d1d; color:#fff;"><i class="fas fa-arrow-left"></i></a>
+            <h1><i class="far fa-address-card" style="margin-right: 5px;"></i>프로필</h1>
+        </header>
+
+
+        <div class="content" data-role="content" data-theme="a">
+                    <div class="profile-top">
+                        <a href="#profile-modal" data-rel="popup">
+                            <div class="profile-img">
+                                
+                            </div>
+                        </a>
+                        
+                        <div data-role="popup" id="profile-modal" class="modal-content">
+                                <p class="modal-title">프로필</p>
+                                <button id="btn" style="background-color: white; border-color: white; display: inline;">사진 촬영</button>
+                                <button id="btn2" style="background-color: white; border-color: white; display: inline;">사진 선택</button>
+                        </div>
+                    </div>
+                     <div class="profile-bottom">
+                            <div class="pro-btn">
+                                <div id="nickname" class="profile-name"></div>
+                            </div>
+                    </div>
+        </div>
+        
+            <div id="profile-Div" class="ui-body ui-body-a">
+                    <div class="profile-content">
+                        <div class="content-line">
+                            <div class="profile-email-1">이메일</div>
+                            <div id="email" class="profile-email-2"></div>
+                            <div class="profile-email-3">
+                                <input class="profile-email-4" type="text" />
+                            </div>
+                        </div>
+
+                        <div class="content-line">
+                            <div class="profile-phone-1">휴대폰</div>
+                            <div id="phone" class="profile-phone-2"></div>
+                            <div class="profile-phone-3">
+                                    <input class="profile-phone-4" type="text" />
+                            </div>
+                        </div>
+                        <div class="content-line">
+                            <div class="profile-acc_name-1">은행명</div>
+                            <div id="acc_name" class="profile-acc_name-2"></div>
+                            <div class="profile-acc_name-3">
+                                    <select class="dropdown__select">
+                                            <option id="a" class="profile-acc_name-4" selected></option>
+                                            <option value="NH농협">NH농협</option>
+                                            <option value="KB국민">KB국민은행</option>
+                                            <option value="신한">신한은행</option>
+                                            <option value="우리">우리은행</option>
+                                            <option value="하나">KEB하나은행</option>
+                                            <option value="IBK기업">IBK기업은행</option>
+                                            <option value="외환">외환은행</option>
+                                            <option value="SC제일">SC제일은행</option>
+                                            <option value="씨티">씨티은행</option>
+                                            <option value="KDB산업">KDB산업은행</option>
+                                            <option value="새마을">새마을금고</option>
+                                            <option value="대구">대구은행</option>
+                                            <option value="광주">광주은행</option>
+                                            <option value="우체국">우체국</option>
+                                            <option value="신협">신협중앙회</option>
+                                            <option value="전북">전북은행</option>
+                                            <option value="경남">경남은행</option>
+                                            <option value="부산">부산은행</option>
+                                            <option value="수협">수협중앙회</option>
+                                            <option value="제주">제주은행</option>
+                                            <option value="저축은행">상호저축은행</option>
+                                            <option value="산림조합">산림조합중앙회</option>
+                                            <option value="케이뱅크">케이뱅크</option>
+                                            <option value="카카오뱅크">카카오뱅크</option>
+                                    </select>
+                            </div>
+                        </div>
+                        <div class="content-line">
+                            <div class="profile-acc_num-1">계좌번호</div>
+                            <div id="acc_num" class="profile-acc_num-2"></div>
+                            <div class="profile-acc_num-3">
+                                    <input class="profile-acc_num-4" type="text" />
+                            </div>
+                        </div>
+                        <div class="content-line">
+                            <div class="profile-intro-1">소개글</div>
+                            <div id="intro" class="profile-intro-2"></div>
+                            <div class="profile-intro-3">
+                                    <textarea class="profile-intro-4"></textarea>
+                            </div>
+                        </div>
+                        <button id="edit" class="profile-edit" style="width:40%; float: right; display: inline; margin: 0; margin-top: 8px;">
+                            프로필 수정
+                        </button>
+                        <button id="editOk" class="profile-edit" style="width:40%; float: right; display: inline; margin: 0; margin-top: 8px; display: none;">
+                            수정 완료
+                        </button>
+                    </div>
+            </div>
+
+            <div class="ui-body ui-body-a">
+                <div class="manner-line">
+                    <div class="manner-name">매너게이지</div>
+                    <div id="chartdiv"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <p id="msg"></p>
+
+        <footer data-role="footer" data-position="fixed" data-theme="b">
+            <h2>ⓒ직거래 플러스 2019</h2>
+        </footer>
+
+    </section>
+
+    <script>
+        $(document).ready(function () {
+
+            $( "#profile-modal" ).popup({
+                positionTo: "window" // 중앙 좌표 설정
+            });
+
+            var query =
+                sessionStorage.getItem("member");
+
+            $.ajax({
+                    type : "POST",
+                    data : query,
+                    url : "http://39.127.7.50:8080/app/myPageList/nick",
+                    contentType : "application/json; charset=UTF-8",
+                    success : function(data){
+                        console.log(data);
+                        console.log(data.nickname);
+                        $('#nickname').append(data.nickname);
+                        $('#email').append(data.email);
+                        $('#phone').append(data.phone);
+                        $('#acc_name').append(data.acc_name);
+                        $('#acc_num').append(data.acc_num);
+                        $('#intro').append(data.intro);
+                    },error : function(err){
+                        console.log(err);
+                    }
+            });
+
+            $('#edit').click(function(){
+                //text
+                $('#email').css('display','none');
+                $('#phone').css('display','none');
+                $('#acc_name').css('display','none');
+                $('#acc_num').css('display','none');
+                $('#intro').css('display','none');
+                //input
+                $('.profile-email-3').css('display','block');
+                $('.profile-email-4').val($('#email').text());
+                $('.profile-phone-3').css('display','block');
+                $('.profile-phone-4').val($('#phone').text());
+                $('.profile-acc_name-3').css('display','block');
+                $('.profile-acc_name-4').text($('#acc_name').text());
+                $('.profile-acc_num-3').css('display','block');
+                $('.profile-acc_num-4').val($('#acc_num').text());
+                $('.profile-intro-3').css('display','block');
+                $('.profile-intro-4').val($('#intro').text());
+                //btn
+                $('#edit').css('display','none');
+                $('#editOk').css('display','block');
+            });
+
+            $('#editOk').click(function(){
+                var query = {
+                     nickname : $('#nickname').text(),
+                     email : $('.profile-email-4').val(),
+                     phone : $('.profile-phone-4').val(),
+                     acc_name : $('select.dropdown__select').prev().text(),
+                     acc_num : $('.profile-acc_num-4').val(),
+                     intro : $('.profile-intro-4').val()
+                 };
+                 $.ajax({
+                     type : 'POST',
+                     data : JSON.stringify(query),
+			         dataType : 'json',
+                     url : "http://39.127.7.50:8080/app/myPageList/edit",
+                     contentType : 'application/json; charset=UTF-8',
+                     success : function(data){
+                          alert('업데이트');
+                          console.log(data);
+                          console.log(JSON.stringify(data));
+                          sessionStorage.removeItem("member");
+                          sessionStorage.setItem("member",JSON.stringify(data));
+                          window.location.href = "myPage-Info.html";
+                     } 
+                });
+            });
+        });
+    </script>
+
+    <script>
+        // take picture js 부분
+        let app = {
+            init : function(){
+             document.getElementById('btn').addEventListener('click',app.takephoto);
+            },
+            takephoto : function(){
+                 let opts = {
+                     quality: 80,
+                     destinationType: Camera.DestinationType.FILE_URI,
+                     sourceType: Camera.PictureSourceType.CAMERA,
+                     mediaType: Camera.MediaType.PICTURE,
+                     encodingType: Camera.EncodingType.JPEG,
+                     cameraDirection: Camera.Direction.BACK,
+                     correctOrientation: true,
+                     saveToPhotoAlbum: true
+                 };
+                 
+                 navigator.camera.getPicture(app.ftw, app.wtf,opts);
+            },
+            ftw : function(imgURI){
+                 console.log(imgURI);
+                 var image = $('.profile-img');
+                image.css({"background-image" : "url("+imageURI+")"});
+                document.getElementById('msg').textContent = imgURI;
+                alert(imgURI);
+            },
+            wtf : function(msg){
+                 console.log(msg);
+            }
+        }
+        document.addEventListener('deviceready',app.init);
+     </script>
+
+    <script>
+        // photo libary js 부분
+         $(document).ready(function(){
+            initCordova();
+
+            $('#btn2').click(function(){
+                getPhoto();
+            });
+        });
+
+        function initCordova(){
+            document.addEventListener('deviceready',onDeviceReady, true);
+        }
+        function onDeviceReady(){
+            navigator.notification.alert('장치준비됨',null,'코르도바API');
+        }
+
+        function getPhoto(){
+            navigator.camera.getPicture(onPhotoURISuccess, onFail,
+            {
+                destinationType: Camera.DestinationType.FILE_URI,   // 리턴타입 형식(파일경로)
+                    encodingType: Camera.EncodingType.JPEG, // 이미지 형식
+                    quality: 100,            // 퀄리티 (0~100)
+                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY,    // 카메라 or 갤러리 설정
+                    allowEdit: false,        // 가져오기 완료 후 편집 여부
+                    correctOrientation: true, // 카메라를 세로로 촬영한 경우 이미지 방향을 회전시킴
+                    saveToPhotoAlbum: true
+            });
+        }
+
+        function onPhotoURISuccess(imageURI){
+            var image = $('.profile-img');
+                image.css({"background-image" : "url("+imageURI+")"});
+            // $('#displayArea').attr('src',imageURI);
+            document.getElementById('msg').textContent = imageURI;
+            alert(imageURI);
+
+            var filename = imageURI.substring(imageURI.lastIndexOf('/') + 1);
+            alert('(lastIndexOf(/)) filename : '+filename);
+            var q = filename.toLowerCase().lastIndexOf('?');
+            if(q > -1){
+                filename = filename.substring(0, q);
+            }
+
+            if(filename.toLowerCase().lastIndexOf('.') < 0){
+                filename += '.jpg';
+            }
+            alert('(lastIndexOf(?)) filename : '+filename);
+
+            var options = new FileUploadOptions();
+            // <input type='file' name='photo' > 과 같은 원리
+            options.fileKey = "img_path";
+            // 서버에 인식시킬 파일의 이름
+            options.fileName = filename;
+            // 서버에 인식시킬 파일의 종류
+            options.mimeType = 'image/jpeg';
+            // 파일의 원본 데이터를 비교하지 않는다.
+            options.chunkedMode = false;
+            
+
+            var params = new Object();
+            //allows you to POST the data to server side script
+            params.fileName = options.fileName; 
+            options.params = params;
+            
+            
+        //     /** 파일 전송 객체 생성 */
+        //     var ft = new FileTransfer();
+            
+        //     ft.upload(imageURI, encodeURI("http://39.127.7.50:8080/app/myPageList/fileupload"),
+        //         function(response){
+        //             if(response.responseCode !== 200){
+        //                 alert('업로드실패 '+response.response);
+        //                 return false;
+        //             }
+
+        //             var json = JSON.parse(response.response);
+        //             alert('업로드 성공');
+        //         },
+        //         function(error){
+        //             alert("An error has occurred: Code = " + error.code);
+        //             console.log("upload error source " + error.source);
+        //             console.log("upload error target " + error.target);
+        //         },options);
+        // }
+
+        function onFail(message){
+            alert('실패'+message);
+        }
+    }
+    </script>
+</body>
+</html>

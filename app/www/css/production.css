@@ -50,13 +50,7 @@ body {
 }
 
 
-.pro1,
-.pro2,
-.pro3,
-.pro4,
-.pro5,
-.pro6,
-.pro7 {
+.content-wrap{
     background: #FAFAFA;
     height: 100px;
     width: 97%;
@@ -234,6 +228,7 @@ color:black;
 .imgess{
     display: inline-block;
     vertical-align: middle;
+    
 
 }
 
@@ -243,10 +238,9 @@ color:black;
     word-wrap: break-word;
     width: 270px;
     height: 90px;
-   margin-left: 5px;
+    margin-left: 5px;
     font-weight: bold;
     font-size:15px;
-
 }
 .addr-name{
     font-size: 12px;

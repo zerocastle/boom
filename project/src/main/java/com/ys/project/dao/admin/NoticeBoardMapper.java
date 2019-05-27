@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.ys.project.projectDTO.Criteria;
 import com.ys.project.projectVO.NoticeBoardVO;
+import com.ys.project.projectVO.UserListVO;
+import com.ys.project.projectVO.buyListVO;
+
 
 public interface NoticeBoardMapper {
 	public List<NoticeBoardVO> getList();
@@ -24,4 +27,8 @@ public interface NoticeBoardMapper {
 	
 	// 토탈 들고오기
 	public int getTotalCount();
+
+	public List<buyListVO> buy();
+   
+	public List<UserListVO> User();
 }

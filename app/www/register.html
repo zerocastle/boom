@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+    <script src="js/jquery-3.4.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.js"></script>
+</head>
+<style>
+.modal.modal-center {
+text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+.modal.modal-center:before {
+  display: inline-block;
+  vertical-align: middle;
+  content: " ";
+  height: 100%;
+}
+}
+.modal-dialog.modal-center {
+display: inline-block;
+vertical-align: middle;
+}
+.modal-content{
+overflow:hidden;
+width: 105%;
+height: 68%;
+}
+#myModal {
+z-index: 100;
+width: 95%;
+height: 100%;
+}
+
+iframe {
+overflow-y:hidden;
+overflow:hidden;
+padding-top : 3px;
+padding-left : 3px;
+margin-top : 3px;
+margin-left:-20px;
+border : 0;
+width:210vw;
+height: 110vh;
+transform: scale(0.80, 0.80);
+-moz-transform-origin: top left;
+-webkit-transform-origin: top left;
+-o-transform-origin: top left;
+-ms-transform-origin: top left;
+transform-origin: top left;
+}
+
+
+
+
+
+
+* {
+            margin: 0;
+            padding: 0;
+        }
+    html,
+    body {
+        background-color: #F2F2F2;
+        overflow: hidden;
+        height: 100%;
+    }
+
+    #wrap {
+        height: 100%;
+
+    }
+
+    .header-line {
+       
+        border-bottom: solid 0.5px #BDBDBD;
+        width: 100%;
+        height: 6%;
+
+        background-color: white;
+    }
+
+    .contents-line {
+        /* overflow: auto; */
+        overflow-x: hidden;
+        height: 100%;
+        margin-top: 8px;
+    }
+
+    .fa-arrow-left {
+        display: inline-block;
+        vertical-align: middle;
+        padding-top: 14px;
+        font-size: 18px;
+        padding-left: 15px;
+
+    }
+
+    .fa-arrow-left+div {
+        display: inline-block;
+        vertical-align: middle;
+        padding-top: 13px;
+        font-weight: bold;
+        padding-left: 5px;
+    }
+
+    .fa-store {
+        display: inline-block;
+        vertical-align: middle;
+        padding-top: 1.5%;
+        padding-left: 3%;
+    }
+
+    .fa-list-alt {
+        display: inline-block;
+        vertical-align: middle;
+        padding-top: 1.5%;
+        padding-left: 3%;
+    }
+
+    .fa-user {
+        display: inline-block;
+        vertical-align: middle;
+        padding-top: 1.5%;
+        padding-left: 3%;
+    }
+
+    .fa-mobile-alt {
+        display: inline-block;
+        vertical-align: middle;
+        padding-top: 1.5%;
+        padding-left: 3%;
+    }
+
+    .fa-home {
+        display: inline-block;
+        vertical-align: middle;
+        padding-top: 1.5%;
+        padding-left: 3%;
+    }
+
+    .fa-home1 {
+        display: inline-block;
+        vertical-align: middle;
+        padding-top: 1.5%;
+        padding-left: 3%;
+    }
+
+    .store1 {
+        display: inline-block;
+        vertical-align: middle;
+        width: 89%;
+        margin-top: 2%;
+    }
+
+    .owner1 {
+        display: inline-block;
+        vertical-align: middle;
+        width: 89%;
+        margin-top: 2%;
+    }
+
+    .name1 {
+        display: inline-block;
+        vertical-align: middle;
+        width: 89%;
+        margin-top: 2%;
+    }
+
+    .phone1 {
+        display: inline-block;
+        vertical-align: middle;
+        width: 89%;
+        margin-top: 2%;
+    }
+
+    .addr1 {
+        display: inline-block;
+        vertical-align: middle;
+        width: 89%;
+        margin-top: 2%;
+    }
+
+
+    .store {
+        width: 100%;
+        height: 25px;
+        border: 0;
+
+    }
+
+    .owner {
+        width: 100%;
+        height: 25px;
+        border: 0;
+    }
+
+    .name {
+        width: 100%;
+        height: 25px;
+        border: 0;
+    }
+
+    .phone {
+        width: 100%;
+        height: 25px;
+        border: 0;
+    }
+
+    .addr,
+    .road,
+    .zipcode
+     {
+        width: 62%;
+        height: 25px;
+        border: 0;
+    }
+    .Addr{
+        width: 99%;
+        height: 25px;
+        border: 0;
+    }
+    input:focus {outline:none;}
+
+    .tle {
+        border-bottom: solid 1px#BDBDBD;
+        height: 45px;
+        width: 90%;
+        background-color: white;
+        margin-top: 4%;
+        margin-left: 5%;
+    }
+
+    .tle1 {
+        border-bottom: solid 1px#BDBDBD;
+        height: 45px;
+        width: 90%;
+        background-color: white;
+        margin-left: 5%;
+    }
+
+    .tle2 {
+        border-bottom: solid 1px#BDBDBD;
+        height: 45px;
+        width: 90%;
+        background-color: white;
+        margin-left: 5%;
+    }
+
+    .tle3 {
+        border-bottom: solid 1px#BDBDBD;
+        height: 45px;
+        width: 90%;
+        background-color: white;
+        margin-left: 5%;
+    }
+
+    .tle4 {
+        border-bottom: solid 1px#BDBDBD;
+        height: 45px;
+        width: 90%;
+        background-color: white;
+        margin-left: 5%;
+    }
+
+    .tle5 {
+        border-bottom: solid 1px#BDBDBD;
+        height: 45px;
+        width: 90%;
+        background-color: white;
+        margin-left: 5%;
+    }
+
+    .jik_register {
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #848484), color-stop(1, #848484));
+        background: -moz-linear-gradient(top, #848484 5%, #848484 100%);
+        background: -webkit-linear-gradient(top, #848484 5%, #848484 100%);
+        background: -o-linear-gradient(top, #848484 5%, #848484 100%);
+        background: -ms-linear-gradient(top, #848484 5%, #848484 100%);
+        background: linear-gradient(to bottom, #848484 5%, #848484 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#848484', endColorstr='#848484', GradientType=0);
+        background-color: #848484;
+        -moz-border-radius: 6px;
+        -webkit-border-radius: 6px;
+        border-radius: 6px;
+        border: 1px solid #dcdcdc;
+        display: inline-block;
+        cursor: pointer;
+        color: #ffffff;
+        font-family: Arial;
+        font-size: 15px;
+        font-weight: bold;
+        padding: 9px 37.5%;
+        text-decoration: none;
+        margin-left: 5%;
+        margin-top: 60%;
+    }
+
+    .jik_register {
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #848484), color-stop(1, #848484));
+        background: -moz-linear-gradient(top, #848484 5%, #848484 100%);
+        background: -webkit-linear-gradient(top, #848484 5%, #848484 100%);
+        background: -o-linear-gradient(top, #848484 5%, #848484 100%);
+        background: -ms-linear-gradient(top, #848484 5%, #848484 100%);
+        background: linear-gradient(to bottom, #848484 5%, #848484 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#848484', endColorstr='#848484', GradientType=0);
+        background-color: #848484;
+    }
+
+
+    .adrs {
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #848484), color-stop(1, #848484));
+        background: -moz-linear-gradient(top, #848484 5%, #848484 100%);
+        background: -webkit-linear-gradient(top, #848484 5%, #848484 100%);
+        background: -o-linear-gradient(top, #848484 5%, #848484 100%);
+        background: -ms-linear-gradient(top, #848484 5%, #848484 100%);
+        background: linear-gradient(to bottom, #848484 5%, #848484 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#848484', endColorstr='#848484', GradientType=0);
+        background-color: #848484;
+        -moz-border-radius: 6px;
+        -webkit-border-radius: 6px;
+        border-radius: 6px;
+        border: 1px solid #dcdcdc;
+        display: inline-block;
+        cursor: pointer;
+        color: #ffffff;
+        font-family: Arial;
+        font-size: 15px;
+        font-weight: bold;
+        padding: 4px 9px;
+        text-decoration: none;
+    }
+
+    .adrs {
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #848484), color-stop(1, #848484));
+        background: -moz-linear-gradient(top, #848484 5%, #848484 100%);
+        background: -webkit-linear-gradient(top, #848484 5%, #848484 100%);
+        background: -o-linear-gradient(top, #848484 5%, #848484 100%);
+        background: -ms-linear-gradient(top, #848484 5%, #848484 100%);
+        background: linear-gradient(to bottom, #848484 5%, #848484 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#848484', endColorstr='#848484', GradientType=0);
+        background-color: #848484;
+    } 
+    .background{
+    position:fixed;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+}
+</style>
+            
+
+<body>
+    <div id="wrap">
+        <div class="background">
+        <div class="header-line">
+            <div class="fas fa-arrow-left" onclick="history.back(-1); return false;" ></div>
+            <div>직플레이스 등록하기</div>
+        </div>
+
+        <div class="contents-line">
+
+
+
+            <div class="test">
+
+                <div class="tle">
+
+                    <div class="fas fa-store"></div>
+
+                    <div class="store1"><input type="text" class="store" placeholder="점포명을 입력해주세요"></div>
+
+                </div>
+
+                <div class="tle1">
+
+                    <div class="far fa-list-alt"></div>
+                    <div class="owner1"><input type="text" class="owner" placeholder="사업자등록번호를 입력해주세요"></div>
+
+                </div>
+
+                <div class="tle2">
+                    <div class="fas fa-user"></div>
+                    <div class="name1"><input type="text" class="name" placeholder="대표자 성명을 입력해주세요"></div>
+
+                </div>
+
+                <div class="tle3">
+                    <div class="fas fa-mobile-alt"></div>
+                    <div class="phone1"><input type="text" class="phone" placeholder="휴대폰 번호를 입력해주세요"></div>
+                </div>
+
+
+
+                <div class="tle4">
+                    <div class="fas fa-home"></div>
+                    <div class="addr1"><input type="text" class="zipcode" placeholder="우편번호" readonly>
+                        <button class="adrs">우편번호 찾기</button>
+                    </div>
+                </div>
+                <div class="tle5">
+                    <div class="fa-home1"></div>
+                    <div class="addr1"><input type="text" class="road" placeholder="도로명 주소 " readonly></div>
+                </div>
+                <div class="tle5">
+                    <div class="fa-home1"></div>
+                    <div class="addr1"><input type="text" class="addr" placeholder="지번주소" readonly></div>
+                </div>
+                <div class="tle5">
+                    <div class="fa-home1"></div>
+                    <div class="addr1"><input type="text" class="Addr" placeholder="상세주소를 입력해주세요"></div>
+                </div>
+
+                <div>
+                    <button class="jik_register">등록하기</button>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+</div>
+    
+    <div id="myModal" class='bPop'>
+        <div class="bPop modal-content">
+            <iframe src="http://39.127.7.47:3000/api/daumJuso" id='daumIframe' style='display:none;'></iframe>
+        </div>
+
+    </div>
+</body>
+<script>
+    $('.adrs').click(function () {// 주소버튼 클릭 하는곳 클래스명
+        document.getElementById('daumIframe').src += '';
+
+        $('#myModal').bPopup({
+            modalClose: true,
+            positionStyle: 'fixed',
+            position: [10, 100]
+        }, function () {
+
+
+            $('#daumIframe').css('display', 'block');
+            var setInter = setInterval(function () {
+                $.ajax({
+                    url: 'http://39.127.7.47:3000/api/daumJuso/mobile',
+                    type: 'get',
+                    success: function (data) {
+                        /*
+                        data.raod
+                        data.addr
+                        data.zipcode
+                        */
+
+                        if (data) {
+                            $('#myModal').bPopup().close();
+                            $('.road').val(data.road);//인풋타입 창
+                            $('.addr').val(data.addr);//인풋타입 창
+                            $('.zipcode').val(data.zipcode);//인풋타입 창
+                            $('#daumIframe').css('display', 'none');
+
+                            clearInterval(setInter);
+
+                        } else {
+                            console.log(data + 'ㅎㅎ 안찍혔지?');
+
+                        }
+                    }, error: function (err) {
+
+                        console.log(err);
+                    }
+                });
+            }, 1000);  
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('.jik_register').click(function () {
+            var member
+             = JSON.parse(sessionStorage.getItem('member'));
+            
+
+            
+            var data = {
+                nickname : member.nickname,
+                company_number: $('.owner').val(),       //사업자등록번호
+                part_name: $('.store').val(),           //가게이름
+                boss_name: $('.name').val(),           //대표자명
+                part_phone: $('.phone').val(),        //핸드폰번호
+                zip_code: $('.zipcode').val(),       //우편번호
+                road_name: $('.road').val(),        // 도로주소
+                addr: $('.addr').val(),            //지번주소
+                detail_addr: $('.Addr').val(),    //상세주소
+            };
+
+            console.log(data);
+
+            $.ajax({
+                type: 'POST',
+                url: 'http://39.127.7.49:8080/app/partner/partnerRegister',
+                data: JSON.stringify(data),
+                contentType : "application/json; charset=UTF-8",
+                success: function (data) {
+                    console.log(data);
+                    if(data == 1){
+                    }
+                    
+                    window.alert("등록이 완료 되었습니다");
+                  
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            })
+        });
+    });
+</script>
+
+</html>

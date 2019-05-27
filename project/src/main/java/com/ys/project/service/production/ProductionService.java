@@ -82,13 +82,5 @@ public class ProductionService implements IProductionService {
 		return mapper.appSort(order, cate_code);
 	}
 
-	
-	// 검색 서비스
-	@Override
-	public List<IndexProductionDTO> searchSort(int pageNum, int perPage, String choose) {
-		// TODO Auto-generated method stub
-		return mapper.searchSort(pageNum, perPage, choose);
-	}
-
 
 }

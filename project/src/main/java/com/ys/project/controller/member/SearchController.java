@@ -28,7 +28,7 @@ public class SearchController {
 		
 		log.info("넘오온 값" + perPage + "" + choose);
 		
-		List<IndexProductionDTO> dto = service.searchSort(pageNum, perPage, choose);
+//		List<IndexProductionDTO> dto = service.searchSort(pageNum, perPage, choose);
 		
 
 	}

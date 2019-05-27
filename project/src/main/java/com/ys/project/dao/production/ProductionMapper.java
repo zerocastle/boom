@@ -32,11 +32,8 @@ public interface ProductionMapper {
 	public int getTotalCount(@Param("cate_code") String cate_code);
 
 	// 앱 상품 서비스 맵퍼
-	public List<IndexProductionDTO> appSort(@Param("order") String order, @Param("cate_code") String cate_code);
-
-	// 검색 상품 리스트 맵퍼
-	public List<IndexProductionDTO> searchSort(@Param("pageNum") int pageNum,
-			@org.apache.ibatis.annotations.Param("perPage") int perPage,
-			@org.apache.ibatis.annotations.Param("choose") String choose);
+	public List<IndexProductionDTO> appSort(
+			@Param("order") String order,
+			@Param("cate_code") String cate_code);
 
 }

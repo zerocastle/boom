@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- jquery 모바일 , jquery -->
+    <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.5.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.mobile-1.4.5.js"></script>
+    
+    <!-- 폰트애즈썸 -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+    <!-- 차트 cdn -->
+    <!-- Resources -->
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/dataviz.js"></script>
+    <script src="js/chat.js"></script>
+
+    <!-- 폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&amp;subset=korean"
+    rel="stylesheet">
+    <style>
+       
+        *{
+            font-family: 'Noto Sans KR';
+            margin: 0;
+            padding: 0;
+        }
+        .ui-content{
+            padding: 0;
+        }
+        .other-profile-line{
+            border-bottom: 1px solid #a3a0a0;
+        }
+        .other-line-1{
+            text-align: center;
+            height: 110px;
+        }
+        .other-line-2{
+           
+        }
+        .other-img{
+            display: inline-block;
+            vertical-align: middle;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+            height: 85px;
+            width: 85px;
+            background: white;
+            background-image: url('img/기본프로필.jpg');
+            background-size: 85px 85px;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            background-repeat: no-repeat;
+            background-position: center center;
+            object-fit: cover;
+            object-position: top;
+            border-radius: 50%;
+        }
+        .other-name{
+            margin-top: 10px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 18px;
+        }
+        .manner{
+            text-align: center;
+            width: 30%;
+            margin:auto;
+        }
+        #chartdiv {
+            width: 100%;
+            height: 200px;
+            font-size: 8px;
+        }
+        .shop-info1{
+            margin: 10px;
+            border-bottom: 1px solid #a3a0a0;
+            text-align: center;
+            font-weight: 500;
+            width: 60px;
+        }
+        .shop-info2{
+            padding: 10px;
+            border-bottom: 1px solid #a3a0a0;
+        }
+
+        .shop-info3{
+            display: none;
+        }
+        .product-line , .review-line{
+            width: 100%;
+            height: auto;
+            border-bottom: 1px solid #a3a0a0;
+        }
+        
+        .product-title , .review-title{
+            margin: 10px;
+            font-weight: 500;
+            border-bottom: 1px solid #a3a0a0;
+            text-align: center;
+            width: 30px;
+            margin-bottom: 15px;
+            display : inline-block;
+        }
+        .product-line2{
+            width: 100%;
+            height: auto;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #a3a0a0;
+        }
+        
+        .product-img{
+            display: inline-block;
+            margin-left: 0.25%;
+            width: 32%;
+            vertical-align: middle;
+        }
+
+        .product-price{
+            display: inline-block;
+            z-index: 2;
+            text-align: center;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .product-price3{
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .review-div{
+            border-bottom : 1px solid #a3a0a0;
+            padding-bottom: 10px;
+        }
+        
+        .review-img-div{
+            display: inline-block;
+            width: 80px;
+            height: 100%;
+            vertical-align: middle;
+        }
+
+        .review-img{
+            display: inline-block;
+            vertical-align: middle;
+            border: 1px solid #ddd;
+            margin-top: 10px;
+            margin-left: 17%;
+            height: 50px;
+            width: 50px;
+            background: white;
+            background-image: url('img/기본프로필.jpg');
+            background-size: 50px 50px;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            background-repeat: no-repeat;
+            background-position: center center;
+            object-fit: cover;
+            object-position: top;
+            border-radius: 50%;
+        }
+
+        .review-text-div{
+            display: inline-block;
+            vertical-align: middle;
+            width: 80%;
+        }
+
+        .review-replyer , .review-reply,
+        .review-starpoint {
+            margin-left: 10px;
+            margin-right: 10px;
+            word-break:break-all; word-wrap:break-word;
+        }
+
+        .product-count1 , .review-count1 {
+            display: inline-block;
+            float: right;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 15px;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+ <!-- 첫번째 페이지 -->
+
+ <section id="myPageList" data-role="page">
+	
+
+    <header data-role="header" data-theme="b">
+            <a href="#" class="ui-btn" data-rel="back" style="background-color : #1d1d1d; color:#fff;"><i class="fas fa-arrow-left"></i></a>
+            <h1><i class="fas fa-store-alt" style="margin-right: 5px;"></i>상점 정보</h1>
+    </header>		
+
+
+    <div class="content" data-role="content" data-theme="a">		
+        <div class="other-profile-line">
+            <div class="other-line-1">
+                <div class="other-img"></div>
+            </div>
+            <div class="other-line-2">
+                <div class="other-name"></div>
+                <div class="manner">
+                    <a href="#myPopup" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all">매너게이지</a>
+                </div>
+                <div data-role="popup" id="myPopup" class="ui-content">
+                    <div id="chartdiv"></div>
+                    <div><a href="#" class="ui-btn ui-corner-all ui-shadow" data-rel="back" id="searchBtn" style="font-size: 13px;">확인</a></div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="shop-info1">
+                    상점소개
+            </div>
+            <div class="shop-info2">
+                
+            </div>
+            <div class="shop-info3">
+
+            </div>
+        </div>
+        <div class="product-line">
+            <div class="product-title">
+                상품
+            </div>
+            <div class="product-count1">
+                <span class="product-count"></span>개 더보기
+            </div>
+        </div>
+        <div class="product-line2">
+            <div class="product-img2"></div>
+            <div class="product-price2"></div>
+        </div>
+        <div class="review-line">
+            <div class="review-title">
+                후기
+            </div>
+            <div class="review-count1">
+                <span class="review-count"></span>개 더보기
+            </div>
+            <div class="review-div">
+                <div class="review-img-div">
+                    <div class="review-img">
+
+                    </div>
+                </div>
+                <div class="review-text-div">
+                    <div class="review-replyer">replyer</div>
+                    <div class="review-starpoint">starpoint</div>
+                    <div class="review-reply">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+
+    <footer data-role="footer" data-position="fixed" data-theme="b">
+        <h2>ⓒ직거래 플러스 2019</h2>
+    </footer>
+
+</section>
+
+<script>
+        $(document).ready(function(){
+        
+            var a;
+
+            function getQueryStringObject() {
+                var a = window.location.search.substr(1).split('&');
+                if (a == "") return {};
+                var b = {};
+                for (var i = 0; i < a.length; ++i) {
+                    var p = a[i].split('=', 2);
+                    if (p.length == 1)
+                        b[p[0]] = "";
+                    else
+                        b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+                }
+                return b;
+            }
+
+
+            var qs = getQueryStringObject();
+            var name = qs.name;
+            console.log(name);
+
+            $.ajax({
+               type : 'get',
+               url : 'http://39.127.7.50:8080/app/myPageList/other/'+name,
+               contentType : "application/json; charset=UTF-8",
+               async: false,
+               success : function(data){
+                    console.log(data);
+                    var other = data;
+                    $('.other-name').append(data.nickname);
+                    // data.manner 로 매너추가 추후 예정
+                    // data.image_path 로 이미지추가 추후 예정
+                    $('.shop-info2').append(data.intro);
+                    $('.shop-info3').append(data.m_num);
+                    
+                    $.ajax({
+                        type : 'post',
+                        url : 'http://39.127.7.50:8080/app/myPageList/otherProduct',
+                        data : JSON.stringify(other),
+                        contentType : "application/json; charset=UTF-8",
+                        async: false,
+                        success : function(data){
+                            console.log(data);
+                            for(var i=0; i<data.length; i++){
+                                $('.product-img2').append(
+                                    "<div id='"+(i+1)+"' class='product-img'><div class='pro_num' style='display : none;'>"+data[i].pro_num+"</div></div>"
+                                );
+                                var image = new Array();
+                                image[i] = $('#'+(i+1)+'');
+                                console.log(data[i].uploadpath.replace(/\\/g,'/'));
+                                console.log(data[i].uuid);
+                                console.log(data[i].filename);
+                                image[i].css({"background-image" : "url('http://39.127.7.50:8080/resources/"+data[i].uploadpath.replace(/\\/g,'/')+"/"+data[i].uuid+"_"+data[i].filename+"')"});
+                                image[i].css({"background-position" : "center center"});
+                                image[i].css({"object-fit" : "cover"});
+                                image[i].css({"object-position" : "top"});
+                                image[i].css({"background-size" : "100% 100%"});
+                                $(".product-img").height($(".product-img").width());
+
+                                $('.product-price2').append(
+                                    "<div class='product-price'><span class='product-price3'>"+data[i].price+"</span>원</div>"  
+                                );
+                                $(".product-price").width($(".product-img").width());
+                            }
+
+                            $('.product-img').click(function(e){
+                                e.preventDefault();
+                                var next = $(this).children('.pro_num').text();
+                                console.log(next);
+                                window.location.href="productview.html?value="+next;
+                            });
+                        },
+                        error : function(error){
+                            console.log(error);
+                        }
+                    });
+
+                    $.ajax({
+                        type : 'post',
+                        url : 'http://39.127.7.50:8080/app/myPageList/otherReview',
+                        data : JSON.stringify(other),
+                        contentType : "application/json; charset=UTF-8",
+                        async: false,
+                        success : function(data){
+                            console.log(data);
+                            for(var i=0; i<data.length; i++){
+                                $('.review-div').append(
+                                    "<div class='review-img-div'>"
+                                        +"<div class='review-img'></div>"
+                                    +"</div>"
+                                    +"<div class='review-text-div'>"
+                                        +"<div class='review-replyer'>"+data[i].replyer+"</div>"
+                                        +"<div class='review-starpoint'>"+data[i].starpoint+"</div>"
+                                        +"<div class='review-reply'>"+data[i].reply+"</div>"
+                                    +"</div>"
+                                );     
+                                $('.review-img-div').height($('.review-text-div').height());
+                            }                                           
+                        },
+                        error : function(error){
+                            console.log(error);
+                        }
+                    });
+
+                    $.ajax({
+                        type : 'post',
+                        url : 'http://39.127.7.50:8080/app/myPageList/otherProductCount',
+                        data : JSON.stringify(other),
+                        contentType : "application/json; charset=UTF-8",
+                        async: false,
+                        success : function(data){
+                            console.log(data);
+                            $('.product-count').append(data);
+
+                            $('.product-count1').click(function(){
+                                window.location.href="productionList.html?name="+other.nickname;
+                            });
+                        },
+                        error : function(error){
+                            console.log(error);
+                        }
+                    });
+
+                    $.ajax({
+                        type : 'post',
+                        url : 'http://39.127.7.50:8080/app/myPageList/otherReviewCount',
+                        data : JSON.stringify(other),
+                        contentType : "application/json; charset=UTF-8",
+                        async: false,
+                        success : function(data){
+                            console.log(data);
+                            $('.review-count').append(data);
+
+                            $('.review-count1').click(function(){
+                                window.location.href="review.html?name="+other.nickname;
+                            });
+                        },
+                        error : function(error){
+                            console.log(error);
+                        }
+                    });
+               },
+               error : function(error){
+                   console.log(error);
+               }
+            });
+        });
+</script>
+
+</body>
+</html>

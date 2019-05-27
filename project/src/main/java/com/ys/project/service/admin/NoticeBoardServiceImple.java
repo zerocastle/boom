@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.ys.project.dao.admin.NoticeBoardMapper;
 import com.ys.project.projectDTO.Criteria;
 import com.ys.project.projectVO.NoticeBoardVO;
+import com.ys.project.projectVO.UserListVO;
+import com.ys.project.projectVO.buyListVO;
 
 import lombok.AllArgsConstructor;
 import lombok.Setter;
@@ -75,5 +77,16 @@ public class NoticeBoardServiceImple implements INoticeBoardService {
 //		System.out.println(mapper.getList());
 //		return mapper.getList();
 //	}
+	
+	   @Override
+	   public List<buyListVO> buy(){
+	      return mapper.buy();
+	   }
+	   
+	   @Override
+	   public List<UserListVO>User(){
+	      return mapper.User();
+	   }
+	   
 
 }

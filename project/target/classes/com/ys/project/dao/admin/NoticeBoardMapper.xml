@@ -46,18 +46,11 @@
 		NO_NUM=#{no_num}
 	</update>
 
-	<!--  <select id="getListWithPagin" resultType="NoticeBoard">
-		<![CDATA[
-			SELECT NO_NUM,TITLE,CONTENT,CREATE_DATE,ADMIN_ID,UPDATE_DATE
-			FROM(
-			SELECT /*+INDEX_DESC(NOTICEBOARD NOTICEBOARD_NO_NUM_PK)*/
-			ROWNUM RN,NO_NUM,TITLE,CONTENT,CREATE_DATE,ADMIN_ID,UPDATE_DATE
-			FROM
-			NOTICEBOARD
-			WHERE ROWNUM <= #{pageNum} * #{amount})
-			WHERE RN > (#{pageNum} - 1) * #{amount}
-		]]>
-	</select> --> 
+	<!-- <select id="getListWithPagin" resultType="NoticeBoard"> <![CDATA[ SELECT 
+		NO_NUM,TITLE,CONTENT,CREATE_DATE,ADMIN_ID,UPDATE_DATE FROM( SELECT /*+INDEX_DESC(NOTICEBOARD 
+		NOTICEBOARD_NO_NUM_PK)*/ ROWNUM RN,NO_NUM,TITLE,CONTENT,CREATE_DATE,ADMIN_ID,UPDATE_DATE 
+		FROM NOTICEBOARD WHERE ROWNUM <= #{pageNum} * #{amount}) WHERE RN > (#{pageNum} 
+		- 1) * #{amount} ]]> </select> -->
 
 	<!-- 게시물 갯수 -->
 	<select id="getTotalCount" resultType="int">
@@ -66,7 +59,7 @@
 	</select>
 
 
-<!-- 검색 -->
+	<!-- 검색 -->
 	<sql id="criteria">
 		<trim prefix="(" suffix=") and " prefixOverrides="or"> <!-- prefixOverrides 때문에 choose 안쪽 문에 처음부터 or 을 붙쳐 버린다잉 -->
 			<foreach item='type' collection="typeArr">
@@ -102,6 +95,15 @@
 		)
 		WHERE RN > (#{pageNum} -1) * #{amount}
 	]]>
+	</select>
+
+	<select id="buy" resultType="buyListVO">
+		SELECT * FROM PAYMENT
+	</select>
+
+
+	<select id="User" resultType="UserListVO">
+		SELECT * FROM MEMBER
 	</select>
 
 </mapper>

@@ -90,4 +90,16 @@ public class AdminController {
 		return "redirect:/admin/noticeBoard";
 	}
 
+	@GetMapping("/getList")
+	public String getList(Model model) {
+		model.addAttribute("list", service.buy());
+		return "/admin/manager";
+	}
+
+	@GetMapping("/getList1")
+	public String getList1(Model model) {
+		model.addAttribute("list1", service.User());
+		return "/admin/userList";
+	}
+
 }

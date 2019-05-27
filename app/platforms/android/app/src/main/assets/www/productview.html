@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   
     <title>Document</title>
+  
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
           integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
@@ -13,22 +15,19 @@
         var objDiv = document.getElementsByClassName("contents-line");
         objDiv.scrollTop = objDiv.scrollHeight;
     </script>
+    <script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="js/productview.js"></script>
     <style>
         * {
             margin: 0;
             padding: 0;
         }
 
-        /*
-body{
-    background-color: #E6E6E6;
-    width: 100%;
-    height: 100%;
-} */
-
         html,
         body {
-            background-color: #E6E6E6;
+            background-color: #FAFAFA;
             height: 100%;
             overflow: hidden
         }
@@ -38,25 +37,11 @@ body{
             margin: 1px;
         }
 
-        .header-line {
-
-            border-bottom: 1px solid 0.5px#FAFAFA;
-            width: 100%;
-            height: 6%;
-
-            background-color: white;
-        }
-
-        /* .contents{
-    height : 100%;
-    border:  1px solid black;
-} */
-
         .contents-line {
             overflow: auto;
             overflow-x: hidden;
-            height: 84.1%;
-            margin-top: 8px;
+            height: 100%;
+
 
         }
 
@@ -65,34 +50,789 @@ body{
             left: 0;
             bottom: 0;
             width: 100%;
-            height: 8%;
-            background: white;
-            border-top: 1px solid 0.5px #FAFAFA;
-            margin-top: 5px;
+            height: 7%;
+            background: #FAFAFA;
+            border-top: solid 0.1px gray;;
+
         }
+
+        .img1 {
+            width: 100%;
+            height: 300px;
+        }
+
+
+        .img2 {
+            width: 100%;
+            height: 300px;
+        }
+
+
+        .img3 {
+            width: 100%;
+            height: 300px;
+        }
+
+        .dot1 {
+            position: relative;
+            left: 235px;
+            bottom: 45px;
+        }
+
+        .user{
+
+            width: 99%;
+            height: 80px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+       .user_info{
+        display: inline-block;
+            vertical-align: middle;
+            margin-bottom: 40px;
+        }
+        .user_info>span{
+            font-size: 15px;
+            font-weight: bold;
+
+        }
+.users{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-top: 15px;
+    margin-left: 15px;
+}
+
+.foo{
+    width: 100px;
+	height: 50px;
+}
+.mana{
+    display: inline-block;
+    vertical-align: middle;
+    float: right;
+  
+}
+
+.iu{
+    border: solid 0.6px gray;
+    width: 370px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+
+.pro_cont{
+
+    width: 99%;
+    height: 80%;
+}
+
+.title{
+margin-left: 15px;
+margin-bottom: 8px;
+}
+
+.sub_catae{
+    margin-left: 15px;
+    margin-bottom: 8px;
+}
+
+.pro_con{
+    margin-left: 15px;
+}
+.pro_con>div{
+    word-wrap: break-word;
+    font-weight: bold;
+    color: black;
+}
+
+.sub_catae>span{
+    font-size:12px;
+    color: gray;
+    font-weight: bold;
+}
+.pro_chat{
+    margin-left: 15px;
+    margin-bottom: 8px;
+}
+
+.pro_chat>span{
+    font-size:12px;
+    color: gray;
+    font-weight: bold;
+}
+
+
+.fa-arrow-left{
+    position: relative;
+    bottom: 955px;
+    left: 9px;
+    font-size: 18px;
+    font-weight: bold;
+    color: gray;
+
+}
+
+.singo{
+    border-bottom: solid 0.6px gray;
+    width: 100%;
+    height: 50px;
+
+}
+.singo>div{
+    font-size: 18px;
+    font-weight: bold;
+    padding-top: 14px;
+    padding-left: 10px;
+   
+}
+.repy{
+    border-bottom: solid 0.6px gray;
+    width: 100%;
+    height: 55px;
+}
+
+.reply_num{
+    font-size: 18px;
+    font-weight: bold;
+   display: inline-block;
+   vertical-align: middle;
+   padding-left: 10px;
+}
+
+.reply_write{
+    border:0;
+    background-color: #FAFAFA;
+    height: 54px;
+    font-weight: bold;
+    font-size:16px;
+    width: 80px;
+}
+.reply_but{
+    display: inline-block;
+   vertical-align: middle;
+   padding-left: 250px;
+}
+
+
+.sell_pro{
+    height: 150px;
+
+}
+
+.sell_pro>.sell_name{
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+
+.sub_img{
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.sub_img1{
+    width: 117px;
+    height: 117px;
+    border-radius: 8px;
+}
+
+.sub_name{
+    font-weight: bold;
+
+    overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 110px;
+}
+
+.fa-heart{
+    font-size:20px;
+    color: gray;
+    margin-top: 15px;
+    margin-left: 15px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.foot_price{
+    display: inline-block;
+    vertical-align: middle;
+    width:87%;
+    height:25px;
+   border-left: solid 1px black;
+   margin-top: 12px;
+   margin-left: 10px;
+
+}
+
+.fo_price{
+    font-size:15px;
+    font-weight: bold;
+  padding-left: 8px;
+  padding-bottom: 4px;
+    width: 85px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
+.foot_suggestion{
+font-size: 9px;
+font-weight: bold;
+color: gray;
+margin-left: 8px;
+width: 70px;
+}
+
+
+.talk{
+    display: inline-block;
+    vertical-align: middle;
+   margin-left: 110px;
+
+}
+
+
+.jiktalk{
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #848484), color-stop(1, #848484));
+		background: -moz-linear-gradient(top, #848484 5%, #848484 100%);
+		background: -webkit-linear-gradient(top, #848484 5%, #848484 100%);
+		background: -o-linear-gradient(top, #848484 5%, #848484 100%);
+		background: -ms-linear-gradient(top, #848484 5%, #848484 100%);
+		background: linear-gradient(to bottom, #848484 5%, #848484 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#848484', endColorstr='#848484', GradientType=0);
+		background-color: #848484;
+		-moz-border-radius: 6px;
+		-webkit-border-radius: 6px;
+		border-radius: 6px;
+		border: 1px solid #dcdcdc;
+		display: inline-block;
+		cursor: pointer;
+		color: #ffffff;
+		font-family: Arial;
+		font-size: 13px;
+		font-weight: bold;
+		padding: 4px 8px;
+		text-decoration: none;
+
+
+
+		}
+
+		.jiktalk:hover {
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #848484), color-stop(1, #848484));
+		background: -moz-linear-gradient(top, #848484 5%, #848484 100%);
+		background: -webkit-linear-gradient(top, #848484 5%, #848484 100%);
+        background: -o-linear-gradient(top, #848484 5%, #848484 100%);
+		background: -ms-linear-gradient(top, #848484 5%, #848484 100%);
+		background: linear-gradient(to bottom, #848484 5%, #848484 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#848484', endColorstr='#848484', GradientType=0);
+		background-color: #848484;
+		}
+        
+       .jikplace{
+        width: 100%;
+        height: 60px;
+        display: flex;
+   
+       }
+       
+        .jik_left{
+        display: inline-block;
+        vertical-align: middle;
+        border: solid 0.6px gray;
+        height: 60px;
+        width: 36%;
+        border-right: 1;
+        border-left: 0;
+      
+
+        }
+
+.jik_left > div{
+    font-weight: bold;
+    font-size:18px;
+    padding-left: 10px;
+    padding-top: 16px;
+}
+
+
+        .jik_right{
+         display: inline-block;
+        vertical-align: middle;
+        border: solid 0.6px gray;
+        height: 60px;
+        width: 64%;
+        border-left: 0;
+        border-right: 0;
+        }
+
+        .jik_right > div{
+                font-weight: bold;
+                font-size:12px;
+        }
+
+        .pop-layer .btn-r {
+  width: 100%;
+  margin: 10px 0 20px;
+  padding-top: 10px;
+  border-top: 1px solid #DDD;
+  text-align: right;
+}
+
+.pop-layer {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 350px;
+  height: 500px;
+  background-color: #fff;
+
+  z-index: 10;
+}
+
+.dim-layer {
+  display: none;
+  position: fixed;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
+
+.dim-layer .dimBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: .5;
+  filter: alpha(opacity=50);
+}
+
+.dim-layer .pop-layer {
+  display: block;
+}
+
+
+.headerline {
+width: 100%;
+height: 8%;
+background-color: #FE2E2E;
+}
+
+.contentsline {
+
+
+height: 50%;
+margin-top: 8px;
+}
+
+.user_singo {
+        font-size: 17px;
+        color: white;
+        font-weight: bold;
+        padding-top: 8px;
+        padding-left: 10px;
+    }
+
+    .singo1{
+       margin-top: 15px; 
+        margin-left: 10px;
+    }
+
+    .singo_but {
+	background-color:#FE2E2E;
+	-moz-border-radius:28px;
+	-webkit-border-radius:28px;
+	border-radius:28px;
+	border:1px solid #FE2E2E;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:8px 20px;
+	text-decoration:none;
+    text-shadow:0px 1px 0px #FE2E2E;
+    
+}
+    .btn-layerClose{
+    background-color:#ffffff;
+	-moz-border-radius:28px;
+	-webkit-border-radius:28px;
+	border-radius:28px;
+	border:1px solid black;
+	display:inline-block;
+	cursor:pointer;
+	color:black;
+	font-family:Arial;
+	font-size:17px;
+	padding:10px 22px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffffff;
+    }
+
+    .but{
+        text-align: center;
+        margin-top: 30px;
+    }
+  label{
+      font-size: 13px;
+  }   
+
+  textarea{
+      resize: none;
+      width: 320px;
+      height: 100px;;
+  }  
+
+  .wpgks{
+      font-size: 11px;
+      color: gray;
+      float: right;
+      margin-right: 20px;
+  } 
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+#hidePnum{
+    display: none;
+}
+
+
+
 
     </style>
 </head>
 
 <body>
 <div id="wrap">
-    <div class="header-line">
-
-
-    </div>
     <div class="contents-line">
+       
+        <div class="slideshow-container">
+            <div class="mySlides fade">
+                <img class="img1" src="">
+            </div>
+
+            <div class="mySlides fade">
+
+                <img class="img1" src="">
+            </div>
+
+            <div class="mySlides fade">
+
+                <img class="img1" src="">
+
+            </div>
+            
+        </div>
+
+        <div class="user">
+            <img class="users" src="3.jpg">
+            <div class="user_info">
+                <span class="pro_nink"></span></br>
+                <span class="info_addr"></span>
+            </div>
+            <div class="mana">
+                <canvas id="foo" class="foo"></canvas>
+            </div>
+        </div>
+        <hr class="iu">
+
+        <div class="pro_cont">
+            <div id="hidePnum"></div>
+            <div class="title">
+                <h3 class="htitle"></h3>
+            </div>
+
+            <div class="sub_catae">
+                <span class="cate"></span>
+                <span>·</span>
+                <span class="kind"></span>
+                <span>·</span>
+                <span>1일전</span>
+            </div>
+
+            <div class="pro_con">
+                <div class="contents"></div>
+            </div>
+
+            <div class="pro_chat">
+                <span>채팅2개</span>
+                <span>·</span>
+                <span>조회100</span>
+            </div>
+           
+
+           <div class="jikplace">
+            
+            <div class="jik_left">
+            <div>직플레이스 선정</div>
+            </div>
+            
+            <div class="jik_right">
+                <div class="jik_na"></div>
+            </div >
+           
+        </div>
+           
+           
+        <a href="#layer2" class="btn-example">
+            <div class="singo">
+                <div>게시글 신고하기</div>
+            </div>
+            </a>
+
+           
+            <div class="repy">
+                
+                <div class="reply_num">댓글 0</div>
+               
+                <div class="reply_but"> <button class="reply_write">댓글쓰기</button></div>
+            </div>
+
+
+            <div class="sell_pro">
+                <div class="sell_name">샘 아이유님의 판매 상품</div>
+
+                <div class="sub_img">
+                    <img class="sub_img1" src="5.jpg">
+                    <div class="sub_name">ddddddddssssssssssssssssss</div>
+                </div>
+
+                <div class="sub_img">
+                    <img class="sub_img1" src="6.jpg">
+                    <div class="sub_name">ddddddddssssssssssssssssssss</div>
+                </div>
+
+
+                <div class="sub_img">
+                    <img class="sub_img1" src="7.jpg">
+                    <div class="sub_name">ddddddddsssssssssssssss</div>
+                </div>
+
+
+            </div>
 
         </div>
 
-    <div class="footer-line">
 
-       </div>
+        <div class="fas fa-arrow-left" onclick="history.back(-1); return false;"></div>
+
+
+        <div class="footer-line">
+
+            <div class="far fa-heart" style="color:red"></div>
+
+            <div class="foot_price">
+                <div class="fo_price"></div>
+                
+                <div class="talk">
+                <button class="jiktalk">직톡으로 거래하기</button>
+                </div>
+           
+            </div>
+
+
+        </div>
+    </div>
+
 </div>
+
+
+<div class="dim-layer">
+        <div class="dimBg"></div>
+        <div id="layer2" class="pop-layer">
+                    <!--content //--> 
+                            <div class="headerline">
+                    
+                                <div class="user_singo">신고하기</div>
+                            </div>
+                            <div class="contentsline">
+                                <div class="singo1">
+                                    <label>사기 거래가 의심되는 게시물</label><input type="radio" name="1" style="margin-left: 40%"></br>
+                                </div>   
+                    
+                                <div class="singo1">
+                                    <label>부적절한 홍보나 광고 게시물</label><input type="radio"name="1" style="margin-left: 40%;"></br>
+                                </div>
+                    
+                                <div class="singo1">
+                                    <label>음란성 또는 풍기문란의 게시물</label><input type="radio" name="1"style="margin-left: 36.3%;"></br>
+                                </div>
+                    
+                                <div class="singo1">
+                                    <label>개인 또는 단체의 명예훼손 피해를 입히는 게시물</label><input type="radio"name="1" style="margin-left: 5.5%;"></br>
+                                </div>
+                    
+                                <div class="singo1">
+                                    <label>비매너 사용자 입니다.</label><input type="radio" name="1"style="margin-left: 52.2%;"></br>
+                                </div>
+                    
+                                <div class="singo1">
+                                        <label>기타 직거래플러스의 게시물로 부적절한 경우</label><input type="radio" name="1"style="margin-left: 12.1%;"></br>
+                                    </div>
+                        
+                                <div class="singo1">
+                                    <div>직접입력</div>
+                                    
+                                    <textarea id="content" maxlength="200" style="margin-top:10px;"></textarea>
+
+                                    <div class="wpgks" id="counter">글자수 제한###</div>
+                                </div>
+
+
+                                
+                                
+                                <div class="but">
+                                    <button class="singo_but">신고하기</button>
+                                    <button class="btn-layerClose">취소</button>
+                                </div>
+                               
+                     
+                            </div>
+                   
+                </div>
+         </div>
+                        
+
 
 
 
 
 </body>
+ <script>
+    var slideIndex = 0;
+    showSlides();
 
+    function showSlides() {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("dot");
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) { slideIndex = 1 }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex - 1].style.display = "block";
+        dots[slideIndex - 1].className += " active";
+        setTimeout(showSlides, 50000); // Change image every 2 seconds
+    }
+</script>
+
+
+<script>
+	//매너게이지
+    $(function () {
+			var jack = 2525;
+			function startFoo() {
+				var opts = {
+					angle: 0.15, // The span of the gauge arc
+					lineWidth: 0.44, // The line thickness
+					radiusScale: 1, // Relative radius
+					pointer: {
+						length: 0.51, // // Relative to gauge radius
+						strokeWidth: 0.077, // The thickness
+						color: '#000000' // Fill color
+					},
+					limitMax: false,     // If false, max value increases automatically if value > maxValue
+					limitMin: false,     // If true, the min value of the gauge will be fixed
+					colorStart: '#f70000',   // Colors
+					colorStop: '#f70000',    // just experiment with them
+					strokeColor: '#E0E0E0',  // to see which ones work best for you
+					generateGradient: true,
+					highDpiSupport: true,     // High resolution support
+
+				};
+				var target = document.getElementById('foo'); // your canvas element
+				var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+				gauge.maxValue = 3000; // set max gauge value
+				gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+				gauge.animationSpeed = 49; // set animation speed (32 is default value)
+				gauge.set(jack); // set actual value
+			}
+			startFoo();
+
+			$('#zero').click(function () {
+                startFoo();
+			});
+		});
+
+    </script>
+    
+
+    <script>
+            $('.btn-example').click(function(){
+              var $href = $(this).attr('href');
+              layer_popup($href);
+          });
+          function layer_popup(el){
+      
+              var $el = $(el);        //레이어의 id를 $el 변수에 저장
+              var isDim = $el.prev().hasClass('dimBg');   //dimmed 레이어를 감지하기 위한 boolean 변수
+      
+              isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
+      
+              var $elWidth = ~~($el.outerWidth()),
+                  $elHeight = ~~($el.outerHeight()),
+                  docWidth = $(document).width(),
+                  docHeight = $(document).height();
+      
+              // 화면의 중앙에 레이어를 띄운다.
+              if ($elHeight < docHeight || $elWidth < docWidth) {
+                  $el.css({
+                      marginTop: -$elHeight /2,
+                      marginLeft: -$elWidth/2
+                  })
+              } else {
+                  $el.css({top: 0, left: 0});
+              }
+      
+              $el.find('.btn-layerClose').click(function(){
+                  isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+                  return false;
+              });
+      
+              $('.layer .dimBg').click(function(){
+                  $('.dim-layer').fadeOut();
+                  return false;
+              });
+      
+          }
+      
+      
+        
+          $(function() {
+              $('#content').keyup(function (e){
+                  var content = $(this).val();
+                  // $(this).height(((content.split('\n').length + 1) * 1.5) + 'em');
+                  $('#counter').html(content.length + '/200');     
+              });
+              $('#content').keyup();
+        });
+      
+      </script>
+
+      <script>
+
+      </script>
 
 </html>

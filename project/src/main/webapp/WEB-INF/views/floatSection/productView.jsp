@@ -21,13 +21,12 @@ $(document).ready(function(){
  	 $('#doChat').click(function(){
  		 var temp = "${sessionScope.loginSession.m_num}";
  		 if(temp == ""){
- 			 alert("로인을 먼저 해주세요");
+ 			 alert("로그인을 먼저 해주세요");
  			 return ;
  		 }
  		var session;
 		var m_num = result[0].ProMemberJoinDTO.m_num;
 		var pro_num = result[0].ProMemberJoinDTO.pro_num;
-		console.log(result[0].ProMemberJoinDTO);
 		if(m_num == temp){
 			alert('해당 판매글을 작성한 판매자 계정입니다, 채팅을 진행 할 수 없습니다.');
 		}
@@ -35,7 +34,40 @@ $(document).ready(function(){
 			window.open('/chatting/doChat?m_num='+m_num+'&pro_num='+pro_num, 'doChat', 'width=850,height=600');
 		}
 	}); 
- 	
+ 	 
+ 	 var count = 0;
+ 	$('#jimclick').click(function(){
+		 var temp = "${sessionScope.loginSession.m_num}";
+		 if(temp == ""){
+			 alert("로그인을 먼저 해주세요");
+			 return ;
+		 }
+		
+		 var pro_num = result[0].ProMemberJoinDTO.pro_num;
+		console.log(pro_num)
+		 var m_num = result[0].ProMemberJoinDTO.m_num;
+		var query = {
+				pro_num : pro_num
+		}
+		 if(m_num == temp){
+			 alert('해당 판매글을 작성판 판매자 계정입니다.');
+		 }
+		 else{
+			 
+			 $.ajax({
+				 type : 'post',
+				 url : '/member/insertPick',
+				 data : JSON.stringify(query),
+				 dataType : 'json',
+				 contentType : "application/json;charset=UTF-8",
+				 success : function(data){
+					if(data == 1){
+						alert('이미 찜목록에 등록된 상품입니다.');
+					}
+				 }
+			 });
+		 }
+	});
  	// 오른쪽 상품 정보
  	var title = $('.productInfo').children().first();
  	var price = title.next();
@@ -72,25 +104,14 @@ $(document).ready(function(){
  			var temp = subImg.children().eq(i - j).find("img");
  			temp.width(85).height(85);
  	 		temp.attr('src',realPath+
- 					 result[0].Production_uploadVO[i].uploadPath +'/'+ 
+ 					 result[0].Production_uploadVO[i].uploadPath +'/s_'+ 
  					 result[0].Production_uploadVO[i].uuid+'_'+
  					 result[0].Production_uploadVO[i].fileName
  					 );
  		}
  	
  		
- 	}
-   	 
-   	 // 서브 이미지 누를때마다 사진 바꿈
-   	$('.subImg img').mouseover(function(){
-   		var mainImageConst = $('.mainImg > img').attr('src');
-   		var temp = $(this).attr('src');
-   		$('.mainImg > img').attr('src',temp);
-   		
-   		$('.subImg img').mouseout(function(){
-   			$('.mainImg > img').attr('src',mainImageConst);
-   		})
-   	})
+ 	} 
    	//상품정보 ~!!!
    	var contentInfo = $('.account');
    	
@@ -217,6 +238,7 @@ $(document).ready(function(){
 								
 								<div class="btn">
 									<button class="djim" id="jimclick">찜</button>
+									<div id="check" style="display: none;">${checkTest }</div>
 									<button class="djim1" id="doChat">직톡하기</button>
 								</div>
 							</div>
