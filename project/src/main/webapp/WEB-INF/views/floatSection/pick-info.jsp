@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <link rel="stylesheet" type="text/css"
-   href="/resources/css/productList.css" />
+	href="/resources/css/productList.css" />
 <link rel="stylesheet" type="text/css"
 	href="/resources/css/mypage-info.css">
 
@@ -21,10 +21,6 @@ $(document).ready(function(){
 		e.preventDefault();
 		window.location.href = "/member/pickInfo/"+$('#nickname').text();
 	});
-	
-	$('.test').click(function(e){
-	      window.location.href = "/admin/getList/";
-	   });
 	
 	$('#updateBtn').click(function(e){
 
@@ -77,7 +73,7 @@ $(document).ready(function(){
 		
 		$.ajax({
 			type : 'post',
-			url : 'myPage',
+			url : '/member/myPage',
 			data : JSON.stringify(query),
 			dataType : 'json',
 			contentType : "application/json;charset=UTF-8",
@@ -130,73 +126,71 @@ $(document).ready(function(){
 	   
 	   startFoo();
 });
-
 $(function(){
-	var list = ${requestScope.resultList};
-	console.log(list);
+var list = ${requestScope.resultList};
+console.log(list);
 
 
-	function getParameterByName(name, url) {
-	    if (!url) url = window.location.href;
-	    name = name.replace(/[\[\]]/g, "\\$&");
-	    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-	        results = regex.exec(url);
-	    return results[2];
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    return results[2];
+}
+
+var productionLength = list.length;
+var realPath = "${pageContext.request.contextPath}/resources/";
+
+
+// 값 담기위한 작업
+var array = new Array();
+var test;
+var pattern = /\\/g;
+// 쿼리 스트링 가져오는 정규 표현식
+
+
+//돌려 돌려
+for(var i = 0; i < productionLength; i++){
+	for(var j = 0; j < productionLength; j++){ 
+		/* var temp = list[j].uploadPath.toString(); */
+		var str = "<li><a href='#' class='productNext'>"
+			+ "<div class='product'>"
+			+"<div class='product-img'>"
+			+	"<img id='"+j+"' src='"+realPath+list[j].uploadpath.replace(pattern,'/')+"/"+list[j].uuid+"_"+list[j].filename+"' width=194 height=194>"
+			+"</div>"
+			+ "<div class='product-title'>제목 : "+list[j].title+"</div>"
+			+ "<div class='product-info'>"
+			+	"<div class='product-price'>가격 : "+comma(list[j].price)+" 원</div>"
+			+	"<div class='product-update-time'>"
+			+	"</div>"
+			+"</div>"
+			+"<div class='product-location'>"
+			+	"<div class='icon location-md'>"
+			+		"<i class='fa fa-map-marker-alt'></i>"+" "+list[j].addr+""
+			+	"</div>"
+			+"</div>"
+			+"</div>"
+			+"</a></li>" 
+			+"<input type='hidden' value='"+list[j].pro_num+"' class='pro_num' />";
+			array.push(str);
 	}
+	$('.category-product-list').append(array[i]);
+}
+//콤마찍기 정규 표현식
+function comma(num) {
+	return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
-	var productionLength = list.length;
-	var realPath = "${pageContext.request.contextPath}/resources/";
-
-
-	// 값 담기위한 작업
-	var array = new Array();
-	var test;
-	var pattern = /\\/g;
-	// 쿼리 스트링 가져오는 정규 표현식
-
-
-	//돌려 돌려
-	for(var i = 0; i < productionLength; i++){
-		for(var j = 0; j < productionLength; j++){ 
-			/* var temp = list[j].uploadPath.toString(); */
-			var str = "<li><a href='#' class='productNext'>"
-				+ "<div class='product'>"
-				+"<div class='product-img'>"
-				+	"<img id='"+j+"' src='"+realPath+list[j].uploadpath.replace(pattern,'/')+"/"+list[j].uuid+"_"+list[j].filename+"' width=194 height=194>"
-				+"</div>"
-				+ "<div class='product-title'>제목 : "+list[j].title+"</div>"
-				+ "<div class='product-info'>"
-				+	"<div class='product-price'>가격 : "+comma(list[j].price)+" 원</div>"
-				+	"<div class='product-update-time'>"
-				+	"</div>"
-				+"</div>"
-				+"<div class='product-location'>"
-				+	"<div class='icon location-md'>"
-				+		"<i class='fa fa-map-marker-alt'></i>"+" "+list[j].addr+""
-				+	"</div>"
-				+"</div>"
-				+"</div>"
-				+"</a></li>" 
-				+"<input type='hidden' value='"+list[j].pro_num+"' class='pro_num' />";
-				array.push(str);
-		}
-		$('.category-product-list').append(array[i]);
-	}
-	//콤마찍기 정규 표현식
-	function comma(num) {
-		return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	}
-
-	// 상품 상세보기
-	$('.productNext').click(function(e){
-		e.preventDefault();
-		console.log($(this).parent());
-		window.location.href="/production/index_productView?pro_num="+$(this).parent().next().val(); 
-	});
+// 상품 상세보기
+$('.productNext').click(function(e){
+	e.preventDefault();
+	console.log($(this).parent());
+	window.location.href="/production/index_productView?pro_num="+$(this).parent().next().val(); 
+});
 
 });
 </script>
-
 
 <script>
 	function fn_movePage(val) {
@@ -209,118 +203,96 @@ $(function(){
 <div class="other">
 	<div class="left-layout">
 		<div class="other-info">
-			<div class="other-profile1">
-				이미지 (보류)
-			</div>
+			<div class="other-profile1">이미지 (보류)</div>
 			<div class="other-profile2">
-					<div class="other-nickname">
-						<img class="profile-nickname"src="/resources/image/profile.png">
-						<span id="nickname">${member.nickname }</span>
-					</div>
-					
+				<div class="other-nickname">
+					<img class="profile-nickname" src="/resources/image/profile.png">
+					<span id="nickname">${member.nickname }</span>
+				</div>
+
 				<div class="margin-class">
-					<div class="other-profile2-left">
-					휴대폰
-					</div>
+					<div class="other-profile2-left">휴대폰</div>
 					<div class="other-profile2-right">
-						<div id="phone1">
-							${member.phone }
-						</div>
+						<div id="phone1">${member.phone }</div>
 						<div id="phone2">
 							<input class="infoInput" id="phone" name="phone" type="text">
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="margin-class">
-					<div class="other-profile2-left">
-					이메일
-					</div>
+					<div class="other-profile2-left">이메일</div>
 					<div class="other-profile2-right">
-						<div id="email1">
-							${member.email }
-						</div>
+						<div id="email1">${member.email }</div>
 						<div id="email2">
 							<input class="infoInput" id="email" name="eamil" type="text">
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="margin-class">
-					<div class="other-profile2-left">
-					은행명
-					</div>
+					<div class="other-profile2-left">은행명</div>
 					<div class="other-profile2-right">
-						<div id="acc_name1">
-						${member.acc_name }
-						</div>
+						<div id="acc_name1">${member.acc_name }</div>
 						<div id="acc_name2">
-						      <select class="dropdown__select">
-					                <option id="acc_name" selected></option>
-					                <option value="NH농협">NH농협</option>
-					                <option value="KB국민">KB국민은행</option>
-					                <option value="신한">신한은행</option>
-					                <option value="우리">우리은행</option>
-					                <option value="하나">KEB하나은행</option>
-					                <option value="IBK기업">IBK기업은행</option>
-					                <option value="외환">외환은행</option>
-					                <option value="SC제일">SC제일은행</option>
-					                <option value="씨티">씨티은행</option>
-					                <option value="KDB산업">KDB산업은행</option>
-					                <option value="새마을">새마을금고</option>
-					                <option value="대구">대구은행</option>
-					                <option value="광주">광주은행</option>
-					                <option value="우체국">우체국</option>
-					                <option value="신협">신협중앙회</option>
-					                <option value="전북">전북은행</option>
-					                <option value="경남">경남은행</option>
-					                <option value="부산">부산은행</option>
-					                <option value="수협">수협중앙회</option>
-					                <option value="제주">제주은행</option>
-					                <option value="저축은행">상호저축은행</option>
-					                <option value="산림조합">산림조합중앙회</option>
-					                <option value="케이뱅크">케이뱅크</option>
-					                <option value="카카오뱅크">카카오뱅크</option>
-					            </select>
-					    </div>
+							<select class="dropdown__select">
+								<option id="acc_name" selected></option>
+								<option value="NH농협">NH농협</option>
+								<option value="KB국민">KB국민은행</option>
+								<option value="신한">신한은행</option>
+								<option value="우리">우리은행</option>
+								<option value="하나">KEB하나은행</option>
+								<option value="IBK기업">IBK기업은행</option>
+								<option value="외환">외환은행</option>
+								<option value="SC제일">SC제일은행</option>
+								<option value="씨티">씨티은행</option>
+								<option value="KDB산업">KDB산업은행</option>
+								<option value="새마을">새마을금고</option>
+								<option value="대구">대구은행</option>
+								<option value="광주">광주은행</option>
+								<option value="우체국">우체국</option>
+								<option value="신협">신협중앙회</option>
+								<option value="전북">전북은행</option>
+								<option value="경남">경남은행</option>
+								<option value="부산">부산은행</option>
+								<option value="수협">수협중앙회</option>
+								<option value="제주">제주은행</option>
+								<option value="저축은행">상호저축은행</option>
+								<option value="산림조합">산림조합중앙회</option>
+								<option value="케이뱅크">케이뱅크</option>
+								<option value="카카오뱅크">카카오뱅크</option>
+							</select>
+						</div>
 					</div>
 				</div>
-				
+
 				<div class="margin-class">
-					<div class="other-profile2-left">
-					계좌번호
-					</div>
+					<div class="other-profile2-left">계좌번호</div>
 					<div class="other-profile2-right">
-						<div id="acc_num1">
-							${member.acc_num }
-						</div>
+						<div id="acc_num1">${member.acc_num }</div>
 						<div id="acc_num2">
 							<input class="infoInput" id="acc_num" name="acc_num" type="text">
 						</div>
 					</div>
 				</div>
-				
-				
+
+
 				<div class="margin-class">
 					<div class="introDiv">
-						<div class="other-profile2-left ">
-							소개글
-						</div>
+						<div class="other-profile2-left ">소개글</div>
 					</div>
 					<div class="introDiv">
 						<div class="other-profile2-right">
-							<div id="intro1">
-								${member.intro }
-							</div>
+							<div id="intro1">${member.intro }</div>
 							<div id="intro2">
-								<textarea  id="intro" name="intro"></textarea>
+								<textarea id="intro" name="intro"></textarea>
 							</div>
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="margin-class">
-					
+
 					<div class="updateDiv">
 						<input id="updateBtn" type="button" value="프로필 수정하기">
 					</div>
@@ -328,21 +300,17 @@ $(function(){
 						<input id="updateBtn2" type="submit" value="프로필 수정완료">
 					</div>
 				</div>
-   <div class="test">
-               테스트
-               </div>				
+
 				<div class="line">
-					<div class="other-manner-top">
-						매너게이지
-					</div>
+					<div class="other-manner-top">매너게이지</div>
 					<div class="other-manner-bottom">
-		         		<canvas id="foo" class="foo"></canvas>
-		      		</div>
-		      	</div>
+						<canvas id="foo" class="foo"></canvas>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div>
-		<div class="review">
+			<%-- <div class="review">
 			<button type="button" id="reviewBtn" class="btn btn-primary">
     		상점 후기 보기
     		 <span class="badge badge-light">${pv }</span>
@@ -353,12 +321,12 @@ $(function(){
     			찜목록 보기
     		 <span class="badge badge-light">${like }</span>
  		    </button>
+		</div> --%>
 		</div>
-	</div>
 	</div>
 
 	<div class="right-layout">
-		<div class="product-title-line">상품 목록</div>
+		<div class="product-title-line">찜목록</div>
 		<form name="pagingForm">
 			<!-- product-info -->
 			<input type="hidden" name="pageNo" />
