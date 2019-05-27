@@ -37,5 +37,8 @@ public interface IProductionService {
 	// 앱 상품 인덱스 리스트 불러오기
 	public List<IndexProductionDTO> appSort(@Param("order") String order,
 			@org.apache.ibatis.annotations.Param("cate_code") String cate_code);
+	
+	//앱 상품 검색
+	public List<IndexProductionDTO> appSearch(@Param("cate_code") String cate_code , @Param("order") String order , @Param("keyword") String keyword);
 
 }

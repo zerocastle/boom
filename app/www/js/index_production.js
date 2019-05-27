@@ -18,10 +18,18 @@ $(document).ready(function () {
             callbackFun(response);
         });
     }
+
     // 상품정보 콜백 들고오기
     getProduction(function (data) {
         console.log(data);
+        var place_signal;
+
         for (var i = 0; i < data.length; i++) {
+            if (data[i].place_signal == 1) {
+                place_signal = "img/11.png";
+            } else {
+                place_signal = "img/22.png"
+            }
             $('.pro').append('<div class="content-wrap"><div class="imgess">'
                 + '<img class="pro-img" src="http://39.127.7.51:8080/resources/' + data[i].uploadPath + '/s_' + data[i].uuid + '_' + data[i].fileName + ' " width="90px;" height="85px;"/>'
                 + '</div>'
@@ -29,9 +37,9 @@ $(document).ready(function () {
                 + '<div class="img-name">'
                 + '<p>' + data[i].title + '</p>'
                 + '<p class="addr-name">' + data[i].addr + '</p>'
-                + '<p class="pro-price">' + data[i].price + '</p>'
+                + '<p class="pro-price">가격 : ' + comma(data[i].price) + '원</p>'
                 + '<input class="pro_num" type="hidden" value="' + data[i].pro_num + '" />'
-                + '</div></div>'
+                + '</div><img class="pick" src="' + place_signal + '" /></div>'
             );
         }
         $(".content-wrap").on("click", function (e) {
@@ -44,6 +52,7 @@ $(document).ready(function () {
     // 상품 카테고리 변경
     $('.category').change(function () {
         // 상품을 들고오기 위한 ajax
+        var place_signal;
         $('.pro').empty();
         var cate_code = $('.category').val();
         var order = $('.order').val();
@@ -56,6 +65,11 @@ $(document).ready(function () {
         getProduction(function (data) {
             console.log(data);
             for (var i = 0; i < data.length; i++) {
+                if (data[i].place_signal == 1) {
+                    place_signal = "img/11.png";
+                } else {
+                    place_signal = "img/22.png"
+                }
                 $('.pro').append('<div class="content-wrap"><div class="imgess">'
                     + '<img class="pro-img" src="http://39.127.7.51:8080/resources/' + data[i].uploadPath + '/s_' + data[i].uuid + '_' + data[i].fileName + ' " width="90px;" height="85px;"/>'
                     + '</div>'
@@ -63,9 +77,9 @@ $(document).ready(function () {
                     + '<div class="img-name">'
                     + '<p>' + data[i].title + '</p>'
                     + '<p class="addr-name">' + data[i].addr + '</p>'
-                    + '<p class="pro-price">' + data[i].price + '</p>'
+                    + '<p class="pro-price">가격 : ' + comma(data[i].price) + '원</p>'
                     + '<input class="pro_num" type="hidden" value="' + data[i].pro_num + '" />'
-                    + '</div></div>'
+                    + '</div><img class="pick" src="' + place_signal + '" /></div>'
                 );
             }
             $(".content-wrap").on("click", function (e) {
@@ -78,6 +92,7 @@ $(document).ready(function () {
     // 상품 가격순
     $('#filed2').change(function () {
         $('#pro').empty();
+        var place_signal;
         var cate_code = $('.category').val();
         var order = $('#filed2').val();
         console.log(order + '순');
@@ -90,6 +105,11 @@ $(document).ready(function () {
         getProduction(function (data) {
             console.log(data);
             for (var i = 0; i < data.length; i++) {
+                if (data[i].place_signal == 1) {
+                    place_signal = "img/11.png";
+                } else {
+                    place_signal = "img/22.png"
+                }
                 $('.pro').append('<div class="content-wrap"><div class="imgess">'
                     + '<img class="pro-img" src="http://39.127.7.51:8080/resources/' + data[i].uploadPath + '/s_' + data[i].uuid + '_' + data[i].fileName + ' " width="90px;" height="85px;"/>'
                     + '</div>'
@@ -97,9 +117,9 @@ $(document).ready(function () {
                     + '<div class="img-name">'
                     + '<p>' + data[i].title + '</p>'
                     + '<p class="addr-name">' + data[i].addr + '</p>'
-                    + '<p class="pro-price">' + data[i].price + '</p>'
+                    + '<p class="pro-price">가격 : ' + comma(data[i].price) + '원</p>'
                     + '<input class="pro_num" type="hidden" value="' + data[i].pro_num + '" />'
-                    + '</div></div>'
+                    + '</div><img class="pick" src="' + place_signal + '" /></div>'
                 );
             }
             $(".content-wrap").on("click", function (e) {
@@ -110,23 +130,27 @@ $(document).ready(function () {
     })
 
 
-    // 상품 보기
-    $('.imgess').click(function (e) {
-        alert("눌러지니?");
-        var pro_num = $('.content-wrap input').val();
-        console.log(pro_num);
+    // 콤마찍기 정규 표현식
+    function comma(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    // 검색 기능 
+    $('#searchValue').keydown(function () {
+
+        var data = $(this).val();
 
         $.ajax({
-            type: 'get',
-            url: 'http://39.127.7.51:8080/app/view/' + pro_num,
-            success: function (data) {
-                console.log("상품 넘어와라잇");
+            type : 'get',
+            url : 'http://39.127.7.51:8080/app/production/search/'+data,
+            success : function(data){
+                console.log(data);
+                
             }
+
         })
     })
 
-    // 검색 기능 
-    
 
 
 });

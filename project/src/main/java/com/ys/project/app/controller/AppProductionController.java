@@ -39,37 +39,16 @@ public class AppProductionController {
 		return dto;
 	}
 
-	// 상품 상세 보기
+	// 상품 검색
 	@CrossOrigin(origins = "*", maxAge = 3600)
-	@GetMapping(value = "/view/{pro_num}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public String productView(@PathVariable("pro_num") int pro_num) {
-		log.info("상품 상세보기 : " + pro_num);
-		List<Map<String, Object>> list = service.totalFineByPro(pro_num);
-		log.info("" + list);
-		return JSONArray.fromObject(list).toString();
+	@GetMapping(value = "/search/{cate_code}/{order}/{keyword}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public String productionSearch(@PathVariable("cate_code") String cate_code, @PathVariable("order") String order,
+			@PathVariable("keyword") String keyword) {
+		System.out.println(cate_code + "" + order + "" + keyword);
+		List<IndexProductionDTO> dto = service.appSearch(cate_code, order, keyword);
+		String jsonString = JSONArray.fromObject(dto).toString();
+		return jsonString;
 
 	}
-
-//	// 상품 정렬
-//	@CrossOrigin(origins = "*", maxAge = 3600)
-//	@GetMapping(value = "/view/{pro_num}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-//	public String productionSort(@PathVariable("pro_num") int pro_num) {
-//		log.info("상품 상세보기 : " + pro_num);
-//		List<Map<String, Object>> list = service.totalFineByPro(pro_num);
-//		log.info("" + list);
-//		return JSONArray.fromObject(list).toString();
-//
-//	}
-//
-//	// 상품 검색
-//	@CrossOrigin(origins = "*", maxAge = 3600)
-//	@GetMapping(value = "/view/{pro_num}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-//	public String productionSearch(@PathVariable("pro_num") int pro_num) {
-//		log.info("상품 상세보기 : " + pro_num);
-//		List<Map<String, Object>> list = service.totalFineByPro(pro_num);
-//		log.info("" + list);
-//		return JSONArray.fromObject(list).toString();
-//
-//	}
 
 }

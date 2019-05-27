@@ -148,7 +148,35 @@
 
 
 	</select>
+	
+	<select id="appSearch"
+		resultType="com.ys.project.projectDTO.IndexProductionDTO">
+		SELECT
+		A.PRO_NUM,A.TITLE,A.PRICE,A.CATE_CODE,A.STATE_MSG,A.PLACE_SIGNAL,A.CREATE_DATE,A.ADDR,A.PLACE_PICK,B.UUID,B.UPLOADPATH,B.FILENAME,B.REP
+		FROM (SELECT ROWNUM RN
+		,PRO_NUM,TITLE,PRICE,CATE_CODE,STATE_MSG,PLACE_SIGNAL,CREATE_DATE,ADDR,PLACE_PICK
+		FROM PRODUCTION
+		<![CDATA[WHERE ROWNUM <= #{pageNum} * #{amount}]]>
+		<choose>
+			<when test="type == 'place'">
+				AND ADDR LIKE '%'||#{keyword}||'%'
+			</when>
+			<when test="type == 'pName'">
+				AND TITLE LIKE '%'||#{keyword}||'%'
+			</when>
+		</choose>
 
+		) A ,
+		PRODUCTION_UPLOAD B
+		WHERE A.PRO_NUM = B.PRO_NUM
+		AND B.REP = 1 AND
+		<![CDATA[A.RN > (#{pageNum} -1) * #{amount}]]>
+		ORDER BY A.PRICE DESC
+
+
+	</select>
+	
+	
 	<!-- 검색에 대한 페이징 토탈 카운트 -->
 	<select id="searchGetTotalCount" resultType="int">
 		SELECT COUNT(PRO_NUM)

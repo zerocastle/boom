@@ -35,7 +35,11 @@ public interface ProductionMapper {
 
 	// 앱 상품 서비스 맵퍼
 	public List<IndexProductionDTO> appSort(@Param("order") String order, @Param("cate_code") String cate_code);
+	
+	// 앱 상품 검색 맵퍼
 
+	public List<IndexProductionDTO> appSearch(@Param("cate_code") String cate_code , @Param("order") String order , @Param("keyword") String keyword);
+	
 	// 검색 상품 리스트 맵퍼
 	public List<IndexProductionDTO> searchSort(Criteria3 cri3);
 

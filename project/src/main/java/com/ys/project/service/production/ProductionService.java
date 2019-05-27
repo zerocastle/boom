@@ -91,10 +91,18 @@ public class ProductionService implements IProductionService {
 		return mapper.searchSort(cri3);
 	}
 
+	// 검색한거 토탈 카운트
 	@Override
 	public int searchGetTotalCount(String type, String keyword) {
 		// TODO Auto-generated method stub
 		return mapper.searchGetTotalCount(type, keyword);
+	}
+
+	// 앱 검색
+	@Override
+	public List<IndexProductionDTO> appSearch(String cate_code, String order, String keyword) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
