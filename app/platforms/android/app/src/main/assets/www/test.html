@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>  
+    <script>
+     var animal = {
+        name: 'Karl',
+        type: 'cat',
+        color: 'black',
+        age: 7
+       };
+        console.log(animal.name);      
+       //convert JSON animal into a string
+       var dehydratedAnimal = JSON.stringify(animal);
+       
+       //save it with local storage
+       window.localStorage.setItem('animal', dehydratedAnimal);
+       
+       //get 'animal' and rehydrate it  (convert it back JSON)
+       var rehydratedAnimal = JSON.parse(window.localStorage.getItem('animal'));
+       console.log(rehydratedAnimal.name);
+       console.log(localStorage.animal);
+       console.log(typeof(localStorage.animal));
+       console.log(JSON.parse(localStorage.animal));
+       console.log(typeof(JSON.parse(localStorage.animal)));
+       console.log(typeof(JSON.parse(localStorage.animal)));
+       </script>
+       </body>
+</html>

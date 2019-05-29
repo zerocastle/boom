@@ -1,4 +1,4 @@
-/*ys 인덱스 상품 뿌리기 작업*/
+﻿/*ys 인덱스 상품 뿌리기 작업*/
 $(document).ready(function () {
     $('.my-user').on('click', function () {
         if (sessionStorage.member) {
