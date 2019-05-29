@@ -4,10 +4,16 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <style>
 .partnerBtnBlue{
-
+  width :200px;
+  height: 50px;
+  background-color : #AAAAFF;
+  font-size : 20px;
 }
 .partnerBtnRed{
-    
+    width : 200px;
+  height: 50px;
+  background-color : #FF8888;
+  font-size : 20px;
 }
 </style>
     <script>
@@ -135,11 +141,11 @@
 <li>가격 : <%=price%></li><hr>
 <li>상품번호 : <%=pro_num%></li><hr>
 <div id='state_msg1' style="display:none;">
-    <button id="in_accept" class='partnerBtnBlue' >상품 입고 승인</button>
-    <button id="in_disaccept" class='partnerBtnRed'>상품 입고 거절</button>
+    <button id="in_accept" class='partnerBtnBlue' ><b>상품 입고 승인</b></button>
+    <button id="in_disaccept" class='partnerBtnRed'><b>상품 입고 거절</b></button>
 </div>
 <div id='state_msg2' style="display:none;">
-    <button id="out_accept" class='partnerBtnBlue' >상품 출고 승인</button>
-    <button id="out_disaccept" class='partnerBtnRed' >상품 출고 거절</button>
+    <button id="out_accept" class='partnerBtnBlue' ><b>상품 출고 승인</b></button>
+    <button id="out_disaccept" class='partnerBtnRed' ><b>상품 출고 거절</b></button>
 </div>
 </ul>
