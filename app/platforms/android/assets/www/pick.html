@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- jquery 모바일 , jquery -->
+    <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.5.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.mobile-1.4.5.js"></script>
+    
+    <!-- 폰트애즈썸 -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+    <!-- 차트 cdn -->
+    <!-- Resources -->
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/dataviz.js"></script>
+    <script src="js/chat.js"></script>
+
+    <!-- 폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&amp;subset=korean"
+    rel="stylesheet">
+    <style>
+       
+        *{
+            font-family: 'Noto Sans KR';
+            margin: 0;
+            padding: 0;
+        }
+
+        .ui-content{
+            padding : 0;
+        }
+
+        .collection-title{
+            margin-top: 10px;
+            padding-bottom: 10px;
+            border-bottom: 0.1px solid #ddd;
+        }
+        .collection-title2{
+            margin: 5px;
+            margin-left: 20px;
+            font-size: 17px;
+            font-weight: 500;
+        }
+        .pro-div{
+            margin-top: 10px;
+            height: 140px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .pro-img{
+            margin: 5px;
+            display: inline-block;
+            width: 35%;
+            height: 90%;
+            vertical-align: middle;
+            border-radius: 5%;
+        }
+        .pro-img-info{
+            display: inline-block;
+            vertical-align: middle;
+            height: 90%;
+            width: 60%;
+            /* line-height: 2; */
+
+        }
+        .pro-title{
+            padding-left: 10px;
+            font-size: 17px;
+            font-weight: 700;
+           
+            line-height: 2.2;
+        }
+        .pro-content{
+            padding-left: 10px;
+            font-size: 14px;
+            font-weight: 400;
+            
+            height: 40px;
+            word-break:break-all; word-wrap:break-word;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* 라인수 */
+            -webkit-box-orient: vertical;
+            word-wrap:break-word; 
+        }
+        .pro-price{
+            padding-left: 10px;
+            font-size: 17px;
+            font-weight: 700;
+            margin-top: 5px;
+           
+        }
+        .pro-addr{
+            padding-left: 10px;
+            font-size: 13px;
+           
+            font-weight: 500;
+            color: #625d5d;
+        }
+        .exit{
+            float: right;
+            display: inline;
+        }
+    </style>
+</head>
+
+<body>
+ <!-- 첫번째 페이지 -->
+
+ <section id="myPageList" data-role="page">
+	
+
+    <header data-role="header" data-theme="b">
+            <a href="#" class="ui-btn" data-rel="back" style="background-color : #1d1d1d; color:#fff;"><i class="fas fa-arrow-left"></i></a>
+            <h1><i class="fas fa-cart-arrow-down" style="margin-right: 5px;"></i>찜 목록</h1>
+    </header>		
+
+
+    <div class="content" data-role="content" data-theme="a">		
+        <div class="collection-title">
+           <div class="collection-title2">
+            기본 컬렉션 (<span id="totalCount"></span>)
+           </div>
+        </div>
+        <div class="collection-contents">
+
+        </div>
+    </div>
+
+ 
+
+    <footer data-role="footer" data-position="fixed" data-theme="b">
+        <h2>ⓒ직거래 플러스 2019</h2>
+    </footer>
+
+</section>
+
+<script>
+    $(document).ready(function(){
+
+        var member = sessionStorage.getItem("member");
+        var m = JSON.parse(sessionStorage.getItem("member"));
+
+        $.ajax({
+            type : "POST",
+            url : "http://39.127.7.47:8080/app/myPageList/pickCount",
+            data : member,
+            contentType : "application/json; charset=UTF-8",
+            async: false,
+            success : function(data){
+                console.log('pickCount : '+data);
+                $('#totalCount').append(data);
+            },
+            error : function(error){
+                alert('오류');
+            }
+        });
+
+         $.ajax({
+             type : "POST",
+             url : "http://39.127.7.47:8080/app/myPageList/pick",
+             data : member,
+             contentType : "application/json; charset=UTF-8",
+             async: false,
+             success : function(data){
+                 console.log(data);
+                 console.log(data[0].title);
+                 for(var i=0; i<data.length; i++){
+                    $('.collection-contents').append(
+                        "<div class='pro-div'>"
+                            +"<div id='"+(i+1)+"' class='pro-img'></div>"
+                            +"<div class='pro-img-info'>"
+                                +"<div class='pro-title'>"+data[i].title+"<div class='exit'><i class='fas fa-heart' style='color:red; z-index:2;'></i><div style='display : none;'>"+data[i].pro_num+"</div></div></div>"
+                                +"<div class='pro-content'>"+data[i].content+"</div>"
+                                +"<div class='pro-price'>"+data[i].price+"원</div>"
+                                +"<div class='pro-addr'>지역명 : "+data[i].addr+"</div>"
+                                +"<div class='pro-pronum' style='display : none;'>"+data[i].pro_num+"</div>"
+                            +"</div>"
+                        +"</div>"
+                    );
+                    var image = new Array();
+                    image[i] = $('#'+(i+1)+'');
+                    console.log(data[i].uploadpath.replace(/\\/g,'/'));
+                    console.log(data[i].uuid);
+                    console.log(data[i].filename);
+                    image[i].css({"background-image" : "url('http://39.127.7.47:8080/resources/"+data[i].uploadpath.replace(/\\/g,'/')+"/"+data[i].uuid+"_"+data[i].filename+"')"});
+                    image[i].css({"background-position" : "center center"});
+                    image[i].css({"object-fit" : "cover"});
+                    image[i].css({"object-position" : "top"});
+                    image[i].css({"background-size" : "100% 100%"});
+                }
+                
+                $('.exit > i').click(function(e){
+                    e.stopPropagation();
+                    $(this).toggleClass('far fas');
+                    console.log($(this).hasClass('far'));
+                    console.log($(this).hasClass('fas'));
+                    var pro_num = $(this).next().text();
+                    console.log("pronum: "+pro_num);
+                    console.log("mnum: "+m.m_num);
+                     var likelist = {
+                         pro_num : pro_num,
+                         m_num : m.m_num
+                     };
+
+                     if($(this).hasClass('far') == true){
+                         $.ajax({
+                             type : 'post',
+                             url : "http://39.127.7.47:8080/app/myPageList/deletePick",
+                             data : JSON.stringify(likelist),
+                             contentType : "application/json; charset=UTF-8",
+                             async: false,
+                             success : function(data){
+                                alert('해당상품을 찜목록에서 제외하셨습니다.');
+                             },
+                             error : function(error){
+                                alert(error);
+                             }
+                         });
+                     }
+
+                     if($(this).hasClass('fas') == true){
+                        $.ajax({
+                             type : 'post',
+                             url : "http://39.127.7.47:8080/app/myPageList/insertPick",
+                             data : JSON.stringify(likelist),
+                             contentType : "application/json; charset=UTF-8",
+                             async: false,
+                             success : function(data){
+                                alert('해당상품을 다시 찜목록에 추가했습니다.');
+                             },
+                             error : function(error){
+                                alert(error);
+                             }
+                         });
+                     }
+                });
+
+                $('.pro-div').click(function(e){
+                    e.preventDefault();
+                    var next = $(this).children('.pro-img-info').children('.pro-pronum').text();
+                    console.log(next);
+                    window.location.href="productview.html?value="+next;
+                });
+
+             },
+             error : function(error){
+                 alert(error);
+            }
+        });
+        
+    });
+</script>
+</body>
+</html>

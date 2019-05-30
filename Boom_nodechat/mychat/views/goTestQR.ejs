@@ -18,7 +18,29 @@
 </style>
     <script>
         $(document).ready(function(){
-            
+            //타겟토큰. 
+            var qrToken = function(msg, title, sender, seller, buyer){
+                console.log('qrToken is ready for ' + seller + ' and ' +buyer);
+                if(seller != null && buyer != null){
+                    console.log("qrTokens are not null");
+                    $.ajax({
+                    url: "http://39.127.7.47:3000/api/push/qrToken",
+                    dataType: 'json',
+                    type: 'POST',
+                    data : {
+                            seller : seller, //판매자
+                            buyer : buyer, //구매자
+                            message : msg, //전송메시지
+                            title : title, //전송메시지 제목
+                            sender : sender}, //발신자
+                    success: function () {
+                        console.log("토큰전송ok");
+                    }
+                    });
+      } else {
+        console.log("other's token is null");
+      }
+    }
             
         /** 쿼리스트링 함수*/
             $.urlParam = function(name){
@@ -87,6 +109,7 @@
                 },
                 success : function(result){
                     console.log('1 승인 성공');
+                    qrToken('<%=place%>','<%=title%>','직플레이스 입고완료','<%=seller_name%>','<%=buyer_name%>');
                 },
                 error : function(err){
                     alert('에러 발생' + err, err);
@@ -111,6 +134,7 @@
                     state : 3
                 },
                 success : function(result){
+                    qrToken('<%=place%>','<%=title%>','직플레이스 출고완료','<%=seller_name%>','<%=buyer_name%>');
                     console.log('2 승인 성공');
                 },
                 error : function(err){

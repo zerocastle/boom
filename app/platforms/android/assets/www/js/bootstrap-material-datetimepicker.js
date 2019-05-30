@@ -274,10 +274,11 @@
                          '</div>' +
                          '</div>' +
                          '</div>';
-
+                  
+                  
                  if ($('body').find("#" + this.name).length <= 0)
                  {
-                    $('body').append(this.template);
+                    $('#goodmenubar').append(this.template);
 
                     if (this)
                        this.dtpElement = $('body').find("#" + this.name);
@@ -1272,8 +1273,8 @@
               _centerBox: function ()
               {
                  var h = (this.$dtpElement.height() - this.$dtpElement.find('.dtp-content').height()) / 2;
-                 this.$dtpElement.find('.dtp-content').css('marginLeft', -(this.$dtpElement.find('.dtp-content').width() / 2) + 'px');
-                 this.$dtpElement.find('.dtp-content').css('top', h + 'px');
+                 this.$dtpElement.find('.dtp-content').css('marginLeft', '30px');
+                 this.$dtpElement.find('.dtp-content').css('top','15%');
               },
               enableDays: function ()
               {

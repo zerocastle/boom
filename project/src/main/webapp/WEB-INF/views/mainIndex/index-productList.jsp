@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 	<%@include file="../fixsection/header.jsp"%>
-	<%@include file="../floatSection/productList.jsp"%>
+	<%@include file="../floatSection/productList.jsp"%> 
+	<%-- <jsp:include page="${switchPage }" /> --%>
 	<%@include file="../fixsection/footer.jsp"%>
     

@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ys.project.dao.production.ProductionMapper;
 import com.ys.project.dao.productionUpload.ProductionUploadMapper;
 import com.ys.project.dao.sellingUpdate.SellingUpdateMapper;
 import com.ys.project.projectDTO.MemberProductionList;
 import com.ys.project.projectVO.PartnerVO;
+import com.ys.project.projectVO.PaymentVO;
 import com.ys.project.projectVO.ProductionVO;
 
 import lombok.AllArgsConstructor;
@@ -26,6 +28,9 @@ public class SellingUpdateService implements ISellingUpdateService {
 
 	@Setter(onMethod_ = @Autowired)
 	private SellingUpdateMapper sellingMapper;
+	
+	@Setter(onMethod_=@Autowired)
+	private ProductionMapper productionMapper;
 
 	@Setter(onMethod_ = @Autowired)
 	private ProductionUploadMapper uploadMapper;
@@ -74,10 +79,27 @@ public class SellingUpdateService implements ISellingUpdateService {
 		return sellingMapper.getMemberProductionList(map);
 	}
 
+	// 회원에 대한 상품 갯수 불러오기
 	@Override
 	public int getMemberProductionTotalCount(int m_num) {
 		// TODO Auto-generated method stub
 		return sellingMapper.getMemberProductionTotalCount(m_num);
+	}
+
+
+	// 회원에 대한 결제 목록 불러오기
+	@Override
+	public List<PaymentVO> getMemberPayment(String nickname) {
+		// TODO Auto-generated method stub
+		return productionMapper.getMemberPayment(nickname);
+	}
+
+
+	// 회원 결제에 대한 상품 환불 처리
+	@Override
+	public int refuseDelete(String imp_uid) {
+		// TODO Auto-generated method stub
+		return productionMapper.refuseDelete(imp_uid);
 	}
 
 }

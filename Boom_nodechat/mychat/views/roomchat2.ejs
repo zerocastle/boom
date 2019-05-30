@@ -295,10 +295,6 @@ var subDate;
 
     $(document).on('click', '.payment', function () {
       var buyer2 = $.urlParam('buyer');
-      
-      alert(buyer2);
-      alert(name == buyer2);
-
       if(name+'' != buyer2){
         alert('구매자만 결제가 가능합니다.');
         return false;
@@ -434,7 +430,6 @@ var subDate;
 
     //결제 명세서 전송버튼을 클릭하면(165번 라인)
     $('#buy').click(function () {
-      
       //Nodejs 서버에 ajax요청을 한다.
       $.ajax({
         type: 'post',
@@ -443,13 +438,12 @@ var subDate;
           pro_num : $('#Hpro_num').text()//상품번호를 전달.
         },
         success : function(result){
+          var tag = $('#pro_data').html(); // 체팅방에 박혀있는 상품 정보 테그들    
           //결과 콘솔 출력
           console.log('status( ' + result+ ' )');
-          
           //결제가 완료되었다면 결제명세서 전송과정을 중단하고 안내문구 alert
           if(result == 'done'){
             alert('status( ' + result+ ') : 결제가 완료되어 결제를 진행 할 수 없습니다.');
-          
           //결제가 아직 진행중이라면 결제명세서 전송과정을 마저 진행한다.  
           }else {
             $('#messages').append($('<li class="even">').html(name + ' : ' + tag));//명세서를 채팅방에 뿌려준다.
@@ -459,12 +453,6 @@ var subDate;
         }
 
       })
-      
-      
-      var tag = $('#pro_data').html(); // 체팅방에 박혀있는 상품 정보 테그들
-      
-
-     
     });
 
 
@@ -605,8 +593,8 @@ var subDate;
         socket.emit('chat message', num, name, $('#m').val());// 서버로  작성자, 방번호, 메시지를 전달한다.
         $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
         sendToken($('#m').val(),$('#Htitle').text(),$('#nickname').text());//상대방에게 토큰을 전송한다.
-        $('#m').val('');//입력창 비워주기
         
+        $('#m').val('');//입력창 비워주기
         return false;
 
       } //원하는 작업만 마친 후 submit의 동작을 멈춘다.

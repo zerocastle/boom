@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ys.project.dao.production.ProductionMapper;
+import com.ys.project.projectDTO.Criteria3;
 import com.ys.project.projectDTO.IndexProductionDTO;
 import com.ys.project.projectDTO.ProMemberJoinDTO;
 import com.ys.project.projectVO.Production_uploadVO;
@@ -85,9 +86,23 @@ public class ProductionService implements IProductionService {
 	
 	// 검색 서비스
 	@Override
-	public List<IndexProductionDTO> searchSort(int pageNum, int perPage, String choose) {
+	public List<IndexProductionDTO> searchSort(Criteria3 cri3) {
 		// TODO Auto-generated method stub
-		return mapper.searchSort(pageNum, perPage, choose);
+		return mapper.searchSort(cri3);
+	}
+
+	// 검색한거 토탈 카운트
+	@Override
+	public int searchGetTotalCount(String type, String keyword) {
+		// TODO Auto-generated method stub
+		return mapper.searchGetTotalCount(type, keyword);
+	}
+
+	// 앱 검색
+	@Override
+	public List<IndexProductionDTO> appSearch(String cate_code, String order, String keyword) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

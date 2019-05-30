@@ -582,7 +582,7 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
       }
     });
   });
-
+  
   socket.on('addressNo', (addressP, num, message_id) => {//거절버튼을 누른다면
     message_id = Number(message_id);
     var noSql = "update message set content = '<i>거절하셨습니다</i><br>" + addressP + "' where message_num = " + message_id;

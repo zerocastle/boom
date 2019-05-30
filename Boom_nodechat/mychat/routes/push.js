@@ -12,6 +12,117 @@ oracledb.getConnection({// 커텍션 객체 생성
     }
     conn=con; //앞서 전역변수로 선언한 conn에 지역변수 커넥션 객체 con을 넣어준다.
 });
+var pushTokenBuyer = function(sellerToken, buyerToken, message, title, sender, res){
+    var FCM = require('fcm-node');
+    var serverKey = 'AAAAhMJliMM:APA91bGealuQmtYLism-ypKkPEoR8VEVCFqvWsDBdpt9G7WvRZVX06u_QhIoEcebreTeLgyBp8DyqyfHWCQz9Mut8LNXPhiRf4lfInRsQHNCOGKnvgRRUCoMHNdRROX8Q6mEkpf5KfSj';
+    var push_data = {
+        // 수신대상
+        to: buyerToken,
+        notification: {
+            title: title,
+            body: sender +' : '+message,
+            sound: "default",
+            click_action: "FCM_PLUGIN_ACTIVITY",
+            icon: "pushicon.png"
+        },
+        // 메시지 중요도
+        // "to":"/topics/all",
+        priority: "high",
+        // App 패키지 이름
+        restricted_package_name: "kr.yjc.wd3", //config.xml 의 id
+        // App에게 전달할 데이터
+        "data": {
+            "title": title, //chat.js의 184번 라인
+            "message": sender +' : '+message, //chat.js의 184번 라인
+            "param1": "value1", //Any data to be retrieved in the notification callback 
+            "param2": "value2",
+        }
+    };
+    /** 아래는 푸시메시지 발송절차 */
+    var fcm = new FCM(serverKey);
+    fcm.send(push_data, function (err, response) {
+        if (err) {
+            console.error('Buyer Push메시지 발송에 실패했습니다.');
+            console.error(err);
+            return;
+        }
+        console.log('Buyer Push메시지가 발송되었습니다.');
+        console.log(response);
+        res.send();
+    });
+}
+var pushTokenSeller = function(sellerToken, buyerToken, message, title, sender, res){
+    var FCM = require('fcm-node');
+    var serverKey = 'AAAAhMJliMM:APA91bGealuQmtYLism-ypKkPEoR8VEVCFqvWsDBdpt9G7WvRZVX06u_QhIoEcebreTeLgyBp8DyqyfHWCQz9Mut8LNXPhiRf4lfInRsQHNCOGKnvgRRUCoMHNdRROX8Q6mEkpf5KfSj';
+    var push_data = {
+        // 수신대상
+        to: sellerToken,
+        notification: {
+            title: title,
+            body: sender +' : '+message,
+            sound: "default",
+            click_action: "FCM_PLUGIN_ACTIVITY",
+            icon: "pushicon.png"
+        },
+        // 메시지 중요도
+        // "to":"/topics/all",
+        priority: "high",
+        // App 패키지 이름
+        restricted_package_name: "kr.yjc.wd3", //config.xml 의 id
+        // App에게 전달할 데이터
+        "data": {
+            "title": title, //chat.js의 184번 라인
+            "message": sender +' : '+message, //chat.js의 184번 라인
+            "param1": "value1", //Any data to be retrieved in the notification callback 
+            "param2": "value2",
+        }
+    };
+    /** 아래는 푸시메시지 발송절차 */
+    var fcm = new FCM(serverKey);
+    fcm.send(push_data, function (err, response) {
+        if (err) {
+            console.error('Seller Push메시지 발송에 실패했습니다.');
+            console.error(err);
+            return;
+        }
+        console.log('Seller Push메시지가 발송되었습니다.');
+        console.log(response);
+        return pushTokenBuyer(sellerToken, buyerToken, message, title, sender, res);
+    });
+    
+}
+
+router.post('/qrToken', function(req,res){
+    console.log(req.body);
+    var qrTokenSql = "select token, nickname from member where nickname = '"+req.body.seller+"' or nickname ="+ req.body.buyer+ "'";
+    conn.execute(qrTokenSql, function(err, result){
+        if(err){
+            console.log('qrTokenSql 에러 : ' , err);
+        }else {
+            console.log('qrTokenSql 성공' , result);
+            if(result){
+                if(result.rows[0][1] == req.body.seller){
+                    var sellerToken = result.rows[0][0];
+                    var sellerNick = result.rows[0][1];
+                    var buyerToken = result.rows[1][0];
+                    var buyerNick = result.rows[1][1];
+                } else {
+                    var sellerToken = result.rows[1][0];
+                    var sellerNick = result.rows[1][1];
+                    var buyerToken = result.rows[0][0];
+                    var buyerNick = result.rows[0][1];
+                }
+                console.log('seller : ' + sellerNick+ ',  sellerToken : '+sellerToken);
+                console.log('buyer : ' + buyerNick + ',  buyerToken : ' + buyerToken);
+                return pushTokenSeller(sellerToken, buyerToken, message, title, sender, res);
+            }
+        }
+    });
+});
+
+
+
+
 
 
 //푸시알림전송 : 토큰값을 입력해줘야한다. 현 파일내 총 길이 17 ~ 114번 라인
@@ -65,10 +176,13 @@ router.post('/', function(req,res) {
     
     //var client_token = 'fisgUMGsMLE:APA91bFIWBYRt0g_L2-rNuF_HI6-3zFkiCFYhl4mRSn9pzon9PYJSyhpT3p-EdG-A8UaTP_BDQm3b5aUqq7xlZVFOB5x3N_10iuWhKjh5YvcVzOTlM5OREn-f7EAAh_qujLwm3cDdMEI';
     //에뮬레이터 FCM토큰
-    var client_token='ezeIWyjBT0E:APA91bHZZJRmjVZVZrU1m2UilXvGbLHFYYDuxzCnVbzdUqzCj1o483I_S7BVpcqnfLbmzybYJfpqY_-_-gqkUOHYHz0tfuLsPJfXWl4mspNZ0ur4NEjsWQ5cZFfK_KBKHx2S2Uxq8_D-';
+    //var client_token='ezeIWyjBT0E:APA91bHZZJRmjVZVZrU1m2UilXvGbLHFYYDuxzCnVbzdUqzCj1o483I_S7BVpcqnfLbmzybYJfpqY_-_-gqkUOHYHz0tfuLsPJfXWl4mspNZ0ur4NEjsWQ5cZFfK_KBKHx2S2Uxq8_D-';
     //일단내폰 FCM토큰 ㅎㅎ;; 원래 채팅방의 상대의 토큰값을 가져와야합니다.
     //따라서 토큰값을 DB에 저장할 필요가 있으며
-    //
+    
+    //ajax 요청시 지정한 토큰으로 전송합니다.
+    var client_token = req.body.data;
+
 
 
     /** 발송할 Push 메시지 내용 */

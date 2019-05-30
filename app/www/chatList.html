@@ -54,11 +54,16 @@ li{
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         $(document).ready(function(){
+            if(!sessionStorage.getItem('member')){
+                alert('로그인하셔야합니다.');
+                
+                window.location.href = 'login.html';
+        }else {
             var temp =  {}//세션에 저장된 member JSONObject를 가져온다.
             temp = JSON.parse(sessionStorage.getItem('member'));
             
             console.log(temp);
-            alert(temp.nickname + '님의 방목록을 호출합니다.');
+            console.log(temp.nickname + '님의 방목록을 호출합니다.');
            
             $.ajax({
                 type : 'get',
@@ -102,7 +107,7 @@ li{
             })
 
 
-
+        }
         });
     
     </script>

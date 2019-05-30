@@ -39,7 +39,7 @@
 			value="classpath:mybatis/mybatis-config.xml" />
 		<property name="mapperLocations"
 			value="classpath:mappers/**/*Mapper.xml"></property>
-			
+
 	</bean>
 
 
@@ -55,8 +55,8 @@
 		class="org.springframework.data.redis.core.StringRedisTemplate">
 		<property name="connectionFactory" ref="connectionFactory" />
 	</bean>
-	
-	
+
+
 	<!-- sqlSession 사용 부분 -->
 	<bean id="sqlSession_fdc"
 		class="org.mybatis.spring.SqlSessionTemplate"
