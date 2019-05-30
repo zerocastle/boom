@@ -1,6 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
+//오라클 디비의 반환 값이 jsonString 으로 만들기위한 작업
+// var oracledb = require('oracledb');
+// oracledb.outFormat = oracledb.OBJECT;
+
 
 router.post('/', function(req,res) {
     console.log('토큰토큰토큰토큰토큰토큰토큰토큰토큰');  

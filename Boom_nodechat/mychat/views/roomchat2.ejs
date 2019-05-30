@@ -56,12 +56,12 @@
       <div id="nickname" style="display:none;"><%=nickname%></div>
       <div id="room_id" style="display:none;"><%=roomid%></div>
       <div id="status" style="display:none;"><%=rstatus%></div>
-<script>
-$(document).ready(function(){
-  
-});
-  var mknickname = sessionStorage.getItem('nickname');
-</script>
+      <script>
+        $(document).ready(function () {
+
+        });
+        var mknickname = sessionStorage.getItem('nickname');
+      </script>
       <!--메시지 목록 출력 : 약속 시간 , 장소 협의의 발신자와 수신자 구분처리-->
       <%  
   
@@ -141,6 +141,9 @@ var subDate;
       <a class="item menu" id='room_out'>
         채팅방 나가기
       </a>
+      <a class="item menu" id="confirm_test">
+        모든구매 완료
+      </a>
       <a class="item nullmenu">
         <input type="button" id="set_address"
           style="font-size:15px; width:100%;line-height: 100%;white-space: normal;padding-top: 0px;text-align:left;padding-left: 5px;padding-bottom: 0px;margin-bottom: 0px;"
@@ -175,40 +178,40 @@ var subDate;
 <script>
 
   $(() => {
-    $.urlParam = function(name){
-  var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-  if (results==null){
-     return null;
-  }
-  else{
-     return results[1] || 0;
-  }
-}
+    $.urlParam = function (name) {
+      var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+      if (results == null) {
+        return null;
+      }
+      else {
+        return results[1] || 0;
+      }
+    }
     var ref = function () {
       $(document).scrollTop($(document).height());
       window.location.reload();
       $(document).scrollTop($(document).height());
     }
     var road_and_QR = function () {
-              
-              var seller = $('#seller').text();
-              var buyer = $('#buyer').text();
-              var pro_num = $('#pro_num').text();
-              for (var i = 0; i < document.getElementsByClassName("qrcode").length; i++) {
-                //var muid = $('.qrcode').text();
-                var muid = $(".qrcode")[i].innerHTML;
-                console.log(muid);
-                var qrcode = new QRCode(document.getElementsByClassName("qrcode")[i], {
-                  text: "http://39.127.7.51:3000/testQR?muid=" + muid,
-                  width: 350,
-                  height: 350,
-                  colorDark: "#000000",
-                  colorLight: "#ffffff",
-                  correctLevel: QRCode.CorrectLevel.H
-                });
-              }
-            }
-            road_and_QR();
+
+      var seller = $('#seller').text();
+      var buyer = $('#buyer').text();
+      var pro_num = $('#pro_num').text();
+      for (var i = 0; i < document.getElementsByClassName("qrcode").length; i++) {
+        //var muid = $('.qrcode').text();
+        var muid = $(".qrcode")[i].innerHTML;
+        console.log(muid);
+        var qrcode = new QRCode(document.getElementsByClassName("qrcode")[i], {
+          text: "http://39.127.7.51:3000/testQR?muid=" + muid,
+          width: 350,
+          height: 350,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      }
+    }
+    road_and_QR();
 
 
     var a = $('#status').text();
@@ -236,11 +239,11 @@ var subDate;
 
     $(document).on('click', '.payment', function () {
       var buyer2 = $.urlParam('buyer');
-      
+
       alert(buyer2);
       alert(name == buyer2);
 
-      if(name+'' != buyer2){
+      if (name + '' != buyer2) {
         alert('구매자만 결제가 가능합니다.');
         return false;
       }
@@ -287,7 +290,7 @@ var subDate;
 
           var buyer_name = rsp.buyer_name;
 
-          var tag2 = "<ol><div class=''qrcode''>"+rsp.merchant_uid+"</div></ol>"
+          var tag2 = "<ol><div class=''qrcode''>" + rsp.merchant_uid + "</div></ol>"
             + "<ol><div class=''receipt_title''>========== 영 수 증 ==========</div></ol>"
             + "<ol><div class=''imp_uid''>가맹점 코드 : " + rsp.imp_uid + "  </div></ol>"
             + "<ol><div class=''merchant_uid''>결제코드 : " + rsp.merchant_uid + " </div></ol>"
@@ -355,6 +358,8 @@ var subDate;
 
     // =============================================================
 
+
+
     socket.emit('joinRoom', num, name);
     // 일딴 세로 고침
     socket.on('ref', () => {
@@ -366,6 +371,28 @@ var subDate;
       socket.emit('leaveRoom', num, name);
     });
 
+    // 모든 에스크로 거래 상황 마무리_테스트
+    $('#confirm_test').click(function (e) {
+      var pro_num = $('#pro_num').text();
+      var room_id = $('#room_id').text();
+      var tag = "<div>거래는 만족 스러웠나요??</div>"+
+      "<div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div>"
+      +"<div><input type=''text'' class=''confirm_test''/> <button</div>";
+      console.log(pro_num);
+      socket.emit('confirm_test', pro_num, room_id, tag);
+
+    })
+
+    // 최종 마무리
+    socket.on('confirm_test', function (tag) {
+      console.log('hellow');
+      window.location.reload();
+      $('#messages').append($('<li class="system">').text('System : ' + fuck + ' 평가해.  '));
+
+      // console.log('ㅠ,.ㅠ');
+
+    })
+
     // 결제 완료시 영수증 ========================================================
     socket.on('receipt', function (room_id, buyer_name, tag) {
       window.location.reload();
@@ -375,24 +402,24 @@ var subDate;
 
     //결제 명세서 전송버튼을 클릭하면(165번 라인)
     $('#buy').click(function () {
-      
+
       //Nodejs 서버에 ajax요청을 한다.
       $.ajax({
         type: 'post',
-        url:'/payCheck',
-        data : {
-          pro_num : $('#Hpro_num').text()//상품번호를 전달.
+        url: '/payCheck',
+        data: {
+          pro_num: $('#Hpro_num').text()//상품번호를 전달.
         },
-        success : function(result){
+        success: function (result) {
           //결과 콘솔 출력
-          console.log('status( ' + result+ ' )');
-          
+          console.log('status( ' + result + ' )');
+
           //결제가 완료되었다면 결제명세서 전송과정을 중단하고 안내문구 alert
-          if(result == 'done'){
-            alert('status( ' + result+ ') : 결제가 완료되어 결제를 진행 할 수 없습니다.');
-          
-          //결제가 아직 진행중이라면 결제명세서 전송과정을 마저 진행한다.  
-          }else {
+          if (result == 'done') {
+            alert('status( ' + result + ') : 결제가 완료되어 결제를 진행 할 수 없습니다.');
+
+            //결제가 아직 진행중이라면 결제명세서 전송과정을 마저 진행한다.  
+          } else {
             $('#messages').append($('<li class="even">').html(name + ' : ' + tag));//명세서를 채팅방에 뿌려준다.
             $(document).scrollTop($(document).height());//스크롤 최하단.
             socket.emit('socket_sendAcc', num, name, tag);//서버를 통한 결제명세서 메시지를 상대방에게 전송한다.
@@ -400,12 +427,12 @@ var subDate;
         }
 
       })
-      
-      
-      var tag = $('#pro_data').html(); // 체팅방에 박혀있는 상품 정보 테그들
-      
 
-     
+
+      var tag = $('#pro_data').html(); // 체팅방에 박혀있는 상품 정보 테그들
+
+
+
     });
 
 
@@ -520,6 +547,7 @@ var subDate;
       //socket의 emit()함수가 없어서 전송도 안됨 ㅎㅎ
       return func_qr();
     });
+    // 체팅방 나갔을때
     $('#room_out').click(function () {
       console.log('Room Out // no.' + num + ' room //left user name : ', name);
       if (confirm("채팅내역도 함께 삭제됩니다. 정말 나가시겠습니까?") == true) {    //확인
@@ -531,12 +559,15 @@ var subDate;
         return false;
       }
     });
+
     socket.on('room_out', (num, name) => {// 소켓에 room_out신호가 온다면
       $('.nullmenu').css("display", "none");//상대방이 없다면 사용불가의 메뉴:입력태그, send버튼, 채팅방나가기를 제외한 추가기능들을 안보이게한다.
       $('#messages').append($('<li class="system">').text('System : ' + name + ' 회원님이 방을 탈주하셨습니다.  '));//시스템메시지 상대방이 나갔다고 알려준다.
       $('#status').text = 'out';//방의 상태를 out으로 지정
       window.location.search = '?room_id=' + num + '&talker=out';//url의 queryString도 나갔다고 바꿔준다. 새로고침이 되어도 out값을 가지기에 .nullMenu들이 여전히 안보여진다.
     });
+
+    // 재약 조건걸기 
     var i = 0;
     $('form').submit(() => {// Enter칠때마다 Send 할때마다 실행
       if ($('#m').val() == "") {
@@ -557,6 +588,8 @@ var subDate;
         
     });*/
 
+
+    // 체팅 메세지 하기 =====================================================
     socket.on('chat message', (name, msg) => {// 소켓에 신호가 오면 chat message 기능 실행.
       if (name == $('#nickname').text()) {//날아온 메시지의 이름이 세션의 닉네임과 같다면
         $('#messages').append($('<li class="even">').text(name + '  :  ' +
@@ -570,6 +603,7 @@ var subDate;
       $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
     });
   });
+  // ================= end 체팅 메세지 하기 =====================================================
   // 채팅방 전체기능
 
 

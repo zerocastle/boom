@@ -59,7 +59,7 @@ public class ProductionService implements IProductionService {
 
 	@Override
 	public List<IndexProductionDTO> productionListJoin(String cate_code) { // TODO Auto-generated method stub
-																			// log.info("상품 리스트 별로 출력");
+		log.info(cate_code + ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");														// log.info("상품 리스트 별로 출력");
 		return mapper.productionListJoin(cate_code);
 	}
 
