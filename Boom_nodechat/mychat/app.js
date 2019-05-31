@@ -569,7 +569,7 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
   });
 
   // 모든상황 마무리_테스트
-  socket.on('confirm_test', function (pro_num, room_id, tag) {
+  socket.on('confirm_test', function (pro_num, room_id, tag,seller,buyer) {
 
     var query1 = "UPDATE PRODUCTION SET STATE_MSG = 3 WHERE PRO_NUM = " + pro_num;
 
@@ -580,15 +580,14 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
     +"where a.pro_num = b.pro_num and a.state_msg = 3";
 
     var query3 = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL,0,'"+room_id+"','"+tag+"')";
-
-
     console.log("테스트~~ ");
     console.log(query1);
     console.log(query2);
 
     conn.execute(query1,function(err,result){
       console.log(result);
-      console.log(err);
+      var seller_nickname;
+      var buyer_nickname;
       // 업데이트가 성공하는 시점
       if(result.rowsAffected == 1){
         conn.execute(query2,function(err,result){
@@ -601,21 +600,14 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
             console.log(result);
             // 들고온 것에 대해서 메세지 인서트
             if(result.rowsAffected == 1){
-              console.log('메세지');
-              var fuck = 'fuck'
-              io.to(room_id).emit('confirm_test',fuck);
+              console.log(tag + '>>>>>>>>>>>>>>>>>>>>>>>');
+              io.to(room_id).emit('confirm_test',tag);
             }
-          })
-        })
+          });
+
+        });
       }
     })
-
-    // conn.execute(query2,function(err,result){
-    //   console.log(result);
-    //   console.log(err);
-    // });
-
-    // io.to(num).emit('confirm_test', pro_byn)
 
   })
 

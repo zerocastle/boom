@@ -375,22 +375,19 @@ var subDate;
     $('#confirm_test').click(function (e) {
       var pro_num = $('#pro_num').text();
       var room_id = $('#room_id').text();
-      var tag = "<div>거래는 만족 스러웠나요??</div>"+
-      "<div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div>"
-      +"<div><input type=''text'' class=''confirm_test''/> <button</div>";
+      var tag = "<ol><div>거래는 만족 스러웠나요??</div>" +
+        "<div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div>"
+        + "<div style=''color:black''><input type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>";
       console.log(pro_num);
-      socket.emit('confirm_test', pro_num, room_id, tag);
+      var seller = $('#seller').text();
+      var buyer = $('#buyer').text();
+      socket.emit('confirm_test', pro_num, room_id, tag ,seller,buyer);
 
     })
 
     // 최종 마무리
     socket.on('confirm_test', function (tag) {
-      console.log('hellow');
       window.location.reload();
-      $('#messages').append($('<li class="system">').text('System : ' + fuck + ' 평가해.  '));
-
-      // console.log('ㅠ,.ㅠ');
-
     })
 
     // 결제 완료시 영수증 ========================================================
