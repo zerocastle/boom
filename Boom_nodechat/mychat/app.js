@@ -595,13 +595,13 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
           var seller_num = result.rows[0][0]; // 판매자
           var buyer_num = result.rows[0][1]; //구매자
           var room_id = result.rows[0][2]; // 체팅방
-
           conn.execute(query3,function(err,result){
             console.log(result);
             // 들고온 것에 대해서 메세지 인서트
             if(result.rowsAffected == 1){
               console.log(tag + '>>>>>>>>>>>>>>>>>>>>>>>');
-              io.to(room_id).emit('confirm_test',tag);
+              var test = 'test';
+              io.to(room_id).emit('confirm_test',test);
             }
           });
 

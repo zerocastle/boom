@@ -57,10 +57,20 @@
       <div id="room_id" style="display:none;"><%=roomid%></div>
       <div id="status" style="display:none;"><%=rstatus%></div>
       <script>
+        // me 
         $(document).ready(function () {
+          $('.me').hide(); //
+          $('.other').hide(); 
+          var room_id = $('#room_id').text();
+          var seller = $('#seller').text();
 
+          var seller = $('#seller').text();
+          var buyer = $('#buyer').text();
+          var me = $('#nickname').text();
+          other = (me == seller) ? buyer : seller;
+          $('.me').show();
         });
-        var mknickname = sessionStorage.getItem('nickname');
+        // var mknickname = sessionStorage.getItem('nickname');
       </script>
       <!--메시지 목록 출력 : 약속 시간 , 장소 협의의 발신자와 수신자 구분처리-->
       <%  
@@ -375,18 +385,31 @@ var subDate;
     $('#confirm_test').click(function (e) {
       var pro_num = $('#pro_num').text();
       var room_id = $('#room_id').text();
-      var tag = "<ol><div>거래는 만족 스러웠나요??</div>" +
-        "<div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div>"
-        + "<div style=''color:black''><input type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>";
-      console.log(pro_num);
       var seller = $('#seller').text();
       var buyer = $('#buyer').text();
-      socket.emit('confirm_test', pro_num, room_id, tag ,seller,buyer);
+      var me; var other;
+
+      var me = $('#nickname').text();
+      other = (me == seller) ? buyer : seller;
+      window.alert(me);
+      window.alert(other);
+      // 내방이 아닌 다른 사람 메세지 내 방에서는 감춰야 함
+      var tag = "<ol class=''other''><div>" + me + "과의 거래는 만족 스러웠나요??</div>" +
+        "<div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div>"
+        + "<div style=''color:black''><input type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>"
+
+        + "<ol class=''me''><div>" + other + "거래는 만족 스러웠나요??</div>"
+        + "<div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div>"
+        + "<div style=''color:black''><input type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>";
+      console.log(pro_num);
+      socket.emit('confirm_test', pro_num, room_id, tag, seller, buyer);
 
     })
 
     // 최종 마무리
-    socket.on('confirm_test', function (tag) {
+    socket.on('confirm_test', function (test) {
+      // window.location.reload();
+      window.alert('test' + test);
       window.location.reload();
     })
 
