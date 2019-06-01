@@ -187,15 +187,21 @@ app.post('/jumsu', function (req, res) {
   console.log(req.body.sender + '>>>>>>>>>' + req.body.score);
   var sender = req.body.sender;
   var score = req.body.score;
-  var query1 = "update member set manner_pick = (manner_pick + 1) where nickname = '" + sender + "';";
-  var query2 = "update member c set c.manner = (select (manner/manner_pick) from member where 'ring321' in (select b.seller_name from production a , payment b where a.pro_num = b.pro_num and a.state_msg = 3) and nickname = '" + other + "') where c.nickname = '" + other + "'";
+  var query1 = "update member a set a.manner = " + score + " where nickname = '" + sender + "'";
+  var query2 = "update member set manner_pick = (manner_pick + 1) where nickname = '" + sender + "'";
+  var query3 = "update member c set c.manner = (select (manner/manner_pick) from member where '" + sender + "' in (select b.seller_name from production a , payment b where a.pro_num = b.pro_num and a.state_msg = 3) and nickname = '" + sender + "') where c.nickname = '" + sender + "'";
 
   conn.execute(query1, function (err, result) {
     console.log(result);
     if (result.rowsAffected == 1) {
-      conn.execute(query2,function(err,result){
-        if(result.rowsAffected == 1){
-          console.log('평가 완료');
+      conn.execute(query2, function (err, result) {
+        if (result.rowsAffected == 1) {
+          conn.execute(query3, function (err, result) {
+            if (result.rowsAffected == 1) {
+              console.log('평가 완료');
+            }
+          })
+
         }
       })
     }
