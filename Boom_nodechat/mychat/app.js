@@ -180,6 +180,33 @@ app.get('/doChat2', (req, res) => {
 });
 
 
+// 평가 하는 컨트롤러===================================================================================
+
+app.post('/jumsu', function (req, res) {
+
+  console.log(req.body.sender + '>>>>>>>>>' + req.body.score);
+  var sender = req.body.sender;
+  var score = req.body.score;
+  var query1 = "update member set manner_pick = (manner_pick + 1) where nickname = '" + sender + "';";
+  var query2 = "update member c set c.manner = (select (manner/manner_pick) from member where 'ring321' in (select b.seller_name from production a , payment b where a.pro_num = b.pro_num and a.state_msg = 3) and nickname = '" + other + "') where c.nickname = '" + other + "'";
+
+  conn.execute(query1, function (err, result) {
+    console.log(result);
+    if (result.rowsAffected == 1) {
+      conn.execute(query2,function(err,result){
+        if(result.rowsAffected == 1){
+          console.log('평가 완료');
+        }
+      })
+    }
+
+  })
+
+
+
+})
+
+
 //QR 코드 부분===============================================================
 app.get('/testQR', (req, res) => {
   console.log('@@@@@@@@@@@@@@@@@@@@@   QR코드를 통한 접근  @@@@@@@@@@@@@@');
@@ -569,39 +596,39 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
   });
 
   // 모든상황 마무리_테스트
-  socket.on('confirm_test', function (pro_num, room_id, tag,seller,buyer) {
+  socket.on('confirm_test', function (pro_num, room_id, tag, seller, buyer) {
 
     var query1 = "UPDATE PRODUCTION SET STATE_MSG = 3 WHERE PRO_NUM = " + pro_num;
 
     var query2 = "select (select m_num from member where nickname = b.buyer_name)as seller, "
-    +"(select m_num from member where nickname = b.seller_name) as buyer, "
-    + "(select room_id from chatroom where room_id = "+room_id+") as room_id "
-    +"from production a , payment b "
-    +"where a.pro_num = b.pro_num and a.state_msg = 3";
+      + "(select m_num from member where nickname = b.seller_name) as buyer, "
+      + "(select room_id from chatroom where room_id = " + room_id + ") as room_id "
+      + "from production a , payment b "
+      + "where a.pro_num = b.pro_num and a.state_msg = 3";
 
-    var query3 = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL,0,'"+room_id+"','"+tag+"')";
+    var query3 = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL,0,'" + room_id + "','" + tag + "')";
     console.log("테스트~~ ");
     console.log(query1);
     console.log(query2);
 
-    conn.execute(query1,function(err,result){
+    conn.execute(query1, function (err, result) {
       console.log(result);
       var seller_nickname;
       var buyer_nickname;
       // 업데이트가 성공하는 시점
-      if(result.rowsAffected == 1){
-        conn.execute(query2,function(err,result){
+      if (result.rowsAffected == 1) {
+        conn.execute(query2, function (err, result) {
           console.log(result.rows);
           var seller_num = result.rows[0][0]; // 판매자
           var buyer_num = result.rows[0][1]; //구매자
           var room_id = result.rows[0][2]; // 체팅방
-          conn.execute(query3,function(err,result){
+          conn.execute(query3, function (err, result) {
             console.log(result);
             // 들고온 것에 대해서 메세지 인서트
-            if(result.rowsAffected == 1){
+            if (result.rowsAffected == 1) {
               console.log(tag + '>>>>>>>>>>>>>>>>>>>>>>>');
               var test = 'test';
-              io.to(room_id).emit('confirm_test',test);
+              io.to(room_id).emit('confirm_test', test);
             }
           });
 

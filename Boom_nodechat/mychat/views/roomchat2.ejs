@@ -1,4 +1,4 @@
-<!-- /* socket\room_chat\views\chat.ejs */ -->
+/* socket\room_chat\views\chat.ejs */
 <html>
 
 <head>
@@ -57,19 +57,15 @@
       <div id="room_id" style="display:none;"><%=roomid%></div>
       <div id="status" style="display:none;"><%=rstatus%></div>
       <script>
-        // me 
+        // 평가지 보여주는 부분
+        //============================================================================================================================
         $(document).ready(function () {
-          $('.me').hide(); //
-          $('.other').hide(); 
-          var room_id = $('#room_id').text();
-          var seller = $('#seller').text();
-
-          var seller = $('#seller').text();
-          var buyer = $('#buyer').text();
-          var me = $('#nickname').text();
-          other = (me == seller) ? buyer : seller;
+         
           $('.me').show();
+          $('.other').empty();
+
         });
+        //============================================================================================================================
         // var mknickname = sessionStorage.getItem('nickname');
       </script>
       <!--메시지 목록 출력 : 약속 시간 , 장소 협의의 발신자와 수신자 구분처리-->
@@ -396,11 +392,11 @@ var subDate;
       // 내방이 아닌 다른 사람 메세지 내 방에서는 감춰야 함
       var tag = "<ol class=''other''><div>" + me + "과의 거래는 만족 스러웠나요??</div>" +
         "<div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div>"
-        + "<div style=''color:black''><input type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>"
+        + "<div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>"
 
-        + "<ol class=''me''><div>" + other + "거래는 만족 스러웠나요??</div>"
+        + "<ol class=''me''><div>" + other + "과의 거래는 만족 스러웠나요??</div>"
         + "<div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div>"
-        + "<div style=''color:black''><input type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>";
+        + "<div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>";
       console.log(pro_num);
       socket.emit('confirm_test', pro_num, room_id, tag, seller, buyer);
 
@@ -681,5 +677,42 @@ var subDate;
 .fail(function(){ console.log("요청 실패시 호출") })
 
 .always(function(){ console.log("성공 실패 상관없이 호출") }) -->
+
+<script>
+  $(function () {
+
+    $('.jumsu').on("click", function () {
+
+      var seller = $('#seller').text();
+      var buyer = $('#buyer').text();
+      var me = $('#nickname').text();
+      other = (me == seller) ? buyer : seller;
+
+      var tempScore = $(this).parent().find('.confirm_test').val();
+      window.alert(tempScore);
+      var score = parseInt(tempScore);
+      window.alert('score : ' + score);
+      window.alert('sender : ' + me);
+      var data = {
+        sender : other,
+        score : score
+      };
+      $.ajax({
+        type: 'POST',
+        url: '/jumsu',
+        data: data,
+        success: function (data) {
+          alert('success');
+        },
+        error: function (err) {
+          alert(err);
+        }
+
+      })
+    });
+
+  })
+</script>
+
 </body>
 </html>
