@@ -75,6 +75,9 @@
                         $('#state_msg1').css('display', 'block');
                     }else if(result.state_msg ==2){
                         $('#state_msg2').css('display', 'block');
+                    }else if(result.state_msg == 3){
+                        alert('거래가 완료된 상품입니다, 이전 페이지로 이동합니다.');
+                        window.shouldClose = true;
                     }
                     $('#state_msg').text(result.state_msg);
                 }
@@ -98,7 +101,7 @@
         /**직플레이스 part_name과 상품번호로 해당 직플레이스 파트너의 닉네임값과 거래 상태를 가져오기 위한 ajax 통신.*/
         
         $('#in_accept').click(function(){
-            alert('마! 입고하나!');
+            if(!confirm('상품을 정말 입고 하시겠습니까?')){return false;}
             $.ajax({
                 type : 'post',
                 url : 'http://39.127.7.47:3000/api/QRpartner/accept',//QRpartner.js/inAccept
@@ -110,6 +113,7 @@
                 success : function(result){
                     console.log('1 승인 성공');
                     qrToken('<%=place%>','<%=title%>','직플레이스 입고완료','<%=seller_name%>','<%=buyer_name%>');
+                    window.shouldClose = true;
                 },
                 error : function(err){
                     alert('에러 발생' + err, err);
@@ -124,7 +128,7 @@
             window.shouldClose = true;
         });
         $('#out_accept').click(function(){
-            alert('마! 입고하나!');
+            if(!confirm('상품을 정말 출고 하시겠습니까?')){return false;}
             $.ajax({
                 type : 'post',
                 url : 'http://39.127.7.47:3000/api/QRpartner/accept',//QRpartner.js/inAccept
@@ -136,6 +140,7 @@
                 success : function(result){
                     qrToken('<%=place%>','<%=title%>','직플레이스 출고완료','<%=seller_name%>','<%=buyer_name%>');
                     console.log('2 승인 성공');
+                    window.shouldClose = true;
                 },
                 error : function(err){
                     alert('에러 발생' + err, err);

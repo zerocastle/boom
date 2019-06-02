@@ -1,10 +1,44 @@
 $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
 console.log('chat.js 호출성공');
+//새로고침을 위한 함수.
 var ref = function () {
   $(document).scrollTop($(document).height());
   window.location.reload();
   $(document).scrollTop($(document).height());
 }
+//새로고침을 위한 함수.
+
+//채팅방 로딩할 때마다 QR코드를 만들어준다. 
+var road_and_QR = function () {
+              
+  var seller = $('#seller').text();
+  var buyer = $('#buyer').text();
+  var pro_num = $('#pro_num').text();
+  for (var i = 0; i < document.getElementsByClassName("qrcode").length; i++) {
+    //var muid = $('.qrcode').text();
+    var muid = $(".qrcode")[i].innerHTML;
+    console.log(muid);
+    var qrcode = new QRCode(document.getElementsByClassName("qrcode")[i], {
+      text: "http://39.127.7.47:3000/testQR?muid=" + muid,
+      width: 350,
+      height: 350,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  }
+}
+//채팅방 로딩할 때마다 QR코드를 만들어준다. 
+
+
+road_and_QR();//함수 call stack 구조에 의해 앞부분에서 실행시켜야 원하는 동작에 지장이 없을듯 하다.
+
+
+
+
+
+
+
 //토큰을 이용해 푸시알림을 보내는 함수. 종종쓰입니다.
 var sendToken = function(msg, title, sender){
   var otherToken = $('#otherToken').text();
@@ -174,7 +208,7 @@ $(document).ready(function(){
       $('#bcate_name').text(jprod.cate_name);
       $('#bcontent').text(jprod.content);
       $('#bprice').text(jprod.price);
-      $('#bp_quality').text(jprod.p_quality);
+      $('#b_quality').text(jprod.p_quality);
       $('#bplace_pick').text(jprod.place_pick);
       var subDate;
       var jsonoobj = {};

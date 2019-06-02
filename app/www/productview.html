@@ -644,7 +644,7 @@ a{
                 <div class="fo_price"></div>
                 
                 <div class="talk">
-                <button class="jiktalk">직톡으로 거래하기</button>
+                <button class="doChat">직톡으로 거래하기</button>
                 </div>
            
             </div>
@@ -717,6 +717,8 @@ a{
 
 
 </body>
+
+
  <script>
     var slideIndex = 0;
     showSlides();
@@ -741,6 +743,10 @@ a{
 
 
 <script>
+    
+
+
+
 	//매너게이지
     $(function () {
 			var jack = 2525;
@@ -774,7 +780,53 @@ a{
 
 			$('#zero').click(function () {
                 startFoo();
-			});
+            });
+            
+
+
+
+
+            ///채팅신청
+            $('.doChat').click(function(){
+                
+                var member = JSON.parse(sessionStorage.getItem('member'));
+                if(!member){
+                    alert("로인을 먼저 해주세요");
+                    return ;
+                }
+                alert('닉네임 체크 : ' + member.nickname);
+                var pro_num = $('#hidePnum').text();//상품번호
+                var m_num = $('#hideMnum').text();//판매자넘버
+               
+                if(member.nickname == $('.other-name').text()){
+                    alert('해당 판매글을 작성한 판매자 계정입니다, 채팅을 진행 할 수 없습니다.');
+                }
+                else{
+                    var doChatUrl = "http://39.127.7.47:3000/api/createRoom";
+                    $.ajax({
+                        type: 'post',
+                        data: {pro_num : pro_num,
+                               seller_num : m_num,
+                               buyer_nickname : member.nickname},
+                        dataType: 'json',
+                        url: doChatUrl, 
+                        success: function (data) {
+                            window.location.href='chatRoom.html?'+data.url;
+                            
+                        },
+                        error : function(err){
+                            alert('에러다 '  + err);
+                        }
+                    })
+
+                    
+                }
+            }); 
+
+
+
+
+
 		});
 
     </script>

@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var conn; // DB connection 객체가 될 변수
 var oracledb = require("oracledb"); //oracleDB import
+var FCM = require('fcm-node');
+var serverKey = 'AAAAhMJliMM:APA91bGealuQmtYLism-ypKkPEoR8VEVCFqvWsDBdpt9G7WvRZVX06u_QhIoEcebreTeLgyBp8DyqyfHWCQz9Mut8LNXPhiRf4lfInRsQHNCOGKnvgRRUCoMHNdRROX8Q6mEkpf5KfSj';
+var fcm = new FCM(serverKey);
 oracledb.autoCommit = true;//자동커밋
 oracledb.getConnection({// 커텍션 객체 생성
   user:"tom", //DB-name
@@ -12,9 +15,7 @@ oracledb.getConnection({// 커텍션 객체 생성
     }
     conn=con; //앞서 전역변수로 선언한 conn에 지역변수 커넥션 객체 con을 넣어준다.
 });
-var pushTokenBuyer = function(sellerToken, buyerToken, message, title, sender, res){
-    var FCM = require('fcm-node');
-    var serverKey = 'AAAAhMJliMM:APA91bGealuQmtYLism-ypKkPEoR8VEVCFqvWsDBdpt9G7WvRZVX06u_QhIoEcebreTeLgyBp8DyqyfHWCQz9Mut8LNXPhiRf4lfInRsQHNCOGKnvgRRUCoMHNdRROX8Q6mEkpf5KfSj';
+var pushTokenBuyer = function(sellerToken, buyerToken, message, title, sender, res, fcm){
     var push_data = {
         // 수신대상
         to: buyerToken,
@@ -39,7 +40,7 @@ var pushTokenBuyer = function(sellerToken, buyerToken, message, title, sender, r
         }
     };
     /** 아래는 푸시메시지 발송절차 */
-    var fcm = new FCM(serverKey);
+    
     fcm.send(push_data, function (err, response) {
         if (err) {
             console.error('Buyer Push메시지 발송에 실패했습니다.');
@@ -48,10 +49,11 @@ var pushTokenBuyer = function(sellerToken, buyerToken, message, title, sender, r
         }
         console.log('Buyer Push메시지가 발송되었습니다.');
         console.log(response);
-        res.send();
+        
     });
+    res.send();
 }
-var pushTokenSeller = function(sellerToken, buyerToken, message, title, sender, res){
+var pushTokenSeller = function(sellerToken, buyerToken, message, title, sender, res, fcm){
     var FCM = require('fcm-node');
     var serverKey = 'AAAAhMJliMM:APA91bGealuQmtYLism-ypKkPEoR8VEVCFqvWsDBdpt9G7WvRZVX06u_QhIoEcebreTeLgyBp8DyqyfHWCQz9Mut8LNXPhiRf4lfInRsQHNCOGKnvgRRUCoMHNdRROX8Q6mEkpf5KfSj';
     var push_data = {
@@ -78,7 +80,7 @@ var pushTokenSeller = function(sellerToken, buyerToken, message, title, sender, 
         }
     };
     /** 아래는 푸시메시지 발송절차 */
-    var fcm = new FCM(serverKey);
+    
     fcm.send(push_data, function (err, response) {
         if (err) {
             console.error('Seller Push메시지 발송에 실패했습니다.');
@@ -87,14 +89,15 @@ var pushTokenSeller = function(sellerToken, buyerToken, message, title, sender, 
         }
         console.log('Seller Push메시지가 발송되었습니다.');
         console.log(response);
-        return pushTokenBuyer(sellerToken, buyerToken, message, title, sender, res);
+        
     });
+    return pushTokenBuyer(sellerToken, buyerToken, message, title, sender, res, fcm);
     
 }
 
 router.post('/qrToken', function(req,res){
     console.log(req.body);
-    var qrTokenSql = "select token, nickname from member where nickname = '"+req.body.seller+"' or nickname ="+ req.body.buyer+ "'";
+    var qrTokenSql = "select token, nickname from member where nickname = '"+req.body.seller+"' or nickname ='"+ req.body.buyer+ "'";
     conn.execute(qrTokenSql, function(err, result){
         if(err){
             console.log('qrTokenSql 에러 : ' , err);
@@ -114,7 +117,7 @@ router.post('/qrToken', function(req,res){
                 }
                 console.log('seller : ' + sellerNick+ ',  sellerToken : '+sellerToken);
                 console.log('buyer : ' + buyerNick + ',  buyerToken : ' + buyerToken);
-                return pushTokenSeller(sellerToken, buyerToken, message, title, sender, res);
+                return pushTokenSeller(sellerToken, buyerToken, req.body.message, req.body.title, req.body.sender, res, fcm);
             }
         }
     });
@@ -232,6 +235,7 @@ router.post('/', function(req,res) {
 //로그인할때 클라이언트에서 토큰값을 생성. 이 updateToken에 해당 멤버의 닉네임과 토큰값을 전달할것이다.
 //그럼 그것들을 이용해 DB member테이블의 token 값을 업데이트 할 예정.
 //Member 테이블에 지정한 회원의 토큰정보 업데이트
+//1회 발송이 되게끔 해야함
 router.post('/updateToken', function(req,res) {
     var memberNickname = req.body.nickname;
     var memberToken = req.body.token;
@@ -281,6 +285,9 @@ router.post('/getToken', function(req,res) {
         if(err){
             console.log('/getToken err : ' + err);
         }else{
+            if(result.rows.length == 0){
+                
+            }
             resultToken = result.rows[0][0];
             console.log('/getToken 결과 : ' + req.body.nickname + '의 토큰 ' + resultToken);
             res.send(resultToken);

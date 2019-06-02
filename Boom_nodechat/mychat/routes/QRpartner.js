@@ -53,7 +53,7 @@ router.post('/accept', function(req,res) {
             console.log(err);
         } else {
             console.log("acceptSql's accepted rows : " + result);
-            res.send();
+            res.send({data: 'success'});
         }
     })
 });

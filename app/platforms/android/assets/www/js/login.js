@@ -37,7 +37,7 @@
                         FCMPlugin.getToken(function(token){
                             localStorage.setItem("token", token);
                             console.log("TOKEN FIREBASE : " + token + 'nickname :' + json2.nickname);
-                            alert("TOKEN FIREBASE : " + token + 'nickname :' + json2.nickname);
+                            alert('nickname :' + json2.nickname + "\n TOKEN FIREBASE : " + token );
                             $.ajax({
                                 type : 'post',
                                 url : 'http://39.127.7.47:3000/api/push/updateToken',
