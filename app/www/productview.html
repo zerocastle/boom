@@ -650,6 +650,24 @@ a{
             </div>
 
 
+
+        <div class="fas fa-arrow-left" onclick="history.back(-1); return false;"></div>
+
+
+        <div class="footer-line">
+
+            <div class="far fa-heart" style="color:red"></div>
+
+            <div class="foot_price">
+                <div class="fo_price"></div>
+                
+                <div class="talk">
+                <button class="doChat">직톡으로 거래하기</button>
+                </div>
+           
+            </div>
+
+
         </div>
     </div>
 
@@ -775,6 +793,178 @@ a{
 			$('#zero').click(function () {
                 startFoo();
 			});
+		});
+
+    </script>
+    
+
+    <script>
+            $('.btn-example').click(function(){
+              var $href = $(this).attr('href');
+              layer_popup($href);
+          });
+          function layer_popup(el){
+      
+              var $el = $(el);        //레이어의 id를 $el 변수에 저장
+              var isDim = $el.prev().hasClass('dimBg');   //dimmed 레이어를 감지하기 위한 boolean 변수
+      
+              isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
+      
+              var $elWidth = ~~($el.outerWidth()),
+                  $elHeight = ~~($el.outerHeight()),
+                  docWidth = $(document).width(),
+                  docHeight = $(document).height();
+      
+              // 화면의 중앙에 레이어를 띄운다.
+              if ($elHeight < docHeight || $elWidth < docWidth) {
+                  $el.css({
+                      marginTop: -$elHeight /2,
+                      marginLeft: -$elWidth/2
+                  })
+              } else {
+                  $el.css({top: 0, left: 0});
+              }
+      
+              $el.find('.btn-layerClose').click(function(){
+                  isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+                  return false;
+              });
+      
+              $('.layer .dimBg').click(function(){
+                  $('.dim-layer').fadeOut();
+                  return false;
+              });
+      
+          }
+      
+      
+        
+          $(function() {
+              $('#content').keyup(function (e){
+                  var content = $(this).val();
+                  // $(this).height(((content.split('\n').length + 1) * 1.5) + 'em');
+                  $('#counter').html(content.length + '/200');     
+              });
+              $('#content').keyup();
+        });
+
+        $(function(){
+            $('#other-nick').click(function(){
+                var name = $('#nickname').text();
+                window.location.href="other.html?name="+name;
+            });
+        });
+      
+      </script>
+
+ <script>
+    var slideIndex = 0;
+    showSlides();
+
+    function showSlides() {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("dot");
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) { slideIndex = 1 }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex - 1].style.display = "block";
+        dots[slideIndex - 1].className += " active";
+        setTimeout(showSlides, 50000); // Change image every 2 seconds
+    }
+</script>
+
+
+<script>
+    
+
+
+
+	//매너게이지
+    $(function () {
+			var jack = 2525;
+			function startFoo() {
+				var opts = {
+					angle: 0.15, // The span of the gauge arc
+					lineWidth: 0.44, // The line thickness
+					radiusScale: 1, // Relative radius
+					pointer: {
+						length: 0.51, // // Relative to gauge radius
+						strokeWidth: 0.077, // The thickness
+						color: '#000000' // Fill color
+					},
+					limitMax: false,     // If false, max value increases automatically if value > maxValue
+					limitMin: false,     // If true, the min value of the gauge will be fixed
+					colorStart: '#f70000',   // Colors
+					colorStop: '#f70000',    // just experiment with them
+					strokeColor: '#E0E0E0',  // to see which ones work best for you
+					generateGradient: true,
+					highDpiSupport: true,     // High resolution support
+
+				};
+				var target = document.getElementById('foo'); // your canvas element
+				var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+				gauge.maxValue = 3000; // set max gauge value
+				gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+				gauge.animationSpeed = 49; // set animation speed (32 is default value)
+				gauge.set(jack); // set actual value
+			}
+			startFoo();
+
+			$('#zero').click(function () {
+                startFoo();
+            });
+            
+
+
+
+
+            ///채팅신청
+            $('.doChat').click(function(){
+                
+                var member = JSON.parse(sessionStorage.getItem('member'));
+                if(!member){
+                    alert("로인을 먼저 해주세요");
+                    return ;
+                }
+                alert('닉네임 체크 : ' + member.nickname);
+                var pro_num = $('#hidePnum').text();//상품번호
+                var m_num = $('#hideMnum').text();//판매자넘버
+               
+                if(member.nickname == $('.other-name').text()){
+                    alert('해당 판매글을 작성한 판매자 계정입니다, 채팅을 진행 할 수 없습니다.');
+                }
+                else{
+                    var doChatUrl = "http://39.127.7.47:3000/api/createRoom";
+                    $.ajax({
+                        type: 'post',
+                        data: {pro_num : pro_num,
+                               seller_num : m_num,
+                               buyer_nickname : member.nickname},
+                        dataType: 'json',
+                        url: doChatUrl, 
+                        success: function (data) {
+                            window.location.href='chatRoom.html?'+data.url;
+                            
+                        },
+                        error : function(err){
+                            alert('에러다 '  + err);
+                        }
+                    })
+
+                    
+                }
+            }); 
+
+
+
+
+
 		});
 
     </script>

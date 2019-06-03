@@ -7,6 +7,9 @@ form {
     margin-block-end: 0em;
   }
 
+   ol{
+     font-size : 12px;
+   }
   form input {
     border: 0;
     padding: 10px;
@@ -38,7 +41,9 @@ form {
       margin: 0 0 60px 0;
       width:90%;
   }
-
+  #pro_data_ol p{
+    display:inline;
+  }
   .chat-box li {
   display: table;
   padding: 13px;

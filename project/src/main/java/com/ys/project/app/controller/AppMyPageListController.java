@@ -56,7 +56,7 @@ public class AppMyPageListController {
 		int result = service.appMemberUpdate(vo);
 		System.out.println("vo : "+vo);
 		if(result > 0) {
-			System.out.println("¾÷µ¥ÀÌÆ® ¼º°ø");
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½");
 			
 			String nickname = vo.getNickname();
 			vo = service.nickNameCheck(nickname);
@@ -64,7 +64,7 @@ public class AppMyPageListController {
 			return vo;
 			
 		}else {
-			System.out.println("½ÇÆÐ");
+			System.out.println("ï¿½ï¿½ï¿½ï¿½");
 			return vo;
 		}
 	}
@@ -72,7 +72,7 @@ public class AppMyPageListController {
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@PostMapping(value = "/fileupload")
 	public String fileupload() {
-		System.out.println("°ÅÄ§");
+		System.out.println("ï¿½ï¿½Ä§");
 		return null;
 		
 	}
@@ -149,7 +149,7 @@ public class AppMyPageListController {
 		MemberVO member = service.nickNameCheck(name);
 		System.out.println("otherPage : " + member);
 		int num = member.getM_num();
-	// --ÆäÀÌÂ¡ Ã³¸®
+	// --ï¿½ï¿½ï¿½ï¿½Â¡ Ã³ï¿½ï¿½
 
 		List<joinReviewVO> review = service.appReview(num);
 				
@@ -229,7 +229,7 @@ public class AppMyPageListController {
 	@PostMapping(value = "/ProductDelete")
 	public void appProductDelete(@RequestBody LikeListVO vo) throws Exception{
 		System.out.println("LikeListVO : "+vo);
-		// DBº¯°æ on cascade production_upload , likelist;
+		// DBï¿½ï¿½ï¿½ï¿½ on cascade production_upload , likelist;
 		service.appProductDelete(vo);
 	}
 }

@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="js/jquery-3.4.0.min.js"></script>
+    <script src="js/mypage.js"></script>
+    <link rel="stylesheet" href="css/mypage.css" />
+    <script src="cordova.js"></script>
     <title>Document</title>
     <!-- jquery 모바일 , jquery -->
     <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.5.css">
@@ -18,7 +22,7 @@
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
     <script src="https://www.amcharts.com/lib/4/charts.js"></script>
     <script src="https://www.amcharts.com/lib/4/themes/dataviz.js"></script>
-    <script src="js/chat.js"></script>
+    
 
     <!-- 폰트 -->
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&amp;subset=korean"
@@ -157,6 +161,9 @@
 
                 <button>회원탈퇴</button>
             </div>
+
+            
+            <div class="alert">ㅎㅎ</div>
         </div>
     </div>
 
@@ -187,7 +194,7 @@ $(document).ready(function() {
                 
                 if(data.partner_signal >= 1){
                     $('.partner').append(
-                        "<button class='ui-btn ui-shadow ui-corner-all'>직플파트너용 스캐너</button>"
+                        "<button id='scan' class='ui-btn ui-shadow ui-corner-all'>직플파트너용 QR스캐너</button>"
                     )
                 }
             },error : function(err){
@@ -222,6 +229,44 @@ $(document).ready(function() {
         window.location.href="register.html";
     });
 
+$(document.body).on('click', '#scan', function(){
+    cordova.plugins.barcodeScanner.scan(
+        function(result) {
+            var list = $("<ul>").append("<li>" + result.text + "</li>")
+                .append("<li>" + result.format + "</li>")
+                .append("<li>" + result.cancelled + "</li>");
+            
+            $(".alert").html(list);
+            
+            var nickname = JSON.parse(sessionStorage.getItem('member')).nickname;
+            var url = result.text + '&nickname=' + nickname;
+            alert(url);
+            var ref = cordova.InAppBrowser.open(url, '_blank', 'location=yes');
+            ref.addEventListener('loadstop', function(){
+                var loop = window.setInterval(function(){
+                    ref.executeScript({
+                        code:"window.shouldClose"
+                    },
+                    function(values){
+                        if(values[0]){
+                            ref.close();
+                            window.clearInterval(loop);
+                        }
+                    });
+                },100);
+            });
+        },
+        function(error) {
+            // 에러정보 표시
+            $(".alert").html(error);
+        }
+    );
+})
+/*
+$('#scan').click(function(){
+    
+});
+*/
     $('#pickList').click(function(){
         window.location.href="pick.html";
     });

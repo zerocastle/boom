@@ -13,12 +13,17 @@
   "author": "Apache Cordova Team",
   "license": "Apache-2.0",
   "dependencies": {
+    "cordova-plugin-barcodescanner": "^0.7.4",
     "cordova-plugin-camera": "^4.0.3",
+    "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-console": "^1.1.0",
     "cordova-plugin-dialogs": "^2.0.1",
+    "cordova-plugin-fcm-with-dependecy-updated": "^2.4.0",
     "cordova-plugin-file": "^6.0.1",
     "cordova-plugin-file-transfer": "^1.7.1",
     "cordova-plugin-geolocation": "^4.0.1",
+    "cordova-plugin-inappbrowser": "^3.0.0",
+    "cordova-plugin-intent": "git+https://github.com/napolitano/cordova-plugin-intent.git",
     "cordova-plugin-photo-library": "^2.2.1",
     "cordova-plugin-restful": "0.0.4",
     "cordova-plugin-save-image-gallery": "0.0.26"
@@ -31,13 +36,17 @@
       "cordova-plugin-whitelist": {},
       "cordova-plugin-camera": {},
       "cordova-plugin-restful": {},
+      "com.napolitano.cordova.plugin.intent": {},
+      "cordova-plugin-fcm-with-dependecy-updated": {},
+      "cordova-plugin-inappbrowser": {},
       "cordova-plugin-console": {},
       "cordova-plugin-dialogs": {},
       "cordova-plugin-file": {},
       "cordova-plugin-file-transfer": {},
       "cordova-plugin-geolocation": {},
       "cordova-plugin-photo-library": {},
-      "cordova-plugin-save-image-gallery": {}
+      "cordova-plugin-save-image-gallery": {},
+      "cordova-plugin-barcodescanner": {}
     },
     "platforms": []
   }

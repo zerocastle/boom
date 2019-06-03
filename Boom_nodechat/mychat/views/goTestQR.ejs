@@ -1,7 +1,159 @@
 <h1>환영합니다! QR코드 인증을 하셨군요!
 <hr>당신의 QR코드 접속을 환영합니다!, 서버의 콘솔에 환영의 메시지가 찍힐것입니다!</h1>
 <ul>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<style>
+.partnerBtnBlue{
+  width :200px;
+  height: 50px;
+  background-color : #AAAAFF;
+  font-size : 20px;
+}
+.partnerBtnRed{
+    width : 200px;
+  height: 50px;
+  background-color : #FF8888;
+  font-size : 20px;
+}
+</style>
+    <script>
+        $(document).ready(function(){
+            //타겟토큰. 
+            var qrToken = function(msg, title, sender, seller, buyer){
+                console.log('qrToken is ready for ' + seller + ' and ' +buyer);
+                if(seller != null && buyer != null){
+                    console.log("qrTokens are not null");
+                    $.ajax({
+                    url: "http://39.127.7.47:3000/api/push/qrToken",
+                    dataType: 'json',
+                    type: 'POST',
+                    data : {
+                            seller : seller, //판매자
+                            buyer : buyer, //구매자
+                            message : msg, //전송메시지
+                            title : title, //전송메시지 제목
+                            sender : sender}, //발신자
+                    success: function () {
+                        console.log("토큰전송ok");
+                    }
+                    });
+      } else {
+        console.log("other's token is null");
+      }
+    }
+            
+        /** 쿼리스트링 함수*/
+            $.urlParam = function(name){
+                var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+                if (results==null){
+                    return null;
+                }
+                else{
+                    return results[1] || 0;
+                }
+            }
+            console.log($.urlParam('nickname'));
+        /** 쿼리스트링 함수*/
+        
+        
+
+        /**직플레이스 part_name과 상품번호로 해당 직플레이스 파트너의 닉네임값과 거래 상태를 가져오기 위한 ajax 통신.*/
+            $.ajax({
+            type : 'post',
+            url : 'http://39.127.7.47:3000/api/QRpartner',//QRpartner.js
+            dataType : 'json',
+            data : {     
+                pro_num : '<%=pro_num%>', //상품 번호..?       
+                nickname : $.urlParam('nickname')//모바일 로그인세션 닉네임
+            },
+            success : function(result){
+                console.log('result.state_msg : ' + result.state_msg);
+                //해당 직플레이스의 직플파트너의 닉네임과 앱에서 로그인한 세션의 닉네임이 동일하다면
+                if(result.state == 'success'){
+                    alert('QR코드 접속을 환영합니다, 직플파트너 '+ $.urlParam('nickname') + '님');
+                    if(result.state_msg == 1){
+                        $('#state_msg1').css('display', 'block');
+                    }else if(result.state_msg ==2){
+                        $('#state_msg2').css('display', 'block');
+                    }else if(result.state_msg == 3){
+                        alert('거래가 완료된 상품입니다, 이전 페이지로 이동합니다.');
+                        window.shouldClose = true;
+                    }
+                    $('#state_msg').text(result.state_msg);
+                }
+                //쿼리 실행중 에러가 발생한다면
+                else if(result.state == 'error'){
+                    alert('에러가 발생했습니다.');
+                    window.shouldClose = true;
+                }
+                //쿼리 결과가 0개라면(PARTNER테이블의 part_name에 20~21번 라인에서 얻은 데이터가 없다면)
+                else if(result.state == 'false'){
+                    alert('해당 직플레이스에 대한 직플파트너 정보가 없습니다.')
+                    window.shouldClose = true;
+                }
+                //위 3가지 중 해당 사항이 하나도 없다면
+                else {
+                    alert('그럼 문제가 뭐야' + result);
+                    window.shouldClose = true;
+                }
+            }
+        });
+        /**직플레이스 part_name과 상품번호로 해당 직플레이스 파트너의 닉네임값과 거래 상태를 가져오기 위한 ajax 통신.*/
+        
+        $('#in_accept').click(function(){
+            if(!confirm('상품을 정말 입고 하시겠습니까?')){return false;}
+            $.ajax({
+                type : 'post',
+                url : 'http://39.127.7.47:3000/api/QRpartner/accept',//QRpartner.js/inAccept
+                dataType : 'json',
+                data : {     
+                    pro_num : '<%=pro_num%>', //상품 번호..?       
+                    state : 2
+                },
+                success : function(result){
+                    console.log('1 승인 성공');
+                    qrToken('<%=place%>','<%=title%>','직플레이스 입고완료','<%=seller_name%>','<%=buyer_name%>');
+                    window.shouldClose = true;
+                },
+                error : function(err){
+                    alert('에러 발생' + err, err);
+                    console.log(err);
+                }
+            });
+        });
+        $('#in_disaccept').click(function(){
+            window.shouldClose = true;
+        });
+        $('#out_disaccept').click(function(){
+            window.shouldClose = true;
+        });
+        $('#out_accept').click(function(){
+            if(!confirm('상품을 정말 출고 하시겠습니까?')){return false;}
+            $.ajax({
+                type : 'post',
+                url : 'http://39.127.7.47:3000/api/QRpartner/accept',//QRpartner.js/inAccept
+                dataType : 'json',
+                data : {     
+                    pro_num : '<%=pro_num%>', //상품 번호의 state_msg를 2로 바꾼다.       
+                    state : 3
+                },
+                success : function(result){
+                    qrToken('<%=place%>','<%=title%>','직플레이스 출고완료','<%=seller_name%>','<%=buyer_name%>');
+                    console.log('2 승인 성공');
+                    window.shouldClose = true;
+                },
+                error : function(err){
+                    alert('에러 발생' + err, err);
+                    console.log(err);
+                }
+            });
+        });
+    });
+    </script>
 <hr>
+<div style="display:none;" id="state_msg"></div>
+<div style="display:none;" id="place"><%=place%></div>
+<div style="display:none;" id="pro_num"><%=pro_num%></div>
 <li>결제코드 : <%=muid%></li>
 <li>IMP : <%=imp%></li><hr>
 <li>직플레이스 : <%=place%></li>
@@ -17,4 +169,12 @@
 <li>생성일 : <%=create_date%></li><hr>
 <li>가격 : <%=price%></li><hr>
 <li>상품번호 : <%=pro_num%></li><hr>
+<div id='state_msg1' style="display:none;">
+    <button id="in_accept" class='partnerBtnBlue' ><b>상품 입고 승인</b></button>
+    <button id="in_disaccept" class='partnerBtnRed'><b>상품 입고 거절</b></button>
+</div>
+<div id='state_msg2' style="display:none;">
+    <button id="out_accept" class='partnerBtnBlue' ><b>상품 출고 승인</b></button>
+    <button id="out_disaccept" class='partnerBtnRed' ><b>상품 출고 거절</b></button>
+</div>
 </ul>

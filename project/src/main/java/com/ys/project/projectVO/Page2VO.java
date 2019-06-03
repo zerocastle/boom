@@ -4,18 +4,18 @@ import lombok.Data;
 
 @Data
 public class Page2VO {
-    private int pageSize;  // ÇÑ ÆäÀÌÁö¿¡ º¸¿©ÁÙ °Ô½Ã±Û ¼ö
-    private int pageBlock; //ÆäÀÌÂ¡ ³×ºñ[ºí·Ï] »çÀÌÁî
-    private int pageNo;  // ÆäÀÌÁö ¹øÈ£
-    private int startRowNo; //Á¶È¸ ½ÃÀÛ row ¹øÈ£
-    private int endRowNo; //Á¶È¸ ¸¶Áö¸· now ¹øÈ£
-    private int firstPageNo; // Ã¹ ¹øÂ° ÆäÀÌÁö ¹øÈ£
-    private int finalPageNo; // ¸¶Áö¸· ÆäÀÌÁö ¹øÈ£
-    private int prevPageNo; // ÀÌÀü ÆäÀÌÁö ¹øÈ£
-    private int nextPageNo; // ´ÙÀ½ ÆäÀÌÁö ¹øÈ£
-    private int startPageNo; // ½ÃÀÛ ÆäÀÌÁö (ÆäÀÌÂ¡ ³×ºñ ±âÁØ)
-    private int endPageNo; // ³¡ ÆäÀÌÁö (ÆäÀÌÂ¡ ³×ºñ ±âÁØ)
-    private int totalCount; // °Ô½Ã ±Û ÀüÃ¼ ¼ö
+    private int pageSize;  // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½
+    private int pageBlock; //ï¿½ï¿½ï¿½ï¿½Â¡ ï¿½×ºï¿½[ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    private int pageNo;  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£
+    private int startRowNo; //ï¿½ï¿½È¸ ï¿½ï¿½ï¿½ï¿½ row ï¿½ï¿½È£
+    private int endRowNo; //ï¿½ï¿½È¸ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ now ï¿½ï¿½È£
+    private int firstPageNo; // Ã¹ ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£
+    private int finalPageNo; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£
+    private int prevPageNo; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£
+    private int nextPageNo; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£
+    private int startPageNo; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½Â¡ ï¿½×ºï¿½ ï¿½ï¿½ï¿½ï¿½)
+    private int endPageNo; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½Â¡ ï¿½×ºï¿½ ï¿½ï¿½ï¿½ï¿½)
+    private int totalCount; // ï¿½Ô½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½
 
     public void setTotalCount(int totalCount) {
         this.totalCount = totalCount;
@@ -24,46 +24,46 @@ public class Page2VO {
 
 	private void makePaging() {
 		// TODO Auto-generated method stub
-		 // ±âº» °ª ¼³Á¤
+		 // ï¿½âº» ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (this.totalCount == 0) return; 
-        if (this.pageNo == 0) this.setPageNo(1);   //±âº» ÆäÀÌÁö ¹øÈ£
-        if (this.pageSize == 0) this.setPageSize(8); //±âº» ÆäÀÌÁö ¸®½ºÆ® »çÀÌÁî
-        if (this.pageBlock == 0 ) this.setPageBlock(8); //±âº» ÆäÀÌÁö ³×ºñ[ºí·Ï] »çÀÌÁî
+        if (this.pageNo == 0) this.setPageNo(1);   //ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£
+        if (this.pageSize == 0) this.setPageSize(8); //ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        if (this.pageBlock == 0 ) this.setPageBlock(8); //ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×ºï¿½[ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         
-        //--[Ã¹ ÆäÀÌÁö], [¸¶Áö¸· ÆäÀÌÁö] °è»ê
-        int finalPage = (totalCount + (pageSize - 1)) / pageSize; // ¸¶Áö¸· ÆäÀÌÁö
-        this.setFirstPageNo(1);   // Ã¹ ¹øÂ° ÆäÀÌÁö ¹øÈ£
-        this.setFinalPageNo(finalPage); // ¸¶Áö¸· ÆäÀÌÁö ¹øÈ£
+        //--[Ã¹ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½], [ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½
+        int finalPage = (totalCount + (pageSize - 1)) / pageSize; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        this.setFirstPageNo(1);   // Ã¹ ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£
+        this.setFinalPageNo(finalPage); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£
         
-        //-- [ÀÌÀü] , [´ÙÀ½] ÆäÀÌÁö °è»ê
-        boolean isNowFirst = pageNo == 1 ? true : false;    // ½ÃÀÛ ÆäÀÌÁö (ÀüÃ¼)
-        boolean isNowFinal = pageNo == finalPage ? true : false;  // ¸¶Áö¸· ÆäÀÌÁö (ÀüÃ¼)
+        //-- [ï¿½ï¿½ï¿½ï¿½] , [ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+        boolean isNowFirst = pageNo == 1 ? true : false;    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½Ã¼)
+        boolean isNowFinal = pageNo == finalPage ? true : false;  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½Ã¼)
         if (isNowFirst) {
-            this.setPrevPageNo(1); // ÀÌÀü ÆäÀÌÁö ¹øÈ£
+            this.setPrevPageNo(1); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£
         } else {
-            this.setPrevPageNo(((pageNo - 1) < 1 ? 1 : (pageNo - 1))); // ÀÌÀü ÆäÀÌÁö ¹øÈ£
+            this.setPrevPageNo(((pageNo - 1) < 1 ? 1 : (pageNo - 1))); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£
         }
         if (isNowFinal) {
-            this.setNextPageNo(finalPage); // ´ÙÀ½ ÆäÀÌÁö ¹øÈ£
+            this.setNextPageNo(finalPage); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£
         } else {
-            this.setNextPageNo(((pageNo + 1) > finalPage ? finalPage : (pageNo + 1))); // ´ÙÀ½ ÆäÀÌÁö ¹øÈ£
+            this.setNextPageNo(((pageNo + 1) > finalPage ? finalPage : (pageNo + 1))); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£
         }
                 
-        //-- ÆäÀÌÂ¡ ³×ºñ[ºí·Ï]À» °è»ê
-        int startPage = ((pageNo - 1) / pageBlock) * pageBlock + 1; // ½ÃÀÛ ÆäÀÌÁö (ÆäÀÌÂ¡ ³×ºñ ±âÁØ)
-        int endPage = startPage + pageBlock - 1;      // ³¡ ÆäÀÌÁö (ÆäÀÌÂ¡ ³×ºñ ±âÁØ)
+        //-- ï¿½ï¿½ï¿½ï¿½Â¡ ï¿½×ºï¿½[ï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½ ï¿½ï¿½ï¿½
+        int startPage = ((pageNo - 1) / pageBlock) * pageBlock + 1; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½Â¡ ï¿½×ºï¿½ ï¿½ï¿½ï¿½ï¿½)
+        int endPage = startPage + pageBlock - 1;      // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½Â¡ ï¿½×ºï¿½ ï¿½ï¿½ï¿½ï¿½)
 
-        // ÆäÀÌÂ¡ ³×ºñ°¡ ¸¸¾à [20-30] ÀÎµ¥ ¸¶Áö¸· ÆäÀÌÁö°¡ 28 ÀÎ °æ¿ì 
-        // [29, 30] ÆäÀÌÁö´Â ÆäÀÌÂ¡ ³×ºñ¿¡ ¹Ì³ëÃâ ÇØ¾ß ÇÑ´Ù.
-        if (endPage > finalPage) { // [¸¶Áö¸· ÆäÀÌÁö (ÆäÀÌÂ¡ ³×ºñ ±âÁØ) > ¸¶Áö¸· ÆäÀÌÁö] º¸´Ù Å« °æ¿ì 
+        // ï¿½ï¿½ï¿½ï¿½Â¡ ï¿½×ºï¿½ ï¿½ï¿½ï¿½ï¿½ [20-30] ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 28 ï¿½ï¿½ ï¿½ï¿½ï¿½ 
+        // [29, 30] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Â¡ ï¿½×ºï¿½ ï¿½Ì³ï¿½ï¿½ï¿½ ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
+        if (endPage > finalPage) { // [ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½Â¡ ï¿½×ºï¿½ ï¿½ï¿½ï¿½ï¿½) > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½ï¿½ Å« ï¿½ï¿½ï¿½ 
             endPage = finalPage;  
         }
-        this.setStartPageNo(startPage); // ½ÃÀÛ ÆäÀÌÁö (ÆäÀÌÂ¡ ³×ºñ ±âÁØ)
-        this.setEndPageNo(endPage);  // ³¡ ÆäÀÌÁö (ÆäÀÌÂ¡ ³×ºñ ±âÁØ)
+        this.setStartPageNo(startPage); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½Â¡ ï¿½×ºï¿½ ï¿½ï¿½ï¿½ï¿½)
+        this.setEndPageNo(endPage);  // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½Â¡ ï¿½×ºï¿½ ï¿½ï¿½ï¿½ï¿½)
 
 
 
-        //--Á¶È¸ ½ÃÀÛ row, Á¶È¸ ¸¶Áö¸· row °è»ê
+        //--ï¿½ï¿½È¸ ï¿½ï¿½ï¿½ï¿½ row, ï¿½ï¿½È¸ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ row ï¿½ï¿½ï¿½
         int startRowNo = ( (pageNo-1) * pageSize ) + 1;
         int endRowNo = pageNo * pageSize; 
         setStartRowNo( startRowNo );
