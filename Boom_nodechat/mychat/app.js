@@ -1,5 +1,3 @@
-//한글깨져? can you read korean words? 한글안깨져?
-/* socket\room_chat\app.js */
 var express = require('express'); // express 서버 import
 
 
@@ -91,6 +89,13 @@ app.post('/payment', (req, res) => {
 //   var query = "update production set state_msg = 3 where pro_num =" + pro_num;
 
 // });
+
+app.get('/getSession',function(req,res){
+  var mocl = req.session.nickname;
+  console.log('요청??? ->' + mocl);
+  var responseData = {'getSession': mocl};
+  res.json(responseData);
+})
 
 
 app.get('/doChat2', (req, res) => {
@@ -187,10 +192,12 @@ app.post('/jumsu', function (req, res) {
   console.log(req.body.sender + '>>>>>>>>>' + req.body.score);
   var sender = req.body.sender;
   var score = req.body.score;
-  var query1 = "update member a set a.manner = " + score + " where nickname = '" + sender + "'";
+  var query1 = "update member a set a.manner = a.manner + " + score + " where nickname = '" + sender + "'";
   var query2 = "update member set manner_pick = (manner_pick + 1) where nickname = '" + sender + "'";
-  var query3 = "update member c set c.manner = (select (manner/manner_pick) from member where '" + sender + "' in (select b.seller_name from production a , payment b where a.pro_num = b.pro_num and a.state_msg = 3) and nickname = '" + sender + "') where c.nickname = '" + sender + "'";
-
+  var query3 = "update member c set c.manner = (select (manner/manner_pick) from member where nickname = '"+sender+"')where c.nickname = '"+sender+"'"; 
+  console.log(query1);
+  console.log(query2);
+  console.log(query3);
   conn.execute(query1, function (err, result) {
     console.log(result);
     if (result.rowsAffected == 1) {

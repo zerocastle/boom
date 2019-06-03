@@ -1,4 +1,3 @@
-/* socket\room_chat\views\chat.ejs */
 <html>
 
 <head>
@@ -59,10 +58,42 @@
       <script>
         // 평가지 보여주는 부분
         //============================================================================================================================
+        var getSession;
         $(document).ready(function () {
-         
-          $('.me').show();
-          $('.other').empty();
+          var nickname = $('nickname').text();
+          var get = function () {
+            $.ajax({
+              type: 'get',
+              url: '/getSession',
+              async: false,
+              success: function (data) {
+                // alert(data.getSession + "맞니??");
+                getSession = data.getSession;
+              }
+            })
+
+          }
+          get();
+ 
+          var me = document.getElementsByClassName('meme')[0].innerHTML;
+          var other = document.getElementsByClassName('otherother')[0].innerHTML;
+
+          $('.other').hide();
+          $('.me').hide();
+    
+          console.log(me);
+          console.log(other);
+          console.log(getSession);
+          if(getSession == me){
+            $('.other').show();
+          }else{
+            $('.me').show();
+          }
+          if(getSession == other){
+            $('.me').show();
+          }else{
+            $('.other').show();
+          }
 
         });
         //============================================================================================================================
@@ -184,6 +215,7 @@ var subDate;
 <script>
 
   $(() => {
+
     $.urlParam = function (name) {
       var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
       if (results == null) {
@@ -377,35 +409,55 @@ var subDate;
       socket.emit('leaveRoom', num, name);
     });
 
-    // 모든 에스크로 거래 상황 마무리_테스트
+    var getSession; // 세션값 들고와
+    // // 모든 에스크로 거래 상황 마무리_테스트
     $('#confirm_test').click(function (e) {
+
+      $.ajax({
+        type: 'get',
+        url: '/getSession',
+        async: false,
+        success: function (data) {
+          alert(data.getSession + "맞니??");
+          getSession = data.getSession;
+        }
+      });
+
       var pro_num = $('#pro_num').text();
       var room_id = $('#room_id').text();
+
       var seller = $('#seller').text();
       var buyer = $('#buyer').text();
-      var me; var other;
 
-      var me = $('#nickname').text();
-      other = (me == seller) ? buyer : seller;
-      window.alert(me);
-      window.alert(other);
+      var nickname = $('#nickname').text();
+      // var me; var other; var classme; var classother;
+      // me = getSession;
+
+      // if (nickname == me) {
+      //   classme = "me";
+      // }
+      // other = (me == seller) ? buyer : seller;
       // 내방이 아닌 다른 사람 메세지 내 방에서는 감춰야 함
-      var tag = "<ol class=''other''><div>" + me + "과의 거래는 만족 스러웠나요??</div>" +
+      window.alert(seller + '하핫');
+      window.alert(buyer + '하핫');
+      var tag = "<ol class=''me''><div><p style=''color:brown;'' class=''meme''>" + seller + "</p>과의 거래는 만족 스러웠나요??</div>" +
         "<div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div>"
         + "<div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>"
 
-        + "<ol class=''me''><div>" + other + "과의 거래는 만족 스러웠나요??</div>"
+        + "<ol class=''other''><div><p style=''color:brown;'' class=''otherother''>" + buyer + "</p>과의 거래는 만족 스러웠나요??</div>"
         + "<div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div>"
         + "<div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>";
       console.log(pro_num);
-      socket.emit('confirm_test', pro_num, room_id, tag, seller, buyer);
 
+      socket.emit('confirm_test', pro_num, room_id, tag, seller, buyer);
+     
     })
+
 
     // 최종 마무리
     socket.on('confirm_test', function (test) {
       // window.location.reload();
-      window.alert('test' + test);
+      window.alert('test?Hellow?' + test);
       window.location.reload();
     })
 
@@ -620,7 +672,7 @@ var subDate;
     });
   });
   // ================= end 체팅 메세지 하기 =====================================================
-  // 채팅방 전체기능
+  // 채팅방 전체기능=======================================================================
 
 
   //주소
@@ -678,24 +730,20 @@ var subDate;
 
 .always(function(){ console.log("성공 실패 상관없이 호출") }) -->
 
+<!--점수 버튼을 눌렀을때 적용 ======================================================-->
 <script>
   $(function () {
 
     $('.jumsu').on("click", function () {
 
-      var seller = $('#seller').text();
-      var buyer = $('#buyer').text();
-      var me = $('#nickname').text();
-      other = (me == seller) ? buyer : seller;
+     var sender = $(this).parent().parent().find('p').text();
+     var score = parseInt($(this).siblings().first().val());
 
-      var tempScore = $(this).parent().find('.confirm_test').val();
-      window.alert(tempScore);
-      var score = parseInt(tempScore);
-      window.alert('score : ' + score);
-      window.alert('sender : ' + me);
+     window.alert(sender + '' + score);
+
       var data = {
-        sender : other,
-        score : score
+        sender: sender,
+        score: score
       };
       $.ajax({
         type: 'POST',
@@ -710,6 +758,7 @@ var subDate;
 
       })
     });
+
 
   })
 </script>
