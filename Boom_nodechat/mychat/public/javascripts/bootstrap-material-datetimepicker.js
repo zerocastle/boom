@@ -445,7 +445,7 @@
                  this.showTime(this.currentDate);
 
                  this.initMeridienButtons();
-
+                  
                  if (this.currentDate.hour() < 12)
                  {
                     this.$dtpElement.find('a.dtp-meridien-am').click();

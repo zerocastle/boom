@@ -25,7 +25,7 @@
 ////		String choose = "pName";
 //		int pageNum = 1;
 //		int perPage = 13;
-//		String keyword = "ï¿½ï¿½ï¿½ï¿½";
+//		String keyword = "°­³²";
 //		mapper.searchSort(pageNum, perPage, choose, keyword);
 //	}
 //

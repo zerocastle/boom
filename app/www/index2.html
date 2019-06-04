@@ -627,7 +627,7 @@ height:100%;
 
             <div id="myModal" class='bPop'>
                 <div class="bPop modal-content">
-                  <iframe src="http://39.127.7.47:3000/api/daumJuso"id='daumIframe' style='display:none;'></iframe>
+                  <iframe src="http://39.127.7.51:3000/api/daumJuso"id='daumIframe' style='display:none;'></iframe>
                 </div>
     
         </div>
@@ -1000,7 +1000,7 @@ $(document).ready(function(){
       $('#daumIframe').css('display','block');
       var setInter = setInterval(function() {
           $.ajax({
-              url: 'http://39.127.7.47:3000/api/daumJuso/mobile',
+              url: 'http://39.127.7.51:3000/api/daumJuso/mobile',
               type : 'get',
               success : function(data){
                 if(data){

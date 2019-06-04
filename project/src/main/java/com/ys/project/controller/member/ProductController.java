@@ -29,34 +29,34 @@ public class ProductController {
 
 	private IProductionService service;
 
-	// ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
+	// »óÇ°¸ñ·ÏÀ¸·Î ÀÌµ¿
 	@RequestMapping(value = "/index_productList", method = RequestMethod.GET)
 	public String productList(Model model , String cate_code , Criteria3 cri3 ,  String order) {
 		
-//		Stack<IndexProductionDTO> stack = new Stack<>(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¶ï¿½ 
+//		Stack<IndexProductionDTO> stack = new Stack<>(); // ¿À¸§ Â÷¼øÀ¸·Î º¼¶ó°í ÇÒ¶§ 
 		
-		log.info("ï¿½ï¿½Ç°ï¿½ï¿½Ï·ï¿½ ï¿½Ìµï¿½ ï¿½Ñ´ï¿½.");
+		log.info("»óÇ°¸ñ·Ï·Î ÀÌµ¿ ÇÑ´Ù.");
 		/* String order = "desc"; */
 		int pageNum = cri3.getPageNum();
 		int amount = cri3.getAmount();
 		
 		List<IndexProductionDTO> dto = service.sort(order, cate_code, pageNum, amount);
 
-		log.info("ï¿½ï¿½ ï¿½ï¿½ ï¿½Ñ¿ï¿½ï¿½ï¿½ ? " + dto);
+		log.info("°ª ¸ð°¡ ³Ñ¿À¿Å ? " + dto);
 		model.addAttribute("production",JSONArray.fromObject(dto));
-		model.addAttribute("pageMaker", new PageDTO3(cri3, service.getTotalCount(cate_code))); // ï¿½ï¿½ï¿½â¿¡ï¿½Ù°ï¿½ count(*) ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		model.addAttribute("pageMaker", new PageDTO3(cri3, service.getTotalCount(cate_code))); // ¿©±â¿¡´Ù°¡ count(*) À» Àû¿ë
 //		model.addAttribute("switchPage","../floatSection/productList.jsp");
 		return "/mainIndex/index-productList";
 
 	}
 
-	// ï¿½ï¿½Ç°ï¿½ó¼¼ºï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
+	// »óÇ°»ó¼¼º¸±â·Î ÀÌµ¿
 	@RequestMapping(value = "/index_productView", method = RequestMethod.GET)
 	public String productView(Model model, @RequestParam int pro_num) {
 
-//			logger.info("ï¿½ï¿½Ç°ï¿½ï¿½Ï·ï¿½ ï¿½Ìµï¿½ ï¿½Ñ´ï¿½.");
+//			logger.info("»óÇ°¸ñ·Ï·Î ÀÌµ¿ ÇÑ´Ù.");
 
-		log.info("ï¿½ï¿½Ç° ï¿½ó¼¼ºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¿ï¿½ï¿½ï¿½??" + pro_num);
+		log.info("»óÇ° »ó¼¼º¸±â ¹¹°¡ ³Ñ¿À¿È??" + pro_num);
 		
 		List<Map<String,Object>> list = service.totalFineByPro(pro_num);
 		log.info(""+list);

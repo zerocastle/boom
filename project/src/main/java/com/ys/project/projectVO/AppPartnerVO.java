@@ -10,12 +10,12 @@ public class AppPartnerVO {
    private String part_name;
    private String boss_name;
    private String part_phone;
-   private String zip_code; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
-   private String road_name; // ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½
-   private String addr; // ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½
-   private String detail_addr; // ï¿½ï¿½ï¿½Ö¼ï¿½
+   private String zip_code; // ¿ìÆí¹øÈ£
+   private String road_name; // µµ·ÎÁÖ¼Ò
+   private String addr; // Áö¹øÁÖ¼Ò
+   private String detail_addr; // »ó¼¼ÁÖ¼Ò
    private java.util.Date reg_date;
-   private String lag; // ï¿½ï¿½ï¿½ï¿½
-   private String lng; // ï¿½æµµ
-   private int m_num; // È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å°
+   private String lag; // À§µµ
+   private String lng; // °æµµ
+   private int m_num; // È¸¿ø Æ÷¸°Å°
 }

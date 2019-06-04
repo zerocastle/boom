@@ -1,4 +1,17 @@
 ﻿$(document).ready(function(){
+    var aaaa = function(nickname, token){
+        $.ajax({
+            type : 'post',
+            url : 'http://39.127.7.51:3000/api/push/updateToken',
+            data : { nickname : nickname, token : token  } ,
+            success : function(){},
+            error : function(err){}
+        });
+        return bbbb();
+    }
+    var bbbb = function(){
+        window.location.href="index.html";
+    }
     $('#login').click(function(){
 //        e.preventDefault();
         var id = $('#id').val();
@@ -38,20 +51,16 @@
                             localStorage.setItem("token", token);
                             console.log("TOKEN FIREBASE : " + token + 'nickname :' + json2.nickname);
                             alert('nickname :' + json2.nickname + "\n TOKEN FIREBASE : " + token );
-                            $.ajax({
-                                type : 'post',
-                                url : 'http://39.127.7.51:3000/api/push/updateToken',
-                                data : { nickname : json2.nickname, token : token  } 
-                            });
+                            aaaa(json2.nickname, token);
                         }, function (error) {
                             console.error(error);
                         });
                         //토큰생성 끝
 
-                    
+                        
                     //입력된 정보로 로그인정보 및 토큰생성정보를 각각 sessionStorage localStorage 에 저장한다.
                     //그 후 index 페이지로 이동.
-                    window.location.href="index.html";
+                  
                 }else
                     window.location.reload();
                 /*if(result=='ok'){

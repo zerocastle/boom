@@ -4,8 +4,8 @@ var conn; // DB connection 객체가 될 변수
 var oracledb = require("oracledb"); //oracleDB import
 oracledb.autoCommit = true;//자동커밋
 oracledb.getConnection({// 커텍션 객체 생성
-  user:"tom", //DB-name
-  password:"tom", //DB-password
+  user:"kys", //DB-name
+  password:"kys", //DB-password
   connectString:"localhost/orcl"},function(err,con){ //콜백함수. url/sid를 통해 접근하며 성공시 con 이라는 커넥션 객체 반환. 
     if(err){//에러가 있다면 실행
       console.log("접속에러",err);
@@ -56,6 +56,26 @@ router.post('/accept', function(req,res) {
             res.send({data: 'success'});
         }
     })
+});
+
+
+router.post('/getRoomid', function(req,res) {
+    var seller = req.body.seller;
+    var buyer = req.body.buyer;
+    var pro_num = req.body.pro_num;
+    var getRoomidSql = "select room_id from chatroom where pro_num = " + pro_num +" and seller_num = (select m_num from member where nickname = '"+seller+"') and  buyer_num = (select m_num from member where nickname = '"+buyer+"')";
+
+    conn.execute(getRoomidSql, function(err,result){
+        if(result.rows.length == 0){
+            console.log('에러발생 getRoomidSql');
+            res.send({'room_id':'error'});
+        } else {
+            var room_id = result.rows[0][0];
+            console.log('채팅방 아이디는 : '+ room_id);
+            res.send({'room_id':room_id})
+        }
+    });
+    
 });
 
 

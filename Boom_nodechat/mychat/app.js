@@ -627,13 +627,13 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
     console.log(query2);
 
     conn.execute(query1, function (err, result) {
-      console.log(result);
+      console.log(result);//rowAffected
       var seller_nickname;
       var buyer_nickname;
       // 업데이트가 성공하는 시점
       if (result.rowsAffected == 1) {
         conn.execute(query2, function (err, result) {
-          console.log(result.rows);
+          console.log(result.rows);// 결과가 2개나 뜬다.
           var seller_num = result.rows[0][0]; // 판매자
           var buyer_num = result.rows[0][1]; //구매자
           var room_id = result.rows[0][2]; // 체팅방
@@ -643,7 +643,7 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
             if (result.rowsAffected == 1) {
               console.log(tag + '>>>>>>>>>>>>>>>>>>>>>>>');
               var test = 'test';
-              io.to(room_id).emit('confirm_test', test);
+              io.to(room_id).emit('ref');
             }
           });
 
