@@ -100,7 +100,7 @@ $(document).ready(function(){
 	
 
 	// 매너 게이지
-	var manner = ${member.manner};
+	var manner = ${loginSession.manner};
 	   function startFoo(){
 	      var opts = {
 	              angle: 0.15, // The span of the gauge arc
@@ -338,6 +338,7 @@ $(function(){
 					<div class="other-manner-bottom">
 		         		<canvas id="foo" class="foo"></canvas>
 		      		</div>
+		      		<span style="color:red">${sessionScope.loginSession.manner_pick }</span>명이 평가 했습니다
 		      	</div>
 			</div>
 		</div>

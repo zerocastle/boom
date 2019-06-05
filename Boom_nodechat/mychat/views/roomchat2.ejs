@@ -80,6 +80,7 @@
 
           $('.other').hide();
           $('.me').hide();
+          $('.end').hide();
     
           console.log(me);
           console.log(other);
@@ -433,11 +434,11 @@ var subDate;
       
       window.alert(seller + '하핫');
       window.alert(buyer + '하핫');
-      var tag = "<ol class=''me''><div><p style=''color:brown;'' class=''meme''>" + seller + "</p>과의 거래는 만족 스러웠나요??</div>" +
+      var tag = "<ol class=''me''><div><p style=''color:brown;'' class=''meme''>" + seller + "</p>님과의 거래는 만족 스러웠나요??</div>" +
         "<div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div>"
         + "<div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>"
 
-        + "<ol class=''other''><div><p style=''color:brown;'' class=''otherother''>" + buyer + "</p>과의 거래는 만족 스러웠나요??</div>"
+        + "<ol class=''other''><div><p style=''color:brown;'' class=''otherother''>" + buyer + "</p>님과의 거래는 만족 스러웠나요??</div>"
         + "<div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div>"
         + "<div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu'' >전송하기</button></div></ol>";
       console.log(pro_num);
@@ -731,19 +732,25 @@ var subDate;
 
      var sender = $(this).parent().parent().find('p').text();
      var score = parseInt($(this).siblings().first().val());
-
+     var room_id = parseInt($('#room_id').text());
      window.alert(sender + '' + score);
 
       var data = {
         sender: sender,
-        score: score
+        score: score,
+        room_id : room_id
       };
       $.ajax({
         type: 'POST',
         url: '/jumsu',
         data: data,
         success: function (data) {
-          alert('success');
+          console.log(data.success);
+          if(data.success){
+            window.alert("성공적으로 평가를 완료 했습니다.");
+          }else{
+            window.alert("점수를 평가하는데 실패 했습니다.")
+          }
         },
         error: function (err) {
           alert(err);

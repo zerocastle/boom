@@ -17,5 +17,7 @@ public class MemberVO {
 	private int partner_signal;
 	private String acc_num;
 	private String acc_name;
+	private int manner_pick;
+	private int mannersum;
 
 }

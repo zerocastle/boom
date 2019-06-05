@@ -194,9 +194,11 @@ app.post('/jumsu', function (req, res) {
   console.log(req.body.sender + '>>>>>>>>>' + req.body.score);
   var sender = req.body.sender;
   var score = req.body.score;
-  var query1 = "update member a set a.manner = a.manner + " + score + " where nickname = '" + sender + "'";
+  var room_id = req.body.room_id;
+  var query1 = "update member a set a.mannersum = a.mannersum + " + score + " where nickname = '" + sender + "'";
   var query2 = "update member set manner_pick = (manner_pick + 1) where nickname = '" + sender + "'";
-  var query3 = "update member c set c.manner = (select (manner/manner_pick) from member where nickname = '"+sender+"')where c.nickname = '"+sender+"'"; 
+  var query3 = "update member c set c.manner = (select (mannersum/manner_pick) from member where nickname = '"+sender+"')where c.nickname = '"+sender+"'";
+  // var query4 = "update message set content = '<div class=''end'' steyle=''color:brown''>평가가 완료 되었습니다.</div></ol>' where room_id = "+room_id+"" ;
   console.log(query1);
   console.log(query2);
   console.log(query3);
@@ -208,6 +210,16 @@ app.post('/jumsu', function (req, res) {
           conn.execute(query3, function (err, result) {
             if (result.rowsAffected == 1) {
               console.log('평가 완료');
+              res.send({"success" : "success"});
+              // conn.execute(query4,function(err,result){
+              //   if(result.rowAffected == 1){
+              //     res.send({"success" : "success"});
+              //   }
+              //   else{
+              //     res.send({"success" : "error"});
+              //   }
+              // })
+              
             }
           })
 
