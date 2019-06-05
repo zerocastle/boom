@@ -21,8 +21,8 @@
 			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
 		<property name="jdbcUrl"
 			value="jdbc:log4jdbc:oracle:thin:@localhost:1521:orcl"></property>
-		<property name="username" value="tom"></property>
-		<property name="password" value="tom"></property>
+		<property name="username" value="kys"></property>
+		<property name="password" value="kys"></property>
 
 	</bean>
 
@@ -39,7 +39,7 @@
 			value="classpath:mybatis/mybatis-config.xml" />
 		<property name="mapperLocations"
 			value="classpath:mappers/**/*Mapper.xml"></property>
-			
+
 	</bean>
 
 
@@ -55,8 +55,8 @@
 		class="org.springframework.data.redis.core.StringRedisTemplate">
 		<property name="connectionFactory" ref="connectionFactory" />
 	</bean>
-	
-	
+
+
 	<!-- sqlSession 사용 부분 -->
 	<bean id="sqlSession_fdc"
 		class="org.mybatis.spring.SqlSessionTemplate"

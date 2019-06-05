@@ -150,7 +150,10 @@
 		
 		// 검색 누르기
 		$(".input-group-text").click(function(){
-			window.location.href=""
+			
+			var choose = $('.choose').val();
+			var keyword = $('.form-control').val();
+			window.location.href="/search?type="+choose+"&keyword="+keyword;
 		})
 
 	});
@@ -197,6 +200,8 @@
 								<option value="place">지역명</option>
 								<option value="pName">상품명</option>
 							</select>
+							
+							<!-- 상품 or 지역명 -->
 							 <input class="form-control my-0 py-1 red-border" type="text"
 								placeholder="상품명 , 지역명 입력" aria-label="Search" />
 

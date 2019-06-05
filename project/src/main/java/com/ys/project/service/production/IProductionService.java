@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.ys.project.projectDTO.Criteria3;
 import com.ys.project.projectDTO.IndexProductionDTO;
 
 public interface IProductionService {
@@ -28,12 +29,16 @@ public interface IProductionService {
 	public int getTotalCount(String cate_code);
 
 	// 검색 상품 리스트 정렬
-	public List<IndexProductionDTO> searchSort(@Param("pageNum") int pageNum,
-			@org.apache.ibatis.annotations.Param("perPage") int perPage,
-			@org.apache.ibatis.annotations.Param("choose") String choose);
+	public List<IndexProductionDTO> searchSort(Criteria3 cri3);
+
+	// 검색 토탈 카운트
+	public int searchGetTotalCount(@Param("type") String type, @Param("keyword") String keyword);
 
 	// 앱 상품 인덱스 리스트 불러오기
 	public List<IndexProductionDTO> appSort(@Param("order") String order,
 			@org.apache.ibatis.annotations.Param("cate_code") String cate_code);
+	
+	//앱 상품 검색
+	public List<IndexProductionDTO> appSearch(@Param("cate_code") String cate_code , @Param("order") String order , @Param("keyword") String keyword);
 
 }

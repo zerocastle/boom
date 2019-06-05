@@ -18,7 +18,6 @@
 */
 package org.apache.cordova;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -92,7 +91,6 @@ public class CordovaWebViewImpl implements CordovaWebView {
         init(cordova, new ArrayList<PluginEntry>(), new CordovaPreferences());
     }
 
-    @SuppressLint("Assert")
     @Override
     public void init(CordovaInterface cordova, List<PluginEntry> pluginEntries, CordovaPreferences preferences) {
         if (this.cordova != null) {
@@ -216,10 +214,8 @@ public class CordovaWebViewImpl implements CordovaWebView {
                 // TODO: What about params?
                 // Load new URL
                 loadUrlIntoView(url, true);
-                return;
             } else {
                 LOG.w(TAG, "showWebPage: Refusing to load URL into webview since it is not in the <allow-navigation> whitelist. URL=" + url);
-                return;
             }
         }
         if (!pluginManager.shouldOpenExternalUrl(url)) {

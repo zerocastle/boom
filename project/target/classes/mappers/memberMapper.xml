@@ -34,7 +34,7 @@
 		SELECT * FROM MEMBER WHERE
 		NICKNAME=#{nickname}
 	</select>
-
+	
 	<update id="memberUpdate" parameterType="MemberVO">
 		UPDATE MEMBER SET
 		phone=#{phone},
@@ -95,4 +95,132 @@
 		SELECT COUNT(NICKNAME) FROM MEMBER WHERE NICKNAME = #{nickname}
 	</select>
 	
+	<update id="appMemberUpdate" parameterType="MemberVO">
+		UPDATE MEMBER SET
+		phone=#{phone},
+		email=#{email},
+		intro=#{intro},
+		acc_num=#{acc_num},
+		acc_name=#{acc_name}
+		WHERE NICKNAME = #{nickname}
+	</update>
+	
+	<select id="totalPick" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM LIKELIST WHERE M_NUM = #{m_num}
+	</select>
+	
+	<select id="searchPick" parameterType="LikeListVO" resultType="int">
+		select count(*) from LIKELIST where pro_num = #{pro_num} AND m_num = #{m_num}
+	</select>
+	
+	<insert id="insertPick" parameterType="LikeListVO">
+		INSERT INTO LIKELIST(PRO_NUM , M_NUM) VALUES(#{pro_num} , #{m_num}) 
+	</insert>
+	
+	<select id="joinPick" parameterType="int" resultType="joinPickVO">
+		SELECT A.NICKNAME, A.M_NUM, B.PRO_NUM, B.TITLE, B.CONTENT , B.PRICE, B.ADDR, B.UUID, B.UPLOADPATH, B.FILENAME, B.REP FROM MEMBER A , 
+			(SELECT C.PRO_NUM, C.M_NUM, D.TITLE, D.CONTENT , D.PRICE, D.ADDR, D.UUID, D.UPLOADPATH , D.FILENAME, D.REP FROM LIKELIST C , 
+			    (SELECT E.PRO_NUM, E.TITLE, E.CONTENT , E.PRICE, E.ADDR, F.UUID, F.UPLOADPATH, F.FILENAME, F.REP FROM PRODUCTION E, PRODUCTION_UPLOAD F 
+			        WHERE E.PRO_NUM = F.PRO_NUM) D
+			WHERE C.PRO_NUM = D.PRO_NUM) B
+		WHERE A.M_NUM = B.M_NUM AND A.M_NUM = #{m_num} AND B.REP = 1
+	</select>
+	
+	<select id="joinPickPaging" parameterType="joinPickVO" resultType="joinPickVO">
+		<![CDATA[
+		    SELECT 
+			       AA.CREATE_DATE, AA.NICKNAME, AA.M_NUM, AA.PRO_NUM, AA.TITLE, AA.PRICE, AA.ADDR, AA.UUID, AA.UPLOADPATH, AA.FILENAME, AA.REP
+			    FROM (
+			        SELECT ROWNUM RNUM, S.*
+			        FROM (
+			            SELECT A.NICKNAME, A.M_NUM,B.CREATE_DATE, B.PRO_NUM, B.TITLE, B.PRICE, B.ADDR, B.UUID, B.UPLOADPATH, B.FILENAME , B.REP
+			            FROM MEMBER A , 
+		                    (SELECT C.PRO_NUM, C.M_NUM, C.CREATE_DATE, D.TITLE, D.PRICE, D.ADDR, D.UUID, D.UPLOADPATH , D.FILENAME ,D.REP FROM LIKELIST C , 
+		                        (SELECT E.PRO_NUM, E.TITLE, E.PRICE, E.ADDR, F.UUID, F.UPLOADPATH, F.FILENAME, F.REP FROM PRODUCTION E, PRODUCTION_UPLOAD F 
+		                            WHERE E.PRO_NUM = F.PRO_NUM) D WHERE C.PRO_NUM = D.PRO_NUM) B
+			            WHERE 1=1 AND A.M_NUM = B.M_NUM AND A.M_NUM = #{m_num} AND B.REP = 1
+			            ORDER BY B.CREATE_DATE DESC
+			        )S
+			    )AA
+			WHERE RNUM BETWEEN #{startRowNo} AND #{endRowNo}
+		]]>
+	</select>
+	
+	<select id="myPageList" parameterType="joinPickVO" resultType="joinPickVO">
+		SELECT 
+		    AA.PRO_NUM, AA.M_NUM, AA.TITLE, AA.PRICE, AA.ADDR, AA.UUID, AA.UPLOADPATH, AA.FILENAME, AA.REP
+			    FROM (
+			        SELECT ROWNUM RNUM, S.*
+			        FROM (
+			           SELECT A.PRO_NUM,A.M_NUM , A.TITLE,A.PRICE,A.ADDR ,B.UUID,B.UPLOADPATH ,B.FILENAME, B.REP FROM PRODUCTION A , PRODUCTION_UPLOAD B WHERE A.PRO_NUM = B.PRO_NUM AND A.M_NUM = #{m_num} AND B.REP = 1
+		               ORDER BY PRO_NUM DESC
+		        )S
+		    )AA
+		WHERE RNUM BETWEEN #{startRowNo} AND #{endRowNo}
+	</select>
+	
+	<select id="myPageListCount" parameterType="int" resultType="int">
+ 		SELECT COUNT(*) FROM PRODUCTION A , PRODUCTION_UPLOAD B WHERE A.PRO_NUM = B.PRO_NUM AND A.M_NUM = #{m_num} AND B.REP = 1
+	</select>
+	
+	<delete id="deletePick" parameterType="LikeListVO">
+		DELETE FROM LIKELIST WHERE M_NUM = #{m_num} AND PRO_NUM = #{pro_num}
+	</delete>
+	
+	<select id="getPickCount" parameterType="LikeListVO" resultType="int">
+		SELECT COUNT(*) FROM LIKELIST WHERE M_NUM = #{m_num} AND PRO_NUM = #{pro_num}
+	</select>
+	
+	<select id="appReview" parameterType="int" resultType="joinReviewVO">
+		SELECT A.PR_NUM , A.M_NUM , A.STARPOINT , A.REPLY , A.REPLYER , A.CREATE_DATE , B.NICKNAME , B.EMAIL , B.MANNER , B.IMG_PATH 
+		FROM PRODUCTIONREVIEW A , MEMBER B
+		WHERE A.M_NUM = B.M_NUM AND A.M_NUM = #{m_num}
+		ORDER BY A.CREATE_DATE DESC
+	</select>
+	
+	<select id="appOtherProduct" parameterType="int" resultType="joinProductVO">
+		SELECT 
+		    AA.PRO_NUM, AA.M_NUM, AA.TITLE, AA.PRICE, AA.ADDR, AA.CREATE_DATE, AA.UUID, AA.UPLOADPATH, AA.FILENAME, AA.REP
+		            FROM (
+		            SELECT ROWNUM RNUM, S.*
+		            FROM (
+		                SELECT A.PRO_NUM,A.M_NUM,A.TITLE,A.PRICE,A.ADDR,A.CREATE_DATE,B.UUID,B.UPLOADPATH ,B.FILENAME, B.REP FROM PRODUCTION A , PRODUCTION_UPLOAD B WHERE A.PRO_NUM = B.PRO_NUM AND A.M_NUM = #{m_num} AND B.REP = 1
+		             ORDER BY CREATE_DATE DESC
+		         )S
+		    )AA
+		WHERE RNUM BETWEEN 1 AND 3
+	</select>
+	
+	<select id="appOtherReview" parameterType="int" resultType="ProductionReviewVO">
+		SELECT 
+	        A.PR_NUM, A.STARPOINT, A.REPLY, A.REPLYER, A.CREATE_DATE, A.M_NUM
+	    FROM (
+	
+	        SELECT ROWNUM RNUM, S.*
+	
+	        FROM (
+	            SELECT PR_NUM, STARPOINT, REPLY, REPLYER, CREATE_DATE, M_NUM
+	
+	            FROM PRODUCTIONREVIEW
+	
+	            WHERE 1=1 AND M_NUM = #{m_num}
+	            ORDER BY PR_NUM DESC
+	        )S
+	    )A 
+		WHERE RNUM BETWEEN 1 AND 3
+	</select>
+	
+	<select id="appReviewCount" parameterType="int" resultType="int">
+    	SELECT COUNT(*)  FROM PRODUCTIONREVIEW WHERE M_NUM = #{m_num}
+	</select>
+	
+	<select id="appProduct" parameterType="int" resultType="joinProductVO">
+		SELECT * FROM PRODUCTION A , PRODUCTION_UPLOAD B
+		WHERE A.PRO_NUM = B.PRO_NUM AND A.M_NUM = #{m_num}
+		ORDER BY A.CREATE_DATE DESC
+	</select>
+	
+	<delete id="appProductDelete" parameterType="LikeListVO">
+		DELETE FROM PRODUCTION WHERE PRO_NUM = #{pro_num} AND M_NUM = #{m_num}
+	</delete>
 </mapper>

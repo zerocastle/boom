@@ -45,7 +45,7 @@ public class ProductController {
 		log.info("값 모가 넘오옮 ? " + dto);
 		model.addAttribute("production",JSONArray.fromObject(dto));
 		model.addAttribute("pageMaker", new PageDTO3(cri3, service.getTotalCount(cate_code))); // 여기에다가 count(*) 을 적용
-		
+//		model.addAttribute("switchPage","../floatSection/productList.jsp");
 		return "/mainIndex/index-productList";
 
 	}

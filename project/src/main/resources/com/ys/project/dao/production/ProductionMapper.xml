@@ -14,6 +14,7 @@
 		FROM PRODUCTION A , PRODUCTION_UPLOAD B
 		WHERE B.REP = 1 AND A.PRO_NUM =
 		B.PRO_NUM
+		ORDER BY A.CREATE_DATE DESC
 	</select>
 
 	<!-- 상품 상세보기 중 상품에 대한 업로드 된 파일 경로 들고오기 -->
@@ -41,15 +42,14 @@
 	<select id="productionListJoin"
 		resultType="com.ys.project.projectDTO.IndexProductionDTO"
 		parameterType="String">
-		SELECT
-		A.PRO_NUM,A.TITLE,A.PRICE,A.CATE_CODE,A.STATE_MSG,A.PLACE_SIGNAL,A.CREATE_DATE,A.ADDR,A.PLACE_PICK,B.UUID,B.UPLOADPATH,B.FILENAME,B.REP
+		SELECT A.PRO_NUM,A.TITLE,A.PRICE,A.CATE_CODE,A.STATE_MSG,A.PLACE_SIGNAL,A.CREATE_DATE,A.ADDR,A.PLACE_PICK,B.UUID,B.UPLOADPATH,B.FILENAME,B.REP
 		FROM PRODUCTION A , PRODUCTION_UPLOAD B
 		WHERE B.REP = 1 AND
-		CATE_CODE=#{cate_code} AND A.PRO_NUM =
-		B.PRO_NUM
+		CATE_CODE=#{cate_code} AND A.PRO_NUM = B.PRO_NUM
 		ORDER BY A.CREATE_DATE DESC
 	</select>
 
+	<!-- 상품 리스트 -->
 	<select id="sort"
 		resultType="com.ys.project.projectDTO.IndexProductionDTO">
 
@@ -102,9 +102,10 @@
 		FROM (SELECT
 		PRO_NUM,TITLE,PRICE,CATE_CODE,STATE_MSG,PLACE_SIGNAL,CREATE_DATE,ADDR,PLACE_PICK
 		FROM
-		<if test="cate_code == null">PRODUCTION</if>
-		<if test="cate_code != null">PRODUCTION WHERE CATE_CODE = #{cate_code}</if>
-
+		<choose>
+			<when test="cate_code == 'all'">PRODUCTION</when>
+			<otherwise>PRODUCTION WHERE CATE_CODE = #{cate_code}</otherwise>
+		</choose>
 		) A , PRODUCTION_UPLOAD B
 		WHERE A.PRO_NUM = B.PRO_NUM
 		AND B.REP = 1
@@ -117,6 +118,89 @@
 
 	</select>
 
+
+	<!-- 검색하기 -->
+	<select id="searchSort"
+		resultType="com.ys.project.projectDTO.IndexProductionDTO">
+		SELECT
+		A.PRO_NUM,A.TITLE,A.PRICE,A.CATE_CODE,A.STATE_MSG,A.PLACE_SIGNAL,A.CREATE_DATE,A.ADDR,A.PLACE_PICK,B.UUID,B.UPLOADPATH,B.FILENAME,B.REP
+		FROM (SELECT ROWNUM RN
+		,PRO_NUM,TITLE,PRICE,CATE_CODE,STATE_MSG,PLACE_SIGNAL,CREATE_DATE,ADDR,PLACE_PICK
+		FROM PRODUCTION
+		<![CDATA[WHERE ROWNUM <= #{pageNum} * #{amount}]]>
+		<choose>
+			<when test="type == 'place'">
+				AND ADDR LIKE '%'||#{keyword}||'%'
+			</when>
+			<when test="type == 'pName'">
+				AND TITLE LIKE '%'||#{keyword}||'%'
+			</when>
+		</choose>
+
+		) A ,
+		PRODUCTION_UPLOAD B
+		WHERE A.PRO_NUM = B.PRO_NUM
+		AND B.REP = 1 AND
+		<![CDATA[A.RN > (#{pageNum} -1) * #{amount}]]>
+		ORDER BY A.PRICE DESC
+
+
+	</select>
+	
+	<select id="appSearch"
+		resultType="com.ys.project.projectDTO.IndexProductionDTO">
+		SELECT
+		A.PRO_NUM,A.TITLE,A.PRICE,A.CATE_CODE,A.STATE_MSG,A.PLACE_SIGNAL,A.CREATE_DATE,A.ADDR,A.PLACE_PICK,B.UUID,B.UPLOADPATH,B.FILENAME,B.REP
+		FROM (SELECT ROWNUM RN
+		,PRO_NUM,TITLE,PRICE,CATE_CODE,STATE_MSG,PLACE_SIGNAL,CREATE_DATE,ADDR,PLACE_PICK
+		FROM PRODUCTION
+		<![CDATA[WHERE ROWNUM <= #{pageNum} * #{amount}]]>
+		<choose>
+			<when test="type == 'place'">
+				AND ADDR LIKE '%'||#{keyword}||'%'
+			</when>
+			<when test="type == 'pName'">
+				AND TITLE LIKE '%'||#{keyword}||'%'
+			</when>
+		</choose>
+
+		) A ,
+		PRODUCTION_UPLOAD B
+		WHERE A.PRO_NUM = B.PRO_NUM
+		AND B.REP = 1 AND
+		<![CDATA[A.RN > (#{pageNum} -1) * #{amount}]]>
+		ORDER BY A.PRICE DESC
+
+
+	</select>
+	
+	
+	<!-- 검색에 대한 페이징 토탈 카운트 -->
+	<select id="searchGetTotalCount" resultType="int">
+		SELECT COUNT(PRO_NUM)
+		FROM PRODUCTION
+		<choose>
+			<when test="type == 'place'">
+				WHERE ADDR LIKE '%'||#{keyword}||'%'
+			</when>
+			<otherwise>
+				WHERE TITLE LIKE '%'||#{keyword}||'%'
+			</otherwise>
+		</choose>
+
+	</select>
+
+
+	<!-- 구매내역 가지고오기 -->
+	<select id="getMemberPayment" resultType="PaymentVO">
+		SELECT * FROM PAYMENT
+		WHERE BUYER_NAME = #{nickname}
+	</select>
+
+	<!-- 환불 처리에 대한 삭제 -->
+	<delete id="refuseDelete">
+		DELETE FROM PAYMENT WHERE IMP_UID = # {imp_uid}
+	</delete>
 
 
 </mapper>
