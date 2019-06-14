@@ -100,9 +100,9 @@ public class ProductionService implements IProductionService {
 
 	// ¾Û °Ë»ö
 	@Override
-	public List<IndexProductionDTO> appSearch(String cate_code, String order, String keyword) {
+	public List<IndexProductionDTO> appSearch(String keyword) {
 		// TODO Auto-generated method stub
-		return null;
+		return mapper.appSearch(keyword);
 	}
 
 	@Override

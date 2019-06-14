@@ -83,7 +83,7 @@ $(function() {
 					} else {
 						alert("로그인 부터 하셔야 합니다.");
 						window.open('/member/login', 'login',
-								'width=600,height=600');
+								'width=450,height=600');
 					}
 				})
 

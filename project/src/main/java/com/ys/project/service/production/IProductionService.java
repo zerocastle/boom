@@ -39,7 +39,7 @@ public interface IProductionService {
 			@org.apache.ibatis.annotations.Param("cate_code") String cate_code);
 	
 	//앱 상품 검색
-	public List<IndexProductionDTO> appSearch(@Param("cate_code") String cate_code , @Param("order") String order , @Param("keyword") String keyword);
+	public List<IndexProductionDTO> appSearch(@Param("keyword") String keyword);
 
 	// total 카테고리
 	public List<Map<String, Integer>> cateCount();

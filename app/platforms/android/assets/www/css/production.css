@@ -16,6 +16,47 @@ body {
     overflow: hidden
 }
 
+
+.badge-success{
+    border-radius: 0.5rem;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 0;   
+    color: #fff;
+    background-color: #4caf50;
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 75%;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+
+.p-price{
+    display: inline-block;
+    vertical-align: middle;
+}
+.badge-warning{
+    border-radius: 0.5rem;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 0;   
+    color: #fff;
+    background-color: red;
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 75%;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+
+
+
+
+
 #wrap {
     height: 100%;
     margin: 1px;
@@ -45,13 +86,13 @@ body {
     width: 100%;
     height: 8%;
     background: white;
-    border-top: 1px solid 0.5px #FAFAFA;
+    border-top: 1px solid #BDBDBD;
     margin-top: 5px;
 }
 
 
 .content-wrap{
-    background: #FAFAFA;
+    background: #fcfeff;
     height: 100px;
     width: 97%;
     border-radius: 8px;
@@ -116,38 +157,38 @@ body {
 .pro-home {
     display: inline-block;
     vertical-align: middle;
-    margin-left: 35px;
-    margin-top: 5px;
+    margin-left: 8%;
+    margin-top: 7px;
 
 }
 
 .pro-category {
     display: inline-block;
     vertical-align: middle;
-    margin-left: 35px;
-    margin-top: 5px;
+    margin-left: 8%;
+    margin-top: 7px;
 
 }
 
 .pro-plus {
     display: inline-block;
     vertical-align: middle;
-    margin-left: 35px;
-    margin-top: 5px;
+    margin-left: 8%;
+    margin-top: 7px;
 }
 
 .pro-chat {
     display: inline-block;
     vertical-align: middle;
-    margin-left: 35px;
-    margin-top: 5px;
+    margin-left: 8%;
+    margin-top: 7px;
 }
 
 .my-user {
     display: inline-block;
     vertical-align: middle;
-    margin-left: 35px;
-    margin-top: 5px;
+    margin-left: 8%;
+    margin-top: 7px;
 }
 
 
@@ -179,7 +220,25 @@ body {
     margin-left: 3px;
 }
 
+.pro_house{
+    margin-left: 15%;
+}
 
+.pro_menu{
+    margin-left: 22%;
+}
+
+.pro_add{
+    margin-left: 26%;
+}
+
+.pro_bubble{
+    margin-left: 15%;
+}
+
+#usericon{
+    margin-left: 18%;
+}
 
 .fa-user {
     font-size: 25px;
@@ -191,22 +250,27 @@ body {
 .name-home {
     font-size: 12px;
     margin-left: 9px;
+    font-weight: bold;
 }
 
 .name-chat {
     font-size: 12px;
+    font-weight: bold;
 }
 
 .name-plus {
     font-size: 12px;
+    font-weight: bold;
 }
 
 .name-category {
     font-size: 12px;
+    font-weight: bold;
 }
 
 .name-user {
     font-size: 12px;
+    font-weight: bold;
 }
 a{
 text-decoration: none;

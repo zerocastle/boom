@@ -1,0 +1,303 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    background-color: #FAFAFA;
+    height: 100%;
+    overflow: hidden
+}
+
+.wrrap {
+    height: 100%;
+    margin: 1px;
+}
+
+.contents-line {
+    overflow: auto;
+    overflow-x: hidden;
+    height: 94%;
+}
+
+.footer-line {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    /* background: #FAFAFA; */
+    /* border-top: solid 0.1px #ddd; */
+    height: 33px;
+}
+.slideshow-container {
+
+position: relative;
+margin: auto;
+
+}
+.mySlides {display: none;}
+img {vertical-align: middle;}
+
+
+.fade {
+-webkit-animation-name: fade;
+-webkit-animation-duration: 1.5s;
+animation-name: fade;
+animation-duration: 1.5s;
+}
+
+.dot {
+height: 15px;
+width: 15px;
+margin: 0 2px;
+background-color: #bbb;
+border-radius: 50%;
+display: inline-block;
+transition: background-color 0.6s ease;
+position: relative;
+
+}
+.active {
+background-color: #717171;
+}
+
+.img1 {
+    width: 100%;
+    height: 400px;
+}
+
+
+.img2 {
+    width: 100%;
+    height: 400px;
+}
+
+
+.img3 {
+    width: 100%;
+    height: 400px;
+}
+
+.img4 {
+    width: 100%;
+    height: 400px;
+}
+
+.img5 {
+    width: 100%;
+    height: 400px;
+}
+
+.dot1 {
+    position: relative;
+    bottom: 35px;
+    text-align: center;
+}
+
+.htitle1{
+  margin-top: 2%;
+  margin-bottom: 2%;
+  margin-left: 3%;
+}
+
+.htitle{
+font-weight: bold;
+font-size: 25px;
+color: #717171;
+}
+
+.kind1{
+  border: 2px solid #0080FF;
+  width: 80px;
+  margin-left: 3%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.kind{
+  text-align: center;
+  color: #0080FF;
+}
+
+.pro_deal{
+  border: 2px solid #FE2E2E;
+  width: 70px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.pro_deal > div{
+  text-align: center;
+  color: #FE2E2E;
+}
+
+.fo_price1{
+  margin-left: 3%;
+}
+
+.fo_price{
+font-weight: bold;
+font-size: 30px;
+color: black;
+}
+
+
+.pro_time{
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: bold;
+    color: #717171;
+}
+
+.pro_view{
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: bold;
+    color: #717171;
+}
+.fa-eye{
+    color: black;
+    font-size: 17px;
+}
+.pro_tivi{
+    margin-left: 3%;
+    margin-top: 8%;
+}
+
+.pro_cont,.contents{
+    word-break:break-all;
+    margin-left: 3%;
+    margin-top: 2%;
+    font-weight: bold;
+    color: #717171;
+    font-size: 18px;
+}
+
+
+.pro_siren{
+    display: inline-block;
+    vertical-align: middle;
+    border: 3px solid #ddd; 
+    border-radius: 50px;
+    float:right;
+    margin-right:3%;
+    width: 30px;
+    height: 30px;
+}
+
+.pro_siren > div{
+    margin-left: 4%;
+}
+.pro_file{
+    height: 180px;
+    margin-top: 16%;
+    background-color: #ddd;
+}
+
+.pro_addrcode{
+    margin-top:2%;
+}
+.pro_addr{
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 3%;
+    color:#717171;
+}
+
+.pro_code{
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 1%;
+    color: black;
+    font-weight: bold;
+}
+
+.pro_catae_catae{
+    margin-top: 1%;
+}
+.pro_catae{
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 3%;
+    color:#717171;
+}
+
+.pro_cataename , .cate{
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 1%;
+    color: black;
+    font-weight: bold;
+}
+
+.pro_jik{
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 3%;
+    color:#717171;
+}
+
+.jik_na{
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 1%;
+    color: black;
+    font-weight: bold;
+}
+
+
+.pro_jik_jik{
+    margin-top: 1%;
+}
+
+.profile_img{
+    width:100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    position: relative;
+    bottom: 51px;
+    margin: auto;
+    background-image: url(1);
+}
+
+.profile_nickname,.pro_nink{
+    color: black;
+    font-weight: bold;
+    font-size: 17px;
+    text-align: center;
+    margin-top: -30px;
+}
+.foo{
+    width: 150px !important;
+}
+.mana{
+    text-align: center;
+}
+.fa-heart{
+    font-size: 20px;
+    color: red;
+}
+.heart{
+    float: left;
+    width: 20%;
+    text-align: center;
+    padding-top: 6px;
+    border-right: 1;
+}
+
+.talk{
+    background-color: #009cde; 
+  
+}
+
+.jiktalk{
+    background-color: #009cde;
+    border:1px solid #009cde;
+    color: white;
+    font-size:17px;
+    float: right;
+    width: 80%;
+    height: 35px;
+}
