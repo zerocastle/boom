@@ -22,7 +22,15 @@ $(document).ready(function(){
 	
 	var data = $('#nick').text();
 	console.log(data);
-	
+	$('#profileLink').click(function(e){
+		e.preventDefault();
+		window.location.href = "/member/myPage/"+ data;
+	});
+
+	$('#myProduct').click(function(e){
+		e.preventDefault();
+		window.location.href = "/member/myProduct/" +$('#nick').text();
+	});
 
 	$('#pick').click(function(e){
 		e.preventDefault();
@@ -97,15 +105,16 @@ function fn_movePage(val) {
 					<small class="counter">${member.email }</small>
 					<hr>
 					<div class="roboto-condensed bold" data-toggle="tooltip"
-						title="매너 점수는 ${member.manner }입니다.">
+						title="매너 점수는 ${member.manner }입니다.
+						평가 총인원은  ${member.manner_pick}명입니다.">
 						<canvas id="foo" class="foo"></canvas>
 					</div>
 				</div>
 				<div class="list-group list-group-flush">
-					<a href="/member/myPage"
+					<a href="#" id="profileLink"
 						class="list-group-item list-group-item-action"><i
 						data-feather="user" class="mr-3"></i>프로필</a> <a
-						href="/member/myProduct"
+						href="#" id="myProduct"
 						class="list-group-item has-badge list-group-item-action"> <i
 						data-feather="shopping-bag" class="mr-3"></i>내 상품<span
 						class="badge rounded badge-primary">${proCount }</span></a> <a

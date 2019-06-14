@@ -20,9 +20,9 @@
 		<property name="driverClassName"
 			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
 		<property name="jdbcUrl"
-			value="jdbc:log4jdbc:oracle:thin:@zicple.cfefxah21brd.ap-northeast-2.rds.amazonaws.com:1521:orcl"></property>
-		<property name="username" value="zicple"></property>
-		<property name="password" value="gnslwld12"></property>
+			value="jdbc:log4jdbc:oracle:thin:@localhost:1521:orcl"></property>
+		<property name="username" value="kys"></property>
+		<property name="password" value="kys"></property>
 
 	</bean>
 

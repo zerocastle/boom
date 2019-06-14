@@ -71,7 +71,7 @@ $(document).ready(function(){
 function fn_movePage(val) {
 	jQuery("input[name=pageNo]").val(val);
 	jQuery("form[name=frm]").attr("method", "get");
-	jQuery("form[name=frm]").attr("action", "").submit();
+	jQuery("form[name=frm]").attr("action", "")[0].submit();
 }
 </script>
 
@@ -89,7 +89,8 @@ function fn_movePage(val) {
 					<small class="counter">${member.email }</small>
 					<hr>
 					<div class="roboto-condensed bold" data-toggle="tooltip"
-						title="매너 점수는 ${member.manner }입니다.">
+						title="매너 점수는 ${member.manner }입니다.
+						평가 총인원은  ${member.manner_pick}명입니다.">
 						<canvas id="foo" class="foo"></canvas>
 					</div>
 				</div>

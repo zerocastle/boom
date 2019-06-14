@@ -139,13 +139,14 @@ public class MemberController {
 	}
 
 	// 마이페이지 프로필
-	@RequestMapping(value = "myPage", method = RequestMethod.GET)
+	@RequestMapping(value = "myPage/" + "{data}", method = RequestMethod.GET)
 	public String myPage(Model model, HttpServletRequest request, RedirectAttributes rttr,
-			@ModelAttribute("joinPickVO") joinPickVO pv) throws Exception {
+			@ModelAttribute("joinPickVO") joinPickVO pv, @PathVariable String data) throws Exception {
 
-		HttpSession session = request.getSession();
-		MemberVO member = (MemberVO) session.getAttribute("loginSession"); // 로그인된 세션의 닉네임
-		System.out.println("러나ㅣ어리ㅏㄴㅇ" + session.getAttribute("loginSession"));
+//		HttpSession session = request.getSession();
+//		MemberVO mvo = (MemberVO) session.getAttribute("loginSession"); // 로그인된 세션의 닉네임
+		MemberVO member = service.nickNameCheck(data);
+//		System.out.println("러나ㅣ어리ㅏㄴㅇ" + session.getAttribute("loginSession"));
 		logger.info("현재 세션의 정보 : " + member);
 
 		model.addAttribute("member", member);
@@ -198,13 +199,16 @@ public class MemberController {
 	}
 
 	// 마이페이지 상품
-	@RequestMapping(value = "/myProduct", method = RequestMethod.GET)
+	@RequestMapping(value = "/myProduct/" + "{data}", method = RequestMethod.GET)
 	public String myPageProduct(Model model, HttpServletRequest request, RedirectAttributes rttr,
-			@ModelAttribute("joinPickVO") joinPickVO pv) throws Exception {
+			@ModelAttribute("joinPickVO") joinPickVO pv,  @PathVariable String data) throws Exception {
 
-		HttpSession session = request.getSession();
-		MemberVO member = (MemberVO) session.getAttribute("loginSession"); // 로그인된 세션의 닉네임
-		System.out.println("러나ㅣ어리ㅏㄴㅇ" + session.getAttribute("loginSession"));
+		/*
+		 * HttpSession session = request.getSession(); MemberVO member = (MemberVO)
+		 * session.getAttribute("loginSession"); // 로그인된 세션의 닉네임
+		 * System.out.println("러나ㅣ어리ㅏㄴㅇ" + session.getAttribute("loginSession"));
+		 */
+		MemberVO member = service.nickNameCheck(data);
 		logger.info("현재 세션의 정보 : " + member);
 
 		model.addAttribute("member", member);
@@ -342,31 +346,27 @@ public class MemberController {
 
 	}
 
-	@RequestMapping(value = "test", method = RequestMethod.GET)
-	public String gettest(Model model) throws Exception {
-
-		String nickname = "지다빈";
-
-		List<ProductionReviewVO> list = service.scrollPaging(nickname);
-		model.addAttribute("review", list);
-		return "myPage/test";
-
-	}
-
-	@RequestMapping(value = "test", method = RequestMethod.POST)
-	@ResponseBody
-	public List<ProductionReviewVO> posttest(@RequestBody ProductionReviewVO vo) throws Exception {
-
-		String nick = "지다빈";
-		MemberVO vo2 = new MemberVO();
-		vo2.setNickname(nick);
-		vo2.getNickname();
-		Integer prnum = vo.getPr_num() - 1;
-		Map map = new HashMap();
-		map.put("pr_num", prnum);
-		map.put("nickname", vo2.getNickname());
-		return service.infiniteScrollDown(map);
-	}
+	/*
+	 * @RequestMapping(value = "test", method = RequestMethod.GET) public String
+	 * gettest(Model model) throws Exception {
+	 * 
+	 * String nickname = "지다빈";
+	 * 
+	 * List<ProductionReviewVO> list = service.scrollPaging(nickname);
+	 * model.addAttribute("review", list); return "myPage/test";
+	 * 
+	 * }
+	 * 
+	 * @RequestMapping(value = "test", method = RequestMethod.POST)
+	 * 
+	 * @ResponseBody public List<ProductionReviewVO> posttest(@RequestBody
+	 * ProductionReviewVO vo) throws Exception {
+	 * 
+	 * String nick = "지다빈"; MemberVO vo2 = new MemberVO(); vo2.setNickname(nick);
+	 * vo2.getNickname(); Integer prnum = vo.getPr_num() - 1; Map map = new
+	 * HashMap(); map.put("pr_num", prnum); map.put("nickname", vo2.getNickname());
+	 * return service.infiniteScrollDown(map); }
+	 */
 
 	@RequestMapping(value = "insertPick", method = RequestMethod.POST)
 	@ResponseBody

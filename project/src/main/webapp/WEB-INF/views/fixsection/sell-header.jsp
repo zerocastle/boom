@@ -96,7 +96,7 @@ margin: auto;
                 
                 </div>
                 <div class="media-body">
-                  <strong>${sessionScope.loginSession.nickname}</strong>
+                  <strong class="sessionNick">${sessionScope.loginSession.nickname}</strong>
                   <div class="small">${sessionScope.loginSession.email}</div>
                   <div class="small">
                   	<c:if test="${sessionScope.loginSession.partner_signal eq 0}">
@@ -108,11 +108,11 @@ margin: auto;
                   </div>
                 </div>
               </div>
-              <a id="myPage" href="/member/myPage" class="dropdown-item has-icon has-badge">
+              <a id="myPage2" href="#" class="dropdown-item has-icon has-badge">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></i>
               	마이페이지
               </a>
-              <a id="sell" href="/selling/selling" class="dropdown-item has-icon has-badge">
+              <a id="sell2" href="/selling/selling" class="dropdown-item has-icon has-badge">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
               	판매하기 
               </a>

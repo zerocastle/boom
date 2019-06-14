@@ -80,15 +80,41 @@
 							<li><a id="placeSearch2" class="dropdown-item" href="#">직플레이스 찾기</a></li>
 							<li><a class="dropdown-item" href="#">함께하는 직플파트너</a></li>
 						</ul></li>
-					<li class="no-sub"><a href="#" ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12" y2="16"></line></svg>공지사항</a></li>
-					<li class="no-sub"><a href="#" ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-triangle"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12" y2="17"></line></svg>신고게시판</a></li>
+					<li class="no-sub"><a href="#" id="noticeB"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12" y2="16"></line></svg>공지사항</a></li>
+					<li class="no-sub"><a href="#" id="warningB"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-triangle"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12" y2="17"></line></svg>신고게시판</a></li>
 				</ul>
 			</div>
 		</div>
 	</div>
 </div>
 <!-- /Menu Modal -->
-
+<script>
+	$('#myPage2').click(function(e){
+		e.preventDefault();
+		window.location.href = "/member/myPage/" + $(".sessionNick").text();
+	});
+	
+	$('#sell2').click(function(e){
+		e.preventDefault();
+		window.location.href = "/selling/selling";
+	});
+	
+	
+	$('#placeSearch2').click(function(e){
+		e.preventDefault();
+		window.location.href = "/partner/placeSearch";
+	});
+	
+	$('#noticeB').click(function(e){
+		e.preventDefault();
+		window.location.href = "/admin/noticeBoard";
+	});
+	
+	$('#warningB').click(function(e){
+		e.preventDefault();
+		window.location.href = "/warningBoard/warningBoard"
+	});
+</script>
 <script src="/resources/plugins/swiper.min.js"></script>
 <script src="/resources/plugins/bootstrap.bundle.min.js"></script>
 <script src="/resources/plugins/jquery.countdown.min.js"></script>

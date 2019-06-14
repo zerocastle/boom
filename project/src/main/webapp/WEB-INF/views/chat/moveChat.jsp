@@ -18,7 +18,7 @@ $(document).ready(function() {
    var pro_num = ${requestScope.pro_num};
    var m_num = ${requestScope.m_num};
    var nickname = '${sessionScope.loginSession.nickname}';
-   window.location.href="http://15.164.87.36:3000/doChat2?m_num="+m_num+"&pro_num="+pro_num+"&nickname="+nickname;
+   window.location.href="http://39.127.7.51:3000/doChat2?m_num="+m_num+"&pro_num="+pro_num+"&nickname="+nickname;
 });
 </script>
 </body>

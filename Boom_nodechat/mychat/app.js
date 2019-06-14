@@ -203,10 +203,10 @@ app.post('/jumsu', function (req, res) {
   var value = '';
   //sender는 아래 p태그에 적힌 사람이다.
   if(req.body.seller == req.body.sender){
-    target = "<ol class=''me''><div><p style=''color:brown;'' class=''meme''>"+req.body.sender+"</p>님과의 거래는 만족 스러웠나요??</div><div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div><div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>";
+    target = "<ol class=''me''><div><p style=''color:brown;'' class=''meme''>"+req.body.sender+"</p>과의 거래는 만족 스러웠나요??</div><div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div><div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>";
     value = "<div class=''me''><p style=''display:none;'' class=''meme''>" + req.body.sender + "</p>이미 매너 게이지 측정을 완료하셨습니다.</div>";
   }else if(req.body.buyer == req.body.sender){
-    target = "<ol class=''other''><div><p style=''color:brown;'' class=''otherother''>" + req.body.sender + "</p>님과의 거래는 만족 스러웠나요??</div><div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div><div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu'' >전송하기</button></div></ol>";
+    target = "<ol class=''other''><div><p style=''color:brown;'' class=''otherother''>" + req.body.sender + "</p>과의 거래는 만족 스러웠나요??</div><div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div><div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>";
     value = "<div class=''other''><p style=''display:none;'' class=''otherother''>" + req.body.sender + "</p>이미 매너 게이지 측정을 완료하셨습니다.</div>";
   }
   

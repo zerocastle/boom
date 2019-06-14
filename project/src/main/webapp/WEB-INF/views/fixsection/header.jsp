@@ -97,7 +97,7 @@
                 
                 </div>
                 <div class="media-body">
-                  <strong>${sessionScope.loginSession.nickname}</strong>
+                  <strong class="sessionNick">${sessionScope.loginSession.nickname}</strong>
                   <div class="small">${sessionScope.loginSession.email}</div>
                   <div class="small">
                   	<c:if test="${sessionScope.loginSession.partner_signal eq 0}">

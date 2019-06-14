@@ -54,7 +54,7 @@ $(function() {
 			temp = '<c:out value="${sessionScope.loginSession}"/>'
 			if (temp) {
 				e.preventDefault();
-				window.location.href = "/member/myPage";
+				window.location.href = "/member/myPage/" + $(".sessionNick").text();
 			} else {
 				alert("로그인 부터 하셔야 합니다.");
 				window.open('/member/login', 'login', 'width=600,height=600');
@@ -95,7 +95,6 @@ $(function() {
 		/*공지사항*/
 		$('#noticeBoard').click(function(e) {
 			e.preventDefault();
-			alert("공지사항 이동");
 			window.location.href = "/admin/noticeBoard";
 
 		})
