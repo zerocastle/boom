@@ -105,5 +105,11 @@ public class ProductionService implements IProductionService {
 		return null;
 	}
 
+	@Override
+	public List<Map<String, Integer>> cateCount() {
+		// TODO Auto-generated method stub
+		return mapper.cateCount();
+	}
+
 
 }

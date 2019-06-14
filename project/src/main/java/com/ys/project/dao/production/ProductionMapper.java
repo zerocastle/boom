@@ -1,6 +1,7 @@
 package com.ys.project.dao.production;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -51,6 +52,8 @@ public interface ProductionMapper {
 	
 	// 상품 결제 취소에 대한 처리
 	public int refuseDelete(@Param("imp_uid") String imp_uid);
+
+	public List<Map<String, Integer>> cateCount();
 	
 
 }

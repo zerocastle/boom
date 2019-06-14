@@ -21,7 +21,7 @@ var road_and_QR = function () {
     var muid = $(".qrcode")[i].innerHTML;
     console.log(muid);
     var qrcode = new QRCode(document.getElementsByClassName("qrcode")[i], {
-      text: "http://39.127.7.51:3000/testQR?muid=" + muid,
+      text: "http://39.127.7.51:3000/testQR?muid=" + muid + "&Tname=" + Tname, ///주의!! 직플파트너의 닉네임이 노드서버에서 쿼리스트링의 변수 'nickname'에 더해진다.
       width: 250,
       height: 250,
       colorDark: "#000000",
@@ -31,11 +31,6 @@ var road_and_QR = function () {
   }
 }
 //채팅방 로딩할 때마다 QR코드를 만들어준다. 
-
-
-road_and_QR();//함수 call stack 구조에 의해 앞부분에서 실행시켜야 원하는 동작에 지장이 없을듯 하다.
-
-
 
 
 
@@ -117,10 +112,6 @@ $(document).ready(function () {
     })
   });
 
-
-
-
-  road_and_QR();
 
 
 
@@ -289,7 +280,7 @@ $(document).ready(function () {
         }
 
       }//for()
-
+      road_and_QR();
 
       /////평가메시지 상대방과 나의 구분
       var me = document.getElementsByClassName('meme')[0].innerHTML;
@@ -313,7 +304,7 @@ $(document).ready(function () {
       /////평가메시지 상대방과 나의 구분
 
       $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
-      road_and_QR();
+      
     },
     error: function (err) {
       alert('에러야')
@@ -332,11 +323,6 @@ $(document).ready(function () {
 
 
   });
-  road_and_QR();
-
-
-
-  return road_and_QR();
 
 
 
@@ -634,10 +620,8 @@ $('#room_out').click(function () {
 //socket 메시지 도착모음
 // 결제 완료시 영수증 ========================================================
 socket.on('receipt', function (room_id, buyer_name, tag) {
-  road_and_QR();
   window.location.reload();
   $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
-  road_and_QR();
 });
 // ========================================================
 
@@ -645,26 +629,22 @@ socket.on('receipt', function (room_id, buyer_name, tag) {
 socket.on('chat message', (name, msg) => {// 소켓에 신호가 오면 chat message 기능 실행.
   if (name == Tname) {//날아온 메시지의 이름이 세션의 닉네임과 같다면
     $('#messages').append($('<li class="even">').text(name + '  :  ' + msg));//우측에 위치한다. 내가쓴메시지
-    road_and_QR();
   }
   else {//아니라면 좌측에 위치한다. 남이쓴메시지
     $('#messages').append($('<li class="odd">').text(name + '  :  ' + msg));
-    road_and_QR();
   }
   console.log('chat message' + name + msg);
   $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
-  road_and_QR();
 });
 //서버로부터 채팅메시지가 온다면
 
 //서버로부터 명세서(또는 영수증)이 온다면
 socket.on('socket_sendAcc', (num, name, tag) => {
   if (name == $('#nickname').text()) {
-    road_and_QR();
+    
   } else {
     $('#messages').append($('<li class="odd">').html(name + ' : ' + tag));//버튼은 상대방에게만 보인다.
-    road_and_QR();
-  }
+      }
   ref(); // 스크롤 가장아래로 내림(영수증전송시 QR코드 이미지출력을 위해)
 });
 //서버로부터 명세서(또는 영수증)이 온다면
@@ -677,7 +657,6 @@ socket.on('socket_address', (num, address, name, message_id) => {// 상대방으
   } else {
     $('#messages').append($('<li class="odd">').html(name + ' : ' + '장소협의 - ' + name + '님에 의해 약속장소가 선정되었습니다 :<br><i class="addressP">' + address + "</i><br>" + buttonSet));//시스템메시지 약속지정정보를 보낸다.
   }
-  road_and_QR();
   $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
 });
 //서버로부터 주소선정제안 메시지가 온다면
@@ -697,10 +676,8 @@ socket.on('socket_date', (num, date, name, message_id) => {
 
 //서버로부터 새로고침 지시
 socket.on('ref', () => {
-  road_and_QR();
   window.location.reload();
   $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
-  road_and_QR();
 });
 //서버로부터 새로고침 지시
 
@@ -712,19 +689,17 @@ socket.on('QRsend', (num1, name1, tag1) => {
   } else {
     $('#messages').append($('<li class="odd"><div class="qrcode"></div>'));
   }
-  road_and_QR();
   return ref();
 });
 //이게 올일이 있나
 
 //서버로부터 '상대방이 채팅방DB에서 나감'메시지가 온다면
 socket.on('room_out', (num, name) => {// 소켓에 room_out신호가 온다면
-  road_and_QR();
   $('.nullmenu').css("display", "none");//상대방이 없다면 사용불가의 메뉴:입력태그, send버튼, 채팅방나가기를 제외한 추가기능들을 안보이게한다.
   $('#messages').append($('<li class="system">').text('System : ' + name + ' 회원님이 방을 탈주하셨습니다.  '));//시스템메시지 상대방이 나갔다고 알려준다.
   $('#status').text = 'out';//방의 상태를 out으로 지정
   window.location.search = '?room_id=' + num + '&talker=out';//url의 queryString도 나갔다고 바꿔준다. 새로고침이 되어도 out값을 가지기에 .nullMenu들이 여전히 안보여진다.
-  road_and_QR();
+  
 });
 //서버로부터 '상대방이 채팅방DB에서 나감'메시지가 온다면
 

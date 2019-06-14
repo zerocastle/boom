@@ -15,7 +15,7 @@
 	</select>
 
 	<insert id="memberRegister" parameterType="hashmap">
-		INSERT INTO MEMBER(M_NUM,NICKNAME,PHONE,M_PASSWORD,EMAIL,ACC_NUM,ACC_NAME)
+		INSERT INTO MEMBER(M_NUM,NICKNAME,PHONE,M_PASSWORD,EMAIL,ACC_NUM,ACC_NAME,UUID,UPLOADPATH,FILENAME)
 		VALUES
 		(
 		member_seq.nextval,
@@ -24,10 +24,31 @@
 		#{m_password},
 		#{email},
 		#{acc_num},
-		#{acc_name}
+		#{acc_name},
+		#{uuid},
+		#{uploadPath},
+		#{fileName}
 		)
 		
 	</insert>
+
+	<insert id="insertRegister" parameterType="MemberVO">
+		INSERT INTO MEMBER(M_NUM,NICKNAME,PHONE,M_PASSWORD,EMAIL,ACC_NUM,ACC_NAME)
+			VALUES
+			(
+			member_seq.nextval,
+			#{nickname},
+			#{phone},
+			#{m_password},
+			#{email},
+			#{acc_num},
+			#{acc_name}
+			)
+	</insert>
+	
+	<select id="checkNick" parameterType="MemberVO" resultType="int">
+		select count(nickname) from member where nickname = #{nickname}
+	</select>
 
 	<select id="nicknameCheck" parameterType="string"
 		resultType="MemberVO">
@@ -223,4 +244,10 @@
 	<delete id="appProductDelete" parameterType="LikeListVO">
 		DELETE FROM PRODUCTION WHERE PRO_NUM = #{pro_num} AND M_NUM = #{m_num}
 	</delete>
+	
+		<!-- 구매내역 가지고오기 -->
+	<select id="getMemberPayment" resultType="PaymentVO">
+		SELECT * FROM PAYMENT
+		WHERE BUYER_NAME = #{nickname}
+	</select>
 </mapper>

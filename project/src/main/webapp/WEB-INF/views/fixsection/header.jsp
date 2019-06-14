@@ -8,285 +8,219 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>Document</title>
-<!-- bootstrap-->
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
+	<!-- MAP CLIENT API -->
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=e3zj2hczhw&submodules=geocoder,stylemap"></script>
+<script type="text/javascript"
+   src="//dapi.kakao.com/v2/maps/sdk.js?appkey=571aae4fec40d0283f32c39801431185&libraries=services"></script>
+   <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+   
+   	<!-- FONTS  -->
+    <!-- <link rel="stylesheet" href="../fonts/nunito.css"> -->
+    <!-- <link rel="stylesheet" href="../fonts/roboto.css"> -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700">
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+    <!-- REQUIRED CSS: BOOTSTRAP, METISMENU, PERFECT-SCROLLBAR  -->
+    <link rel="stylesheet" href="/resources/css/vendor.min.css">
 
-<!-- 애들 정의 css -->
-<link rel="stylesheet" type="text/css" href="/resources/css/kim.css" />
+    <!-- PLUGINS FOR CURRENT PAGE -->
+    <link rel="stylesheet" href="/resources/plugins/swiper.min.css">
+    <link rel="stylesheet" href="/resources/plugins/noty.css">
+    <!-- Mimity CSS  -->
+    <link rel="stylesheet" href="/resources/css/style.min.css">
+    
+     <link rel="stylesheet" href="/resources/css/modal.css">
+	<script src="/resources/customJs/header.js"></script>
+	<script src="/resources/customJs/login.js"></script>
+	<!--   <script src="/resources/customJs/Register.js"></script> -->
 
-<link rel="stylesheet" type="text/css" href="/resources/css/da3.css" />
-
-<script type="text/javascript" src="/resources/js/remote.js"></script>
-
-<script>
-	$(function() {
-
-		var msg = '${requestScope.msg}';
-		var loginDO = '${requestScope.loginDo}';
-		if (msg == 'SUCCESS') {
-			alert("회원 가입을 성공적으로 하였습니다.");
-			self.close();
-		}
-		if (msg == 'SUCCESSPARTNER') {
-			alert("직플레이드 등록이 완료되었습니다.");
-			history.replaceState({}, null, null);
-			window.close();
-		}
-		if (loginDO == '1') {
-			alert("잘못된 접근 입니다. 로그인부터 하세요");
-		}
-
-		//마지막 스크롤 값을 저장할 lastScroll 변수
-		var lastScroll = 0;
-		$(window).scroll(function(event) { //스크롤이 움직일때 마다 이벤트 실행
-			//현재 스크롤의 위치를 저장할 st 변수
-			var st = $(this).scrollTop();
-			//스크롤 상하에 따른 반응 정의
-			if (st > lastScroll) {
-				if ($(window).scrollTop() >= 10) { //스크롤이 아래로 200px 이상 내려갔을때 실행되는 이벤트 정의
-					$('#btnTop').css('display', 'none');
-					$('#btnTop').css('top', '-30px');
-				}
-			} else {
-				//스크롤이 위로 올라갔을때 실행되는 이벤트 정의
-				$('#btnTop').css('display', 'block');
-			}
-		});
-		// 회원 
-		$('#register').click(
-				function() {
-					window.open('/member/memberRegister', 'register',
-							'width=1920,height=1080');
-				})
-		//로그아웃
-		$('#logout').click(function(e) {
-			e.preventDefault();
-			window.location.href = "/member/logout"
-		})
-		//마이페이지 제어
-		var temp = null;
-		$('#myPage').click(function(e) {
-			temp = '<c:out value="${sessionScope.loginSession}"/>'
-			if (temp) {
-				e.preventDefault();
-				window.location.href = "/member/myPage";
-			} else {
-				alert("로그인 부터 하셔야 합니다.");
-				window.open('/member/login', 'login', 'width=600,height=600');
-			}
-		})
-		// 판매하기 제어
-		$("#sell").click(function(e) {
-			temp = '<c:out value="${sessionScope.loginSession}"/>';
-			if (temp) {
-				e.preventDefault();
-				window.location.href = "/selling/selling";
-			} else {
-				alert("로그인 부터 하셔야 합니다.");
-				window.open('/member/login', 'login', 'width=600,height=600');
-			}
-		})
-
-		// 체팅 목록 제어
-		$('#chat').click(
-				function(e) {
-					temp = '<c:out value="${sessionScope.loginSession}"/>';
-					if (temp) {
-						e.preventDefault();
-						window.open('/chatting/chatting', 'chatList',
-								'width=850,height=600');
-					} else {
-						alert("로그인 부터 하셔야 합니다.");
-						window.open('/member/login', 'login',
-								'width=600,height=600');
-					}
-				})
-
-		$('#productList').click(function(e) {
-			e.preventDefault();
-			window.location.href = "/index_productList";
-		});
-
-		/* subnav partnerRegister */
-		$('#subnav :eq(2)').click(
-				function(e) {
-					if ("${not empty sessionScope.loginSession}" != 'false') {
-
-						window.open('/partner/partnerPage', 'partner',
-								'width=1920,height=1080');
-					} else {
-						alert('로그인을 먼저 하셔야 합니다.');
-					}
-				})
-
-		/*공지사항*/
-		$('#noticeBoard').click(function(e) {
-			e.preventDefault();
-			alert("공지사항 이동");
-			window.location.href = "/admin/noticeBoard";
-
-		})
-
-		//직플레이스 검색
-		$('#placeSearch').click(function(e) {
-			e.preventDefault();
-			window.location.href = "/partner/placeSearch"
-		})
-
-		$('#warningBoard').click(function(e) {
-			e.preventDefault();
-			window.location.href = "/warningBoard/warningBoard"
-		})
-		
-		// 검색 누르기
-		$(".input-group-text").click(function(){
-			
-			var choose = $('.choose').val();
-			var keyword = $('.form-control').val();
-			window.location.href="/search?type="+choose+"&keyword="+keyword;
-		})
-
-	});
-</script>
-
+	<style>
+	/* Select box 스타일 초기화 */
+	select:focus {
+    outline: none;
+} 
+	</style>
 </head>
 
 <body>
-	<!--d-->
-	<div class="header-line">
-		<div class="header">
-			<div id="btnTop" class="header-1">
-				<div class="header-1-div">
 
-					<c:if test="${empty sessionScope.loginSession }">
 
-						<a class="header-1-a" href=""
-							onclick="window.open('/member/login','login','width=600,height=600')">로그인</a>
-						<a class="header-1-a" href="#" id="register">회원가입</a>
-					</c:if>
-					<c:if test="${not empty sessionScope.loginSession }">
-						<span class="header-1-a">${sessionScope.loginSession.nickname}
-							환영합니다.</span>
-						<a href="" class="header-1-a" id="logout">로그아웃</a>
-					</c:if>
-				</div>
+    <!-- Top bar -->
+    <div class="topbar">
+      <div class="container d-flex">
+
+        <!-- social media -->
+        <nav class="nav">
+          <a class="nav-link pr-2 pl-0" href="https://ko-kr.facebook.com/" target="_black"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+          <a class="nav-link px-2" href="https://twitter.com/?lang=ko" target="_black"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a>
+          <a class="nav-link px-2" href="https://www.instagram.com/?hl=ko" target="_black"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line></svg></i></a>
+        </nav>
+
+        <!-- language -->
+        <nav class="nav nav-lang ml-auto"> <!-- push it to the right -->
+        </nav>
+
+        <!-- User dropdown -->
+        <ul class="nav">
+          <li class="nav-item dropdown dropdown-hover">
+          
+          <c:if test="${empty sessionScope.loginSession }">
+          	<div style="display: inline-block;">
+				<a class="nav-link" href="#"  data-toggle="modal" data-target="#modalLogin">로그인</a>
 			</div>
-
-			<div class="header-2">
-				<div class="header-2-body">
-					<div class="header-logo">
-						<div>
-							<a class="logo" href="/"><img
-								src="/resources/image/logo2.png" width="220px;" height="80px;"></a>
-						</div>
-					</div>
-
-					<!-- 검색 부분 -->
-					<div class="header-search" style="padding-top: 15px;">
-
-						<div class="input-group md-form form-sm form-2 pl-0">
-						
-							<select class="choose">
-								<option value="place">지역명</option>
-								<option value="pName">상품명</option>
-							</select>
-							
-							<!-- 상품 or 지역명 -->
-							 <input class="form-control my-0 py-1 red-border" type="text"
-								placeholder="상품명 , 지역명 입력" aria-label="Search" />
-
-							<div class="input-group-append">
-								<span class="input-group-text red lighten-3" id="basic-text1">
-									<img src="/resources/image/search.png" width="15px"
-									height="15px">
-								</span>
-							</div>
-						</div>
-
-					</div>
-					<!-- ------------------------------------- -->
-
-					<div class="header-service">
-						<div class="service-btn">
-
-							<a id="myPage" href=""
-								style="font-size: 18px; margin-right: 10px;"><img
-								src="/resources/image/mypage.png" style="margin-right: 5px;">마이페이지</a>
-						</div>
-						<div class="service-btn">
-							<a href="#" id="sell"
-								style="font-size: 18px; margin-right: 10px;"><img
-								src="/resources/image/sell.png" style="margin-right: 5px;">판매하기</a>
-						</div>
-						<div class="service-btn">
-							<a href="#" id="chat"
-								style="font-size: 18px; margin-right: 10px;"><img
-								src="/resources/image/chat.png" style="margin-right: 5px;">직톡목록</a>
-						</div>
-					</div>
-				</div>
-				<div class="header-2-body-2">
-					<div class="header-categori">
-						<div class="navbar navbar-toggleable-md navbar-light bg-faded"
-							style="padding: 0;">
-							<button class="navbar-toggler navbar-toggler-right" type="button"
-								data-toggle="collapse" data-target="#navbarNavAltMarkup"
-								aria-controls="navbarNavAltMarkup" aria-expanded="false"
-								aria-label="Toggle navigation">
-								<span class="navbar-toggler-icon"></span>
-							</button>
-
-							<div class="collapse navbar-collapse" id="navbarNavAltMarkup"
-								style="background-color: white; width: px;">
-								<div class="navbar-nav" style="width: 200px;">
-									<a class="nav-item nav-link active" href="#">Home <span
-										class="sr-only">(current)</span></a> <a class="nav-item nav-link"
-										href="#">남성의류</a> <a class="nav-item nav-link" href="#">여성의류</a>
-									<a class="nav-item nav-link" href="#">전자제품</a> <a
-										class="nav-item nav-link" href="#">가구/인테리어</a> <a
-										class="nav-item nav-link" href="#">유아용품</a> <a
-										class="nav-item nav-link" href="#">스포츠/레저</a> <a
-										class="nav-item nav-link" href="#">게임/취미</a> <a
-										class="nav-item nav-link" href="#">뷰티/미용</a> <a
-										class="nav-item nav-link" href="#">생활/가공품</a> <a
-										class="nav-item nav-link" href="#">반려동물용품</a> <a
-										class="nav-item nav-link" href="#">도서/티켓/음반</a> <a
-										class="nav-item nav-link" href="#">기타/잡화</a>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="header-zicplus-btn" id="subnav">
-						<div class="zicplus-btn">
-							<a href="#">함께하는 직플파트너</a>
-						</div>
-						<div class="zicplus-btn">
-							<a href="#">직플파트너 등록하기</a>
-						</div>
-						<div class="zicplus-btn" id="placeSearch">
-							<a href="#" id="DirectSearch">직플레이스 검색</a>
-						</div>
-						<div class="zicplus-btn">
-							<a href="#" id="noticeBoard">공지사항</a>
-						</div>
-						<div class="zicplus-btn">
-							<a href="#" id="warningBoard">신고사항</a>
-						</div>
-					</div>
-				</div>
+			
+			<div style="display: inline-block;">
+				<a class="nav-link" href="#" data-toggle="modal" data-target="#modalRegister">회원가입</a>
 			</div>
-		</div>
-	</div>
-	<div class="main">
-		<div style="margin-top: 220px;">
+		 </c:if>
+		<c:if test="${not empty sessionScope.loginSession }">
+			<%-- <span class="header-1-a">${sessionScope.loginSession.nickname}
+				환영합니다.</span>
+			<a href="" class="header-1-a" id="logout">로그아웃</a> --%>
+		<ul class="nav">
+          <li class="nav-item dropdown dropdown-hover">
+            <a class="nav-link dropdown-toggle pr-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              ${sessionScope.loginSession.nickname}
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+              <div class="media p-2 align-items-center mb-2">
+                <div class="mr-2 size50x50">
+                <c:if test="${sessionScope.loginSession.fileName eq null}">
+                <img src="/resources/image/봄봄1.jpg" alt="user" class="img-thumbnail rounded-circle mr-2 size50x50">
+                </c:if>
+                 <c:if test="${sessionScope.loginSession.fileName != null}">
+                <img src="${pageContext.request.contextPath}/resources/${sessionScope.loginSession.uploadPath }/${sessionScope.loginSession.uuid }_${sessionScope.loginSession.fileName }" alt="user" class="img-thumbnail rounded-circle mr-2 size50x50">
+                </c:if>
+                
+                </div>
+                <div class="media-body">
+                  <strong>${sessionScope.loginSession.nickname}</strong>
+                  <div class="small">${sessionScope.loginSession.email}</div>
+                  <div class="small">
+                  	<c:if test="${sessionScope.loginSession.partner_signal eq 0}">
+                  		일반 회원
+                  	</c:if>
+                  	<c:if test="${sessionScope.loginSession.partner_signal != 0}">
+                  		직플파트너 회원
+                  	</c:if>
+                  </div>
+                </div>
+              </div>
+              <a id="myPage" href="#" class="dropdown-item has-icon has-badge">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></i>
+              	마이페이지
+              </a>
+              <a id="sell" href="#" class="dropdown-item has-icon has-badge">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+              	판매하기 
+              </a>
+              <a id="chat" href="#" class="dropdown-item has-icon has-badge">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+              	직톡목록
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#"  id="logout" class="dropdown-item has-icon text-danger"><i data-feather="log-out"></i>Logout</a>
+            </div>
+          </li>
+        </ul>
+		</c:if>
+          
+  
+          </li>
+        </ul>
+        <!-- /User dropdown -->
+        
+
+      </div><!-- /.container -->
+    </div>
+    <!-- /Top bar -->
+
+
+    <!--Header -->
+    <header>
+      <div class="container">
+
+        <!-- Sidebar toggler -->
+        <a class="nav-link nav-icon ml-ni nav-toggler mr-3 d-flex d-lg-none" href="#" data-toggle="modal" data-target="#menuModal"><i data-feather="menu"></i></a>
+
+        <!-- Logo -->
+        <a class="nav-link nav-logo" href="/"><img src="https://mimity-fashion56.netlify.com/img/logo.svg" alt="Mimity"> <strong>직거래 PLUS</strong></a>
+
+        <!-- Main navigation -->
+        <ul class="nav nav-main ml-auto d-none d-lg-flex"> <!-- hidden on md -->
+          <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
+          <li class="nav-item dropdown dropdown-hover">
+            <a class="nav-link active2 dropdown-toggle forwardable" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+              카테고리 <i data-feather="chevron-down"></i>
+            </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="/production/index_productList?cate_code=man&order=asc">남성의류</a>
+              <a class="dropdown-item" href="/production/index_productList?cate_code=woman&order=asc">여성의류</a>
+              <a class="dropdown-item" href="/production/index_productList?cate_code=elect&order=asc">전자제품</a>
+              <a class="dropdown-item" href="/production/index_productList?cate_code=furniture&order=asc">가구/인테리어</a>
+              <a class="dropdown-item" href="/production/index_productList?cate_code=baby&order=asc">유아용품</a>
+              <a class="dropdown-item" href="/production/index_productList?cate_code=sport&order=asc">스포츠/레저</a>
+              <a class="dropdown-item" href="/production/index_productList?cate_code=hobby&order=asc">게임/취미</a>
+              <a class="dropdown-item" href="/production/index_productList?cate_code=beauty&order=asc">뷰티/미용</a>
+              <a class="dropdown-item" href="/production/index_productList?cate_code=life&order=asc">생활/가공품</a>
+              <a class="dropdown-item" href="/production/index_productList?cate_code=animal&order=asc">반려동물용품</a>
+              <a class="dropdown-item" href="/production/index_productList?cate_code=book&order=asc">도서/티켓/음반</a>
+              <a class="dropdown-item" href="/production/index_productList?cate_code=else&order=asc">기타/잡화</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown dropdown-hover">
+            <a class="nav-link active2 dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+             	직플레이스 <i data-feather="chevron-down"></i>
+            </a>
+            <div class="dropdown-menu">
+            <c:if test="${not empty sessionScope.loginSession }">
+              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalPartnerRegister">직플파트너 등록</a>
+            </c:if> 
+              <a id="placeSearch" class="dropdown-item" href="#">직플레이스 찾기</a>
+              <a class="dropdown-item" href="#">함께하는 직플파트너</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown dropdown-hover">
+            <a id="noticeBoard" class="nav-link active dropdown-toggle forwardable" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+              공지사항
+            </a>
+          </li>
+          <li class="nav-item dropdown dropdown-hover">
+            <a id="warningBoard" class="nav-link active dropdown-toggle forwardable" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+              신고게시판
+            </a>
+          </li>
+        </ul>
+        <!-- /Main navigation -->
+
+        <!-- Search form -->
+		<form class="form-inline form-search ml-auto mr-0 mr-sm-1 d-none d-sm-flex">
+	        <div class="input-group input-group-search">
+	            <select class="choose">
+	                <option value="place">지역명</option>
+	                <option value="pName">상품명</option>
+	              </select>
+	          <div class="input-group-prepend">
+	            <button class="btn btn-light d-flex d-sm-none search-toggle" type="button"><i data-feather="chevron-left"></i></button>
+	          </div>
+	          <input type="text" class="form-control border-0 bg-light input-search" placeholder="상품명 , 지역명 입력" aria-label="Search" >
+	          <div class="input-group-append">
+	            <button class="btn btn-light input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
+	          </div>
+	        </div>
+      	</form>
+        <!-- /Search form -->
+
+        <ul class="nav ml-auto ml-sm-0">
+          <!-- Search form toggler -->
+          <li class="nav-item d-block d-sm-none ml-2 ml-lg-0"><a class="nav-link nav-icon search-toggle" href="#"><i data-feather="search"></i></a></li>
+        </ul>
+
+      </div><!-- /.container -->
+    </header>
+   
+    <!-- /Header -->
+    

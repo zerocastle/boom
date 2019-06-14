@@ -1,9 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css"
-   integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y" crossorigin="anonymous">   
-<link rel="stylesheet" type="text/css" href="/resources/css/productView.css" />
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.8.0/css/all.css"
+	integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y"
+	crossorigin="anonymous">
+<link rel="stylesheet" type="text/css"
+	href="/resources/css/productView.css" />
+
+<style>
+	.zip-img{
+		margin-top : 10px;
+		border: 1px solid black;
+		height: 270px;
+	}
+	.addrlocation{
+		position: relative;
+		border: 0.5px solid black;
+		bottom: 400px;
+		left:150px;
+		padding:10px;
+		background-color: white;
+		font-size: 18px;
+		font-weight: 700;
+	}
+	#memImg{
+		width: 100px;
+		height: 100px;
+		border-radius: 50%;
+		margin-left: 15px;
+		margin-top: 8px;
+	}
+	.imgLine{
+	 	display: inline-block;
+	}
+	.mannerLine{
+		display: inline-block;
+	}
+</style>
+
 <script src="/resources/customJs/productView.js"></script>
 
 <script>
@@ -21,7 +56,7 @@ $(document).ready(function(){
  	 $('#doChat').click(function(){
  		 var temp = "${sessionScope.loginSession.m_num}";
  		 if(temp == ""){
- 			 alert("로인을 먼저 해주세요");
+ 			 alert("로그인을 먼저 해주세요");
  			 return ;
  		 }
  		var session;
@@ -36,25 +71,66 @@ $(document).ready(function(){
 		}
 	}); 
  	
+ 	 $('#pickClick').click(function(){
+ 		 var temp = "${sessionScope.loginSession.m_num}";
+ 		 if(temp == ""){
+ 			 alert("로그인을 먼저 해주세요");
+ 			 return ;
+ 		 }
+	 	if(m_num == temp){
+				alert('작성자의 판매상품으로 찜목록에 추가할 수 없습니다.');
+				return false;
+		}
+ 		 var pro_num = result[0].ProMemberJoinDTO.pro_num;
+ 		 
+ 		 $.ajax({
+ 			type : 'post',
+ 			url : '/member/insertPick',
+ 			data :  JSON.stringify({
+ 				pro_num : pro_num,
+ 			}),
+ 			contentType : "application/json;charset=UTF-8",
+ 			async : false,
+ 			success : function(data){
+ 				console.log(data);
+ 				if(data == 0){
+ 					alert('찜목록에 추가했습니다.');
+ 				}else{
+ 					alert('이미 찜목록에 추가되어있습니다.');
+ 				}
+ 			},
+ 			error : function(error){
+ 				console.log(error)
+ 			}
+ 		 });
+ 	 });
+ 	 
  	// 오른쪽 상품 정보
  	var title = $('.productInfo').children().first();
  	var price = title.next();
  	var p_quality = price.next();
  	var add = p_quality.next();
  	var pick = add.next();
+ 	var uuid = result[0].ProMemberJoinDTO.uuid;
+ 	console.log(uuid);
+ 	var filename = result[0].ProMemberJoinDTO.fileName;
+ 	console.log(filename);
+ 	var uploadPath = result[0].ProMemberJoinDTO.uploadPath;
+ 	console.log(uploadPath);
  	
  	title.html(result[0].ProMemberJoinDTO.title);
  	price.find("span").html(comma(result[0].ProMemberJoinDTO.price) + "원");
  	p_quality.find("span").html(result[0].ProMemberJoinDTO.p_quality);
  	add.find("span").html(result[0].ProMemberJoinDTO.addr);
  	pick.find("span").html(result[0].ProMemberJoinDTO.place_pick);
- 	
+ 	$('.addrlocation').html($('.zic-addr').text());
+ 	$('#memImg').attr("src","${pageContext.request.contextPath}/resources/"+uploadPath+"/"+uuid+"_"+filename);
  	// 이미지 
  	var realPath = "${pageContext.request.contextPath}/resources/";
  	
  	var target = $('.productImg') // 이미지 처음 타겟
  	var mainImg = target.children().first().find('img'); // 이미지 메인타겟
- 	mainImg.width(500).height(500);
+ 	mainImg.width(400).height(400);
  	var subImg = target.find('ul'); // 이미지 서브 타겟
  	var imgLength = result[0].Production_uploadVO.length; // 이미지 갯수
 	
@@ -94,7 +170,7 @@ $(document).ready(function(){
    	//상품정보 ~!!!
    	var contentInfo = $('.account');
    	
-   	contentInfo.html("<label class='ac'>"+result[0].ProMemberJoinDTO.content + "</label>");
+   	contentInfo.html(result[0].ProMemberJoinDTO.content);
  	
  	
 	// 콤마찍기 정규 표현식
@@ -112,6 +188,11 @@ $(document).ready(function(){
 	if(result[0].ProMemberJoinDTO.intro == ""){
 		 $('.adrs').html("소개글이 없습니다.");
 	}
+	
+	$('#searchg').click(function(e){
+		e.preventDefault();
+		window.location.href = "/partner/placeSearch"
+	});
 	
 	// 매너 게이지
 	var manner = result[0].ProMemberJoinDTO.manner;
@@ -148,124 +229,152 @@ $(document).ready(function(){
 });
 </script>
 
-         
-<div id="floatMenu">
-   <span class="kjim">최근찜한상품</span> <span><i class="fas fa-heart"></i></span>
-   <input type="text" name="num" value="0" class="num" readonly />
-   <div id="floater">
-      <span class="pro-pro">최근본상품</span>
-      <hr class="dott" style="color:black;">
-      <div id="recentBanner">
-         <div class="recentView" id="recentView"></div>
-      </div>
-      
-   </div>
-   
-   <div class="top1">
-      <button class="top2" onclick="goTop()">TOP</button>
-   </div>
-</div>
- 
+<!-- Main Content -->
+<div class="container mt-3">
+	<div class="card">
+		<div class="card-body">
+			<div class="row">
 				<div class="shCMSshop">
-					
+
 					<div class="shopView">
 						<div class="viewHeader">
 							<!-- 상품이미지 -->
 							<div class="productImg">
 								<div class="mainImg">
-									<img src="http://placehold.it/500x500" alt=""/>
+									<img src="http://placehold.it/400x400" alt="" />
 								</div>
 								<ul class="subImg">
-									
+
 									<li><img src="http://placehold.it/85x85" alt="서브이미지1" /></li>
 									<li><img src="http://placehold.it/85x85" alt="서브이미지2" /></li>
 									<li><img src="http://placehold.it/85x85" alt="서브이미지3" /></li>
 									<li><img src="http://placehold.it/85x85" alt="서브이미지4" /></li>
-								
+
 								</ul>
 							</div>
 							<!-- 상품 설명 -->
 							<div class="productInfo">
-								<h1>나이키 에어포스</h1>
+								<h2>나이키 에어포스</h2>
 								<div class="price">
 									<span class="sale-price">35,000원</span>
 								</div>
-								<div class="manufact" style="color:#000000;">상품상태 :  <span>미사용(새물품)</span></div>
-								<!-- <div class="categori">교환여부 <span>교환 불가능</span></div> --> <!-- 없애 -->
-								<div class="origin">거래지역 :  <span>대구 광역시 북구 복현동 1동</span></div>
-								<div class="race"> 직플레이스 :  <span> #복현 1동 다이소</span></div>
-								
+								<div class="manufact" style="color: #000000;">
+									상품상태 : <span>미사용(새물품)</span>
+								</div>
+								<!-- <div class="categori">교환여부 <span>교환 불가능</span></div> -->
+								<!-- 없애 -->
+								<div class="origin">
+									거래지역 : <span class="zic-addr">대구 광역시 북구 복현동 1동</span>
+								</div>
+								<div class="race">
+									직플레이스 : <span> #복현 1동 다이소</span>
+								</div>
+
 								<!-- 매너 게이지 !!! -->
 								<div class="manner">
-									<span>
-										<i class="fas fa-user-circle"></i>
-									</span>
-									<div>
+									<div class="imgLine">
+										<img id="memImg" src="">
+									</div>
+									<div class="nickLine">
 										<label class="nick">tom</label>
 									</div>
 
-									<div>
+									<div class="addrLine">
 										<label class="adrs">북구 복현1동</label>
 									</div>
-								
-									<div>
-										<canvas id="foo" height="120px" width="200px" class="foo" ></canvas>
-								
-										</div>
+
+									<div class="mannerLine">
+										<canvas id="foo" height="120px" width="200px" class="foo"></canvas>
+
+									</div>
 								</div>
 								<!-- 매너게이지 부분 영역 끝 -->
-								
+
 								<div class="btn">
-									<button class="djim" id="jimclick">찜</button>
+									<button class="djim" id="pickClick">찜</button>
 									<button class="djim1" id="doChat">직톡하기</button>
 								</div>
 							</div>
 						</div>
-						<!-- 하단의 탭부분 시작 -->
-						<div class="viewBody">
-							<ul class="contentNav">
-								<li class="active"><a href="">상품 정보</a></li>
-							<li><a href="">상품 댓글<span>(<span class="count">20</span>)</span></a></li>
-							</ul>
-							<!-- 탭부분 끝 -->
-							<!-- 상품정보 -->
-							<div class="info">
-								<div>
-									<span class="infoo">상품정보</span>
 
-									<hr style="margin-top: 50px; border-color: gray">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="card-header bg-white border-bottom flex-center p-0 mt-3">
+		<ul class="nav nav-pills card-header-pills main-nav-pills"
+			role="tablist">
+			<li class="nav-item"><a class="nav-link active" id="description"
+				data-toggle="tab" href="#description-content" role="tab"
+				aria-controls="description-content" aria-selected="true">상품 정보</a>
+			</li>
+			<li class="nav-item"><a class="nav-link" id="reviews"
+				data-toggle="tab" href="#review-content" role="tab"
+				aria-controls="review-content" aria-selected="false">거래 위치</a>
+			</li>
+		</ul>
+	</div>
+	<div class="tab-content">
+  <div class="card-body tab-pane fade show active" id="description-content" role="tabpanel" aria-labelledby="description">
+                       <div class="detail_comment">
+                       		<p class="info-title">-상품정보 상세설명-</p>
+                       		<p class="account"></p>
+                       </div>
+                      </div>
+		<div class="card-body tab-pane fade" id="review-content"
+			role="tabpanel" aria-labelledby="reviews">
+			<div class="row gutters-3 justify-content-center">
+				<!-- <div class="col-11 col-sm-6 col-md-4 col-lg-3">
+					<h5 class="bold roboto-condensed rating">
+						직플레이스 정보
+					</h5>
+					<div class="list-group">
+						<div class="zip-img">
+						
+						</div>
+					</div>
+					<div class="text-center mt-1">
+						<button id="searchg" class="btn btn-primary btn-block rounded-pill"
+							data-toggle="modal" data-target="#reviewModal">다른 직플레이스 찾기</button>
+					</div>
+				</div> -->
+				<div class="col-md-8 col-lg-9 mt-5 mt-md-0">
+					<div class="media">
+						<div id="map" style="width:1172px; height:400px;"></div>
+						</div>
+					</div>
+					<!-- <div class="addrlocation"><div> -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Related Products -->
 
-									<div class="cont">
+<!-- /Main Content -->
+<script>
+naver.maps.Service.geocode({
+    query: $('.zic-addr').text()
+}, function(status, response) {
+    if (status !== naver.maps.Service.Status.OK) {
+        return alert('Something wrong!');
+    }
 
-										<div class="account">
-											나이키 공홈에서 산 정품입니다. <br>한번도 신지 않았습니다.<br>쿨거래 합니다 
+    var result = response.v2, // 검색 결과의 컨테이너
+        items = result.addresses; // 검색 결과의 배열
+		console.log(items);
+        
+        console.log(items[0].x);
+    // do Something
+    
+        var mapOptions = {
+        	    center: new naver.maps.LatLng(items[0].y, items[0].x),
+        	    zoom: 9
+        	};
 
-										</div>
-									</div>
+        	var map = new naver.maps.Map('map', mapOptions);
+});
 
-									
-								</div>
-								
-								<div class="box">
-								
-									 <div class="box1">
-								<label>직플레이스 선정</label>
-								
-									</div>
-							
-								<div class="box2">
-									<label>#복현동 다이소<br>
-										   #복현동 봄봄</label>
-									
-								
-								</div>
-							
-							</div>
-							
-							</div>
-							
-							<!-- 상품정보 끝나는 시점 -->
-							
-							</div>
-							</div>
-							</div>
+
+</script>

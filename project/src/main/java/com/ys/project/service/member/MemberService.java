@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ys.project.dao.member.IMemberDao;
 import com.ys.project.projectVO.LikeListVO;
 import com.ys.project.projectVO.MemberVO;
+import com.ys.project.projectVO.PaymentVO;
 import com.ys.project.projectVO.ProductionReviewVO;
 import com.ys.project.projectVO.joinPickVO;
 import com.ys.project.projectVO.joinProductVO;
@@ -199,5 +200,23 @@ public class MemberService implements IMemberService {
 	public void appProductDelete(LikeListVO vo) throws Exception {
 		// TODO Auto-generated method stub
 		dao.appProductDelete(vo);
+	}
+
+	@Override
+	public List<PaymentVO> getMemberPayment(String nickName) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.getMemberPayment(nickName);
+	}
+
+	@Override
+	public int insertRegister(MemberVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.insertRegister(vo);
+	}
+
+	@Override
+	public int checkNick(MemberVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.checkNick(vo);
 	}
 }
