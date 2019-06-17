@@ -28,7 +28,7 @@
                 input_cate = "남성의류";
                 break;
             case "woman":
-                input_cate = "여성의류";
+                input_cate = "여성의류" ;
                 break;
             case "elect":
                 input_cate = "전자제품";
@@ -64,67 +64,26 @@
         }
         return input_cate;
     }
-
+      
     //   current_datetime = new Date()
     //     formatted_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate() + " " + current_datetime.getHours() + "-" + current_datetime.getMinutes() + "-" + current_datetime.getSeconds() 
-
-
+      
+      
     //    console.log(formatted_date);
 
-    // var prettyDate =  function(){
-
-    //     var date = new Date();
-
-    //     diff = ((date.getTime() - create_date.getTime()) / 1000);
-
-    //     var a = new Date().getTime();
-    //     var b = create_date.getTime();
-
-    //     console.log(a);
-    //     console.log(b);
-
-    //     console.log(date);
-
-    //     diff = diff - 33000;
-
-    //     if(diff < 0) diff = 0;
-
-    //     day_diff = Math.floor(diff / 86400);
+   
 
 
 
-    //     if ( isNaN(day_diff) || day_diff < 0 )
-
-    //      return;
-
-    //      console.log(day_diff);
-    //      console.log(diff);
-
-    //     return day_diff == 0 && (
-
-    //       diff < 60 && "방금전" ||
-
-    //       diff < 120 && "1분전" ||
-
-    //       diff < 3600 && Math.floor( diff / 60 ) + " 분전" ||
-
-    //       diff < 7200 && "1 시간전" ||
-
-    //       diff < 86400 && Math.floor( diff / 3600 ) + " 시간전") ||
-
-    //      day_diff == 1 && "어제" ||
-
-    //      day_diff < 7 && day_diff + " 일전" ||
-
-    //      day_diff < 31 && Math.floor( day_diff / 7 ) + " 주전" ||
-
-    //      day_diff < 360 && Math.floor( day_diff / 30 ) + " 개월 전" ||
-
-    //      day_diff >= 360 && (Math.floor( day_diff / 360 )==0?1:Math.floor( day_diff / 360 )) + " 년전"
 
 
-    //    }
 
+
+
+
+
+
+    
 
     $.ajax({
         type: 'get',
@@ -140,11 +99,11 @@
             $('.contents').append(data[0].ProMemberJoinDTO.content);
             $('.foo').append(data[0].ProMemberJoinDTO.manner);
             // $(".profile_img").attr('bakcground','http://39.127.7.51:8080/resources/'+data[0].ProMemberJoinDTO.uploadPath.replace(/\\/g, '/')+'/'+data[0].ProMemberJoinDTO.uuid+'_'+data[0].ProMemberJoinDTO.fileName);   
-            $(".profile_img").css({ "background-image": "url('http://39.127.7.51:8080/resources/" + data[0].ProMemberJoinDTO.uploadPath.replace(/\\/g, '/') + "/" + data[0].ProMemberJoinDTO.uuid + "_" + data[0].ProMemberJoinDTO.fileName + "')" });
-            $(".profile_img").css({ "background-position": "center center" });
-            $(".profile_img").css({ "object-fit": "cover" });
-            $(".profile_img").css({ "object-position": "top" });
-            $(".profile_img").css({ "background-size": "100% 100%" });
+            $(".profile_img").css({"background-image" : "url('http://39.127.7.51:8080/resources/"+data[0].ProMemberJoinDTO.uploadPath.replace(/\\/g,'/')+"/"+data[0].ProMemberJoinDTO.uuid+"_"+data[0].ProMemberJoinDTO.fileName+"')"});
+            $(".profile_img").css({"background-position" : "center center"});
+            $(".profile_img").css({"object-fit" : "cover"});
+            $(".profile_img").css({"object-position" : "top"});
+            $(".profile_img").css({"background-size" : "100% 100%"});
             if (data[0].Production_uploadVO[0]) {
                 $('.img1').attr("src", "http://39.127.7.51:8080/resources/" + data[0].Production_uploadVO[0].uploadPath.replace(/\\/g, '/') + '/' + data[0].Production_uploadVO[0].uuid + '_' + data[0].Production_uploadVO[0].fileName);
             }
@@ -173,17 +132,24 @@
                 $('.img5').attr("src", "img/noimg.png")
             }
 
-
+ 
 
             $('.jik_na').append(data[0].ProMemberJoinDTO.place_pick);
 
+
+            $('.pro_time').append(prettyDate(data[0].ProMemberJoinDTO.create_date));
+            
             $('#hidePnum').append(data[0].ProMemberJoinDTO.pro_num);
             $('#hideMnum').append(data[0].ProMemberJoinDTO.m_num);
-
+            
             if (data[0].ProMemberJoinDTO.place_pick == "") {
-                $('.pro_deal > div').append("직거래");
+              $('.pro_deal > div').append("직거래");
             } else
-                $('.pro_deal > div').append("직플거래");
+            $('.pro_deal > div').append("직플거래");
+
+
+
+
 
             $('.pro_nink').click(function (e) {
                 e.preventDefault();
@@ -274,5 +240,70 @@
 })
 
 
+ var prettyDate =  function(create_date){
+        
+    var date = create_date.split('-');
+    var year = date[0];
+    var month = date[1]-1;
+    var day = date[2];
+    var hour = date[3];
+    var minute = date[4];
+    var d = new Date(year, month, day, hour, minute);
+    
+    console.log(date);
+    console.log(year);
+    console.log(month);
+    console.log(day);
+    console.log(hour);
+    console.log(minute);
+    console.log(d);
+
+    var now = new Date();
+    var mTime = d.getTime();
+
+    console.log(now);
+
+    var diff = ((now.getTime()- mTime ) / 1000);
+    console.log(diff);
+
+    // diff = diff - 33000;
+  
+        if(diff < 0) diff = 0;
+      
+        day_diff = Math.floor(diff / 86400);
+      
+        
+      
+        if ( isNaN(day_diff) || day_diff < 0 )
+      
+         return;
+      
+         console.log(day_diff);
+         console.log(diff);
+      
+        return day_diff == 0 && (
+      
+          diff < 60 && "방금전" ||
+      
+          diff < 120 && "1분전" ||
+      
+          diff < 3600 && Math.floor( diff / 60 ) + "분전" ||
+      
+          diff < 7200 && "1 시간전" ||
+      
+          diff < 86400 && Math.floor( diff / 3600 ) + "시간전") ||
+      
+         day_diff == 1 && "어제" ||
+      
+         day_diff < 7 && day_diff + "일전" ||
+      
+         day_diff < 31 && Math.floor( day_diff / 7 ) + " 주전" ||
+      
+         day_diff < 360 && Math.floor( day_diff / 30 ) + " 개월 전" ||
+      
+         day_diff >= 360 && (Math.floor( day_diff / 360 )==0?1:Math.floor( day_diff / 360 )) + " 년전"
+      
+
+}
 
 

@@ -82,6 +82,114 @@
         img{
             -webkit-perspective: 1;
         }
+
+        .footer-line {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 8%;
+    background: white;
+    border-top: 1px solid #BDBDBD;
+    margin-top: 5px;
+}
+
+.pro-home {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 9.5%;
+    margin-top: 7px;
+
+}
+
+.pro-category {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 8%;
+    margin-top: 7px;
+
+}
+
+.pro-plus {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 8%;
+    margin-top: 7px;
+}
+
+.pro-chat {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 8%;
+    margin-top: 7px;
+}
+
+.my-user {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 8%;
+    margin-top: 7px;
+}
+
+.pro_house{
+    margin-left: 15%;
+}
+
+.pro_menu{
+    margin-left: 22%;
+}
+
+.pro_add{
+    margin-left: 26%;
+}
+
+.pro_bubble{
+    margin-left: 15%;
+}
+
+#usericon{
+    margin-left: 18%;
+}
+.name-home {
+    font-size: 12px;
+    margin-left: 9px;
+    font-weight: bold;
+}
+
+.name-chat {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.name-plus {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.name-category {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.name-user {
+    font-size: 12px;
+    font-weight: bold;
+}
+a{
+text-decoration: none !important;
+color: black !important;
+font-weight: bold !important;
+}
+ a:link{
+ text-decoration: none !important;
+ color: black !important;
+}
+
+ a:visited{
+text-decoration: none !important;
+color:black !important;
+ }
+
     </style>
 </head>
 
@@ -92,7 +200,7 @@
 	
 
     <header data-role="header" data-theme="b">
-            <a href="#" class="ui-btn" data-rel="back" style="background-color : #1d1d1d; color:#fff;"><i class="fas fa-arrow-left"></i></a>
+            <a href="#" class="ui-btn" data-rel="back" style=" color:#fff;"><i class="fas fa-arrow-left"></i></a>
             <h1><i class="far fa-address-card" style="margin-right: 5px;"></i>내 정보</h1>
     </header>		
 
@@ -167,11 +275,80 @@
         </div>
     </div>
 
- 
+    <div class="footer-line" style="background-color: white;">
 
-    <footer data-role="footer" data-position="fixed" data-theme="b">
+        <!-- <div class="menuDiv"> -->
+
+        <div class="pro-home">
+
+            <a href="index.html">
+                <div class="pro_house">
+                    <img src="./img/house.svg">
+                </div>
+
+                <div>
+                    <span class="name-home">홈</span>
+
+                </div>
+            </a>
+        </div>
+
+
+        <div class="pro-category">
+
+            <a href="#">
+                <div class="pro_menu">
+                   <img src="./img/menu.svg">
+                </div>
+
+                <div>
+                    <span class="name-category">카테고리</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="pro-plus">
+            <a href="#">
+                <div class="pro_add">
+                   <img src="./img/add.svg">
+                </div>
+
+                <div>
+                    <span class="name-plus" onclick="goPage()">상품등록</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="pro-chat">
+            <a href="chatList.html">
+                <div class="pro_bubble">
+                    <img src="img/speech-bubble.svg">
+                </div>
+
+                <div>
+                    <span class="name-chat">거래방</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="my-user">
+            <a href="#">
+                <div id="usericon">
+                    <img src="img/profile.svg">
+                </div>
+
+                <div>
+                    <span class="name-user">내정보</span>
+                </div>
+            </a>
+        </div>
+
+
+    </div>
+
+    <!-- <footer data-role="footer" data-position="fixed" data-theme="b">
         <h2>ⓒ직거래 플러스 2019</h2>
-    </footer>
+    </footer> -->
 
 </section>
 

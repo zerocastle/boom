@@ -86,9 +86,9 @@ $(document).ready(function () {
 
 
 
-  alert('뜨냐');
+
   $(document).on("click",'.jumsu',  function () {
-    window.alert('눌러지냐?');
+    
     var sender = $(this).parent().parent().find('p').text();
     var score = parseInt($(this).siblings().first().val());
 

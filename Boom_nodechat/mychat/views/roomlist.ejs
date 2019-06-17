@@ -4,261 +4,211 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
-   <!-- FONTS  -->
-    <!-- <link rel="stylesheet" href="../fonts/nunito.css"> -->
-    <!-- <link rel="stylesheet" href="../fonts/roboto.css"> -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:400,700">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700">
 
-    <!-- REQUIRED CSS: BOOTSTRAP, METISMENU, PERFECT-SCROLLBAR  -->
-    <link rel="stylesheet" href="../public/libary/css/vendor.min.css">
-
-    <!-- PLUGINS FOR CURRENT PAGE -->
-    <link rel="stylesheet" href="../public/libary/plugins/node_modules/swiper/dist/css/swiper.min.css">
-    <link rel="stylesheet" href="../public/libary/plugins/node_modules/noty/lib/noty.css">
-
-    <!-- Mimity CSS  -->
-    <link rel="stylesheet" href="../public/libary/css/style.min.css">
-    <link rel="stylesheet" href="../public/libary/css/roomlist.css">
-
-    <style>
-      body{
-        overflow-x:hidden; overflow-y:hidden;
-      }
-    .container{max-width:1170px; margin:auto;}
-img{ max-width:100%;}
-.inbox_people {
-  background: #f8f8f8 none repeat scroll 0 0;
-  overflow: hidden;
-  border-right:1px solid #c4c4c4;
-}
-.inbox_msg {
-  border: 1px solid #c4c4c4;
-  clear: both;
-  overflow: hidden;
-}
-.top_spac{ margin: 20px 0 0;}
-
-
-.recent_heading {float: left; width:40%;}
-.srch_bar {
-  display: inline-block;
-  text-align: right;
-  width: 60%;
-}
-.headind_srch{ padding:10px 29px 10px 20px; overflow:hidden; border-bottom:1px solid #c4c4c4;}
-
-.recent_heading h4 {
-  color: #05728f;
-  font-size: 21px;
-  margin: auto;
-}
-.srch_bar input{ border:1px solid #cdcdcd; border-width:0 0 1px 0; width:80%; padding:2px 0 4px 6px; background:none;}
-.srch_bar .input-group-addon button {
-  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-  border: medium none;
-  padding: 0;
-  color: #707070;
-  font-size: 18px;
-}
-.srch_bar .input-group-addon { margin: 0 0 0 -27px;}
-
-.chat_ib h5{ font-size:15px; color:#464646; margin:0 0 8px 0;}
-.chat_ib h5 span{ font-size:13px; float:right;}
-.chat_ib p{font-size:14px;color:#989898;margin:auto;padding: 10px;padding-left: 0;}
-.chat_img {
-  float: left;
-  width: 11%;
-}
-.chat_ib {
-  float: left;
-  padding: 0 0 0 15px;
-  width: 88%;
-}
-
-.chat_people{ overflow:hidden; clear:both;}
-.chat_list {
-  border-bottom: 1px solid #c4c4c4;
-  margin: 0;
-  padding: 18px 16px 10px;
-  background-color: #eaf3fd;
-}
-.inbox_chat { height: 550px; overflow-y: scroll;}
-
-.active_chat{ background:#ebebeb;}
-
-.incoming_msg_img {
-  display: inline-block;
-  width: 6%;
-}
-.received_msg {
-  display: inline-block;
-  padding: 0 0 0 10px;
-  vertical-align: top;
-  width: 92%;
- }
- .received_withd_msg p {
-  background: #ebebeb none repeat scroll 0 0;
-  border-radius: 3px;
-  color: #646464;
-  font-size: 14px;
-  margin: 0;
-  padding: 5px 10px 5px 12px;
-  width: 100%;
-}
-.time_date {
-  color: #747474;
-  display: block;
-  font-size: 12px;
-  margin: 8px 0 0;
-}
-.received_withd_msg { width: 57%;}
-.mesgs {
-  float: left;
-  padding: 30px 15px 0 25px;
-  width: 60%;
-}
-
- .sent_msg p {
-  background: #05728f none repeat scroll 0 0;
-  border-radius: 3px;
-  font-size: 14px;
-  margin: 0; color:#fff;
-  padding: 5px 10px 5px 12px;
-  width:100%;
-}
-.outgoing_msg{ overflow:hidden; margin:26px 0 26px;}
-.sent_msg {
-  float: right;
-  width: 46%;
-}
-.input_msg_write input {
-  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-  border: medium none;
-  color: #4c4c4c;
-  font-size: 15px;
-  min-height: 48px;
-  width: 100%;
-}
-
-.type_msg {border-top: 1px solid #c4c4c4;position: relative;}
-.msg_send_btn {
-  background: #05728f none repeat scroll 0 0;
-  border: medium none;
-  border-radius: 50%;
-  color: #fff;
-  cursor: pointer;
-  font-size: 17px;
-  height: 33px;
-  position: absolute;
-  right: 0;
-  top: 11px;
-  width: 33px;
-}
-.messaging { padding: 0 0 50px 0;}
-.msg_history {
-  height: 516px;
-  overflow-y: auto;
-}
-.fontDown{
-  font-size: 14px;
-  font-weight: 700;
-}
-.chat_nameLine{
-  display: inline-block;
-  vertical-align: middle;
-  font-size: 14px;
-  font-weight: 600;
-  color: #4a4855;
-  padding-left: 15px;
-}
-.sell-proTitle{
-  font-size: 14px;
-  color: black;
-}
-    </style>
+ <!-- Font Awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<!-- Bootstrap core CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/css/mdb.min.css" rel="stylesheet">
 
     <title>My Address - Mimity</title>
     <title>Document</title>
+
+    <style>
+    body{
+      font-weight: 500;
+      overflow-x:hidden; overflow-y:hidden;
+    }
+
+    .white2{
+      height: 496px;
+      max-height: 100%;
+      overflow-x:hidden; overflow-y:auto;
+    }
+
+    .INFO{
+      margin-bottom: 10px;
+    }
+
+    img{
+      width: 3rem;
+    }
+
+    ul {
+      margin-bottom: 0;
+    }
+
+    .pb-0, .py-0{
+      padding-bottom: 1rem!important;
+    }
+
+    .nav-logo {
+      color: #007bff;
+      font-weight: bolder;
+    }
+    .right-flot{
+      float: right;
+    }
+
+    .zic-nick{
+      margin-top: 5px;
+      margin-bottom: 15px;
+      font-weight: 600;
+
+      border-bottom: 1px solid black;
+    }
+
+    .realNick{
+      font-size: 18px;
+      color: #007bff;
+      font-weight: bolder;
+    }
+    .p-2{
+      margin-bottom: 10px;
+    }
+    .p-2:hover{
+      background-color: #eee;
+    }
+
+    .img-div{
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .text-small{
+      display: inline-block;
+      margin-left: 20px;
+      width: 70%;
+      vertical-align: middle;
+    }
+    .text-product{
+      
+      overflow : hidden;
+
+      text-overflow : ellipsis;
+
+      height : 20px; 
+
+      word-wrap : brek-word; 
+
+      display : -webkit-box;
+
+      -webkit-line-clamp : 1;
+
+      -webkit-box-orient: vertical; 
+    }
+
+    .scrollbar-light-blue::-webkit-scrollbar-thumb{
+      border-radius: 10px;
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+      background-color: #82B1FF;
+    }
+
+    .MemberImg{
+      border-radius: 20%;
+      width: 60px;
+      border: 0.1px solid #007bff;
+      height: 60px;
+    }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="messaging">
-              <!-- <div class="inbox_msg"> -->
-                <div class="inbox_people">
-                  <div class="headind_srch">
-                    <div class="recent_heading">
-                      <h4><%=nickname%><span class="fontDown">님의 직톡목록</span></h4>
-                    </div>
-                    <div class="srch_bar">
-                      <div class="stylish-input-group">
-                        <input type="text" class="search-bar"  placeholder="Search" >
-                        <span class="input-group-addon">
-                        <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
-                        </span> </div>
-                    </div>
-                  </div>
-                  <div class="inbox_chat">
-                      <% var list = result%>
-                      <!-- [i][0]:room_id, [i][1]:buyer_num, [i][2]:seller_num, [i][3]:pro_num, [i][4]:pro_title, [i][5]:buyer_nickname, [i][6]:seller_nickname  -->
-                              <%  
-                                var arr=[];
-                                  var jsonoobj = {};
-                                 list = JSON.parse(list);
-                                  for(var i = 0; i < list.rows.length; i++){
-                                    jsonoobj = {
-                                        room_id : list.rows[i][0],
-                                        buyer_num : list.rows[i][1],
-                                        seller_num : list.rows[i][2],
-                                        pro_num : list.rows[i][3],
-                                        room_title : list.rows[i][4],
-                                        seller : list.rows[i][6],
-                                        buyer : list.rows[i][5]
-                                    }
-                                    var realJson = JSON.parse(JSON.stringify(jsonoobj));
-                                    arr.push(realJson);
-                                  }
-                              %>
-                              <%for(var i =0; i<arr.length;i++){ %>
-                                  <a href="/roomchat?room_id=<%=arr[i].room_id%>&talker=in&seller=<%=arr[i].seller%>&buyer=<%=arr[i].buyer%>&pro_num=<%=arr[i].pro_num%>&mobile=0&nickname=<%=nickname%>">             
-                    <div class="chat_list">
-                      <div class="chat_people">
-                        <div>
-                        <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                        <%
-                        if(arr[i].seller == nickname){%>
-                          <div class="chat_nameLine"><%=arr[i].buyer%> </div>  
-                        <%} else { %>
-                          <div class="chat_nameLine"><%=arr[i].seller%> </div>
-                       <%} %>
-                      
-                      </div>
-                        <div class="chat_ib">
-                          <p> <span class="sell-proTitle">판매 상품명</span><br> <%=arr[i].room_title%></p>
-                        </div>
-                      </div>
-                    </div>
-                    </a>
-                    <%}%>
-                  </div>
-                  
-                </div>    
+  <div class="card-body">
+      
+    <!-- Grid row -->
+    <div class="row px-lg-2 px-2">
+
+        <div class="col-md-6 col-xl-4 px-0 INFO">
+            <div class="white z-depth-1 px-3 pt-3 pb-0">
+              <div class="nav-logo">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18m-5 4a4 4 0 0 1-8 0"/></svg>
+                  <strong>직거래 PLUS</strong>
+                  <strong class="right-flot">직톡목록</strong>
               </div>
             </div>
+        </div>
+      <!-- Grid column -->
+      <div class="col-md-6 col-xl-4 px-0">
+        <div class="white z-depth-1 px-3 pt-3 pb-0 white2 .scrollbar-light-blue">
+          <ul class="list-unstyled friend-list">
 
+              <div class="zic-nick">
+                  <span class="realNick"><%=nickname%></span>
+                  님의 거래목록
+              </div>
+              <% var list = result%>
+              <!-- [i][0]:room_id, [i][1]:buyer_num, [i][2]:seller_num, [i][3]:pro_num, [i][4]:pro_title, [i][5]:buyer_nickname, [i][6]:seller_nickname  -->
+                      <%  
+                        var arr=[];
+                          var jsonoobj = {};
+                         list = JSON.parse(list);
+                          for(var i = 0; i < list.rows.length; i++){
+                            jsonoobj = {
+                                room_id : list.rows[i][0],
+                                buyer_num : list.rows[i][1],
+                                seller_num : list.rows[i][2],
+                                pro_num : list.rows[i][3],
+                                room_title : list.rows[i][4],
+                                seller : list.rows[i][6],
+                                buyer : list.rows[i][5],
+                                img : list.rows[i][7]
+                            }
+                            var realJson = JSON.parse(JSON.stringify(jsonoobj));
+                            arr.push(realJson);
+                          }
+                      %>
+            <!-- 리스트 뷰 -->
+            <!-- <li class="active grey lighten-3 p-2">
+              <a href="#" class="d-flex justify-content-between">
+                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg" alt="avatar" class="avatar rounded-circle d-flex align-self-center mr-2 z-depth-1">
+                <div class="text-small">
+                  <strong>John Doe</strong>
+                  <p class="last-message text-muted">Hello, Are you there?</p>
+                </div>
+                <div class="chat-footer">
+                  <p class="text-smaller text-muted mb-0">Just now</p>
+                  <span class="badge badge-danger float-right">1</span>
+                </div>
+              </a>
+            </li> -->
+            <%for(var i =0; i<arr.length;i++){ %>
+              
+            <li class="p-2">
+              <a href="/roomchat?room_id=<%=arr[i].room_id%>&talker=in&seller=<%=arr[i].seller%>&buyer=<%=arr[i].buyer%>&pro_num=<%=arr[i].pro_num%>&mobile=0&nickname=<%=nickname%>">
+                <div class="img-div">
+                <img class="MemberImg" src="http://39.127.7.51:8080/resources/<%=arr[i].img%>" alt="sunil">
+                </div>
+                <div class="text-small">
+                  <div>
+                  <% if(arr[i].seller == nickname){%>
+                  <strong><%=arr[i].buyer%> </strong>
+                  <%} else { %>
+                    <strong><%=arr[i].seller%> </strong>
+                  <%} %>
+                </div>
+                  <div class="text-product">
+                  <span class="last-message text-muted">상품명 : <%=arr[i].room_title%></span>
+                  </div>
+                </div>
+                <div class="chat-footer">
+                  <span class="text-muted float-right"><i class="fas fa-mail-reply" aria-hidden="true"></i></span>
+                </div>
+              </a>
+            </li>
+            <%}%>
+          </ul>
+        </div>
 
+      </div>
+      <!-- Grid column -->
 
+    
 
-    <!-- REQUIRED JS  -->
-    <script src="../public/libary/plugins/node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="../public/libary/plugins/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../public/libary/plugins/node_modules/feather-icons/dist/feather.min.js"></script>
-    <script src="../public/libary/plugins/node_modules/metismenu/dist/metisMenu.min.js"></script>
-    <script src="../public/libary/plugins//node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
-    <!-- PLUGINS FOR CURRENT PAGE -->
-    <script src="../public/libary/plugins/node_modules/swiper/dist/js/swiper.min.js"></script>
-    <script src="../public/libary/plugins/node_modules/noty/lib/noty.min.js"></script>
-    <script src="../public/libary/plugins/node_modules/jquery-countdown/dist/jquery.countdown.min.js"></script>
+    </div>
+    <!-- Grid row -->
+
+  </div>
+</div>
 </body>
 </html>

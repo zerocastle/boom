@@ -488,9 +488,11 @@ app.get('/jackchat', (req, res) => {//localhost:3000/jackchat 으로 접근시 �
   console.log('쿼리스트링 // ' + req.query.nickname);
   console.log('찍어봅시다 : ', temp) // 채팅서버에 접속한 유저의 nickname을 찍어본다.
 
-  //값이 있다면 실행
+  //값이 있다면 실행 챗 리스트 사진도 같이 가지고 옴
   console.log('목록1');
-  var loglogsql = "select c.room_id, c.buyer_num, c.seller_num, c.pro_num, o.title, (select nickname from member where m_num = c.buyer_num) C_buyer_nickname, (select nickname from member where m_num = c.seller_num) C_seller_nickname  from chatroom c, production o where o.pro_num = c.pro_num and (      seller_num = (select m_num from member where nickname = '" + temp + "') or      buyer_num = (select m_num from member where nickname = '" + temp + "')) order by room_id asc";
+  var loglogsql = "select c.room_id, c.buyer_num, c.seller_num, c.pro_num, o.title,(select nickname from member where m_num = c.buyer_num) C_buyer_nickname, (select nickname from member where m_num = c.seller_num) C_seller_nickname ,(select uploadPath  || '/' || uuid ||'_'|| fileName from member where m_num = c.buyer_num) img from chatroom c, production o where o.pro_num = c.pro_num and (      seller_num = (select m_num from member where nickname = '" + temp + "') or      buyer_num = (select m_num from member where nickname = '" + temp + "')) order by room_id asc";
+
+
   console.log('목록2');
   //닉네임으로 유저의 회원번호 알아내어 해당 번호가 구매자 또는 판매자로 존재하는 채팅방을 검색한다.
   conn.execute(loglogsql, function (err, result) { // 긴 쿼리문을 실행한다.
@@ -635,7 +637,7 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
   }
 
   socket.on('socket_sendAcc', (num, name, tag) => {
-    var tag = tag + "<input style=''display:none;'' type=''text'' class=''message_id'' value='''||TO_CHAR(message_seq.NEXTVAL)||'''></input>";
+    // var tag = tag + "<input style=''display:none;'' type=''text'' class=''message_id'' value='''||TO_CHAR(message_seq.NEXTVAL)||'''></input>";
     var insertSql = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '" + name + "'), " + num + ", '" + tag + "')";
     console.log(insertSql);
     conn.execute(insertSql, function (err, result) {

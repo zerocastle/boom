@@ -37,7 +37,7 @@ $(document).ready(function () {
                 + '<div class="img-name">'
                 + '<p>' + data[i].title + '</p>'
                 + '<p class="addr-name">' + data[i].addr + '</p>'
-                + '<div class="p-price"><p class="pro-price">가격 : ' + comma(data[i].price) + '원</p></div>'
+                + '<div class="p-price"><p class="pro-price">' + comma(data[i].price) + '원</p></div>'
                 + place_signal
                 + '<input class="pro_num" type="hidden" value="' + data[i].pro_num + '" />'
                 + '<div class="chat-numbering">' +

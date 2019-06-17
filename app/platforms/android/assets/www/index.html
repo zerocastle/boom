@@ -106,8 +106,8 @@
         /* img */
 
         /* ==============================
-   $-Modules
-============================== */
+               $-Modules
+            ============================== */
         /* clearfix */
 
 
@@ -123,8 +123,8 @@
         }
 
         /* ==============================
-   $-Styles
-============================== */
+               $-Styles
+            ============================== */
         .search {
             position: relative;
 
@@ -148,7 +148,13 @@
         .search input[type=submit]:hover {
             opacity: .5;
         }
-
+        .background{
+position:fixed;
+top:0px;
+left:0px;
+width:100%;
+height:100%;
+}
         .search input[type=text] {
             width: 14em;
             height: 2.5em;
@@ -177,8 +183,8 @@
         }
 
         /* ==============================
-   $-Media-queries
-============================== */
+               $-Media-queries
+            ============================== */
         /* max width queries */
         .header {
             border-bottom: 1px solid #BDBDBD;
@@ -187,7 +193,9 @@
         /* //////////////////////////////////////////////////////// */
 
         input::placeholder {
-            font-size: 15px;
+            font-size: 13px;
+            color: black;
+            font-family: 'Black Han Sans', sans-serif !important;
         }
 
         #searchbar {
@@ -209,9 +217,6 @@
             transform: translate(-50%, -50%);
         }
 
-        #searchbar[placeholder] {
-            color: #00aeff;
-        }
 
         #searchbar:focus {
             outline: none;
@@ -279,6 +284,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            margin-top: 8px;
         }
 
         .searchbutton {
@@ -333,6 +339,7 @@
             margin: auto;
             position: relative;
         }
+
 
         .ion-load-c {
             font-size: 4em;
@@ -396,6 +403,7 @@
 
 <body>
     <div id="wrap">
+        
         <div class="background">
             <header class="header" style="background-color: white; height: 50px">
 
@@ -455,7 +463,7 @@
 
                 <div class="pro-home">
 
-                    <a href="#">
+                    <a href="./index.html">
                         <div class="pro_house">
                             <img src="./img/house.svg">
                         </div>
@@ -520,11 +528,20 @@
 
             </div>
         </div>
+        </div>
+
 </body>
 <script>
     function goPage() {
         location.href = "index2.html";
     }
 </script>
+
+<script>
+    $(function(){
+   $(".background").css('height',window.innerHeight);
+   
+   });
+   </script>
 
 </html>

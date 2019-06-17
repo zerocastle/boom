@@ -1,229 +1,272 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-  integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
   <script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
-    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="js/productview.js"></script>
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="js/productview.js"></script>
   <link rel="stylesheet" href="./css/proview.css">
+  <link rel="stylesheet" href="./css/swiper.min.css">
 </head>
+
 <body>
   <div class="wrrap">
     <div class="contents-line">
 
-        <div class="slideshow-container">
-            
-            <div class="mySlides fade">
-                <img class="img1" src="">
-            </div>
 
-            <div class="mySlides fade">
+      <div class="swiper-container">
+        <div class="fas fa-arrow-left" onclick="history.back(-1); return false;"></div>
 
-                <img class="img2" src="">
-            </div>
 
-            <div class="mySlides fade">
+        <span class="swiper-pagination"></span>
 
-                <img class="img3" src="">
+        <div class="swiper-wrapper">
 
-            </div>
+          <div class="swiper-slide">
+            <img class="img1" src="">
+          </div>
 
-            <div class="mySlides fade">
+          <div class="swiper-slide">
+            <img class="img2" src="">
+          </div>
 
-                <img class="img4" src="">
 
-            </div>
+          <div class="swiper-slide">
+            <img class="img3" src="">
+          </div>
 
-            <div class="mySlides fade">
 
-                <img class="img5" src="">
+          <div class="swiper-slide">
+            <img class="img4" src="">
+          </div>
 
-            </div>
-             
-            <div class="dot1">
-              <span class="dot"></span> 
-              <span class="dot"></span> 
-              <span class="dot"></span> 
-              <span class="dot"></span>
-              <span class="dot"></span>  
-            </div>   
+          <div class="swiper-slide">
+            <img class="img5" src="">
+          </div>
+
+
+
         </div>
 
-        <div class="kind1">
-          <div class="kind"></div>
-        </div>
-        <div class="pro_deal">
-          <div></div>
-        </div>
+      </div>
 
 
-        <div class="htitle1">
+
+      <div class="kind1">
+        <div class="kind"></div>
+      </div>
+      <div class="pro_deal">
+        <div></div>
+      </div>
+
+
+      <div class="htitle1">
+        <div id="hidePnum"></div>
+        <div id="hideMnum"></div>
         <div class="htitle"></div>
-        </div>
-        
-        <div class="fo_price1">
-          <div class="fo_price"></div>
-        </div>
-       
-        <div class="pro_tivi">
-        
+      </div>
+
+      <div class="fo_price1">
+        <div class="fo_price"></div>
+      </div>
+
+      <div class="pro_tivi">
+
         <div class="pro_time">
-        
         </div>
 
-        <div class="pro_view">
-         <div><i class="far fa-eye"></i> 1</div>
-        </div>
-        </div>
+      </div>
 
-        <div class="pro_cont contents"> 
-        
-        </div>
+      <div class="pro_cont contents">
+
+      </div>
 
       <div class="pro_addrcode">
         <div class="pro_addr ">
-        거래지역
+          거래지역
         </div>
-        
+
         <div class="pro_code">
-        <div class="info_addr"><i class="fas fa-map-marker-alt "></i></div> 
+          <div class="info_addr"><i class="fas fa-map-marker-alt "></i></div>
         </div>
       </div>
-        
+
       <div class="pro_catae_catae">
         <div class="pro_catae">
           카테고리
         </div>
 
         <div class="pro_cataename cate">
-       
+
         </div>
       </div>
 
       <div class="pro_jik_jik">
-      <div class="pro_jik">
-      직플레이스장소
-      </div>
-
-      <div class="jik_na">
-      
-    </div>
-
-      <div class="pro_siren">
-        <div><img src="./img/siren.svg"></div>
-      </div>
-      </div>
-        
-      <div class="pro_file">
-         
-        <div class="profile_img">
-       
+        <div class="pro_jik">
+          직플레이스장소
         </div>
-       
-        <div class="profile_nickname pro_nink">
+
+        <div class="jik_na">
+
         </div>
-         
-        <div class="mana">
+        <a href="#layer2" class="btn-example">
+          <div class="pro_siren">
+            <div>
+              <img src="./img/siren.svg">
+            </div>
+          </div>
+        </a>
+
+
+        <div class="pro_file">
+
+          <div class="profile_img">
+
+          </div>
+
+          <div class="profile_nickname pro_nink">
+          </div>
+
+          <div class="mana">
             <canvas id="foo" class="foo"></canvas>
-        </div>
+          </div>
 
 
         </div>
-    </div>
-    
-    <div class="footer-line">
-      <div class="heart">
-        <div class="far fa-heart"> </div>
       </div>
-            <button class="jiktalk">직톡으로 거래하기</button>
+
+      <div class="footer-line">
+        <div class="heart">
+          <div class="far fa-heart"> </div>
+        </div>
+        <button class="jiktalk doChat">직톡으로 거래하기</button>
+      </div>
+
     </div>
 
-  </div>
+    <div class="dim-layer">
+      <div class="dimBg"></div>
+      <div id="layer2" class="pop-layer">
+        <!--content //-->
+        <div class="headerline">
+
+          <div class="user_singo">신고하기</div>
+        </div>
+        <div class="contentsline">
+          <div class="singo1">
+            <label>사기 거래가 의심되는 게시물</label><input type="radio" name="1" style="margin-left: 40%"></br>
+          </div>
+
+          <div class="singo1">
+            <label>부적절한 홍보나 광고 게시물</label><input type="radio" name="1" style="margin-left: 40%;"></br>
+          </div>
+
+          <div class="singo1">
+            <label>음란성 또는 풍기문란의 게시물</label><input type="radio" name="1" style="margin-left: 36.3%;"></br>
+          </div>
+
+          <div class="singo1">
+            <label>개인 또는 단체의 명예훼손 피해를 입히는 게시물</label><input type="radio" name="1" style="margin-left: 5.5%;"></br>
+          </div>
+
+          <div class="singo1">
+            <label>비매너 사용자 입니다.</label><input type="radio" name="1" style="margin-left: 52.2%;"></br>
+          </div>
+
+          <div class="singo1">
+            <label>기타 직거래플러스의 게시물로 부적절한 경우</label><input type="radio" name="1" style="margin-left: 12.1%;"></br>
+          </div>
+
+          <div class="singo1">
+            <div>직접입력</div>
+
+            <textarea id="content" maxlength="200" style="margin-top:10px;"></textarea>
+
+            <div class="wpgks" id="counter">글자수 제한###</div>
+          </div>
+
+          <div class="but">
+            <button class="singo_but">신고하기</button>
+            <button class="btn-layerClose">취소</button>
+          </div>
+
+
+        </div>
+
+      </div>
+    </div>
+
+
+
+
 </body>
-<script>
-  var slideIndex = 0;
-  showSlides();
-  
-  function showSlides() {
-      var i;
-      var slides = document.getElementsByClassName("mySlides");
-      var dots = document.getElementsByClassName("dot");
-      for (i = 0; i < slides.length; i++) {
-         slides[i].style.display = "none";  
-      }
-      slideIndex++;
-      if (slideIndex > slides.length) {slideIndex = 1}    
-      for (i = 0; i < dots.length; i++) {
-          dots[i].className = dots[i].className.replace(" active", "");
-      }
-      slides[slideIndex-1].style.display = "block";  
-      dots[slideIndex-1].className += " active";
-      setTimeout(showSlides, 2000); // Change image every 2 seconds
-  }
-  </script> 
+
+</html>
+
 
 
 <script>
-    $('.btn-example').click(function(){
-      var $href = $(this).attr('href');
-      layer_popup($href);
+  $('.btn-example').click(function () {
+    var $href = $(this).attr('href');
+    layer_popup($href);
   });
-  function layer_popup(el){
+  function layer_popup(el) {
 
-      var $el = $(el);        //레이어의 id를 $el 변수에 저장
-      var isDim = $el.prev().hasClass('dimBg');   //dimmed 레이어를 감지하기 위한 boolean 변수
+    var $el = $(el);        //레이어의 id를 $el 변수에 저장
+    var isDim = $el.prev().hasClass('dimBg');   //dimmed 레이어를 감지하기 위한 boolean 변수
 
-      isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
+    isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
 
-      var $elWidth = ~~($el.outerWidth()),
-          $elHeight = ~~($el.outerHeight()),
-          docWidth = $(document).width(),
-          docHeight = $(document).height();
+    var $elWidth = ~~($el.outerWidth()),
+      $elHeight = ~~($el.outerHeight()),
+      docWidth = $(document).width(),
+      docHeight = $(document).height();
 
-      // 화면의 중앙에 레이어를 띄운다.
-      if ($elHeight < docHeight || $elWidth < docWidth) {
-          $el.css({
-              marginTop: -$elHeight /2,
-              marginLeft: -$elWidth/2
-          })
-      } else {
-          $el.css({top: 0, left: 0});
-      }
+    // 화면의 중앙에 레이어를 띄운다.
+    if ($elHeight < docHeight || $elWidth < docWidth) {
+      $el.css({
+        marginTop: -$elHeight / 2,
+        marginLeft: -$elWidth / 2
+      })
+    } else {
+      $el.css({ top: 0, left: 0 });
+    }
 
-      $el.find('.btn-layerClose').click(function(){
-          isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
-          return false;
-      });
+    $el.find('.btn-layerClose').click(function () {
+      isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+      return false;
+    });
 
-      $('.layer .dimBg').click(function(){
-          $('.dim-layer').fadeOut();
-          return false;
-      });
+    $('.layer .dimBg').click(function () {
+      $('.dim-layer').fadeOut();
+      return false;
+    });
 
   }
 
 
 
-  $(function() {
-      $('#content').keyup(function (e){
-          var content = $(this).val();
-          // $(this).height(((content.split('\n').length + 1) * 1.5) + 'em');
-          $('#counter').html(content.length + '/200');     
-      });
-      $('#content').keyup();
-});
-
-$(function(){
-    $('#other-nick').click(function(){
-        var name = $('#nickname').text();
-        window.location.href="other.html?name="+name;
+  $(function () {
+    $('#content').keyup(function (e) {
+      var content = $(this).val();
+      // $(this).height(((content.split('\n').length + 1) * 1.5) + 'em');
+      $('#counter').html(content.length + '/200');
     });
-});
+    $('#content').keyup();
+  });
+
+  $(function () {
+    $('#other-nick').click(function () {
+      var name = $('#nickname').text();
+      window.location.href = "other.html?name=" + name;
+    });
+  });
 
 </script>
 
@@ -233,148 +276,104 @@ $(function(){
 
 
 <script>
-    //매너게이지
-      $(function () {
-        var jack = 2525;
-        function startFoo() {
-          var opts = {
-            angle: 0.15, // The span of the gauge arc
-            lineWidth: 0.44, // The line thickness
-            radiusScale: 1, // Relative radius
-            pointer: {
-              length: 0.51, // // Relative to gauge radius
-              strokeWidth: 0.077, // The thickness
-              color: '#000000' // Fill color
-            },
-            limitMax: false,     // If false, max value increases automatically if value > maxValue
-            limitMin: false,     // If true, the min value of the gauge will be fixed
-            colorStart: '#f70000',   // Colors
-            colorStop: '#f70000',    // just experiment with them
-            strokeColor: '#E0E0E0',  // to see which ones work best for you
-            generateGradient: true,
-            highDpiSupport: true,     // High resolution support
-  
-          };
-          var target = document.getElementById('foo'); // your canvas element
-          var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
-          gauge.maxValue = 3000; // set max gauge value
-          gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
-          gauge.animationSpeed = 49; // set animation speed (32 is default value)
-          gauge.set(jack); // set actual value
-        }
-        startFoo();
-  
-        $('#zero').click(function () {
-                  startFoo();
-        });
-      
-    
+  //매너게이지
+  $(function () {
+    var jack = 2525;
+    function startFoo() {
+      var opts = {
+        angle: 0.15, // The span of the gauge arc
+        lineWidth: 0.44, // The line thickness
+        radiusScale: 1, // Relative radius
+        pointer: {
+          length: 0.51, // // Relative to gauge radius
+          strokeWidth: 0.077, // The thickness
+          color: '#000000' // Fill color
+        },
+        limitMax: false,     // If false, max value increases automatically if value > maxValue
+        limitMin: false,     // If true, the min value of the gauge will be fixed
+        colorStart: '#f70000',   // Colors
+        colorStop: '#f70000',    // just experiment with them
+        strokeColor: '#E0E0E0',  // to see which ones work best for you
+        generateGradient: true,
+        highDpiSupport: true,     // High resolution support
 
-            ///채팅신청
-            $('.doChat').click(function(){
-                
-                var member = JSON.parse(sessionStorage.getItem('member'));
-                if(!member){
-                    alert("로그인을 먼저 해주세요");
-                    return ;
-                }
-                alert('닉네임 체크 : ' + member.nickname);
-                var pro_num = $('#hidePnum').text();//상품번호
-                var m_num = $('#hideMnum').text();//판매자넘버
-               
-                if(member.nickname == $('.other-name').text()){
-                    alert('해당 판매글을 작성한 판매자 계정입니다, 채팅을 진행 할 수 없습니다.');
-                }
-                else{
-                    var doChatUrl = "http://39.127.7.51:3000/api/createRoom";
-                    $.ajax({
-                        type: 'post',
-                        data: {pro_num : pro_num,
-                               seller_num : m_num,
-                               buyer_nickname : member.nickname},
-                        dataType: 'json',
-                        url: doChatUrl, 
-                        success: function (data) {
-                            window.location.href='chatRoom.html?'+data.url;
-                            
-                        },
-                        error : function(err){
-                            alert('에러다 '  + err);
-                        }
-                    })
+      };
+      var target = document.getElementById('foo'); // your canvas element
+      var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+      gauge.maxValue = 3000; // set max gauge value
+      gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+      gauge.animationSpeed = 49; // set animation speed (32 is default value)
+      gauge.set(jack); // set actual value
+    }
+    startFoo();
 
-                    
-                }
-            }); 
-
-
-
-
-
-      });  
-      </script>
-
-<script>
-    $('.btn-example').click(function(){
-      var $href = $(this).attr('href');
-      layer_popup($href);
-  });
-  function layer_popup(el){
-
-      var $el = $(el);        //레이어의 id를 $el 변수에 저장
-      var isDim = $el.prev().hasClass('dimBg');   //dimmed 레이어를 감지하기 위한 boolean 변수
-
-      isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
-
-      var $elWidth = ~~($el.outerWidth()),
-          $elHeight = ~~($el.outerHeight()),
-          docWidth = $(document).width(),
-          docHeight = $(document).height();
-
-      // 화면의 중앙에 레이어를 띄운다.
-      if ($elHeight < docHeight || $elWidth < docWidth) {
-          $el.css({
-              marginTop: -$elHeight /2,
-              marginLeft: -$elWidth/2
-          })
-      } else {
-          $el.css({top: 0, left: 0});
-      }
-
-      $el.find('.btn-layerClose').click(function(){
-          isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
-          return false;
-      });
-
-      $('.layer .dimBg').click(function(){
-          $('.dim-layer').fadeOut();
-          return false;
-      });
-
-  }
-
-
-
-  $(function() {
-      $('#content').keyup(function (e){
-          var content = $(this).val();
-          // $(this).height(((content.split('\n').length + 1) * 1.5) + 'em');
-          $('#counter').html(content.length + '/200');     
-      });
-      $('#content').keyup();
-});
-
-$(function(){
-    $('#other-nick').click(function(){
-        var name = $('#nickname').text();
-        window.location.href="other.html?name="+name;
+    $('#zero').click(function () {
+      startFoo();
     });
-});
 
+
+
+    ///채팅신청
+    $('.doChat').click(function () {
+
+      var member = JSON.parse(sessionStorage.getItem('member'));
+      if (!member) {
+        alert("로그인을 먼저 해주세요");
+        return;
+      }
+      var pro_num = $('#hidePnum').text();//상품번호
+      var m_num = $('#hideMnum').text();//판매자넘버
+
+      if (member.nickname == $('.other-name').text()) {
+        alert('해당 판매글을 작성한 판매자 계정입니다, 채팅을 진행 할 수 없습니다.');
+      }
+      else {
+        var doChatUrl = "http://39.127.7.51:3000/api/createRoom";
+        $.ajax({
+          type: 'post',
+          data: {
+            pro_num: pro_num,
+            seller_num: m_num,
+            buyer_nickname: member.nickname
+          },
+          dataType: 'json',
+          url: doChatUrl,
+          success: function (data) {
+            window.location.href = 'chatRoom.html?' + data.url;
+
+          },
+          error: function (err) {
+            alert('에러다 ' + err);
+          }
+        })
+
+
+      }
+    });
+
+
+
+
+
+  });  
+</script>
+<script src="./js/swiper.min.js">
 </script>
 
 
 
+<script>
+  var swiper = new Swiper('.swiper-container', {
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+      renderBullet: function (index, className) {
+        return '<span class="' + className + '">' + '</span>';
+      },
+    },
+  });
+</script>
 
-      
+
+
 </html>
