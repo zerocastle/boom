@@ -1,7 +1,5 @@
 package com.ys.project.projectVO;
 
-import java.util.UUID;
-
 import lombok.Data;
 
 @Data

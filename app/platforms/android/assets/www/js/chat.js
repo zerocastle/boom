@@ -91,12 +91,17 @@ $(document).ready(function () {
     
     var sender = $(this).parent().parent().find('p').text();
     var score = parseInt($(this).siblings().first().val());
-
-    window.alert(sender + '' + score);
+    var room_id = parseInt($('#room_id').text());
+    var message_id = parseInt($(this).parent().parent().parent().find('.jumsuNum').text());
+    window.alert('발신자 : ' + sender + '|| 발생점수 :  ' + score + '|| 메시지번호 : ' + message_id);
 
     var data = {
+      seller : $('#seller').text(),
+      buyer : $('#buyer').text(),
       sender: sender,
-      score: score
+      score: score,
+      room_id : room_id,
+      message_id : message_id
     };
     $.ajax({
       type: 'POST',
@@ -104,6 +109,7 @@ $(document).ready(function () {
       data: data,
       success: function (data) {
         alert('success');
+        ref();
       },
       error: function (err) {
         alert(err);

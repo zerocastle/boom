@@ -416,7 +416,7 @@ $('#search').click(function(){
                    }
                 }
                 console.log(newArr);
-                alert("newArr"+newArr);
+             /*    alert("newArr"+newArr); */
                 displayPlaces(newArr);
                 displayPagination(pagination);
             }
@@ -447,7 +447,7 @@ $('#search').click(function(){
     
  // 검색 결과 목록과 마커를 표출하는 함수입니다
     function displayPlaces(places) {
-       alert(places);
+      /*  alert(places); */
        console.log(places);
         var listEl = document.getElementById('placesList'), 
         menuEl = document.getElementById('menu_wrap'),

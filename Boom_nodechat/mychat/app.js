@@ -196,6 +196,7 @@ app.post('/jumsu', function (req, res) {
   var score = req.body.score;
   var room_id = req.body.room_id;
   var message_id = req.body.message_id;
+  console.log('에라이시발이게나라냐!' + req.body.message_id);
   var query1 = "update member a set a.mannersum = a.mannersum + " + score + " where nickname = '" + sender + "'";
   var query2 = "update member set manner_pick = (manner_pick + 1) where nickname = '" + sender + "'";
   var query3 = "update member c set c.manner = (select (mannersum/manner_pick) from member where nickname = '"+sender+"')where c.nickname = '"+sender+"'";
@@ -210,6 +211,8 @@ app.post('/jumsu', function (req, res) {
     value = "<div class=''other''><p style=''display:none;'' class=''otherother''>" + req.body.sender + "</p>이미 매너 게이지 측정을 완료하셨습니다.</div>";
   }
   
+  console.log(target);
+  console.log(value);
   
   
   
@@ -468,8 +471,6 @@ app.get('/roomchat', (req, res) => {//목록중 하나를 클릭하였을때 실
 
 
 //목록의 방번호를 이용해 해당하는 디비의 메시지내역을 불러온다.
-// 방목록불러오기 
-
 
 // 방목록 불러오기(PC 브라우저)
 app.get('/jackchat', (req, res) => {//localhost:3000/jackchat 으로 접근시 실행
@@ -637,7 +638,7 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
   }
 
   socket.on('socket_sendAcc', (num, name, tag) => {
-    // var tag = tag + "<input style=''display:none;'' type=''text'' class=''message_id'' value='''||TO_CHAR(message_seq.NEXTVAL)||'''></input>";
+    var tag = tag + "<input style=''display:none;'' type=''text'' class=''message_id'' value='''||TO_CHAR(message_seq.NEXTVAL)||'''></input>";
     var insertSql = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '" + name + "'), " + num + ", '" + tag + "')";
     console.log(insertSql);
     conn.execute(insertSql, function (err, result) {
@@ -666,9 +667,13 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
 
     var query3 = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL,0,'" + room_id + "','" + tag + "')";
     console.log("테스트~~ ");
+    console.log('아사히 맥주~ 맛있게 마시기~1')
     console.log(query1);
+    console.log('아사히 맥주~ 맛있게 마시기~2')
     console.log(query2);
-
+    console.log('아사히 맥주~ 맛있게 마시기~3')
+    console.log(query3);
+    console.log('아사히 맥주~ 맛있게 마시기~4')
     conn.execute(query1, function (err, result) {
       console.log(result);//rowAffected
       var seller_nickname;

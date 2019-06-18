@@ -208,13 +208,7 @@
 
                    
 
-                    var tag = "<ol class=''me''><div><p style=''color:brown;'' class=''meme''>" + seller + "</p>과의 거래는 만족 스러웠나요??</div>" +
-                        "<div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div>"
-                        + "<div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>"
-
-                        + "<ol class=''other''><div><p style=''color:brown;'' class=''otherother''>" + buyer + "</p>과의 거래는 만족 스러웠나요??</div>"
-                        + "<div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div>"
-                        + "<div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>";
+                    var tag = "<ol class=''me''><div><p style=''color:brown;'' class=''meme''>" + seller + "</p>과의 거래는 만족 스러웠나요??</div><div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div><div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol><ol class=''other''><div><p style=''color:brown;'' class=''otherother''>" + buyer + "</p>과의 거래는 만족 스러웠나요??</div><div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div><div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>";
                     console.log(pro_num);
 
                     socket.emit('confirm_test', pro_num, room_id, tag, seller, buyer);
