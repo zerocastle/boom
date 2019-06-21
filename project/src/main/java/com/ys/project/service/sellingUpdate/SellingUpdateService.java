@@ -28,8 +28,8 @@ public class SellingUpdateService implements ISellingUpdateService {
 
 	@Setter(onMethod_ = @Autowired)
 	private SellingUpdateMapper sellingMapper;
-	
-	@Setter(onMethod_=@Autowired)
+
+	@Setter(onMethod_ = @Autowired)
 	private ProductionMapper productionMapper;
 
 	@Setter(onMethod_ = @Autowired)
@@ -42,7 +42,6 @@ public class SellingUpdateService implements ISellingUpdateService {
 		return sellingMapper.directPickList();
 	}
 
-	
 	// 상품 등록 하기
 	@Transactional
 	@Override
@@ -51,13 +50,13 @@ public class SellingUpdateService implements ISellingUpdateService {
 
 		log.info("등록하기 ...." + productionVO);
 		String place = productionVO.getPlace_pick();
-		
-		if(place.trim().length() != 0) {
+
+		if (place.trim().length() != 0) {
 			productionVO.setPlace_signal(1);
 			System.out.println("직플레이스를 희망 하였기에 값을 1로 바꿈");
 		}
 
-		int result = sellingMapper.insert(productionVO); 
+		int result = sellingMapper.insert(productionVO);
 		int pro_num = productionVO.getPro_num(); // 시퀀스 키 값을 들고옴
 		log.info("상품 인선트 반환 값 프로 넘 : " + pro_num);
 		if (productionVO.getUploadVOList() == null || productionVO.getUploadVOList().size() <= 0) {
@@ -86,7 +85,6 @@ public class SellingUpdateService implements ISellingUpdateService {
 		return sellingMapper.getMemberProductionTotalCount(m_num);
 	}
 
-
 	// 회원에 대한 결제 목록 불러오기
 	@Override
 	public List<PaymentVO> getMemberPayment(String nickname) {
@@ -94,12 +92,17 @@ public class SellingUpdateService implements ISellingUpdateService {
 		return productionMapper.getMemberPayment(nickname);
 	}
 
-
 	// 회원 결제에 대한 상품 환불 처리
 	@Override
 	public int refuseDelete(String imp_uid) {
 		// TODO Auto-generated method stub
 		return productionMapper.refuseDelete(imp_uid);
+	}
+
+	@Override
+	public List<PartnerVO> directPickListSearch(String choose, String keyword) {
+		// TODO Auto-generated method stub
+		return sellingMapper.directPickListSearch(choose, keyword);
 	}
 
 }

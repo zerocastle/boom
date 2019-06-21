@@ -15,6 +15,9 @@ public interface ISellingUpdateService {
 	// 파트너 선택
 	public List<PartnerVO> directPickList();
 
+	// 파트너창에서 검색
+	public List<PartnerVO> directPickListSearch(@Param("choose") String choose, @Param("keyword") String keyword);
+
 	// 상품 등록
 	public void insert(ProductionVO productionVO);
 

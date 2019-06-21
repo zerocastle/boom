@@ -12,11 +12,13 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -136,7 +138,7 @@ public class SellingController {
 		HttpSession session = request.getSession();
 		MemberVO memberVO = (MemberVO) session.getAttribute("loginSession");
 		String nickName = memberVO.getNickname();
-		
+
 		List<PaymentVO> list = new ArrayList<PaymentVO>();
 		list = service.getMemberPayment(nickName);
 		model.addAttribute("paymentList", list);
@@ -164,13 +166,48 @@ public class SellingController {
 
 	}
 
+//	@GetMapping("/directPickSearch")
+//	public String directPickTemp(Model model) {
+//
+//		return "/pick/directPick";
+//
+//	}
+
 	// 직플레이스 선택하기
-	@GetMapping("directPick")
-	public String directPick(Model model) {
+	@GetMapping("/directPick")
+	public String directPick(Model model, RedirectAttributes rttr, HttpServletRequest request,
+			@RequestAttribute(value = "directList", required = false) List directList) {
+
+		HttpSession session = request.getSession();
+		session.getAttribute("temp");
+
 		List<PartnerVO> list = service.directPickList();
-		model.addAttribute("partnerList", list);
+
+//		System.out.println(directList);
+		if (session.getAttribute("temp") != null) {
+			model.addAttribute("partnerList", session.getAttribute("temp"));
+			session.removeAttribute("temp");
+//			return "redirect:/selling/directPickSearch";
+		} else {
+			model.addAttribute("partnerList", list);
+		}
+
 		return "/pick/directPick";
 
+	}
+
+	// 직플 검색
+	@GetMapping("/directSearch")
+	public String directSearch(Model model, RedirectAttributes rttr, @Param("keyword") String keyword,
+			@Param("choose") String choose, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+
+		System.out.println(choose + "" + keyword);
+		List<PartnerVO> list = service.directPickListSearch(choose, keyword);
+//		rttr.addAttribute("directList", list);
+//		System.out.println("여기까진가요========================");
+		session.setAttribute("temp", list);
+		return "redirect:/selling/directPick";
 	}
 
 	// 상품 등록하기

@@ -6,8 +6,20 @@
 	namespace="com.ys.project.dao.sellingUpdate.SellingUpdateMapper">
 
 
+	<!-- 상품 등록시 직플레이스 정보를 불러옴 -->
 	<select id="directPickList" resultType="PartnerVO">
 		SELECT * FROM PARTNER
+	</select>
+
+	<!-- 직플 레이스 정보를 검색을 한다. -->
+	<select id="directPickListSearch" resultType="PartnerVO">
+		SELECT * FROM PARTNER
+		<choose>
+			<when test="choose == 'addr'"> WHERE ADDR LIKE '%'||#{keyword}||'%'</when>
+			<otherwise>WHERE PART_NAME LIKE '%'||#{keyword}||'%' </otherwise>
+
+		</choose>
+
 	</select>
 
 	<!-- 상품 인서트 -->
@@ -41,13 +53,14 @@
 	</select>
 
 	<!-- 맴버가 가지고 있는 상품 목록의 총 갯수 -->
-	<select id="getMemberProductionTotalCount" resultType="int" parameterType="int">
+	<select id="getMemberProductionTotalCount" resultType="int"
+		parameterType="int">
 		SELECT
 		COUNT(*)
 		FROM PRODUCTION
 		WHERE M_NUM = #{m_num}
 	</select>
-	
+
 	<!-- 상품 삭제 -->
 	<delete id="delete">
 		DELETE FROM PRODUCTION_UPLOAD WHERE UUID = #{uuid}
