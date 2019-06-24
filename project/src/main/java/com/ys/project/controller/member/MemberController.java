@@ -1,8 +1,14 @@
 package com.ys.project.controller.member;
 
+import java.awt.PageAttributes.MediaType;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,11 +25,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ys.project.projectVO.LikeListVO;
 import com.ys.project.projectVO.MemberVO;
 import com.ys.project.projectVO.PageVO;
+import com.ys.project.projectVO.PartnerVO;
+import com.ys.project.projectVO.PaymentVO;
 import com.ys.project.projectVO.ProductionReviewVO;
 import com.ys.project.projectVO.joinPickVO;
 import com.ys.project.service.member.IMemberService;
@@ -34,7 +45,7 @@ import net.sf.json.JSONObject;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping(value = "member")
+@RequestMapping(value = "/member/**")
 public class MemberController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
@@ -91,38 +102,53 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "memberRegister", method = RequestMethod.POST)
-	public String memberRegisterPost(Model model, @RequestParam Map map, RedirectAttributes ra) throws Exception {
-		logger.info("맴버 레지스터 : " + map);
-		ra.addFlashAttribute("msg", "SUCCESS");
-		service.registerMember(map);
-		return "redirect:/";
+	   public String memberRegisterPost(Model model, MemberVO member, @RequestParam Map map,
+	         @RequestParam("uploadFile") MultipartFile[] uploadFile, RedirectAttributes ra) throws Exception {
+	      logger.info("맴버 레지스터 : " + map);
+
+	      logger.info(">>>>>" + uploadFile[0].getOriginalFilename());
+	      // =============================================================
+	      MemberVO memberVO = this.uploadMethod(uploadFile);
+
+	      map.put("uuid", memberVO.getUuid());
+	      map.put("uploadPath", memberVO.getUploadPath());
+	      map.put("fileName", memberVO.getFileName());
+	      ra.addFlashAttribute("msg", "SUCCESS");
+	      service.registerMember(map);
+	      return "redirect:/";
+
+	   }
+
+	
+	@RequestMapping(value = "register", method = RequestMethod.POST)
+	@ResponseBody
+	public int RegisterPost(Model model, @RequestBody MemberVO vo, RedirectAttributes ra) throws Exception {
+		int success = service.insertRegister(vo);
+		
+		return success;
 
 	}
 
 	// 닉네임 체크
 	@RequestMapping(value = "nickNameCheck", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> nickNameCheck(Model model, @RequestBody MemberVO nickName, RedirectAttributes ra)
+	public int nickNameCheck(Model model, @RequestBody MemberVO vo, RedirectAttributes ra)
 			throws Exception {
-		Map<String, String> map = new HashMap<String, String>();
-		logger.info("닉네임 체크 : " + nickName);
-		nickName = service.nickNameCheck(nickName.getNickname());
-		if (nickName == null) {
-			map.put("signal", "SUCCESS");
-		} else
-			map.put("signal", "fail");
-		return map;
 
+		int nickCheck = service.checkNick(vo);
+		
+		return nickCheck;
 	}
 
-	// 마이페이지 , // 해당 세션의 닉네임 정보 조회 , // 닉네임으로 상점 후기 정보 데이터 추출
-	@RequestMapping(value = "myPage", method = RequestMethod.GET)
-	public String myPage(Model model, Model model2, HttpServletRequest request, RedirectAttributes rttr,
-			@ModelAttribute("joinPickVO") joinPickVO pv) throws Exception {
+	// 마이페이지 프로필
+	@RequestMapping(value = "myPage/" + "{data}", method = RequestMethod.GET)
+	public String myPage(Model model, HttpServletRequest request, RedirectAttributes rttr,
+			@ModelAttribute("joinPickVO") joinPickVO pv, @PathVariable String data) throws Exception {
 
-		HttpSession session = request.getSession();
-		MemberVO member = (MemberVO) session.getAttribute("loginSession"); // 로그인된 세션의 닉네임
-		System.out.println("러나ㅣ어리ㅏㄴㅇ" + session.getAttribute("loginSession"));
+//		HttpSession session = request.getSession();
+//		MemberVO mvo = (MemberVO) session.getAttribute("loginSession"); // 로그인된 세션의 닉네임
+		MemberVO member = service.nickNameCheck(data);
+//		System.out.println("러나ㅣ어리ㅏㄴㅇ" + session.getAttribute("loginSession"));
 		logger.info("현재 세션의 정보 : " + member);
 
 		model.addAttribute("member", member);
@@ -140,6 +166,7 @@ public class MemberController {
 		model.addAttribute("pageVO", pv);
 		logger.info("totalCount // 게시 글 전체 수 : " + totalCount);
 		int totalPick = service.totalPick(num);
+		model.addAttribute("proCount",myPageListCount);
 		model.addAttribute("like", totalPick);
 		System.out.println("확인 2==================== : " + pv);
 
@@ -150,6 +177,13 @@ public class MemberController {
 		System.out.println("확인 3==================== : " + pv);
 		System.out.println("마이 페이지 : member/myPage");
 
+		//직플파트너라면 입고 상품 목록 메뉴 보이기
+				List<PartnerVO> placeList = service.getPlaceList(member.getM_num());
+				
+				model.addAttribute("placeList",JSONArray.fromObject(placeList));
+				//직플파트너라면 입고 상품 목록 메뉴 보이기
+		
+		
 		return "myPage/myPage";
 	}
 
@@ -169,32 +203,90 @@ public class MemberController {
 		session.removeAttribute("loginSession");
 		MemberVO after = service.nickNameCheck(vo.getNickname());
 		session.setAttribute("loginSession", after);
-
+		
+		
 		return vo;
 	}
 
-	// 타인 페이지
+	// 마이페이지 상품
+	@RequestMapping(value = "/myProduct/" + "{data}", method = RequestMethod.GET)
+	public String myPageProduct(Model model, HttpServletRequest request, RedirectAttributes rttr,
+			@ModelAttribute("joinPickVO") joinPickVO pv,  @PathVariable String data) throws Exception {
+
+		/*
+		 * HttpSession session = request.getSession(); MemberVO member = (MemberVO)
+		 * session.getAttribute("loginSession"); // 로그인된 세션의 닉네임
+		 * System.out.println("러나ㅣ어리ㅏㄴㅇ" + session.getAttribute("loginSession"));
+		 */
+		MemberVO member = service.nickNameCheck(data);
+		logger.info("현재 세션의 정보 : " + member);
+
+		model.addAttribute("member", member);
+		int num = member.getM_num();
+		// --페이징 처리
+		int myPageListCount = service.myPageListCount(num);
+		pv.setTotalCount(myPageListCount); // 페이징 처리를 위한 setter 호출
+		pv.setM_num(num);
+		PageVO pv2 = new PageVO();
+		int totalCount = service.getPagingListCount(num); // 게시물 총갯수를 구한다
+		pv2.setTotalCount(totalCount);
+
+		System.out.println("확인 1==================== : " + pv);
+		model.addAttribute("pv", pv2.getTotalCount());
+		model.addAttribute("pageVO", pv);
+		logger.info("totalCount // 게시 글 전체 수 : " + totalCount);
+		model.addAttribute("proCount",myPageListCount);
+		int totalPick = service.totalPick(num);
+		model.addAttribute("like", totalPick);
+		System.out.println("확인 2==================== : " + pv);
+
+		// --페이징 처리
+
+		List<joinPickVO> resultList = service.myPageList(pv);
+		model.addAttribute("resultList", JSONArray.fromObject(resultList));
+		System.out.println("확인 3==================== : " + pv);
+		System.out.println("마이 페이지 : member/myPage");
+
+		return "myPage/product";
+	}
+
+	// 타인 페이지 상품
 	@RequestMapping(value = "other/" + "{data}", method = RequestMethod.GET)
-	public String otherGET(Model model, @PathVariable String data) throws Exception {
+	public String otherGET(Model model, @PathVariable String data, @ModelAttribute("joinPickVO") joinPickVO pv) throws Exception {
 
 		MemberVO member = service.nickNameCheck(data);
 		System.out.println("otherPage : " + member);
-		model.addAttribute("other", member);
+		model.addAttribute("member", member);
 		int num = member.getM_num();
+		// --페이징 처리
+		int myPageListCount = service.myPageListCount(num);
+		pv.setTotalCount(myPageListCount); // 페이징 처리를 위한 setter 호출
+		pv.setM_num(num);
+		PageVO pv2 = new PageVO();
+		int totalCount = service.getPagingListCount(num); // 게시물 총갯수를 구한다
+		pv2.setTotalCount(totalCount);
+
+		System.out.println("확인 1==================== : " + pv);
+		model.addAttribute("pv", pv2.getTotalCount());
+		model.addAttribute("pageVO", pv);
+		logger.info("totalCount // 게시 글 전체 수 : " + totalCount);
+		int totalPick = service.totalPick(num);
+		model.addAttribute("proCount",myPageListCount);
+		model.addAttribute("like", totalPick);
+		System.out.println("확인 2==================== : " + pv);
 
 		// --페이징 처리
-		int totalCount = service.getPagingListCount(num); // 게시물 총갯수를 구한다
-		PageVO pv = new PageVO();
-		pv.setTotalCount(totalCount); // 페이징 처리를 위한 setter 호출
-		model.addAttribute("pv", pv.getTotalCount());
-		logger.info("totalCount // 게시 글 전체 수 : " + totalCount);
+
+		List<joinPickVO> resultList = service.myPageList(pv);
+		model.addAttribute("resultList", JSONArray.fromObject(resultList));
+		System.out.println("확인 3==================== : " + pv);
+		System.out.println("마이 페이지 : member/myPage");
 
 		return "/myPage/other";
 
 	}
-
-	// review 페이지
-	@RequestMapping(value = "review/" + "{data}", method = RequestMethod.GET)
+	//other review
+	@RequestMapping(value = "otherReview/" + "{data}", method = RequestMethod.GET)
 	public String otherReviewGET(Model model, @PathVariable String data,
 			@ModelAttribute("ProductionReviewVO") ProductionReviewVO pv) throws Exception {
 		int usingData = service.usingData(data);
@@ -202,16 +294,58 @@ public class MemberController {
 		if (usingData == 1) {
 			MemberVO member = service.nickNameCheck(data);
 			System.out.println("otherPage : " + member);
-			model.addAttribute("other", member);
+			model.addAttribute("member", member);
 			int num = member.getM_num();
 
 			// --페이징 처리
 			int totalCount = service.getPagingListCount(num); // 게시물 총갯수를 구한다
+			model.addAttribute("pv", totalCount);
 			pv.setM_num(num);
 			pv.setTotalCount(totalCount); // 페이징 처리를 위한 setter 호출
 			model.addAttribute("pageVO", pv);
-			// --페이징 처리
+			//
+			int myPageListCount = service.myPageListCount(num);
+			model.addAttribute("proCount",myPageListCount);
+			//
+			int totalPick = service.totalPick(num);
+			model.addAttribute("like", totalPick);
+			
+			List<ProductionReviewVO> reviewList = service.getPagingList(pv);
+			model.addAttribute("resultList", reviewList);
+			return "/myPage/otherReview";
+		} else {
+			model.addAttribute("data", data);
+			return "/myPage/notReview";
+		}
 
+	}
+
+
+	// review 페이지
+	@RequestMapping(value = "review/" + "{data}", method = RequestMethod.GET)
+	public String ReviewGET(Model model, @PathVariable String data,
+			@ModelAttribute("ProductionReviewVO") ProductionReviewVO pv) throws Exception {
+		int usingData = service.usingData(data);
+
+		if (usingData == 1) {
+			MemberVO member = service.nickNameCheck(data);
+			System.out.println("otherPage : " + member);
+			model.addAttribute("member", member);
+			int num = member.getM_num();
+
+			// --페이징 처리
+			int totalCount = service.getPagingListCount(num); // 게시물 총갯수를 구한다
+			model.addAttribute("pv", totalCount);
+			pv.setM_num(num);
+			pv.setTotalCount(totalCount); // 페이징 처리를 위한 setter 호출
+			model.addAttribute("pageVO", pv);
+			//
+			int myPageListCount = service.myPageListCount(num);
+			model.addAttribute("proCount",myPageListCount);
+			//
+			int totalPick = service.totalPick(num);
+			model.addAttribute("like", totalPick);
+			
 			List<ProductionReviewVO> reviewList = service.getPagingList(pv);
 			model.addAttribute("resultList", reviewList);
 			return "/myPage/review";
@@ -222,31 +356,27 @@ public class MemberController {
 
 	}
 
-	@RequestMapping(value = "test", method = RequestMethod.GET)
-	public String gettest(Model model) throws Exception {
-
-		String nickname = "지다빈";
-
-		List<ProductionReviewVO> list = service.scrollPaging(nickname);
-		model.addAttribute("review", list);
-		return "myPage/test";
-
-	}
-
-	@RequestMapping(value = "test", method = RequestMethod.POST)
-	@ResponseBody
-	public List<ProductionReviewVO> posttest(@RequestBody ProductionReviewVO vo) throws Exception {
-
-		String nick = "지다빈";
-		MemberVO vo2 = new MemberVO();
-		vo2.setNickname(nick);
-		vo2.getNickname();
-		Integer prnum = vo.getPr_num() - 1;
-		Map map = new HashMap();
-		map.put("pr_num", prnum);
-		map.put("nickname", vo2.getNickname());
-		return service.infiniteScrollDown(map);
-	}
+	/*
+	 * @RequestMapping(value = "test", method = RequestMethod.GET) public String
+	 * gettest(Model model) throws Exception {
+	 * 
+	 * String nickname = "지다빈";
+	 * 
+	 * List<ProductionReviewVO> list = service.scrollPaging(nickname);
+	 * model.addAttribute("review", list); return "myPage/test";
+	 * 
+	 * }
+	 * 
+	 * @RequestMapping(value = "test", method = RequestMethod.POST)
+	 * 
+	 * @ResponseBody public List<ProductionReviewVO> posttest(@RequestBody
+	 * ProductionReviewVO vo) throws Exception {
+	 * 
+	 * String nick = "지다빈"; MemberVO vo2 = new MemberVO(); vo2.setNickname(nick);
+	 * vo2.getNickname(); Integer prnum = vo.getPr_num() - 1; Map map = new
+	 * HashMap(); map.put("pr_num", prnum); map.put("nickname", vo2.getNickname());
+	 * return service.infiniteScrollDown(map); }
+	 */
 
 	@RequestMapping(value = "insertPick", method = RequestMethod.POST)
 	@ResponseBody
@@ -281,17 +411,211 @@ public class MemberController {
 		model.addAttribute("member", member);
 		System.out.println("확인 1==================== : " + pv);
 		int num = member.getM_num();
+		
+		// 내상품 리스트
+		int myPageListCount = service.myPageListCount(num);
+		model.addAttribute("proCount",myPageListCount);
+		
 		// --페이징 처리
 		int totalCount = service.totalPick(num); // 게시물 총갯수를 구한다
 		pv.setM_num(num);
 		pv.setTotalCount(totalCount); // 페이징 처리를 위한 setter 호출
 		model.addAttribute("pageVO", pv);
 		// --페이징 처리
-
+		int totalCount2 = service.getPagingListCount(num); // 게시물 총갯수를 구한다
+		model.addAttribute("pv",totalCount2);
+		int totalPick = service.totalPick(num);
+		model.addAttribute("like", totalPick);
 		List<joinPickVO> resultList = service.joinPickPaging(pv);
 		model.addAttribute("resultList", JSONArray.fromObject(resultList));
 		System.out.println("확인 2==================== : " + pv);
 		return "/pick/pick";
 	}
+	
+	// 구매내역
+	@RequestMapping(value = "purchaseList/" + "{data}", method = RequestMethod.GET)
+	public String purchaseList(Model model, @PathVariable String data, HttpServletRequest request) throws Exception {
 
+		logger.info("구매 역 이동");
+		HttpSession session = request.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("loginSession");
+		String nickName = memberVO.getNickname();
+		
+		// member정보
+		MemberVO member = service.nickNameCheck(data);
+		int num = member.getM_num();
+		System.out.println("otherPage : " + member);
+		model.addAttribute("member", member);
+		
+		// 내상품 count
+		int myPageListCount = service.myPageListCount(num);
+		model.addAttribute("proCount",myPageListCount);
+		
+		// 리뷰 count
+		int totalCount2 = service.getPagingListCount(num); 
+		model.addAttribute("pv",totalCount2);
+		
+		// 찜목록 count
+		int totalPick = service.totalPick(num);
+		model.addAttribute("like", totalPick);
+		
+		List<PaymentVO> list = new ArrayList<PaymentVO>();
+		list = service.getMemberPayment(data);
+		model.addAttribute("paymentList", list);
+		return "sell/purchaseList";
+
+	}
+	
+	// 판매내역
+	@RequestMapping(value = "sellList/" + "{data}", method = RequestMethod.GET)
+	public String sellList(Model model, @PathVariable String data) throws Exception {
+
+		logger.info("판매 내역 이동");
+		
+		// member정보
+				MemberVO member = service.nickNameCheck(data);
+				int num = member.getM_num();
+				System.out.println("otherPage : " + member);
+				model.addAttribute("member", member);
+				
+				// 내상품 count
+				int myPageListCount = service.myPageListCount(num);
+				model.addAttribute("proCount",myPageListCount);
+				
+				// 리뷰 count
+				int totalCount2 = service.getPagingListCount(num); 
+				model.addAttribute("pv",totalCount2);
+				
+				// 찜목록 count
+				int totalPick = service.totalPick(num);
+				model.addAttribute("like", totalPick);
+
+		return "sell/sellList";
+
+	}
+	
+	  // ===========================================================================================
+
+	   // 파일 이미지 업로드 하는 매소드
+	   private MemberVO uploadMethod(MultipartFile[] uploadFile) {
+	      // TODO Auto-generated method stub
+
+	      HttpServletRequest request = this.getRequest(); // HttpServletRequest 객체 얻기 위해서
+
+	      String uploadFolder = request.getServletContext().getRealPath("/resources");
+
+	      File RealuploadPath = new File(uploadFolder, this.getFolder()); // 파일 목적지 생성
+
+	      MemberVO memberVO = new MemberVO();
+
+	      for (MultipartFile multipartFile : uploadFile) {
+
+	         multipartFile.getOriginalFilename();
+	         String uploadFileName = multipartFile.getOriginalFilename();
+	         memberVO = new MemberVO();
+
+	         memberVO.setFileName(uploadFileName); // 파일 이름 저장
+
+	         UUID uuid = UUID.randomUUID();
+
+	         uploadFileName = uuid.toString() + "_" + uploadFileName;
+
+	         try {
+	            File saveFile = new File(RealuploadPath, uploadFileName); // 파일 경로에 저잘될 파일 이름
+	            multipartFile.transferTo(saveFile);
+	            memberVO.setUuid(uuid.toString());
+	            memberVO.setUploadPath(this.getFolder());
+	         } catch (Exception e) {
+	            logger.error(e.getMessage());
+	         }
+
+	      }
+
+	      return memberVO;
+
+	   }
+
+	   // 폴더 만드는 메서드
+	   private String getFolder() {
+	      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	      String addPartner = "member/";
+	      Date date = new Date();
+	      String str = sdf.format(date);
+	      System.out.println("파일 반환전 : " + str); // 2019-03-31
+	      System.out.println("파일 반환후 : " + str.replace("-", File.separator)); // 2019/03/31 "/" 이걸로 변환
+	      return addPartner + str.replace("-", File.separator);
+
+	   }
+
+	   // HttpServletRequest 인터페이스 타입에 request객채 얻기
+	   public static HttpServletRequest getRequest() {
+	      ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+	      return attr.getRequest();
+	   }
+						
+	   // 직플파트너의 입고된 상품 목록.
+	   @RequestMapping(value = "inProd/" + "{data}", method = RequestMethod.GET)
+	   public String inProd(Model model, @PathVariable String data) throws Exception {
+
+			logger.info("직플 입고 내역 이동");
+			
+			// member정보
+					MemberVO member = service.nickNameCheck(data);
+					int num = member.getM_num();
+					System.out.println("otherPage : " + member);
+					model.addAttribute("member", member);
+					
+					// 내상품 count
+					int myPageListCount = service.myPageListCount(num);
+					model.addAttribute("proCount",myPageListCount);
+					
+					// 리뷰 count
+					int totalCount2 = service.getPagingListCount(num); 
+					model.addAttribute("pv",totalCount2);
+					
+					// 찜목록 count
+					int totalPick = service.totalPick(num);
+					model.addAttribute("like", totalPick);
+					
+					//직플파트너라면 입고 상품 목록 메뉴 보이기
+					List<PartnerVO> placeList = service.getPlaceList(member.getM_num());
+					
+					model.addAttribute("placeList",JSONArray.fromObject(placeList));
+					//직플파트너라면 입고 상품 목록 메뉴 보이기
+					
+					//일단 가장 첫번째 직플레이스 상품목록 출력.
+					List<HashMap<String, String>> inProdList = service.getInProdList(placeList.get(0).getPart_name());
+					model.addAttribute("inProducts",JSONArray.fromObject(inProdList));
+					//일단 가장 첫번째 직플레이스 상품목록 출력.
+					
+					
+			return "inProd/fix-inProd";
+
+		}
+	   
+	   @RequestMapping(value = "inProdList/" + "{data}", method = RequestMethod.GET , produces =org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE)
+	   public @ResponseBody String getInProdList(Model model, @PathVariable String data) throws Exception {
+		   List<HashMap<String, String>> inProdList = service.getInProdList(data);
+		   System.out.println("inProdList : ");
+		   System.out.println("inProdList : ");
+		   System.out.println("inProdList : ");
+		   System.out.println("inProdList : " + inProdList); // 2019-03-31
+		   System.out.println("inProdList : ");
+		   System.out.println("inProdList : ");
+		   JSONArray json = JSONArray.fromObject(inProdList);
+		   System.out.println("inProdList : ");
+		   System.out.println("inProdList : ");
+		   System.out.println("inProdList : " + json);
+		   System.out.println("inProdList : ");
+		   System.out.println("inProdList : ");
+		   System.out.println("inProdList : ");
+		   System.out.println("inProdList : ");
+		   
+		   String aa = json.toString();
+		   model.addAttribute("inProducts", aa);
+		   System.out.println(json);
+		   return aa;
+		   
+	   }
+	   
 }

@@ -1,10 +1,13 @@
 package com.ys.project.service.member;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.ys.project.projectVO.LikeListVO;
 import com.ys.project.projectVO.MemberVO;
+import com.ys.project.projectVO.PartnerVO;
+import com.ys.project.projectVO.PaymentVO;
 import com.ys.project.projectVO.ProductionReviewVO;
 import com.ys.project.projectVO.joinPickVO;
 import com.ys.project.projectVO.joinProductVO;
@@ -69,5 +72,16 @@ public interface IMemberService {
 	public List<joinProductVO> appProduct(int m_num) throws Exception;
 
 	public void appProductDelete(LikeListVO vo) throws Exception;
+
+	public List<PaymentVO> getMemberPayment(String nickName) throws Exception;
+
+	public int insertRegister(MemberVO vo) throws Exception;
+
+	public int checkNick(MemberVO vo) throws Exception;
+
+	public List<PartnerVO> getPlaceList(int m_num);
+
+	public List<HashMap<String, String>> getInProdList(String part_name);
+
 
 }

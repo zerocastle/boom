@@ -1,5 +1,6 @@
 package com.ys.project.dao.member;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.ys.project.projectVO.LikeListVO;
 import com.ys.project.projectVO.MemberVO;
 import com.ys.project.projectVO.PartnerVO;
+import com.ys.project.projectVO.PaymentVO;
 import com.ys.project.projectVO.ProductionReviewVO;
 import com.ys.project.projectVO.joinPickVO;
 import com.ys.project.projectVO.joinProductVO;
@@ -210,5 +212,35 @@ public class MemberDao implements IMemberDao {
 	public void appProductDelete(LikeListVO vo) throws Exception {
 		// TODO Auto-generated method stub
 		session.delete("member.appProductDelete",vo);
+	}
+
+	@Override
+	public List<PaymentVO> getMemberPayment(String nickName) throws Exception {
+		// TODO Auto-generated method stub
+		return session.selectList("member.getMemberPayment",nickName);
+	}
+
+	@Override
+	public int insertRegister(MemberVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		return session.insert("member.insertRegister",vo);
+	}
+
+	@Override
+	public int checkNick(MemberVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.checkNick",vo);
+	}
+
+	@Override
+	public List<PartnerVO> getPlaceList(int m_num) {
+		// TODO Auto-generated method stub
+		return session.selectList("member.getPlaceList",m_num);
+	}
+
+	@Override
+	public List<HashMap<String, String>> getInProdList(String part_name) {
+		// TODO Auto-generated method stub
+		return session.selectList("member.getInProdList", part_name);
 	}
 }

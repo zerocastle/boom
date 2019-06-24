@@ -134,28 +134,28 @@ var subDate;
       arr.push(realJson);
     }
 %>
-      <div id="pro_data" style="display:none;">
-        <ol id='pro_data'>
-          <div id='QRhidden'></div>
-          판매자 : <%=jprod.seller%> //
-          구매자 : <%=jprod.buyer%> //
-          상품번호 : <%=jprod.pro_num%>
-          <hr>
-          제목 : <%=jprod.title%><br>
-          분류 : <%=jprod.cate_name%><br>
-          내용 : <%=jprod.content%><br>
-          가격 : <%=jprod.price%><br>
-          품질 : <%=jprod.p_quality%><br>
-          <hr>
-          직플레이스 : <br><%=jprod.place_pick%><br>
-          입금할 가상계좌 : (대구은행) 308-29-80376732-8<br>
-          <button class="buy_no">거절</button><button class="payment">결제</button>
-          <!--구매자에게만 보이는 이 버튼은 수락버튼 클릭시 결제창이 열리게 되며 에스크로 결제가 진행된다. 결제가 성공적으로 완료되면 서버에 QR코드 생성하라는 신호를 발생시킨다. 이 신호는 채팅방에 전달되며 판매자에게만 보여지게 된다. QR코드는
-          명세서 정보가 담긴 쿼리스트링을 포함한 url 데이터이다. 이 QR코드는 판매자에게만 보이게 되며 직플스캐너가 아닌 카메라로 인식시 안내페이지를 반환하게 된다. 
-        또한 거래당사자가 아닌 회원이 직플스캐너로 인식시에도 안내페이지를 반환하게 된다. 거래당사자가 인식한다면 거래과정을 진행하게 된다.-->
+<div id="pro_data" style="display:none;">
+    <ol id='pro_data'>
+      <div id='QRhidden'></div>
+      판매자 : <%=jprod.seller%> //
+      구매자 : <%=jprod.buyer%> //
+      상품번호 : <%=jprod.pro_num%>
+      <hr>
+      제목 : <%=jprod.title%><br>
+      분류 : <%=jprod.cate_name%><br>
+      내용 : <%=jprod.content%><br>
+      가격 : <%=jprod.price%><br>
+      품질 : <%=jprod.p_quality%><br>
+      <hr>
+      직플레이스 : <br><%=jprod.place_pick%><br>
+      입금할 가상계좌 : (대구은행) 308-29-80376732-8<br>
+      <button class="buy_no">거절</button><button class="payment">결제</button>
+      <!--구매자에게만 보이는 이 버튼은 수락버튼 클릭시 결제창이 열리게 되며 에스크로 결제가 진행된다. 결제가 성공적으로 완료되면 서버에 QR코드 생성하라는 신호를 발생시킨다. 이 신호는 채팅방에 전달되며 판매자에게만 보여지게 된다. QR코드는
+      명세서 정보가 담긴 쿼리스트링을 포함한 url 데이터이다. 이 QR코드는 판매자에게만 보이게 되며 직플스캐너가 아닌 카메라로 인식시 안내페이지를 반환하게 된다. 
+    또한 거래당사자가 아닌 회원이 직플스캐너로 인식시에도 안내페이지를 반환하게 된다. 거래당사자가 인식한다면 거래과정을 진행하게 된다.-->
 
-        </ol>
-      </div>
+    </ol>
+  </div>
 
       <%for(var i =0; i<arr.length;i++){ %>
       <%if(arr[i].tnickname == 'System'){%>
@@ -241,7 +241,7 @@ var subDate;
         var muid = $(".qrcode")[i].innerHTML;
         console.log(muid);
         var qrcode = new QRCode(document.getElementsByClassName("qrcode")[i], {
-          text: "http://39.127.7.51:3000/testQR?muid=" + muid,
+          text: "http://39.127.7.51:3000/testQR?muid=" + muid + "&Tname=" + '<%=nickname%>',  ///주의!! 직플파트너의 닉네임이 노드서버에서 쿼리스트링의 변수 'nickname'에 더해진다.
           width: 350,
           height: 350,
           colorDark: "#000000",
@@ -279,8 +279,8 @@ var subDate;
     $(document).on('click', '.payment', function () {
       var buyer2 = $.urlParam('buyer');
 
-      alert(buyer2);
-      alert(name == buyer2);
+
+      // alert(name == buyer2);
 
       if (name + '' != buyer2) {
         alert('구매자만 결제가 가능합니다.');
@@ -419,7 +419,6 @@ var subDate;
         url: '/getSession',
         async: false,
         success: function (data) {
-          alert(data.getSession + "맞니??");
           getSession = data.getSession;
         }
       });
@@ -432,15 +431,7 @@ var subDate;
 
       var nickname = $('#nickname').text();
       
-      window.alert(seller + '하핫');
-      window.alert(buyer + '하핫');
-      var tag = "<ol class=''me''><div><p style=''color:brown;'' class=''meme''>" + seller + "</p>님과의 거래는 만족 스러웠나요??</div>" +
-        "<div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div>"
-        + "<div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>"
-
-        + "<ol class=''other''><div><p style=''color:brown;'' class=''otherother''>" + buyer + "</p>님과의 거래는 만족 스러웠나요??</div>"
-        + "<div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div>"
-        + "<div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu'' >전송하기</button></div></ol>";
+      var tag = "<ol class=''me''><div><p style=''color:brown;'' class=''meme''>" + seller + "</p>과의 거래는 만족 스러웠나요??</div><div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div><div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol><ol class=''other''><div><p style=''color:brown;'' class=''otherother''>" + buyer + "</p>과의 거래는 만족 스러웠나요??</div><div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div><div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>";
       console.log(pro_num);
 
       socket.emit('confirm_test', pro_num, room_id, tag, seller, buyer);
@@ -451,7 +442,6 @@ var subDate;
     // 최종 마무리
     socket.on('confirm_test', function (test) {
       // window.location.reload();
-      window.alert('test?Hellow?' + test);
       window.location.reload();
     })
 
@@ -513,7 +503,7 @@ var subDate;
         alert('장소를 지정해 주시기 바랍니다.');
         return false;
       }
-      alert($('#set_address').val()); // 고른 시간 한번 알려주고
+     
       var address = $('#set_address').val();
       socket.emit('socket_address', num, address, name); //서버로 전송한다.
     });
@@ -529,7 +519,7 @@ var subDate;
       $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
     });
     $(document).on("click", ".Ayes", function (event) {
-      alert($(event.target).siblings('.addressP').text());
+      // alert($(event.target).siblings('.addressP').text());
       var addressP = $(event.target).siblings('.addressP').text();
       alert('약속 :' + addressP + '으로 지정되었습니다.');
       $('#set_address').val(addressP);//제안들중 선택 
@@ -565,7 +555,7 @@ var subDate;
       $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
     });
     $(document).on("click", ".yes", function (event) {
-      alert($(event.target).siblings('.dateP').text());
+      // alert($(event.target).siblings('.dateP').text());
       var dateP = $(event.target).siblings('.dateP').text();
       alert('약속 :' + dateP + '으로 지정되었습니다.');
       $('#set_date').val(dateP);//제안들중 선택 
@@ -733,12 +723,16 @@ var subDate;
      var sender = $(this).parent().parent().find('p').text();
      var score = parseInt($(this).siblings().first().val());
      var room_id = parseInt($('#room_id').text());
-     window.alert(sender + '' + score);
+     var message_id = parseInt($(this).parent().parent().parent().find('.jumsuNum').text());
+    //  window.alert('발신자 : ' + sender + '|| 발생점수 :  ' + score + '|| 메시지번호 : ' + message_id);
 
       var data = {
+        seller : $('#seller').text(),
+        buyer : $('#buyer').text(),
         sender: sender,
         score: score,
-        room_id : room_id
+        room_id : room_id,
+        message_id : message_id
       };
       $.ajax({
         type: 'POST',
@@ -751,6 +745,10 @@ var subDate;
           }else{
             window.alert("점수를 평가하는데 실패 했습니다.")
           }
+      $(document).scrollTop($(document).height());
+      window.location.reload();
+      $(document).scrollTop($(document).height());
+          
         },
         error: function (err) {
           alert(err);

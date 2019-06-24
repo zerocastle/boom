@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -128,13 +129,14 @@ public class SellingController {
 	}
 
 	// 구매내역
-	@RequestMapping(value = "purchaseList", method = RequestMethod.GET)
-	public String purchaseList(Model model, HttpServletRequest request) {
+	@RequestMapping(value = "purchaseList" + "/${data}", method = RequestMethod.GET)
+	public String purchaseList(Model model, @PathVariable String data, HttpServletRequest request) {
 
 		logger.info("구매 역 이동");
 		HttpSession session = request.getSession();
 		MemberVO memberVO = (MemberVO) session.getAttribute("loginSession");
 		String nickName = memberVO.getNickname();
+		
 		List<PaymentVO> list = new ArrayList<PaymentVO>();
 		list = service.getMemberPayment(nickName);
 		model.addAttribute("paymentList", list);

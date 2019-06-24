@@ -1,6 +1,7 @@
 package com.ys.project.dao.production;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -38,7 +39,7 @@ public interface ProductionMapper {
 	
 	// 앱 상품 검색 맵퍼
 
-	public List<IndexProductionDTO> appSearch(@Param("cate_code") String cate_code , @Param("order") String order , @Param("keyword") String keyword);
+	public List<IndexProductionDTO> appSearch(@Param("keyword") String keyword);
 	
 	// 검색 상품 리스트 맵퍼
 	public List<IndexProductionDTO> searchSort(Criteria3 cri3);
@@ -51,6 +52,8 @@ public interface ProductionMapper {
 	
 	// 상품 결제 취소에 대한 처리
 	public int refuseDelete(@Param("imp_uid") String imp_uid);
+
+	public List<Map<String, Integer>> cateCount();
 	
 
 }

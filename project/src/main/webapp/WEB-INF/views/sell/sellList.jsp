@@ -2,8 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-	<%@include file="../fixsection/sell-header.jsp"%>
+	<%@include file="../fixsection/header.jsp"%>
 	
 	<%@include file="../floatSection/sell-sellList.jsp"%>
 	
-	<%@include file="../fixsection/sell-footer.jsp"%>
+	<%@include file="../fixsection/footer.jsp"%>

@@ -50,15 +50,23 @@ public class AppProductionController {
 
 	}
 
-	// 상품 검색
+	// 앱 상품 검색
 	@CrossOrigin(origins = "*", maxAge = 3600)
-	@GetMapping(value = "/search/{cate_code}/{order}/{keyword}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public String productionSearch(@PathVariable("cate_code") String cate_code, @PathVariable("order") String order,
-			@PathVariable("keyword") String keyword) {
-		System.out.println(cate_code + "" + order + "" + keyword);
-		List<IndexProductionDTO> dto = service.appSearch(cate_code, order, keyword);
-		String jsonString = JSONArray.fromObject(dto).toString();
-		return jsonString;
+	@PostMapping(value = "/search/{keyword}", produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public String productionSearch(@PathVariable("keyword") String keyword) {
+		System.out.println(keyword);
+		String order = null;
+		String cate_code = null;
+		String jsonString = null;
+		if (keyword == null) {
+			List<IndexProductionDTO> dto = service.appSort(order, cate_code);
+			jsonString = JSONArray.fromObject(dto).toString();
+			return jsonString;
+		} else {
+			List<IndexProductionDTO> dto = service.appSearch(keyword);
+			jsonString = JSONArray.fromObject(dto).toString();
+			return jsonString;
+		}
 
 	}
 
