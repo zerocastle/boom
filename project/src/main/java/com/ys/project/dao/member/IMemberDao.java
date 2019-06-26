@@ -1,11 +1,13 @@
 package com.ys.project.dao.member;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.ys.project.projectVO.LikeListVO;
 import com.ys.project.projectVO.MemberVO;
+import com.ys.project.projectVO.PartnerVO;
 import com.ys.project.projectVO.PaymentVO;
 import com.ys.project.projectVO.ProductionReviewVO;
 import com.ys.project.projectVO.joinPickVO;
@@ -14,22 +16,22 @@ import com.ys.project.projectVO.joinReviewVO;
 
 public interface IMemberDao {
 	
-	//È¸¿ø °¡ÀÔ
+	//È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public void registerMember(Map map) throws Exception;
 	
-	//·Î±×ÀÎ
+	//ï¿½Î±ï¿½ï¿½ï¿½
 	public MemberVO loginMember(MemberVO memberVO) throws Exception;
 	
-	//´Ð³×ÀÓÃ¼Å©
+	//ï¿½Ð³ï¿½ï¿½ï¿½Ã¼Å©
 	public MemberVO memberCheck(String nickName) throws Exception;
 	
-	//È¸¿ø Å»Åð
+	//È¸ï¿½ï¿½ Å»ï¿½ï¿½
 	public void memberDelete(String nickname) throws Exception;
 
-	//È¸¿ø¼öÁ¤
+	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public void memberUpdate(MemberVO vo) throws Exception;
 
-	//»óÁ¡ÈÄ±â µ¥ÀÌÅÍ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public List<ProductionReviewVO> getReviewData(MemberVO member) throws Exception;
 
 	public List<ProductionReviewVO> getReviewData2(String data) throws Exception;
@@ -83,4 +85,8 @@ public interface IMemberDao {
 	public int insertRegister(MemberVO vo) throws Exception;
 
 	public int checkNick(MemberVO vo) throws Exception;
+
+	public List<PartnerVO> getPlaceList(int m_num);
+
+	public List<HashMap<String, String>> getInProdList(String part_name);
 }

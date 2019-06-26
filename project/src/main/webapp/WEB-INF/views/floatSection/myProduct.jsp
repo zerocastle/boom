@@ -177,6 +177,8 @@ $(function() {
 });
 </script>
 
+
+
 <!-- Main Content -->
 <div class="container my-3">
 	<div class="row">
@@ -209,6 +211,17 @@ $(function() {
 						 <i data-feather="shopping-bag" class="mr-3"></i>구매내역</a> 
 						 <a href="#" id="sellList" class="list-group-item list-group-item-action">
 						 <i data-feather="shopping-bag" class="mr-3"></i>판매내역</a> 
+						 
+						 
+						 <!-- 직플레이스가 하나라도 있으면 해당 메뉴를 한개 출력한다. -->
+						<c:if test="${!empty placeList }">
+							<a href="#" id="in-prod" class="list-group-item list-group-item-action">
+							<i data-feather="log-out" class="mr-3"></i> 직플레이스 입고 상품</a>
+						</c:if>
+						<!-- 직플레이스가 하나라도 있으면 해당 메뉴를 한개 출력한다. -->
+						 
+						 
+						 
 						 <a href="#" class="list-group-item list-group-item-action text-danger logout">
 						 <i data-feather="log-out" class="mr-3"></i> Logout</a>
 				</div>

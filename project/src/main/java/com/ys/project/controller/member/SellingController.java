@@ -138,7 +138,7 @@ public class SellingController {
 		HttpSession session = request.getSession();
 		MemberVO memberVO = (MemberVO) session.getAttribute("loginSession");
 		String nickName = memberVO.getNickname();
-
+		
 		List<PaymentVO> list = new ArrayList<PaymentVO>();
 		list = service.getMemberPayment(nickName);
 		model.addAttribute("paymentList", list);

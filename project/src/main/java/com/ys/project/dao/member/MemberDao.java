@@ -1,5 +1,6 @@
 package com.ys.project.dao.member;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,12 +29,12 @@ public class MemberDao implements IMemberDao {
 	@Autowired
 	private SqlSession session;
 
-	//È¸¿ø °¡ÀÔ map Ã³¸®
+	//È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ map Ã³ï¿½ï¿½
 	@Override
 	public void registerMember(Map map) throws Exception {
 		// TODO Auto-generated method stub
 
-		logger.info("·¹Áö½ºÅÍ dao: " + map.toString());
+		logger.info("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ dao: " + map.toString());
 		session.insert("member.memberRegister", map);
 
 	}
@@ -41,7 +42,7 @@ public class MemberDao implements IMemberDao {
 	@Override
 	public MemberVO loginMember(MemberVO memberVO) throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("¤·³¯¤¤¾Æ¤Ó·¯¾Æ¤Ó¤¤·¯¤Ó¤¿¤·¤¤");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¤Ó·ï¿½ï¿½Æ¤Ó¤ï¿½ï¿½ï¿½ï¿½Ó¤ï¿½ï¿½ï¿½ï¿½ï¿½");
 //		logger.info(session.selectOne("member.memberLogin", memberVO).toString());
 		return session.selectOne("member.memberLogin", memberVO);
 	}
@@ -49,7 +50,7 @@ public class MemberDao implements IMemberDao {
 	@Override
 	public MemberVO memberCheck(String nickName) throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("¸É¹ö Ã¼Å©" + nickName);
+		System.out.println("ï¿½É¹ï¿½ Ã¼Å©" + nickName);
 		System.out.println("oo : " + session.selectOne("nicknameCheck", nickName));
 		return session.selectOne("member.nicknameCheck", nickName);
 	}
@@ -57,21 +58,21 @@ public class MemberDao implements IMemberDao {
 	@Override
 	public void memberDelete(String nickname) throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("È¸¿ø Å»Åð ");
+		System.out.println("È¸ï¿½ï¿½ Å»ï¿½ï¿½ ");
 		session.delete("member.memberDelete",nickname);
 	}
 
 	@Override
 	public void memberUpdate(MemberVO vo) throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("È¸¿ø¼öÁ¤");
+		System.out.println("È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		session.insert("member.memberUpdate",vo);
 	}
 
 	@Override
 	public List<ProductionReviewVO> getReviewData(MemberVO member) throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("»óÇ°Á¤º¸µ¥ÀÌÅÍ");
+		System.out.println("ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		return session.selectList("member.getShopReview", member);
 	}
 
@@ -229,5 +230,17 @@ public class MemberDao implements IMemberDao {
 	public int checkNick(MemberVO vo) throws Exception {
 		// TODO Auto-generated method stub
 		return session.selectOne("member.checkNick",vo);
+	}
+
+	@Override
+	public List<PartnerVO> getPlaceList(int m_num) {
+		// TODO Auto-generated method stub
+		return session.selectList("member.getPlaceList",m_num);
+	}
+
+	@Override
+	public List<HashMap<String, String>> getInProdList(String part_name) {
+		// TODO Auto-generated method stub
+		return session.selectList("member.getInProdList", part_name);
 	}
 }
