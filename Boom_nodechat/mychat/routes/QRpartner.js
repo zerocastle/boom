@@ -45,7 +45,8 @@ router.post('/', function(req,res) {
 
 //
 router.post('/accept', function(req,res) {
-    console.log(req.body.pro_num +'///' + req.body.state);
+    console.log(req.body.pro_num +'///' + req.body.state );
+
     var acceptSql = "update production set state_msg = '"+req.body.state+"' where pro_num = " + req.body.pro_num;
     console.log('acceptSql : ' + acceptSql);
     conn.execute(acceptSql, function(err,result){

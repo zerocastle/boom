@@ -886,6 +886,23 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
   });
 
 
+
+  socket.on('inprod', function(num,str){
+    //INSERT INTO "KYS"."MESSAGE" (MESSAGE_NUM, SENDER_NUM, CONTENT, ROOM_ID) VALUES ('7890', '5', 'asdasdfasf', '148')
+    //INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '" + name + "'), " + num + ", '" + msg + "')"
+    var inprodSql = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, 0, " + num + ", '" + str + "')";
+    console.log('inprodSql : ' + inprodSql);
+    conn.execute(inprodSql, function(err,result){
+      if(err){
+        console.log('inprodSql : 에러발생 : ' + err)
+      }else {
+        console.log('inprodSql : 정상작동 : '+ result);
+        io.to(num).emit('ref');//해당 방에 이름과 메시지를 전송
+      }
+    });
+    
+  })
+
 });
 
 

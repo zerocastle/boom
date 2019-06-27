@@ -123,7 +123,7 @@ $(document).ready(function(){
 					
 					var str = '<tr class="inProducts_tr">'+
 								'<td class="text-right"><img src="/resources/'+json[i].UPLOADPATH+'/'+json[i].UUID+'_'+json[i].FILENAME+'" width="100" height="100" alt="User" class="rounded-circle mb-3"></td>'+
-								'<td>'+json[i].IMP_UID+'</td>'+
+								'<td>'+json[i].MERCHANT_UID+'</td>'+
 								'<td>'+json[i].TITLE+'</td>'+
 								'<td>'+json[i].CATE_CODE+'</td>'+
 								'<td>'+json[i].QUALITY+'</td>'+
@@ -265,14 +265,15 @@ $(document).ready(function(){
                     <tr class="inProducts_tr">
                       <td class="text-right"><img src="${pageContext.request.contextPath}/resources/${items.UPLOADPATH }/${items.UUID }_${items.FILENAME }" width="100" height="100" alt="User"
 						class="rounded-circle mb-3"></td>
-                      <td>${items.IMP_UID }</td>
+                      <td>${items.MERCHANT_UID }</td>
                       <td>${items.TITLE }</td>
                       <td>${items.CATE_CODE }</td>
                       <td>${items.QUALITY }</td>
                       <td>${items.SELLER_NAME }</td>
                       <td>${items.BUYER_NAME }</td>
-                      <td>${items.PRICE }</td>
+                      <td>${items.PRICE }</td>\
                     </tr>
+                    
                   </c:forEach>
                   </tbody>
                 </table>

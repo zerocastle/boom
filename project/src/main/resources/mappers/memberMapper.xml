@@ -255,7 +255,7 @@
 	</select>
 	
 	<select id="getInProdList" parameterType="string" resultType="hashMap"> 
-		select * from payment py, partner pr, production pd, production_upload up where py.pro_num = pd.pro_num and py.place_pick like pr.part_name||'%'  and pd.state_msg = 2 and up.pro_num = pd.pro_num and   pr.part_name = #{part_name}
+		select up.*, pd.*, py.* from payment py, partner pr, production pd, production_upload up where py.pro_num = pd.pro_num and py.place_pick like pr.part_name||'%'  and pd.state_msg = 2 and up.pro_num = pd.pro_num and   pr.part_name = #{part_name}
 	</select>
 	
 </mapper>

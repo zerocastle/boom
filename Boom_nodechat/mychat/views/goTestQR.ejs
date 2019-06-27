@@ -142,17 +142,20 @@
 
             $('#in_accept').click(function () {
                 if (!confirm('상품을 정말 입고 하시겠습니까?')) { return false; }
+                socket.emit('inprod', room_id, '상품이 입고 되었습니다.');
                 $.ajax({
                     type: 'post',
                     url: 'http://39.127.7.51:3000/api/QRpartner/accept',//QRpartner.js/inAccept
                     dataType: 'json',
                     data: {
                         pro_num: '<%=pro_num%>', //상품 번호..?       
-                        state: 2
+                        state: 2,
+                        room_id : room_id
                     },
                     success: function (result) {
                         console.log('1 승인 성공');
                         qrToken('<%=place%>', '<%=title%>', '직플레이스 입고완료', '<%=seller_name%>', '<%=buyer_name%>');
+                        
                         window.shouldClose = true;
                     },
                     error: function (err) {
@@ -162,24 +165,29 @@
                 });
             });
             $('#in_disaccept').click(function () {
+                socket.emit('inprod', room_id, '상품이 입고 거절 되었습니다.');
                 window.shouldClose = true;
             });
             $('#out_disaccept').click(function () {
+                socket.emit('inprod', room_id, '상품이 출고 거절 되었습니다.');
                 window.shouldClose = true;
             });
             $('#out_accept').click(function () {
                 
                 if (!confirm('상품을 정말 출고 하시겠습니까?')) { return false; }
+                socket.emit('inprod', room_id, '상품이 출고 되었습니다.');
                 $.ajax({
                     type: 'post',
                     url: 'http://39.127.7.51:3000/api/QRpartner/accept',//QRpartner.js/inAccept
                     dataType: 'json',
                     data: {
                         pro_num: '<%=pro_num%>', //상품 번호의 state_msg를 2로 바꾼다.       
-                        state: 3
+                        state: 3,
+                        room_id : room_id
                     },
                     success: function (result) {
                         qrToken('<%=place%>', '<%=title%>', '직플레이스 출고완료', '<%=seller_name%>', '<%=buyer_name%>');
+                        
                         console.log('2 승인 성공');
                         window.shouldClose = true;
                     },
