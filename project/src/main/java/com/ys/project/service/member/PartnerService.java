@@ -32,9 +32,9 @@ public class PartnerService {
 		return dao.selectnumber(nickname);
 	}
 	
-	public void partnerUpdate(MemberVO membervo) {
+	public int partnerUpdate(MemberVO membervo) {
 		logger.info("파트너 업데이트" + membervo);
-		dao.partnerUpdate(membervo);
+		return dao.partnerUpdate(membervo);
 	}
 	
 	public List<PartnerVO> getList() {

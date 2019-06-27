@@ -6,16 +6,16 @@
     <style>
         .partnerBtnBlue {
             width: 200px;
-            height: 50px;
+            height: 150px;
             background-color: #AAAAFF;
-            font-size: 20px;
+            font-size: 45px;
         }
 
         .partnerBtnRed {
             width: 200px;
-            height: 50px;
+            height: 150px;
             background-color: #FF8888;
-            font-size: 20px;
+            font-size: 45px;
         }
     </style>
     <script>
@@ -84,7 +84,6 @@
                     },
                     success: function (result) {
                         room_id = result.room_id;
-                        alert('room_id' + room_id);
                     },
                     error: function (err) {
                         alert('에러 발생 방번호2' + err, err);
@@ -95,11 +94,27 @@
                     console.log('result.state_msg : ' + result.state_msg);
                     //해당 직플레이스의 직플파트너의 닉네임과 앱에서 로그인한 세션의 닉네임이 동일하다면
                     if (result.state == 'success') {
-                        alert('QR코드 접속을 환영합니다, 직플파트너 ' + $.urlParam('nickname') + '님');
+                        
                         if (result.state_msg == 1) {
-                            $('#state_msg1').css('display', 'block');
+                            //상품 입고단계.
+                            //QR코드를 보여주는 회원의 닉네임과 
+                            //PAYMENT 테이블에 저장된 판매자의 닉네임이 같아야함. -- 판매자 본인확인.
+                            if($.urlParam('Tname') != '<%=seller_name%>'){
+                                alert('QR코드의 주인이 해당 거래의 판매자가 아닙니다.');
+                                window.shouldClose = true; //창닫기    
+                            }else {
+                                $('#state_msg1').css('display', 'block');
+                            }
                         } else if (result.state_msg == 2) {
-                            $('#state_msg2').css('display', 'block');
+                            //상품 출고단계.
+                            //QR코드를 보여주는 회원의 닉네임과 
+                            //PAYMENT 테이블에 저장된 구매자의 닉네임이 같아야함. -- 구매자 본인확인.
+                            if($.urlParam('Tname') != '<%=buyer_name%>'){
+                                alert('해당 거래의 구매자가 아닙니다.');
+                                window.shouldClose = true; //창닫기    
+                            }else {
+                                $('#state_msg2').css('display', 'block');
+                            }
                         } else if (result.state_msg == 3) {
                             alert('거래가 완료된 상품입니다, 이전 페이지로 이동합니다.');
                             window.shouldClose = true;
@@ -127,17 +142,20 @@
 
             $('#in_accept').click(function () {
                 if (!confirm('상품을 정말 입고 하시겠습니까?')) { return false; }
+                socket.emit('inprod', room_id, '상품이 입고 되었습니다.');
                 $.ajax({
                     type: 'post',
                     url: 'http://39.127.7.51:3000/api/QRpartner/accept',//QRpartner.js/inAccept
                     dataType: 'json',
                     data: {
                         pro_num: '<%=pro_num%>', //상품 번호..?       
-                        state: 2
+                        state: 2,
+                        room_id : room_id
                     },
                     success: function (result) {
                         console.log('1 승인 성공');
                         qrToken('<%=place%>', '<%=title%>', '직플레이스 입고완료', '<%=seller_name%>', '<%=buyer_name%>');
+                        
                         window.shouldClose = true;
                     },
                     error: function (err) {
@@ -147,24 +165,29 @@
                 });
             });
             $('#in_disaccept').click(function () {
+                socket.emit('inprod', room_id, '상품이 입고 거절 되었습니다.');
                 window.shouldClose = true;
             });
             $('#out_disaccept').click(function () {
+                socket.emit('inprod', room_id, '상품이 출고 거절 되었습니다.');
                 window.shouldClose = true;
             });
             $('#out_accept').click(function () {
                 
                 if (!confirm('상품을 정말 출고 하시겠습니까?')) { return false; }
+                socket.emit('inprod', room_id, '상품이 출고 되었습니다.');
                 $.ajax({
                     type: 'post',
                     url: 'http://39.127.7.51:3000/api/QRpartner/accept',//QRpartner.js/inAccept
                     dataType: 'json',
                     data: {
                         pro_num: '<%=pro_num%>', //상품 번호의 state_msg를 2로 바꾼다.       
-                        state: 3
+                        state: 3,
+                        room_id : room_id
                     },
                     success: function (result) {
                         qrToken('<%=place%>', '<%=title%>', '직플레이스 출고완료', '<%=seller_name%>', '<%=buyer_name%>');
+                        
                         console.log('2 승인 성공');
                         window.shouldClose = true;
                     },
@@ -181,9 +204,6 @@
                         seller : '<%=seller_name%>',
                         buyer : '<%=buyer_name%>'
                     }
-                alert(aaaa);
-
-                
 
 
 
@@ -196,15 +216,7 @@
 
                    
 
-                    window.alert(seller + '하핫');
-                    window.alert(buyer + '하핫');
-                    var tag = "<ol class=''me''><div><p style=''color:brown;'' class=''meme''>" + seller + "</p>과의 거래는 만족 스러웠나요??</div>" +
-                        "<div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div>"
-                        + "<div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>"
-
-                        + "<ol class=''other''><div><p style=''color:brown;'' class=''otherother''>" + buyer + "</p>과의 거래는 만족 스러웠나요??</div>"
-                        + "<div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div>"
-                        + "<div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>";
+                    var tag = "<ol class=''me''><div><p style=''color:brown;'' class=''meme''>" + seller + "</p>과의 거래는 만족 스러웠나요??</div><div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div><div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol><ol class=''other''><div><p style=''color:brown;'' class=''otherother''>" + buyer + "</p>과의 거래는 만족 스러웠나요??</div><div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div><div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>";
                     console.log(pro_num);
 
                     socket.emit('confirm_test', pro_num, room_id, tag, seller, buyer);

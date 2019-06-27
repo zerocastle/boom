@@ -5,32 +5,39 @@
 <mapper namespace="partner">
 
 	<insert id="partnerRegister" parameterType="PartnerVO">
-		INSERT INTO PARTNER(
-		COMPANY_NUMBER,
-		PART_NAME,
-		BOSS_NAME,
-		PART_PHONE,
-		ZIP_CODE,
-		ROAD_NAME,
-		ADDR,
-		DETAIL_ADDR,
-		LAG,
-		LNG, 
-		M_NUM
-		)
-		VALUES(
-		#{company_number},
-		#{part_name},
-		#{boss_name},
-		#{part_phone},
-		#{zip_code},
-		#{road_name},
-		#{addr},
-		#{detail_addr},
-		#{lag},
-		#{lng}, 
-		#{m_num}
-		)
+      INSERT INTO PARTNER(
+      UUID,
+      UPLOADPATH,
+      FILENAME,
+      COMPANY_NUMBER,
+      PART_NAME,
+      BOSS_NAME,
+      PART_PHONE,
+      ZIP_CODE,
+      ROAD_NAME,
+      ADDR,
+      DETAIL_ADDR,
+      LAG,
+      LNG, 
+      M_NUM
+      )
+      VALUES(
+      #{uuid},
+      #{uploadPath},
+      #{fileName},
+      #{company_number},
+      #{part_name},
+      #{boss_name},
+      #{part_phone},
+      #{zip_code},
+      #{road_name},
+      #{addr},
+      #{detail_addr},
+      #{lag},
+      #{lng}, 
+      #{m_num}
+      )
+
 	</insert>
 
 	<select id="selectnumber" resultType="int">

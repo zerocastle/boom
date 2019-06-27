@@ -11,145 +11,537 @@
 
 
     <link rel="stylesheet" type="text/css" href="css/production.css">
+    <script src="cordova.js"></script>
     <script src="js/jquery-3.4.0.min.js"></script>
-
     <script src="js/index_production.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.5.css">
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,300);
+        @import url("https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css");
+
+        select {
+            border-radius: 0;
+            /* 아이폰 사파리 보더 없애기 */
+            -webkit-appearance: none;
+            /* 화살표 없애기 for chrome*/
+            -moz-appearance: none;
+            /* 화살표 없애기 for firefox*/
+            appearance: none;
+            /* 화살표 없애기 공통*/
+            border: 0;
+            /* background: url("img/arrow.svg") no-repeat 95% 50%; 네이티브 화살표를 커스텀 화살표로 대체 */
+        }
+
+        .background {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .fa-chevron-down {
+            position: relative;
+            z-index: 5;
+        }
+
+        .se1 {
+            display: inline-block;
+            vertical-align: middle;
+            margin-top: 15px;
+            margin-left: 15px;
+
+        }
+
+        .se2 {
+            display: inline-block;
+            vertical-align: middle;
+            width: 150px;
+
+        }
+
+        .category {
+            font-weight: bold;
+            font-size: 15px;
+            border: solid 1px black;
+        }
+
+        .order {
+            font-weight: bold;
+            font-size: 15px;
+            width: 75%;
+        }
+
+        *,
+        *:before,
+        *:after {
+            box-sizing: border-box;
+        }
+
+        /* headers */
+
+        /* paragraphs */
+
+        /* highlight colors */
+
+        /* anchor links */
+
+        /* form elements */
+
+        textarea,
+        input {
+            max-width: 100%;
+            padding: 0;
+            margin: 0;
+            font-family: Georgia, Times, "Times New Roman", serif;
+            font-size: 1em;
+            color: inherit;
+        }
+
+        input[type=submit],
+        input[type=button] {
+            cursor: pointer;
+        }
+
+        /* img */
+
+        /* ==============================
+               $-Modules
+            ============================== */
+        /* clearfix */
+
+
+        /* inline block */
+        .ib {
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .ib-m {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* ==============================
+               $-Styles
+            ============================== */
+        .search {
+            position: relative;
+
+            left: 76%;
+            bottom: 20%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            min-width: 18.9375em;
+        }
+
+        .search input[type=submit] {
+            vertical-align: middle;
+            width: 1.375em;
+            height: 1.375em;
+            border: none;
+            outline: none;
+            background: none;
+            transition: opacity 100ms ease-in-out;
+        }
+
+        .search input[type=submit]:hover {
+            opacity: .5;
+        }
+        .background{
+position:fixed;
+top:0px;
+left:0px;
+width:100%;
+height:100%;
+}
+        .search input[type=text] {
+            width: 14em;
+            height: 2.5em;
+            padding: 0 .375em;
+            border: none;
+            border-bottom: 1px solid #999;
+            margin-left: .1875em;
+            background: inherit;
+            transition: border-color 100ms ease-in-out;
+        }
+
+        .search input[type=text]:focus {
+            border-bottom-color: inherit;
+            outline: none;
+        }
+
+        .search-slide {
+            width: 0;
+            height: 2.5em;
+            overflow: hidden;
+        }
+
+
+        .search-close:hover {
+            opacity: .5;
+        }
+
+        /* ==============================
+               $-Media-queries
+            ============================== */
+        /* max width queries */
+        .header {
+            border-bottom: 1px solid #BDBDBD;
+        }
+
+        /* //////////////////////////////////////////////////////// */
+
+        input::placeholder {
+            font-size: 13px;
+            color: black;
+            font-family: 'Black Han Sans', sans-serif !important;
+        }
+
+        #searchbar {
+            z-index: 4;
+            display: block;
+            color: black;
+            height: 80%;
+            font-size: 15px;
+            border: none;
+            position: absolute;
+            background: white;
+            width: 80%;
+            top: 50%;
+            left: 45%;
+            -moz-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+
+
+        #searchbar:focus {
+            outline: none;
+        }
+
+        .search-container {
+            z-index: 2;
+            content: '';
+            display: block;
+            height: 4%;
+            width: 60%;
+            border-radius: 5px;
+            border: 1.5px solid #00aeff;
+            background: white;
+            position: absolute;
+            left: 35%;
+            top: 3.3%;
+            -moz-transform: translateY(-50%);
+            -o-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+
+
+
+
+        .ion-close:hover {
+            -moz-transform: translateY(-50%) scale(0.9);
+            -o-transform: translateY(-50%) scale(0.9);
+            -ms-transform: translateY(-50%) scale(0.9);
+            -webkit-transform: translateY(-50%) scale(0.9);
+            transform: translateY(-50%) scale(0.9);
+        }
+
+        .button {
+            display: block;
+            z-index: 4;
+            height: 3%;
+            width: 7%;
+            border-color: #D8D8D8;
+            border-radius: 50%;
+            position: absolute;
+            top: 3.3%;
+            left: 86.5%;
+            cursor: pointer;
+            -moz-transform: translateY(-50%);
+            -o-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+
+        .button:hover {
+            -moz-transform: translateY(-50%) scale(1.1);
+            -o-transform: translateY(-50%) scale(1.1);
+            -ms-transform: translateY(-50%) scale(1.1);
+            -webkit-transform: translateY(-50%) scale(1.1);
+            transform: translateY(-50%) scale(1.1);
+
+        }
+
+        .img-name>p {
+            width: 270px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-top: 8px;
+        }
+
+        .searchbutton {
+            right: 2em;
+            /* font-size:15px; */
+        }
+
+        .randombutton {
+            right: 0.3em;
+            font-size: 3em;
+        }
+
+        .ion-shuffle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -moz-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+
+        .chat-numbering {
+            display: none;
+        }
+
+        .heart-numbering {
+            display: none;
+        }
+
+        .ion-search {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -moz-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            color: #00aeff;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+
+        .body-container {
+            width: 80%;
+            width: 80%;
+            display: block;
+            z-index: 1;
+            margin: auto;
+            position: relative;
+        }
+
+
+        .ion-load-c {
+            font-size: 4em;
+            position: absolute;
+            display: none;
+            left: 50%;
+            -moz-transform: translateX(-50%);
+            -o-transform: translateX(-50%);
+            -ms-transform: translateX(-50%);
+            -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+            margin-top: 0.2em;
+            animation: rotate 1s ease-in infinite;
+        }
+
+        @keyframes rotate {
+            0% {
+                -moz-transform: translateX(-50%) rotate(0deg);
+                -o-transform: translateX(-50%) rotate(0deg);
+                -ms-transform: translateX(-50%) rotate(0deg);
+                -webkit-transform: translateX(-50%) rotate(0deg);
+                transform: translateX(-50%) rotate(0deg);
+            }
+
+            100% {
+                -moz-transform: translateX(-50%) rotate(360deg);
+                -o-transform: translateX(-50%) rotate(360deg);
+                -ms-transform: translateX(-50%) rotate(360deg);
+                -webkit-transform: translateX(-50%) rotate(360deg);
+                transform: translateX(-50%) rotate(360deg);
+            }
+        }
+
+        .foter {
+            border-top: 0.5px solid #BDBDBD;
+        }
+
+        .lolo {
+            padding-top: 2%;
+            padding-left: 2%;
+        }
+
+        .logo_name {
+            display: inline-block;
+            vertical-align: middle;
+            color: #00aeff;
+            font-weight: bold;
+        }
+
+        .logo_img {
+            display: inline-block;
+            vertical-align: middle;
+            padding-top: 1%;
+
+        }
+    </style>
+
 
 </head>
 
+
 <body>
     <div id="wrap">
-
-        <div class="header-line">
-
-
-            <select class="category" id="field1" name="category">
-                <option value="all" selected>전체보기</option>
-                <option value="woman">여성의류</option>
-                <option value="man">남성의류</option>
-                <option value="elect">전자제품</option>
-                <option value="furniture">가구/인테리어</option>
-                <option value="baby">유아용품</option>
-                <option value="sport">스포츠/레저</option>
-                <option value="hobby">게임/취미</option>
-                <option value="beauty">뷰티/미용</option>
-                <option value="life">생활/가공품</option>
-                <option value="animal">반려동물용품</option>
-                <option value="book">도서/티켓/음반</option>
-                <option value="else">기타/잡화</option>
-            </select>
-
-            <select class="order" id="filed2" name="order">
-                <option value="asc" selected>가격 낮은 순</option>
-                <option value="desc">가격 높은 순</option>
-            </select>
+        
+        <div class="background">
+            <header class="header" style="background-color: white; height: 50px">
 
 
-
-            <!--검색 , 필터 , 설정 -->
-            <div class="vowel">
-                <input type="text" id="searchValue" />
-                <a class="fas fa-search" id="search">검색</a>
-            </div>
-        </div>
-
-        <!-- 컨텐츠들 뿌려주기-->
-        <div class="contents-line">
-            <div class="pro" id="pro">
-                <!--
-                    <div class="imgess">
-                    <img class="pro-img" src="img/신발.jpg" width="90px;" height="85px;">
+                <div class="lolo">
+                    <div class="logo_img">
+                        <img src="./img/jiklogo.svg" alt="Mimity">
+                    </div>
+                    <div class="logo_name">
+                        <strong>직거래 PLUS</strong>
+                    </div>
                 </div>
-                <div class="img-name">
 
-                    <p>리미티드에디션 은하수신발 싸게팝니다.(A급 입니다.) </p>
 
-                    <p class="addr-name">대구 북구 복현동</p>
 
-                    <p class="pro-price">35,000원</p>
+
+                <!--검색,필터,설정 -->
+                <select class="category" id="field1" name="category" style="display: none;">
+                    <option value="all" selected>전체보기</option>
+                </select>
+
+
+                <div class='container'>
+                    <div class='search-container'>
+                        <input id='searchbar' type='text' placeholder='검색어 입력' autofocus>
+
+                    </div>
+
+                    <div class='button searchbutton'>
+                        <i class='ion-search'></i>
+                    </div>
                 </div>
-                -->
+            </header>
+
+            <!-- 컨텐츠들 뿌려주기-->
+            <div class="contents-line">
+                <div class="pro" id="pro">
+                    <!--
+                        <div class="imgess">
+                        <img class="pro-img" src="img/신발.jpg" width="90px;" height="85px;">
+                    </div>
+                    <div class="img-name">
+    
+                        <p>리미티드에디션 은하수신발 싸게팝니다.(A급 입니다.) </p>
+    
+                        <p class="addr-name">대구 북구 복현동</p>
+    
+                        <p class="pro-price">35,000원</p>
+                    </div>
+                    -->
+                </div>
+            </div>
+
+            <div class="footer-line" style="background-color: white;">
+
+                <!-- <div class="menuDiv"> -->
+
+                <div class="pro-home">
+
+                    <a href="./index.html">
+                        <div class="pro_house">
+                            <img src="./img/house.svg">
+                        </div>
+
+                        <div>
+                            <span class="name-home">홈</span>
+
+                        </div>
+                    </a>
+                </div>
+
+
+                <div class="pro-category">
+
+                    <a href="#">
+                        <div class="pro_menu">
+                            <img src="./img/menu.svg">
+                        </div>
+
+                        <div>
+                            <span class="name-category">카테고리</span>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="pro-plus">
+                    <a href="#">
+                        <div class="pro_add">
+                            <img src="./img/add.svg">
+                        </div>
+
+                        <div>
+                            <span class="name-plus" onclick="goPage()">상품등록</span>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="pro-chat">
+                    <a href="chatList.html">
+                        <div class="pro_bubble">
+                            <img src="img/speech-bubble.svg">
+                        </div>
+
+                        <div>
+                            <span class="name-chat">거래방</span>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="my-user">
+                    <a href="#">
+                        <div id="usericon">
+                            <img src="img/profile.svg">
+                        </div>
+
+                        <div>
+                            <span class="name-user">내정보</span>
+                        </div>
+                    </a>
+                </div>
+
+
             </div>
         </div>
-
-        <div class="footer-line">
-
-            <!-- <div class="menuDiv"> -->
-
-            <div class="pro-home">
-
-                <a href="#">
-                    <div>
-                        <i class="fas fa-home"></i>
-                    </div>
-
-                    <div>
-                        <span class="name-home">홈</span>
-
-                    </div>
-                </a>
-            </div>
-
-
-            <div class="pro-category">
-
-                <a href="#">
-                    <div>
-                        <i class="fas fa-bars"></i>
-                    </div>
-
-                    <div>
-                        <span class="name-category">카테고리</span>
-                    </div>
-                </a>
-            </div>
-
-            <div class="pro-plus">
-                <a href="#">
-                    <div>
-                        <i class="fas fa-plus-circle"></i>
-                    </div>
-
-                    <div>
-                        <span class="name-plus" onclick="goPage()">상품등록</span>
-                    </div>
-                </a>
-            </div>
-
-            <div class="pro-chat">
-                <a href="chatList.html">
-                    <div>
-                        <i class="fas fa-comments"></i>
-                    </div>
-
-                    <div>
-                        <span class="name-chat">거래방</span>
-                    </div>
-                </a>
-            </div>
-
-            <div class="my-user">
-                <a href="#">
-                    <div id="usericon">
-                        <i class="fas fa-user"></i>
-                    </div>
-
-                    <div>
-                        <span class="name-user">내정보</span>
-                    </div>
-                </a>
-            </div>
-
-
         </div>
-    </div>
+
 </body>
 <script>
     function goPage() {
         location.href = "index2.html";
     }
-
-
 </script>
+
+<script>
+    $(function(){
+   $(".background").css('height',window.innerHeight);
+   
+   });
+   </script>
 
 </html>

@@ -39,8 +39,8 @@ public class PartnerDao {
 		return session.selectOne("partner.selectnumber", nickname);
 	}
 	
-	public void partnerUpdate(MemberVO memervo) {
-		session.update("partner.updateNumber",memervo);
+	public int partnerUpdate(MemberVO memervo) {
+		return session.update("partner.updateNumber",memervo);
 	}
 	
 	public List<PartnerVO> getList() {

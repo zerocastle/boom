@@ -1,4 +1,6 @@
-@font-face { font-family: 'S-CoreDream-3Light'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff'); font-weight: normal; font-style: normal; }
+li{
+	 list-style:none;	
+}
 .other{
 	/* border:1px solid black; */
 	width: 100%;
@@ -27,9 +29,11 @@
 .review{
 
 }
+.memintro{
+	height: 100px;
+}
 .other-info{
-	border: 1px solid #6d767f;
-	margin-top: 45px; 	
+	border: 1px solid #f8f8f8
 }
 .other-profile1{
 	/* border-bottom: 1px solid black; */
@@ -42,7 +46,7 @@
 	/* height: 250px; */
 }
 .other-profile2-left{
-	border-right: 1px solid #6d767f;
+	border: 1px solid #6d767f;
 	width: 80px;
 	height: 30px;
 	text-align: right;
@@ -59,15 +63,15 @@
 }
 .margin-class{
 	margin: 10px;
+	line-height: 2.2;
 }
 
 .other-nickname{
 	font-size: 24px;
-	font-family: 'S-CoreDream-3Light';
-	font-weight: 500;
 	text-align: center;
-	border-top: 0.1px solid #6d767f;
-	border-bottom: 0.1px solid #6d767f;
+	border-top: 0.1px solid #dee2e6;
+	border-bottom: 0.1px solid #dee2e6;
+	padding: 10px;
 	margin:0;
 }
 .profile-nickname{
@@ -83,20 +87,22 @@
 
 .other-manner-top{
 	text-align: center;
-	border-bottom: 0.1px solid #6d767f;
+	padding: 10px;
+	font-weight:600;
+	border-bottom: 0.1px solid #dee2e6
 }
 .other-manner-bottom{
 	text-align: center;
 }
 .line{
-	border-top : 0.1px solid #6d767f;
+	border-top : 0.1px solid #dee2e6
 }
 .product-title-line{
 	border-bottom: 0.1px solid #6d767f;
 	font-size: 32px;
 }
 .btn{
-	width: 300px;
+/* 	width: 300px; */
 }
 
 .updateDiv{
@@ -126,7 +132,6 @@
 	display:none;
 }
 .infoInput{
-	width: 170px;
 	height: 30px;
 	text-align: center;
 }

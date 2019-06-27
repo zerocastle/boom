@@ -1,25 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
 <link rel="stylesheet" type="text/css"
-   href="/resources/css/productList.css" />
+	href="/resources/css/productList.css" />
 <link rel="stylesheet" type="text/css"
-	href="/resources/css/review.css">
+	href="/resources/css/mypage-info.css">
+
+<style>
+.page-link {
+	display: inline-block;
+	color: #ffffff;
+	background-color: #606ddd;
+}
+
+.grid-gap-3{
+	grid-gap : 0;
+}
+</style>
+
 
 <script>
 $(document).ready(function(){
 	
-	var data = $('#nickname').text();
+	var data = $('#nick').text();
 	console.log(data);
-	
-	$('#reviewBtn').click(function(e){
+
+	$('#otherPro').click(function(e){
 		e.preventDefault();
-		window.location.href = "/member/review/"+'${data}'
+		window.location.href = "/member/other/"+$('#nick').text();
 	});
 	
-
+	$('#review').click(function(e){
+		e.preventDefault();
+		window.location.href = "/member/otherReview/"+$('#nick').text();
+	});
+	
 	// 매너 게이지
-	var manner = ${other.manner};
+	var manner = ${member.manner};
 	   function startFoo(){
 	      var opts = {
 	              angle: 0.15, // The span of the gauge arc
@@ -50,182 +68,176 @@ $(document).ready(function(){
 	   startFoo();
 });
 </script>
+<script>
+$(function() {
+	var list = ${requestScope.resultList};
+	console.log(list);
 
-<div class="other">
-	<div class="left-layout">
-		<div class="other-info">
-			<div class="other-profile1">
-				이미지 (보류)
-			</div>
-			<div class="other-profile2">
-					<div class="other-nickname">
-						<img class="profile-nickname"src="/resources/image/profile.png">
-						<span id="nickname">${other.nickname }</span>
-					</div>
-				<div class="margin-class">
-					<div class="other-profile2-left">
-					이메일
-					</div>
-					<div class="other-profile2-right">
-						${other.email }
+	function getParameterByName(name, url) {
+		if (!url)
+			url = window.location.href;
+		name = name.replace(/[\[\]]/g, "\\$&");
+		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex
+				.exec(url);
+		return results[2];
+	}
+
+	var productionLength = list.length;
+	var realPath = "${pageContext.request.contextPath}/resources/";
+
+	// 값 담기위한 작업
+	var array = new Array();
+	var test;
+	var pattern = /\\/g;
+	// 쿼리 스트링 가져오는 정규 표현식
+
+	//돌려 돌려
+	for (var i = 0; i < productionLength; i++) {
+		for (var j = 0; j < productionLength; j++) {
+			var temp = list[j].uploadPath;
+			var pickImage = list[j].place_signal;
+			if (list[j].place_signal == 1) {
+				pickImage = '<span class="badge-success">직플거래</span>';
+			} else {
+				pickImage = '<span class="badge badge-warning">직거래</span>';
+			}
+
+			var str = "<li><a href='#' class='productNext'>"
+					+ "<div class='product'>" + "<div class='product-img'>"
+					+ "<img id='"
+					+ j
+					+ "' src='"
+					+ realPath
+					+ list[j].uploadpath
+					+ "/"
+					+ list[j].uuid
+					+ "_"
+					+ list[j].filename
+					+ "' width=194 height=194 style='padding:10px;'>"
+					+ "</div>"
+					+ "<div class='product-title'>제목 : "
+					+ list[j].title
+					+ "</div>"
+					+ "<div class='product-info'>"
+					+ "<div class='product-price'>가격 : "
+					+ comma(list[j].price)
+					+ " 원</div>"
+					+ "</div>"
+					+ "<div class='product-pick'>"
+					+ pickImage
+					+ "</div>"
+					+ "<div class='product-location'>"
+					+ "<div class='icon location-md'>"
+					+ "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-map-pin'><path d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z'></path><circle cx='12' cy='10' r='3'></circle></svg>"
+					+ list[j].addr
+					+ ""
+					+ "</div>"
+					+ "</div>"
+					+ "</div>"
+					+ "</a></li>"
+					+ "<input type='hidden' value='"
+					+ list[j].pro_num + "' class='pro_num' />";
+			array.push(str);
+		}
+		$('#pro').append(array[i]);
+	}
+	//콤마찍기 정규 표현식
+	function comma(num) {
+		return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+
+	// 상품 상세보기
+	$('.productNext').click(
+			function(e) {
+				e.preventDefault();
+				console.log($(this).parent());
+				window.location.href = "/production/index_productView?pro_num="
+						+ $(this).parent().next().val();
+		});
+});
+</script>
+<!-- Main Content -->
+<div class="container my-3">
+	<div class="row">
+
+		<div class="col-md-4 col-lg-3">
+			<div class="card">
+				<div class="card-body text-center">
+					<img src="${pageContext.request.contextPath}/resources/${member.uploadPath }/${member.uuid }_${member.fileName }" width="100" height="100" alt="User"
+						class="rounded-circle mb-3">
+					<h5 id="nick" class="bold mb-0">${member.nickname }</h5>
+					<small class="counter">${member.email }</small>
+					<hr>
+					<div class="roboto-condensed bold" data-toggle="tooltip"
+						title="매너 점수는 ${member.manner }입니다.
+						평가 총인원은  ${member.manner_pick}명입니다.">
+						<canvas id="foo" class="foo"></canvas>
 					</div>
 				</div>
-				<div class="margin-class">
-					<div class="other-profile2-left">
-					소개글
-					</div>
-					<div class="other-profile2-right">
-						${other.intro }
-					</div>
+				<div class="list-group list-group-flush">
+						 <a href="#" id="otherPro" class="list-group-item has-badge list-group-item-action  active">
+						 <i data-feather="shopping-bag" class="mr-3"></i>${member.nickname }님의 상품<span class="badge rounded badge-primary">${proCount }</span></a>
+						 <a href="#" id="review" class="list-group-item has-badge list-group-item-action">
+						 <i data-feather="edit-3" class="mr-3"></i>리뷰<span class="badge rounded badge-primary">${pv }</span></a> 
 				</div>
-				<div class="line">
-					<div class="other-manner-top">
-						매너게이지
-					</div>
-					<div class="other-manner-bottom">
-		         			<canvas id="foo" class="foo"></canvas>
-		      		</div>
-		      	</div>
 			</div>
 		</div>
-		<div class="review">
-			<button type="button" id="reviewBtn" class="btn btn-primary">
-    		상점 후기 보기
-    		 <span class="badge badge-light">${pv }</span>
- 		    </button>
-		</div>
+
+		<div class="col mt-3 mt-md-0">
+			<div class="card">
+				<div class="card-body">
+					<h3>${member.nickname }님의 상품</h3>
+					<hr>
+					<form name="pagingForm">
+					<input type="hidden" name="pageNo" />
+					<div id="pro" class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
+                       
+                    </div>
+                    <div id="page" class="pull-center" style="text-align: center">
+<ul class="pagination justify-content-center">
+		<c:if test="${pageVO.pageNo != 0}">
+			<c:if test="${pageVO.pageNo > pageVO.pageBlock}">
+				<a class="page-link" href="javascript:fn_movePage(${pageVO.firstPageNo})"
+					style="text-decoration: none;">첫 페이지</a>
+			</c:if>
+			<c:if test="${pageVO.pageNo != 1}">
+				<a class="page-link" href="javascript:fn_movePage(${pageVO.prevPageNo})"
+					style="text-decoration: none;"><</a>
+			</c:if>
+			<span> <c:forEach var="i" begin="${pageVO.startPageNo}"
+					end="${pageVO.endPageNo}" step="1">
+					<c:choose>
+						<c:when test="${i eq pageVO.pageNo}">
+							<a class="page-link" href="javascript:fn_movePage(${i})"
+								style="text-decoration: none;"> <font
+								style="font-weight: bold;">${i}</font>
+
+							</a>
+						</c:when>
+						<c:otherwise>
+							<a class="page-link" href="javascript:fn_movePage(${i})"
+								style="text-decoration: none;">${i}</a>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</span>
+			<c:if test="${pageVO.pageNo != pageVO.finalPageNo }">
+				<a class="page-link" href="javascript:fn_movePage(${pageVO.nextPageNo})"
+					style="text-decoration: none;">></a>
+			</c:if>
+			<c:if test="${pageVO.endPageNo < pageVO.finalPageNo }">
+				<a class="page-link" href="javascript:fn_movePage(${pageVO.finalPageNo})"
+					style="text-decoration: none;">마지막 페이지</a>
+			</c:if>
+		</c:if>
+		</ul>
 	</div>
-	<div class="right-layout">
-		<div class="product-title-line">
-			상품목록
+	</form>
+				</div>
+			</div>
 		</div>
-		<!-- product-info -->
-		<div id="mypage-1" class="page">
-		   <ul class="category-product-list">
-		      <li><a href="#" id="productNext">
-		            <div class="product">
-		               <div class="product-img">
-		                  <img src="http://placehold.it/194x194">
-		               </div>
-		               <div class="product-title">제목</div>
-		               <div class="product-info">
-		                  <div class="product-price">가격</div>
-		                  <div class="product-update-time">
-		                     <div class="time">업데이트 ex)3분전</div>
-		                  </div>
-		               </div>
-		
-		               <div class="product-location">
-		                  <div class="icon location-md">
-		                     <i class="fa fa-map-marker-alt"></i>지역명
-		                  </div>
-		               </div>
-		            </div>
-		      </a></li>
-		
-		      <li><a>
-		            <div class="product">
-		               <div class="product-img">
-		                  <img src="http://placehold.it/194x194">
-		               </div>
-		               <div class="product-title">제목</div>
-		               <div class="product-info">
-		                  <div class="product-price">가격</div>
-		                  <div class="product-update-time">
-		                     <div class="time">업데이트 ex)3분전</div>
-		                  </div>
-		               </div>
-		               <div class="product-location">
-		                  <div class="icon location-md">
-		                     <i class="fa fa-map-marker-alt"></i>지역명
-		                  </div>
-		               </div>
-		            </div>
-		      </a></li>
-		
-		<li><a>
-		            <div class="product">
-		               <div class="product-img">
-		                  <img src="http://placehold.it/194x194">
-		               </div>
-		               <div class="product-title">제목</div>
-		               <div class="product-info">
-		                  <div class="product-price">가격</div>
-		                  <div class="product-update-time">
-		                     <div class="time">업데이트 ex)3분전</div>
-		                  </div>
-		               </div>
-		               <div class="product-location">
-		                  <div class="icon location-md">
-		                     <i class="fa fa-map-marker-alt"></i>지역명
-		                  </div>
-		               </div>
-		            </div>
-		      </a></li>
-		      <li><a>
-		            <div class="product">
-		               <div class="product-img">
-		                  <img src="http://placehold.it/194x194">
-		               </div>
-		               <div class="product-title">제목</div>
-		               <div class="product-info">
-		                  <div class="product-price">가격</div>
-		                  <div class="product-update-time">
-		                     <div class="time">업데이트 ex)3분전</div>
-		                  </div>
-		               </div>
-		               <div class="product-location">
-		                  <div class="icon location-md">
-		                     <i class="fa fa-map-marker-alt"></i>지역명
-		                  </div>
-		               </div>
-		            </div>
-		      </a></li>
-		      
-		      <li><a>
-		            <div class="product">
-		               <div class="product-img">
-		                  <img src="http://placehold.it/194x194">
-		               </div>
-		               <div class="product-title">제목</div>
-		               <div class="product-info">
-		                  <div class="product-price">가격</div>
-		                  <div class="product-update-time">
-		                     <div class="time">업데이트 ex)3분전</div>
-		                  </div>
-		               </div>
-		               <div class="product-location">
-		                  <div class="icon location-md">
-		                     <i class="fa fa-map-marker-alt"></i>지역명
-		                  </div>
-		               </div>
-		            </div>
-		      </a></li>
-		      
-		      <li><a>
-		            <div class="product">
-		               <div class="product-img">
-		                  <img src="http://placehold.it/194x194">
-		               </div>
-		               <div class="product-title">제목</div>
-		               <div class="product-info">
-		                  <div class="product-price">가격</div>
-		                  <div class="product-update-time">
-		                     <div class="time">업데이트 ex)3분전</div>
-		                  </div>
-		               </div>
-		               <div class="product-location">
-		                  <div class="icon location-md">
-		                     <i class="fa fa-map-marker-alt"></i>지역명
-		                  </div>
-		               </div>
-		            </div>
-		      </a></li>
-		      
-		   </ul>
-		</div>
-		<!-- product-info end -->
+
 	</div>
 </div>
-
-<script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
+<!-- /Main Content -->
+<script src="/resources/customJs/mypage-info2.js"></script>

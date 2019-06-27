@@ -108,7 +108,7 @@ $(document).ready(function() {
         }
     });
     $('#joinbtn').click(function() {
-            alert("뀨>.<");
+         
 
             var phone = $('#phone2');
                 				if (phone.val() == '') {

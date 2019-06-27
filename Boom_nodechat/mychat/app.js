@@ -191,42 +191,73 @@ app.get('/doChat2', (req, res) => {
 
 app.post('/jumsu', function (req, res) {
 
-  console.log(req.body.sender + '>>>>>>>>>' + req.body.score);
+  console.log(req.body.sender + '______________' + req.body.score);
   var sender = req.body.sender;
   var score = req.body.score;
   var room_id = req.body.room_id;
+  var message_id = req.body.message_id;
+  console.log('에라이시발이게나라냐!' + req.body.message_id);
   var query1 = "update member a set a.mannersum = a.mannersum + " + score + " where nickname = '" + sender + "'";
   var query2 = "update member set manner_pick = (manner_pick + 1) where nickname = '" + sender + "'";
   var query3 = "update member c set c.manner = (select (mannersum/manner_pick) from member where nickname = '"+sender+"')where c.nickname = '"+sender+"'";
+  var target = '';
+  var value = '';
+  //sender는 아래 p태그에 적힌 사람이다.
+  if(req.body.seller == req.body.sender){
+    target = "<ol class=''me''><div><p style=''color:brown;'' class=''meme''>"+req.body.sender+"</p>과의 거래는 만족 스러웠나요??</div><div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div><div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>";
+    value = "<div class=''me''><p style=''display:none;'' class=''meme''>" + req.body.sender + "</p>이미 매너 게이지 측정을 완료하셨습니다.</div>";
+  }else if(req.body.buyer == req.body.sender){
+    target = "<ol class=''other''><div><p style=''color:brown;'' class=''otherother''>" + req.body.sender + "</p>과의 거래는 만족 스러웠나요??</div><div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div><div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>";
+    value = "<div class=''other''><p style=''display:none;'' class=''otherother''>" + req.body.sender + "</p>이미 매너 게이지 측정을 완료하셨습니다.</div>";
+  }
+  
+  console.log(target);
+  console.log(value);
+  
+  
+  
+  
+  var query4 = "update message set content = replace(content,'"+target+"', '"+value+"') where message_num = " + message_id;
+
+
   // var query4 = "update message set content = '<div class=''end'' steyle=''color:brown''>평가가 완료 되었습니다.</div></ol>' where room_id = "+room_id+"" ;
-  console.log(query1);
-  console.log(query2);
-  console.log(query3);
+  console.log('query 1//' + query1);
+  console.log('query 2//' + query2);
+  console.log('query 3//' + query3);
+  console.log('query 4//' + query4);
   conn.execute(query1, function (err, result) {
-    console.log(result);
-    if (result.rowsAffected == 1) {
+    console.log('query1 끝')
+    console.log('query1 끝' + result)
+    console.log('query1 끝' + result)
+    console.log('query1 끝' + err)
+    if (!err) {
       conn.execute(query2, function (err, result) {
-        if (result.rowsAffected == 1) {
+        console.log('query2 끝')
+        console.log('query2 끝' + result)
+        console.log('query2 끝' + result)
+        console.log('query2 끝' + err)
+        if (!err) {
           conn.execute(query3, function (err, result) {
-            if (result.rowsAffected == 1) {
-              console.log('평가 완료');
-              res.send({"success" : "success"});
-              // conn.execute(query4,function(err,result){
-              //   if(result.rowAffected == 1){
-              //     res.send({"success" : "success"});
-              //   }
-              //   else{
-              //     res.send({"success" : "error"});
-              //   }
-              // })
-              
+            console.log('query3 끝')
+            console.log('query3 끝' + result)
+            console.log('query3 끝' + result)
+            console.log('query3 끝' + err)
+            if (!err) {
+              conn.execute(query4,function(err,result){
+                
+                  console.log('평가 완료');
+                  console.log('평가 완료');
+                  console.log('평가 완료' + result);
+                  console.log('평가 완료' + result);
+                  console.log('평가 완료' + result);
+                  console.log('평가 완료' + err);
+                  res.send({"success" : "success"});
+              })
             }
           })
-
         }
       })
     }
-
   })
 
 
@@ -440,8 +471,6 @@ app.get('/roomchat', (req, res) => {//목록중 하나를 클릭하였을때 실
 
 
 //목록의 방번호를 이용해 해당하는 디비의 메시지내역을 불러온다.
-// 방목록불러오기 
-
 
 // 방목록 불러오기(PC 브라우저)
 app.get('/jackchat', (req, res) => {//localhost:3000/jackchat 으로 접근시 실행
@@ -460,9 +489,11 @@ app.get('/jackchat', (req, res) => {//localhost:3000/jackchat 으로 접근시 �
   console.log('쿼리스트링 // ' + req.query.nickname);
   console.log('찍어봅시다 : ', temp) // 채팅서버에 접속한 유저의 nickname을 찍어본다.
 
-  //값이 있다면 실행
+  //값이 있다면 실행 챗 리스트 사진도 같이 가지고 옴
   console.log('목록1');
-  var loglogsql = "select c.room_id, c.buyer_num, c.seller_num, c.pro_num, o.title, (select nickname from member where m_num = c.buyer_num) C_buyer_nickname, (select nickname from member where m_num = c.seller_num) C_seller_nickname  from chatroom c, production o where o.pro_num = c.pro_num and (      seller_num = (select m_num from member where nickname = '" + temp + "') or      buyer_num = (select m_num from member where nickname = '" + temp + "')) order by room_id asc";
+  var loglogsql = "select c.room_id, c.buyer_num, c.seller_num, c.pro_num, o.title,(select nickname from member where m_num = c.buyer_num) C_buyer_nickname, (select nickname from member where m_num = c.seller_num) C_seller_nickname ,(select uploadPath  || '/' || uuid ||'_'|| fileName from member where m_num = c.buyer_num) img from chatroom c, production o where o.pro_num = c.pro_num and (      seller_num = (select m_num from member where nickname = '" + temp + "') or      buyer_num = (select m_num from member where nickname = '" + temp + "')) order by room_id asc";
+
+
   console.log('목록2');
   //닉네임으로 유저의 회원번호 알아내어 해당 번호가 구매자 또는 판매자로 존재하는 채팅방을 검색한다.
   conn.execute(loglogsql, function (err, result) { // 긴 쿼리문을 실행한다.
@@ -624,7 +655,8 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
 
   // 모든상황 마무리_테스트
   socket.on('confirm_test', function (pro_num, room_id, tag, seller, buyer) {
-
+    var messageNum = "<div class=''jumsuNum'' style=''display:none''>'||TO_CHAR(message_seq.NEXTVAL)||'</div>";
+    tag = tag + messageNum;
     var query1 = "UPDATE PRODUCTION SET STATE_MSG = 3 WHERE PRO_NUM = " + pro_num;
 
     var query2 = "select (select m_num from member where nickname = b.buyer_name)as seller, "
@@ -635,9 +667,13 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
 
     var query3 = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL,0,'" + room_id + "','" + tag + "')";
     console.log("테스트~~ ");
+    console.log('아사히 맥주~ 맛있게 마시기~1')
     console.log(query1);
+    console.log('아사히 맥주~ 맛있게 마시기~2')
     console.log(query2);
-
+    console.log('아사히 맥주~ 맛있게 마시기~3')
+    console.log(query3);
+    console.log('아사히 맥주~ 맛있게 마시기~4')
     conn.execute(query1, function (err, result) {
       console.log(result);//rowAffected
       var seller_nickname;
@@ -849,6 +885,23 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
 
   });
 
+
+
+  socket.on('inprod', function(num,str){
+    //INSERT INTO "KYS"."MESSAGE" (MESSAGE_NUM, SENDER_NUM, CONTENT, ROOM_ID) VALUES ('7890', '5', 'asdasdfasf', '148')
+    //INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '" + name + "'), " + num + ", '" + msg + "')"
+    var inprodSql = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, 0, " + num + ", '" + str + "')";
+    console.log('inprodSql : ' + inprodSql);
+    conn.execute(inprodSql, function(err,result){
+      if(err){
+        console.log('inprodSql : 에러발생 : ' + err)
+      }else {
+        console.log('inprodSql : 정상작동 : '+ result);
+        io.to(num).emit('ref');//해당 방에 이름과 메시지를 전송
+      }
+    });
+    
+  })
 
 });
 

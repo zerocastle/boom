@@ -16,7 +16,7 @@
 //        e.preventDefault();
         var id = $('#id').val();
         var pw = $('#pw').val();
-        alert(id);
+        
         var param = {
             'nickname' : id,
             'm_password' : pw
@@ -32,7 +32,6 @@
             contentType : "application/json; charset=UTF-8",
             success : function(result){
 
-                alert(result.signal);
                 if(result.signal == "success"){
                     console.log(result.json);
                     console.log(result);
@@ -50,7 +49,7 @@
                         FCMPlugin.getToken(function(token){
                             localStorage.setItem("token", token);
                             console.log("TOKEN FIREBASE : " + token + 'nickname :' + json2.nickname);
-                            alert('nickname :' + json2.nickname + "\n TOKEN FIREBASE : " + token );
+    
                             aaaa(json2.nickname, token);
                         }, function (error) {
                             console.error(error);

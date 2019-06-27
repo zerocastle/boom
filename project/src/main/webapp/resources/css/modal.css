@@ -1,0 +1,30 @@
+.col-md-6 {
+    max-width: 100%;
+}
+.modal-header{
+    border-bottom: 0;
+}
+.modal-footer{
+    border-top : 0;
+}
+.login-title{
+	font-weight: 600;
+    padding: 30px;
+    padding-top: 0;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.select, .reg-acc, nickLine, checkLine{
+    display: inline-block;
+}
+
+.hideRegNick, .hideRegPhone , .hideRegEmail , .hideRegAcc , .hideRegNickCheck,
+.hideRegPartName, .hidePartPhone, .hidePartBoss, .hideCompany_number, .hidePartZip{
+	color: red;
+	text-align: center;
+	display: none;
+}

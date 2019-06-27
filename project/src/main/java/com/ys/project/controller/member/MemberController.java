@@ -1,8 +1,14 @@
 package com.ys.project.controller.member;
 
+import java.awt.PageAttributes.MediaType;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,11 +25,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ys.project.projectVO.LikeListVO;
 import com.ys.project.projectVO.MemberVO;
 import com.ys.project.projectVO.PageVO;
+import com.ys.project.projectVO.PartnerVO;
+import com.ys.project.projectVO.PaymentVO;
 import com.ys.project.projectVO.ProductionReviewVO;
 import com.ys.project.projectVO.joinPickVO;
 import com.ys.project.service.member.IMemberService;
@@ -34,14 +45,14 @@ import net.sf.json.JSONObject;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping(value = "member")
+@RequestMapping(value = "/member/**")
 public class MemberController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	@Autowired
 	private IMemberService service;
 
-	// ·Î±×ÀÎ Ã³¸®
+	// ï¿½Î±ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String login(Model model, @RequestParam Map map) throws Exception {
 
@@ -52,8 +63,8 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String loginPost(Model model, @RequestBody MemberVO vo, HttpServletRequest request) throws Exception {
-		logger.info("===================================================> loginPost ³Ñ¿À¿Â °ª : " + vo.toString());
-		System.out.println("¹¹°¡ ³Ñ¾î ¿Ô³Ä ? " + vo);
+		logger.info("===================================================> loginPost ï¿½Ñ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ : " + vo.toString());
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾ï¿½ ï¿½Ô³ï¿½ ? " + vo);
 
 		HttpSession session = request.getSession();
 
@@ -65,14 +76,14 @@ public class MemberController {
 			object.put("nickname", vo.getNickname());
 			return object.toString();
 		} else {
-			System.out.println("========================¶ì¹ß¶ì¹ß ¶ì¹ß========");
+			System.out.println("========================ï¿½ï¿½ß¶ï¿½ï¿½ ï¿½ï¿½ï¿½========");
 			object.put("signal", "fail");
 			return object.toString();
 		}
 
 	}
 
-	// ·Î±×¾Æ¿ô
+	// ï¿½Î±×¾Æ¿ï¿½
 	@RequestMapping("logout")
 	public String memberLogout(HttpServletRequest request) throws Exception {
 
@@ -81,7 +92,7 @@ public class MemberController {
 		return "redirect:/";
 	}
 
-	// È¸¿ø °¡ÀÔ
+	// È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	@RequestMapping(value = "memberRegister", method = RequestMethod.GET)
 	public String memberRegister(Model model) throws Exception {
@@ -91,110 +102,191 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "memberRegister", method = RequestMethod.POST)
-	public String memberRegisterPost(Model model, @RequestParam Map map, RedirectAttributes ra) throws Exception {
-		logger.info("¸É¹ö ·¹Áö½ºÅÍ : " + map);
-		ra.addFlashAttribute("msg", "SUCCESS");
-		service.registerMember(map);
-		return "redirect:/";
+	   public String memberRegisterPost(Model model, MemberVO member, @RequestParam Map map,
+	         @RequestParam("uploadFile") MultipartFile[] uploadFile, RedirectAttributes ra) throws Exception {
+	      logger.info("ï¿½É¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : " + map);
+
+	      logger.info(">>>>>" + uploadFile[0].getOriginalFilename());
+	      // =============================================================
+	      MemberVO memberVO = this.uploadMethod(uploadFile);
+
+	      map.put("uuid", memberVO.getUuid());
+	      map.put("uploadPath", memberVO.getUploadPath());
+	      map.put("fileName", memberVO.getFileName());
+	      ra.addFlashAttribute("msg", "SUCCESS");
+	      service.registerMember(map);
+	      return "redirect:/";
+
+	   }
+
+	
+	@RequestMapping(value = "register", method = RequestMethod.POST)
+	@ResponseBody
+	public int RegisterPost(Model model, @RequestBody MemberVO vo, RedirectAttributes ra) throws Exception {
+		int success = service.insertRegister(vo);
+		
+		return success;
 
 	}
 
-	// ´Ð³×ÀÓ Ã¼Å©
+	// ï¿½Ð³ï¿½ï¿½ï¿½ Ã¼Å©
 	@RequestMapping(value = "nickNameCheck", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> nickNameCheck(Model model, @RequestBody MemberVO nickName, RedirectAttributes ra)
+	public int nickNameCheck(Model model, @RequestBody MemberVO vo, RedirectAttributes ra)
 			throws Exception {
-		Map<String, String> map = new HashMap<String, String>();
-		logger.info("´Ð³×ÀÓ Ã¼Å© : " + nickName);
-		nickName = service.nickNameCheck(nickName.getNickname());
-		if (nickName == null) {
-			map.put("signal", "SUCCESS");
-		} else
-			map.put("signal", "fail");
-		return map;
 
+		int nickCheck = service.checkNick(vo);
+		
+		return nickCheck;
 	}
 
-	// ¸¶ÀÌÆäÀÌÁö , // ÇØ´ç ¼¼¼ÇÀÇ ´Ð³×ÀÓ Á¤º¸ Á¶È¸ , // ´Ð³×ÀÓÀ¸·Î »óÁ¡ ÈÄ±â Á¤º¸ µ¥ÀÌÅÍ ÃßÃâ
-	@RequestMapping(value = "myPage", method = RequestMethod.GET)
-	public String myPage(Model model, Model model2, HttpServletRequest request, RedirectAttributes rttr,
-			@ModelAttribute("joinPickVO") joinPickVO pv) throws Exception {
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	@RequestMapping(value = "myPage/" + "{data}", method = RequestMethod.GET)
+	public String myPage(Model model, HttpServletRequest request, RedirectAttributes rttr,
+			@ModelAttribute("joinPickVO") joinPickVO pv, @PathVariable String data) throws Exception {
 
-		HttpSession session = request.getSession();
-		MemberVO member = (MemberVO) session.getAttribute("loginSession"); // ·Î±×ÀÎµÈ ¼¼¼ÇÀÇ ´Ð³×ÀÓ
-		System.out.println("·¯³ª¤Ó¾î¸®¤¿¤¤¤·" + session.getAttribute("loginSession"));
-		logger.info("ÇöÀç ¼¼¼ÇÀÇ Á¤º¸ : " + member);
+//		HttpSession session = request.getSession();
+//		MemberVO mvo = (MemberVO) session.getAttribute("loginSession"); // ï¿½Î±ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½
+		MemberVO member = service.nickNameCheck(data);
+//		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½Ó¾î¸®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" + session.getAttribute("loginSession"));
+		logger.info("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : " + member);
 
 		model.addAttribute("member", member);
 		int num = member.getM_num();
-		// --ÆäÀÌÂ¡ Ã³¸®
+		// --ï¿½ï¿½ï¿½ï¿½Â¡ Ã³ï¿½ï¿½
 		int myPageListCount = service.myPageListCount(num);
-		pv.setTotalCount(myPageListCount); // ÆäÀÌÂ¡ Ã³¸®¸¦ À§ÇÑ setter È£Ãâ
+		pv.setTotalCount(myPageListCount); // ï¿½ï¿½ï¿½ï¿½Â¡ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ setter È£ï¿½ï¿½
 		pv.setM_num(num);
 		PageVO pv2 = new PageVO();
-		int totalCount = service.getPagingListCount(num); // °Ô½Ã¹° ÃÑ°¹¼ö¸¦ ±¸ÇÑ´Ù
+		int totalCount = service.getPagingListCount(num); // ï¿½Ô½Ã¹ï¿½ ï¿½Ñ°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½
 		pv2.setTotalCount(totalCount);
 
-		System.out.println("È®ÀÎ 1==================== : " + pv);
+		System.out.println("È®ï¿½ï¿½ 1==================== : " + pv);
 		model.addAttribute("pv", pv2.getTotalCount());
 		model.addAttribute("pageVO", pv);
-		logger.info("totalCount // °Ô½Ã ±Û ÀüÃ¼ ¼ö : " + totalCount);
+		logger.info("totalCount // ï¿½Ô½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ : " + totalCount);
 		int totalPick = service.totalPick(num);
+		model.addAttribute("proCount",myPageListCount);
 		model.addAttribute("like", totalPick);
-		System.out.println("È®ÀÎ 2==================== : " + pv);
+		System.out.println("È®ï¿½ï¿½ 2==================== : " + pv);
 
-		// --ÆäÀÌÂ¡ Ã³¸®
+		// --ï¿½ï¿½ï¿½ï¿½Â¡ Ã³ï¿½ï¿½
 
 		List<joinPickVO> resultList = service.myPageList(pv);
 		model.addAttribute("resultList", JSONArray.fromObject(resultList));
-		System.out.println("È®ÀÎ 3==================== : " + pv);
-		System.out.println("¸¶ÀÌ ÆäÀÌÁö : member/myPage");
+		System.out.println("È®ï¿½ï¿½ 3==================== : " + pv);
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : member/myPage");
 
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½Ê¶ï¿½ï¿½ ï¿½Ô°ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½Ì±ï¿½
+				List<PartnerVO> placeList = service.getPlaceList(member.getM_num());
+				
+				model.addAttribute("placeList",JSONArray.fromObject(placeList));
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½Ê¶ï¿½ï¿½ ï¿½Ô°ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½Ì±ï¿½
+		
+		
 		return "myPage/myPage";
 	}
 
-	// post µ¥ÀÌÅÍ ¼öÁ¤
+	// post ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value = "myPage", method = RequestMethod.POST)
 	@ResponseBody
 	public MemberVO memberUpdate(Model model, @RequestBody MemberVO vo, HttpServletRequest request,
 			RedirectAttributes rttr) throws Exception {
 
 		HttpSession session = request.getSession();
-		MemberVO before = (MemberVO) session.getAttribute("loginSession"); // ·Î±×ÀÎµÈ ¼¼¼ÇÀÇ ´Ð³×ÀÓ
+		MemberVO before = (MemberVO) session.getAttribute("loginSession"); // ï¿½Î±ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½
 
-		System.out.println("¾÷µ¥ÀÌÆ® µÇ±âÀü : " + before);
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ç±ï¿½ï¿½ï¿½ : " + before);
 
 		service.memberUpdate(vo);
-		System.out.println("¾÷µ¥ÀÌÆ® µÈÈÄ : " + vo);
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ : " + vo);
 		session.removeAttribute("loginSession");
 		MemberVO after = service.nickNameCheck(vo.getNickname());
 		session.setAttribute("loginSession", after);
-
+		
+		
 		return vo;
 	}
 
-	// Å¸ÀÎ ÆäÀÌÁö
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç°
+	@RequestMapping(value = "/myProduct/" + "{data}", method = RequestMethod.GET)
+	public String myPageProduct(Model model, HttpServletRequest request, RedirectAttributes rttr,
+			@ModelAttribute("joinPickVO") joinPickVO pv,  @PathVariable String data) throws Exception {
+
+		/*
+		 * HttpSession session = request.getSession(); MemberVO member = (MemberVO)
+		 * session.getAttribute("loginSession"); // ï¿½Î±ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½
+		 * System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½Ó¾î¸®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" + session.getAttribute("loginSession"));
+		 */
+		MemberVO member = service.nickNameCheck(data);
+		logger.info("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : " + member);
+
+		model.addAttribute("member", member);
+		int num = member.getM_num();
+		// --ï¿½ï¿½ï¿½ï¿½Â¡ Ã³ï¿½ï¿½
+		int myPageListCount = service.myPageListCount(num);
+		pv.setTotalCount(myPageListCount); // ï¿½ï¿½ï¿½ï¿½Â¡ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ setter È£ï¿½ï¿½
+		pv.setM_num(num);
+		PageVO pv2 = new PageVO();
+		int totalCount = service.getPagingListCount(num); // ï¿½Ô½Ã¹ï¿½ ï¿½Ñ°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½
+		pv2.setTotalCount(totalCount);
+
+		System.out.println("È®ï¿½ï¿½ 1==================== : " + pv);
+		model.addAttribute("pv", pv2.getTotalCount());
+		model.addAttribute("pageVO", pv);
+		logger.info("totalCount // ï¿½Ô½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ : " + totalCount);
+		model.addAttribute("proCount",myPageListCount);
+		int totalPick = service.totalPick(num);
+		model.addAttribute("like", totalPick);
+		System.out.println("È®ï¿½ï¿½ 2==================== : " + pv);
+
+		// --ï¿½ï¿½ï¿½ï¿½Â¡ Ã³ï¿½ï¿½
+
+		List<joinPickVO> resultList = service.myPageList(pv);
+		model.addAttribute("resultList", JSONArray.fromObject(resultList));
+		System.out.println("È®ï¿½ï¿½ 3==================== : " + pv);
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : member/myPage");
+
+		return "myPage/product";
+	}
+
+	// Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç°
 	@RequestMapping(value = "other/" + "{data}", method = RequestMethod.GET)
-	public String otherGET(Model model, @PathVariable String data) throws Exception {
+	public String otherGET(Model model, @PathVariable String data, @ModelAttribute("joinPickVO") joinPickVO pv) throws Exception {
 
 		MemberVO member = service.nickNameCheck(data);
 		System.out.println("otherPage : " + member);
-		model.addAttribute("other", member);
+		model.addAttribute("member", member);
 		int num = member.getM_num();
+		// --ï¿½ï¿½ï¿½ï¿½Â¡ Ã³ï¿½ï¿½
+		int myPageListCount = service.myPageListCount(num);
+		pv.setTotalCount(myPageListCount); // ï¿½ï¿½ï¿½ï¿½Â¡ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ setter È£ï¿½ï¿½
+		pv.setM_num(num);
+		PageVO pv2 = new PageVO();
+		int totalCount = service.getPagingListCount(num); // ï¿½Ô½Ã¹ï¿½ ï¿½Ñ°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½
+		pv2.setTotalCount(totalCount);
 
-		// --ÆäÀÌÂ¡ Ã³¸®
-		int totalCount = service.getPagingListCount(num); // °Ô½Ã¹° ÃÑ°¹¼ö¸¦ ±¸ÇÑ´Ù
-		PageVO pv = new PageVO();
-		pv.setTotalCount(totalCount); // ÆäÀÌÂ¡ Ã³¸®¸¦ À§ÇÑ setter È£Ãâ
-		model.addAttribute("pv", pv.getTotalCount());
-		logger.info("totalCount // °Ô½Ã ±Û ÀüÃ¼ ¼ö : " + totalCount);
+		System.out.println("È®ï¿½ï¿½ 1==================== : " + pv);
+		model.addAttribute("pv", pv2.getTotalCount());
+		model.addAttribute("pageVO", pv);
+		logger.info("totalCount // ï¿½Ô½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ : " + totalCount);
+		int totalPick = service.totalPick(num);
+		model.addAttribute("proCount",myPageListCount);
+		model.addAttribute("like", totalPick);
+		System.out.println("È®ï¿½ï¿½ 2==================== : " + pv);
+
+		// --ï¿½ï¿½ï¿½ï¿½Â¡ Ã³ï¿½ï¿½
+
+		List<joinPickVO> resultList = service.myPageList(pv);
+		model.addAttribute("resultList", JSONArray.fromObject(resultList));
+		System.out.println("È®ï¿½ï¿½ 3==================== : " + pv);
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : member/myPage");
 
 		return "/myPage/other";
 
 	}
-
-	// review ÆäÀÌÁö
-	@RequestMapping(value = "review/" + "{data}", method = RequestMethod.GET)
+	//other review
+	@RequestMapping(value = "otherReview/" + "{data}", method = RequestMethod.GET)
 	public String otherReviewGET(Model model, @PathVariable String data,
 			@ModelAttribute("ProductionReviewVO") ProductionReviewVO pv) throws Exception {
 		int usingData = service.usingData(data);
@@ -202,16 +294,58 @@ public class MemberController {
 		if (usingData == 1) {
 			MemberVO member = service.nickNameCheck(data);
 			System.out.println("otherPage : " + member);
-			model.addAttribute("other", member);
+			model.addAttribute("member", member);
 			int num = member.getM_num();
 
-			// --ÆäÀÌÂ¡ Ã³¸®
-			int totalCount = service.getPagingListCount(num); // °Ô½Ã¹° ÃÑ°¹¼ö¸¦ ±¸ÇÑ´Ù
+			// --ï¿½ï¿½ï¿½ï¿½Â¡ Ã³ï¿½ï¿½
+			int totalCount = service.getPagingListCount(num); // ï¿½Ô½Ã¹ï¿½ ï¿½Ñ°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½
+			model.addAttribute("pv", totalCount);
 			pv.setM_num(num);
-			pv.setTotalCount(totalCount); // ÆäÀÌÂ¡ Ã³¸®¸¦ À§ÇÑ setter È£Ãâ
+			pv.setTotalCount(totalCount); // ï¿½ï¿½ï¿½ï¿½Â¡ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ setter È£ï¿½ï¿½
 			model.addAttribute("pageVO", pv);
-			// --ÆäÀÌÂ¡ Ã³¸®
+			//
+			int myPageListCount = service.myPageListCount(num);
+			model.addAttribute("proCount",myPageListCount);
+			//
+			int totalPick = service.totalPick(num);
+			model.addAttribute("like", totalPick);
+			
+			List<ProductionReviewVO> reviewList = service.getPagingList(pv);
+			model.addAttribute("resultList", reviewList);
+			return "/myPage/otherReview";
+		} else {
+			model.addAttribute("data", data);
+			return "/myPage/notReview";
+		}
 
+	}
+
+
+	// review ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	@RequestMapping(value = "review/" + "{data}", method = RequestMethod.GET)
+	public String ReviewGET(Model model, @PathVariable String data,
+			@ModelAttribute("ProductionReviewVO") ProductionReviewVO pv) throws Exception {
+		int usingData = service.usingData(data);
+
+		if (usingData == 1) {
+			MemberVO member = service.nickNameCheck(data);
+			System.out.println("otherPage : " + member);
+			model.addAttribute("member", member);
+			int num = member.getM_num();
+
+			// --ï¿½ï¿½ï¿½ï¿½Â¡ Ã³ï¿½ï¿½
+			int totalCount = service.getPagingListCount(num); // ï¿½Ô½Ã¹ï¿½ ï¿½Ñ°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½
+			model.addAttribute("pv", totalCount);
+			pv.setM_num(num);
+			pv.setTotalCount(totalCount); // ï¿½ï¿½ï¿½ï¿½Â¡ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ setter È£ï¿½ï¿½
+			model.addAttribute("pageVO", pv);
+			//
+			int myPageListCount = service.myPageListCount(num);
+			model.addAttribute("proCount",myPageListCount);
+			//
+			int totalPick = service.totalPick(num);
+			model.addAttribute("like", totalPick);
+			
 			List<ProductionReviewVO> reviewList = service.getPagingList(pv);
 			model.addAttribute("resultList", reviewList);
 			return "/myPage/review";
@@ -222,31 +356,27 @@ public class MemberController {
 
 	}
 
-	@RequestMapping(value = "test", method = RequestMethod.GET)
-	public String gettest(Model model) throws Exception {
-
-		String nickname = "Áö´Ùºó";
-
-		List<ProductionReviewVO> list = service.scrollPaging(nickname);
-		model.addAttribute("review", list);
-		return "myPage/test";
-
-	}
-
-	@RequestMapping(value = "test", method = RequestMethod.POST)
-	@ResponseBody
-	public List<ProductionReviewVO> posttest(@RequestBody ProductionReviewVO vo) throws Exception {
-
-		String nick = "Áö´Ùºó";
-		MemberVO vo2 = new MemberVO();
-		vo2.setNickname(nick);
-		vo2.getNickname();
-		Integer prnum = vo.getPr_num() - 1;
-		Map map = new HashMap();
-		map.put("pr_num", prnum);
-		map.put("nickname", vo2.getNickname());
-		return service.infiniteScrollDown(map);
-	}
+	/*
+	 * @RequestMapping(value = "test", method = RequestMethod.GET) public String
+	 * gettest(Model model) throws Exception {
+	 * 
+	 * String nickname = "ï¿½ï¿½ï¿½Ùºï¿½";
+	 * 
+	 * List<ProductionReviewVO> list = service.scrollPaging(nickname);
+	 * model.addAttribute("review", list); return "myPage/test";
+	 * 
+	 * }
+	 * 
+	 * @RequestMapping(value = "test", method = RequestMethod.POST)
+	 * 
+	 * @ResponseBody public List<ProductionReviewVO> posttest(@RequestBody
+	 * ProductionReviewVO vo) throws Exception {
+	 * 
+	 * String nick = "ï¿½ï¿½ï¿½Ùºï¿½"; MemberVO vo2 = new MemberVO(); vo2.setNickname(nick);
+	 * vo2.getNickname(); Integer prnum = vo.getPr_num() - 1; Map map = new
+	 * HashMap(); map.put("pr_num", prnum); map.put("nickname", vo2.getNickname());
+	 * return service.infiniteScrollDown(map); }
+	 */
 
 	@RequestMapping(value = "insertPick", method = RequestMethod.POST)
 	@ResponseBody
@@ -255,11 +385,11 @@ public class MemberController {
 
 		HttpSession session = request.getSession();
 
-		MemberVO member = (MemberVO) session.getAttribute("loginSession"); // ·Î±×ÀÎµÈ ¼¼¼ÇÀÇ ´Ð³×ÀÓ
+		MemberVO member = (MemberVO) session.getAttribute("loginSession"); // ï¿½Î±ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½
 		int m_num = member.getM_num();
 		vo.setM_num(m_num);
-		System.out.println("·Î±×ÀÎ ¼¼¼ÇÀÇ m_num : " + m_num);
-		System.out.println("·Î±×ÀÎÇÏ°í °¡Á®¿Â pro_num : " + vo);
+		System.out.println("ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ m_num : " + m_num);
+		System.out.println("ï¿½Î±ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ pro_num : " + vo);
 		int searchNo = service.searchPick(vo);
 		System.out.println("searchNo : " + searchNo);
 		if (searchNo == 1) {
@@ -274,24 +404,218 @@ public class MemberController {
 	public String pickInfo(Model model, @PathVariable String data, HttpServletRequest request, RedirectAttributes rttr,
 			@ModelAttribute("joinPickVO") joinPickVO pv) throws Exception {
 		HttpSession session = request.getSession();
-		MemberVO member = (MemberVO) session.getAttribute("loginSession"); // ·Î±×ÀÎµÈ ¼¼¼ÇÀÇ ´Ð³×ÀÓ
-		System.out.println("·¯³ª¤Ó¾î¸®¤¿¤¤¤·" + session.getAttribute("loginSession"));
-		logger.info("ÇöÀç ¼¼¼ÇÀÇ Á¤º¸ : " + member);
+		MemberVO member = (MemberVO) session.getAttribute("loginSession"); // ï¿½Î±ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½Ó¾î¸®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" + session.getAttribute("loginSession"));
+		logger.info("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : " + member);
 
 		model.addAttribute("member", member);
-		System.out.println("È®ÀÎ 1==================== : " + pv);
+		System.out.println("È®ï¿½ï¿½ 1==================== : " + pv);
 		int num = member.getM_num();
-		// --ÆäÀÌÂ¡ Ã³¸®
-		int totalCount = service.totalPick(num); // °Ô½Ã¹° ÃÑ°¹¼ö¸¦ ±¸ÇÑ´Ù
+		
+		// ï¿½ï¿½ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½Æ®
+		int myPageListCount = service.myPageListCount(num);
+		model.addAttribute("proCount",myPageListCount);
+		
+		// --ï¿½ï¿½ï¿½ï¿½Â¡ Ã³ï¿½ï¿½
+		int totalCount = service.totalPick(num); // ï¿½Ô½Ã¹ï¿½ ï¿½Ñ°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½
 		pv.setM_num(num);
-		pv.setTotalCount(totalCount); // ÆäÀÌÂ¡ Ã³¸®¸¦ À§ÇÑ setter È£Ãâ
+		pv.setTotalCount(totalCount); // ï¿½ï¿½ï¿½ï¿½Â¡ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ setter È£ï¿½ï¿½
 		model.addAttribute("pageVO", pv);
-		// --ÆäÀÌÂ¡ Ã³¸®
-
+		// --ï¿½ï¿½ï¿½ï¿½Â¡ Ã³ï¿½ï¿½
+		int totalCount2 = service.getPagingListCount(num); // ï¿½Ô½Ã¹ï¿½ ï¿½Ñ°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½
+		model.addAttribute("pv",totalCount2);
+		int totalPick = service.totalPick(num);
+		model.addAttribute("like", totalPick);
 		List<joinPickVO> resultList = service.joinPickPaging(pv);
 		model.addAttribute("resultList", JSONArray.fromObject(resultList));
-		System.out.println("È®ÀÎ 2==================== : " + pv);
+		System.out.println("È®ï¿½ï¿½ 2==================== : " + pv);
 		return "/pick/pick";
 	}
+	
+	// ï¿½ï¿½ï¿½Å³ï¿½ï¿½ï¿½
+	@RequestMapping(value = "purchaseList/" + "{data}", method = RequestMethod.GET)
+	public String purchaseList(Model model, @PathVariable String data, HttpServletRequest request) throws Exception {
 
+		logger.info("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ìµï¿½");
+		HttpSession session = request.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("loginSession");
+		String nickName = memberVO.getNickname();
+		
+		// memberï¿½ï¿½ï¿½ï¿½
+		MemberVO member = service.nickNameCheck(data);
+		int num = member.getM_num();
+		System.out.println("otherPage : " + member);
+		model.addAttribute("member", member);
+		
+		// ï¿½ï¿½ï¿½ï¿½Ç° count
+		int myPageListCount = service.myPageListCount(num);
+		model.addAttribute("proCount",myPageListCount);
+		
+		// ï¿½ï¿½ï¿½ï¿½ count
+		int totalCount2 = service.getPagingListCount(num); 
+		model.addAttribute("pv",totalCount2);
+		
+		// ï¿½ï¿½ï¿½ï¿½ count
+		int totalPick = service.totalPick(num);
+		model.addAttribute("like", totalPick);
+		
+		List<PaymentVO> list = new ArrayList<PaymentVO>();
+		list = service.getMemberPayment(data);
+		model.addAttribute("paymentList", list);
+		return "sell/purchaseList";
+
+	}
+	
+	// ï¿½Ç¸Å³ï¿½ï¿½ï¿½
+	@RequestMapping(value = "sellList/" + "{data}", method = RequestMethod.GET)
+	public String sellList(Model model, @PathVariable String data) throws Exception {
+
+		logger.info("ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½");
+		
+		// memberï¿½ï¿½ï¿½ï¿½
+				MemberVO member = service.nickNameCheck(data);
+				int num = member.getM_num();
+				System.out.println("otherPage : " + member);
+				model.addAttribute("member", member);
+				
+				// ï¿½ï¿½ï¿½ï¿½Ç° count
+				int myPageListCount = service.myPageListCount(num);
+				model.addAttribute("proCount",myPageListCount);
+				
+				// ï¿½ï¿½ï¿½ï¿½ count
+				int totalCount2 = service.getPagingListCount(num); 
+				model.addAttribute("pv",totalCount2);
+				
+				// ï¿½ï¿½ï¿½ï¿½ count
+				int totalPick = service.totalPick(num);
+				model.addAttribute("like", totalPick);
+
+		return "sell/sellList";
+
+	}
+	
+	  // ===========================================================================================
+
+	   // ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½Ï´ï¿½ ï¿½Å¼Òµï¿½
+	   private MemberVO uploadMethod(MultipartFile[] uploadFile) {
+	      // TODO Auto-generated method stub
+
+	      HttpServletRequest request = this.getRequest(); // HttpServletRequest ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½
+
+	      String uploadFolder = request.getServletContext().getRealPath("/resources");
+
+	      File RealuploadPath = new File(uploadFolder, this.getFolder()); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+
+	      MemberVO memberVO = new MemberVO();
+
+	      for (MultipartFile multipartFile : uploadFile) {
+
+	         multipartFile.getOriginalFilename();
+	         String uploadFileName = multipartFile.getOriginalFilename();
+	         memberVO = new MemberVO();
+
+	         memberVO.setFileName(uploadFileName); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+
+	         UUID uuid = UUID.randomUUID();
+
+	         uploadFileName = uuid.toString() + "_" + uploadFileName;
+
+	         try {
+	            File saveFile = new File(RealuploadPath, uploadFileName); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ßµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
+	            multipartFile.transferTo(saveFile);
+	            memberVO.setUuid(uuid.toString());
+	            memberVO.setUploadPath(this.getFolder());
+	         } catch (Exception e) {
+	            logger.error(e.getMessage());
+	         }
+
+	      }
+
+	      return memberVO;
+
+	   }
+
+	   // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
+	   private String getFolder() {
+	      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	      String addPartner = "member/";
+	      Date date = new Date();
+	      String str = sdf.format(date);
+	      System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ : " + str); // 2019-03-31
+	      System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ : " + str.replace("-", File.separator)); // 2019/03/31 "/" ï¿½Ì°É·ï¿½ ï¿½ï¿½È¯
+	      return addPartner + str.replace("-", File.separator);
+
+	   }
+
+	   // HttpServletRequest ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ Å¸ï¿½Ô¿ï¿½ requestï¿½ï¿½Ã¤ ï¿½ï¿½ï¿½
+	   public static HttpServletRequest getRequest() {
+	      ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+	      return attr.getRequest();
+	   }
+						
+	   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½Ô°ï¿½ï¿½ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½.
+	   @RequestMapping(value = "inProd/" + "{data}", method = RequestMethod.GET)
+	   public String inProd(Model model, @PathVariable String data) throws Exception {
+
+			logger.info("ï¿½ï¿½ï¿½ï¿½ ï¿½Ô°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½");
+			
+			// memberï¿½ï¿½ï¿½ï¿½
+					MemberVO member = service.nickNameCheck(data);
+					int num = member.getM_num();
+					System.out.println("otherPage : " + member);
+					model.addAttribute("member", member);
+					
+					// ï¿½ï¿½ï¿½ï¿½Ç° count
+					int myPageListCount = service.myPageListCount(num);
+					model.addAttribute("proCount",myPageListCount);
+					
+					// ï¿½ï¿½ï¿½ï¿½ count
+					int totalCount2 = service.getPagingListCount(num); 
+					model.addAttribute("pv",totalCount2);
+					
+					// ï¿½ï¿½ï¿½ï¿½ count
+					int totalPick = service.totalPick(num);
+					model.addAttribute("like", totalPick);
+					
+					//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½Ê¶ï¿½ï¿½ ï¿½Ô°ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½Ì±ï¿½
+					List<PartnerVO> placeList = service.getPlaceList(member.getM_num());
+					
+					model.addAttribute("placeList",JSONArray.fromObject(placeList));
+					//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½Ê¶ï¿½ï¿½ ï¿½Ô°ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½Ì±ï¿½
+					
+					//ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¹ï¿½ï¿½Â° ï¿½ï¿½ï¿½Ã·ï¿½ï¿½Ì½ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.
+					List<HashMap<String, String>> inProdList = service.getInProdList(placeList.get(0).getPart_name());
+					model.addAttribute("inProducts",JSONArray.fromObject(inProdList));
+					//ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¹ï¿½ï¿½Â° ï¿½ï¿½ï¿½Ã·ï¿½ï¿½Ì½ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.
+					
+					
+			return "inProd/fix-inProd";
+
+		}
+	   
+	   @RequestMapping(value = "inProdList/" + "{data}", method = RequestMethod.GET , produces =org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE)
+	   public @ResponseBody String getInProdList(Model model, @PathVariable String data) throws Exception {
+		   List<HashMap<String, String>> inProdList = service.getInProdList(data);
+		   System.out.println("inProdList : ");
+		   System.out.println("inProdList : ");
+		   System.out.println("inProdList : ");
+		   System.out.println("inProdList : " + inProdList); // 2019-03-31
+		   System.out.println("inProdList : ");
+		   System.out.println("inProdList : ");
+		   JSONArray json = JSONArray.fromObject(inProdList);
+		   System.out.println("inProdList : ");
+		   System.out.println("inProdList : ");
+		   System.out.println("inProdList : " + json);
+		   System.out.println("inProdList : ");
+		   System.out.println("inProdList : ");
+		   System.out.println("inProdList : ");
+		   System.out.println("inProdList : ");
+		   
+		   String aa = json.toString();
+		   model.addAttribute("inProducts", aa);
+		   System.out.println(json);
+		   return aa;
+		   
+	   }
+	   
 }

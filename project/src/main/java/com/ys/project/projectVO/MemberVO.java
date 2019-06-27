@@ -17,7 +17,12 @@ public class MemberVO {
 	private int partner_signal;
 	private String acc_num;
 	private String acc_name;
+	private String token;
+
 	private int manner_pick;
 	private int mannersum;
+	private String uuid;
+	private String uploadPath;
+	private String fileName;
 
 }

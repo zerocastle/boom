@@ -1,8 +1,8 @@
 package com.ys.project.projectDTO;
 
-import com.sun.jmx.snmp.Timestamp;
 
 import lombok.Data;
+import oracle.sql.TIMESTAMP;
 
 @Data
 public class ProMemberJoinDTO {
@@ -11,7 +11,7 @@ public class ProMemberJoinDTO {
 	private String title;
 	private int price;
 	private String content;
-	private Timestamp create_date;
+	private String create_date;
 	private String addr;
 	private String place_pick;
 	private String p_quality;
@@ -21,8 +21,9 @@ public class ProMemberJoinDTO {
 	private String nickname;
 	private String phone;
 	private int manner;
-	private String img_path;
-	private String filename;
+	private String uuid;
+	private String uploadPath;
+	private String fileName;
 	private String intro;
 
 }

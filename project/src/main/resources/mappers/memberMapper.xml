@@ -15,7 +15,7 @@
 	</select>
 
 	<insert id="memberRegister" parameterType="hashmap">
-		INSERT INTO MEMBER(M_NUM,NICKNAME,PHONE,M_PASSWORD,EMAIL,ACC_NUM,ACC_NAME)
+		INSERT INTO MEMBER(M_NUM,NICKNAME,PHONE,M_PASSWORD,EMAIL,ACC_NUM,ACC_NAME,UUID,UPLOADPATH,FILENAME)
 		VALUES
 		(
 		member_seq.nextval,
@@ -24,10 +24,31 @@
 		#{m_password},
 		#{email},
 		#{acc_num},
-		#{acc_name}
+		#{acc_name},
+		#{uuid},
+		#{uploadPath},
+		#{fileName}
 		)
 		
 	</insert>
+
+	<insert id="insertRegister" parameterType="MemberVO">
+		INSERT INTO MEMBER(M_NUM,NICKNAME,PHONE,M_PASSWORD,EMAIL,ACC_NUM,ACC_NAME)
+			VALUES
+			(
+			member_seq.nextval,
+			#{nickname},
+			#{phone},
+			#{m_password},
+			#{email},
+			#{acc_num},
+			#{acc_name}
+			)
+	</insert>
+	
+	<select id="checkNick" parameterType="MemberVO" resultType="int">
+		select count(nickname) from member where nickname = #{nickname}
+	</select>
 
 	<select id="nicknameCheck" parameterType="string"
 		resultType="MemberVO">
@@ -223,4 +244,18 @@
 	<delete id="appProductDelete" parameterType="LikeListVO">
 		DELETE FROM PRODUCTION WHERE PRO_NUM = #{pro_num} AND M_NUM = #{m_num}
 	</delete>
+	
+		<!-- 구매내역 가지고오기 -->
+	<select id="getMemberPayment" resultType="PaymentVO">
+		SELECT * FROM PAYMENT
+		WHERE BUYER_NAME = #{nickname}
+	</select>
+	<select id="getPlaceList" parameterType="int" resultType="PartnerVO">
+		SELECT * FROM PARTNER WHERE M_NUM = #{m_num}
+	</select>
+	
+	<select id="getInProdList" parameterType="string" resultType="hashMap"> 
+		select up.*, pd.*, py.* from payment py, partner pr, production pd, production_upload up where py.pro_num = pd.pro_num and py.place_pick like pr.part_name||'%'  and pd.state_msg = 2 and up.pro_num = pd.pro_num and   pr.part_name = #{part_name}
+	</select>
+	
 </mapper>

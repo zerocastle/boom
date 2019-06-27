@@ -1,9 +1,9 @@
 package com.ys.project.projectVO;
 
-import java.util.Date;
 import java.util.List;
 
 import lombok.Data;
+import oracle.sql.TIMESTAMP;
 
 @Data
 public class ProductionVO {
@@ -12,7 +12,7 @@ public class ProductionVO {
 	private String title;
 	private int price;
 	private String content;
-	private Date create_date;
+	private String create_date;
 	private String addr;
 	private String place_pick; // 직플 레이스 선정 default null
 	private int chat_room_count; // 체팅방 요청이 오면 한개씩 증가

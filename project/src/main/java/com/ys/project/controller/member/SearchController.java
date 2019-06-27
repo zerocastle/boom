@@ -1,6 +1,7 @@
 package com.ys.project.controller.member;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,8 @@ public class SearchController {
 		model.addAttribute("pageMaker",new PageDTO3(cri3, service.searchGetTotalCount(cri3.getType(), cri3.getKeyword()))); // 여기에다가 count(*) 을
 																										// 적용
 //		model.addAttribute("switchPage", "../floatSection/search.jsp");
-
+		List<Map<String,Integer>> cate = service.cateCount();
+		model.addAttribute("cate",JSONArray.fromObject(cate));
 		return "/mainIndex/search";
 
 	}
