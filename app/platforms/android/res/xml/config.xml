@@ -27,6 +27,9 @@
     <feature name="Geolocation">
         <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
     </feature>
+    <feature name="ImagePicker">
+        <param name="android-package" value="com.synconset.ImagePicker" />
+    </feature>
     <feature name="InAppBrowser">
         <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
     </feature>
@@ -45,7 +48,7 @@
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
     </feature>
-    <name>HelloChatTest</name>
+    <name>직거래플러스</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
     </description>
@@ -65,6 +68,10 @@
     <allow-navigation href="http://*/*" />
     <allow-navigation href="https://*/*" />
     <allow-navigation href="data:*" />
+    <icon density="ldpi" src="res/icon/android/icon.png" />
+    <icon density="mdpi" src="res/icon/android/icon.png" />
+    <icon density="hdpi" src="res/icon/android/icon.png" />
+    <icon density="xhdpi" src="res/icon/android/icon.png" />
     <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
         <application android:usesCleartextTraffic="true" />
         <uses-permission android:name="android.permission.CAMERA" />

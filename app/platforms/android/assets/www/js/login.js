@@ -2,7 +2,7 @@
     var aaaa = function(nickname, token){
         $.ajax({
             type : 'post',
-            url : 'http://39.127.7.51:3000/api/push/updateToken',
+            url : 'http://39.127.7.47:3000/api/push/updateToken',
             data : { nickname : nickname, token : token  } ,
             success : function(){},
             error : function(err){}
@@ -27,7 +27,7 @@
         console.log(typeof test);
         $.ajax({
             type : 'post',
-            url : 'http://39.127.7.51:8080/app/mlogin',
+            url : 'http://39.127.7.47:8080/app/mlogin',
             data : test,
             contentType : "application/json; charset=UTF-8",
             success : function(result){

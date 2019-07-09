@@ -87,7 +87,7 @@
 
     $.ajax({
         type: 'get',
-        url: 'http://39.127.7.51:8080/app/production/view/' + value,
+        url: 'http://39.127.7.47:8080/app/production/view/' + value,
         success: function (data) {
             console.log(data);
             $('.pro_nink').append(data[0].ProMemberJoinDTO.nickname);
@@ -98,36 +98,36 @@
             $('.htitle').append(data[0].ProMemberJoinDTO.title);
             $('.contents').append(data[0].ProMemberJoinDTO.content);
             $('.foo').append(data[0].ProMemberJoinDTO.manner);
-            // $(".profile_img").attr('bakcground','http://39.127.7.51:8080/resources/'+data[0].ProMemberJoinDTO.uploadPath.replace(/\\/g, '/')+'/'+data[0].ProMemberJoinDTO.uuid+'_'+data[0].ProMemberJoinDTO.fileName);   
-            $(".profile_img").css({"background-image" : "url('http://39.127.7.51:8080/resources/"+data[0].ProMemberJoinDTO.uploadPath.replace(/\\/g,'/')+"/"+data[0].ProMemberJoinDTO.uuid+"_"+data[0].ProMemberJoinDTO.fileName+"')"});
+            // $(".profile_img").attr('bakcground','http://39.127.7.47:8080/resources/'+data[0].ProMemberJoinDTO.uploadPath.replace(/\\/g, '/')+'/'+data[0].ProMemberJoinDTO.uuid+'_'+data[0].ProMemberJoinDTO.fileName);   
+            $(".profile_img").css({"background-image" : "url('http://39.127.7.47:8080/resources/"+data[0].ProMemberJoinDTO.uploadPath.replace(/\\/g,'/')+"/"+data[0].ProMemberJoinDTO.uuid+"_"+data[0].ProMemberJoinDTO.fileName+"')"});
             $(".profile_img").css({"background-position" : "center center"});
             $(".profile_img").css({"object-fit" : "cover"});
             $(".profile_img").css({"object-position" : "top"});
             $(".profile_img").css({"background-size" : "100% 100%"});
             if (data[0].Production_uploadVO[0]) {
-                $('.img1').attr("src", "http://39.127.7.51:8080/resources/" + data[0].Production_uploadVO[0].uploadPath.replace(/\\/g, '/') + '/' + data[0].Production_uploadVO[0].uuid + '_' + data[0].Production_uploadVO[0].fileName);
+                $('.img1').attr("src", "http://39.127.7.47:8080/resources/" + data[0].Production_uploadVO[0].uploadPath.replace(/\\/g, '/') + '/' + data[0].Production_uploadVO[0].uuid + '_' + data[0].Production_uploadVO[0].fileName);
             }
 
             if (data[0].Production_uploadVO[1]) {
-                $('.img2').attr("src", "http://39.127.7.51:8080/resources/" + data[0].Production_uploadVO[1].uploadPath.replace(/\\/g, '/') + '/' + data[0].Production_uploadVO[1].uuid + '_' + data[0].Production_uploadVO[1].fileName);
+                $('.img2').attr("src", "http://39.127.7.47:8080/resources/" + data[0].Production_uploadVO[1].uploadPath.replace(/\\/g, '/') + '/' + data[0].Production_uploadVO[1].uuid + '_' + data[0].Production_uploadVO[1].fileName);
             } else {
                 $('.img2').attr("src", "img/noimg.png")
             }
 
             if (data[0].Production_uploadVO[2]) {
-                $('.img3').attr("src", "http://39.127.7.51:8080/resources/" + data[0].Production_uploadVO[2].uploadPath.replace(/\\/g, '/') + '/' + data[0].Production_uploadVO[2].uuid + '_' + data[0].Production_uploadVO[2].fileName);
+                $('.img3').attr("src", "http://39.127.7.47:8080/resources/" + data[0].Production_uploadVO[2].uploadPath.replace(/\\/g, '/') + '/' + data[0].Production_uploadVO[2].uuid + '_' + data[0].Production_uploadVO[2].fileName);
             } else {
                 $('.img3').attr("src", "img/noimg.png")
             }
 
             if (data[0].Production_uploadVO[3]) {
-                $('.img4').attr("src", "http://39.127.7.51:8080/resources/" + data[0].Production_uploadVO[3].uploadPath.replace(/\\/g, '/') + '/' + data[0].Production_uploadVO[3].uuid + '_' + data[0].Production_uploadVO[3].fileName);
+                $('.img4').attr("src", "http://39.127.7.47:8080/resources/" + data[0].Production_uploadVO[3].uploadPath.replace(/\\/g, '/') + '/' + data[0].Production_uploadVO[3].uuid + '_' + data[0].Production_uploadVO[3].fileName);
             } else {
                 $('.img4').attr("src", "img/noimg.png")
             }
 
             if (data[0].Production_uploadVO[4]) {
-                $('.img5').attr("src", "http://39.127.7.51:8080/resources/" + data[0].Production_uploadVO[4].uploadPath.replace(/\\/g, '/') + '/' + data[0].Production_uploadVO[4].uuid + '_' + data[0].Production_uploadVO[4].fileName);
+                $('.img5').attr("src", "http://39.127.7.47:8080/resources/" + data[0].Production_uploadVO[4].uploadPath.replace(/\\/g, '/') + '/' + data[0].Production_uploadVO[4].uuid + '_' + data[0].Production_uploadVO[4].fileName);
             } else {
                 $('.img5').attr("src", "img/noimg.png")
             }
@@ -166,7 +166,7 @@
 
             $.ajax({
                 type: 'post',
-                url: 'http://39.127.7.51:8080/app/myPageList/getPickCount',
+                url: 'http://39.127.7.47:8080/app/myPageList/getPickCount',
                 data: JSON.stringify(like),
                 contentType: "application/json; charset=UTF-8",
                 success: function (data) {
@@ -192,7 +192,7 @@
                             if ($(this).hasClass('far') == true) {
                                 $.ajax({
                                     type: 'post',
-                                    url: "http://39.127.7.51:8080/app/myPageList/deletePick",
+                                    url: "http://39.127.7.47:8080/app/myPageList/deletePick",
                                     data: JSON.stringify(like),
                                     contentType: "application/json; charset=UTF-8",
                                     success: function (data) {
@@ -211,7 +211,7 @@
                             if ($(this).hasClass('fas') == true) {
                                 $.ajax({
                                     type: 'post',
-                                    url: "http://39.127.7.51:8080/app/myPageList/insertPick",
+                                    url: "http://39.127.7.47:8080/app/myPageList/insertPick",
                                     data: JSON.stringify(like),
                                     contentType: "application/json; charset=UTF-8",
                                     success: function (data) {

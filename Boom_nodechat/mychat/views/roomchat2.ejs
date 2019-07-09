@@ -241,7 +241,7 @@ var subDate;
         var muid = $(".qrcode")[i].innerHTML;
         console.log(muid);
         var qrcode = new QRCode(document.getElementsByClassName("qrcode")[i], {
-          text: "http://39.127.7.51:3000/testQR?muid=" + muid + "&Tname=" + '<%=nickname%>',  ///주의!! 직플파트너의 닉네임이 노드서버에서 쿼리스트링의 변수 'nickname'에 더해진다.
+          text: "http://39.127.7.47:3000/testQR?muid=" + muid + "&Tname=" + '<%=nickname%>',  ///주의!! 직플파트너의 닉네임이 노드서버에서 쿼리스트링의 변수 'nickname'에 더해진다.
           width: 350,
           height: 350,
           colorDark: "#000000",

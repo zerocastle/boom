@@ -276,6 +276,14 @@ module.exports = [
     "runs": true
   },
   {
+    "id": "cordova-plugin-imagepicker.ImagePicker",
+    "file": "plugins/cordova-plugin-imagepicker/www/imagepicker.js",
+    "pluginId": "cordova-plugin-imagepicker",
+    "clobbers": [
+      "plugins.imagePicker"
+    ]
+  },
+  {
     "id": "cordova-plugin-inappbrowser.inappbrowser",
     "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
     "pluginId": "cordova-plugin-inappbrowser",
@@ -331,6 +339,7 @@ module.exports.metadata =
   "cordova-plugin-file": "6.0.1",
   "cordova-plugin-file-transfer": "1.7.1",
   "cordova-plugin-geolocation": "4.0.1",
+  "cordova-plugin-imagepicker": "1.1.0",
   "cordova-plugin-inappbrowser": "3.0.0",
   "cordova-plugin-photo-library": "2.2.1",
   "cordova-plugin-restful": "0.0.3",

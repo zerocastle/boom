@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="cordova.js"></script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+        integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.js"></script><!-- 팝업창 스크립트  -->
+    <script src="https://www.promisejs.org/polyfills/promise-7.0.4.min.js"></script> <!-- 비동기 처리를 위한 Promise 라이브러리 CDN-->
+    <script>
+        var objDiv = document.getElementsByClassName("contents-line");
+        objDiv.scrollTop = objDiv.scrollHeight;
+    </script>
+
+    <style>
+        .img-responsive {
+            width: 50px;
+            height: 50px;
+            float: right;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        /*
+body{
+    background-color: #E6E6E6;
+    width: 100%;
+    height: 100%;
+} */
+
+.capteen {
+    position: absolute;
+    background-color: #848484;
+    color: white;
+    font-size: 14px;
+    letter-spacing: -.3px;
+    padding: 0px 0;
+    text-align: center;
+    width: 78px;
+    font-weight:bold;
+}
+        .modal.modal-center {
+            text-align: center;
+        }
+
+        @media screen and (min-width: 768px) {
+            .modal.modal-center:before {
+                display: inline-block;
+                vertical-align: middle;
+                content: " ";
+                height: 100%;
+            }
+        }
+
+        .modal-dialog.modal-center {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .modal-content {
+            overflow: hidden;
+            width: 105%;
+            height: 68%;
+        }
+
+        #myModal {
+            z-index: 100;
+            width: 95%;
+            height: 100%;
+        }
+
+        iframe {
+            overflow-y: hidden;
+            overflow: hidden;
+            padding-top: 3px;
+            padding-left: 3px;
+            margin-top: 3px;
+            margin-left: -20px;
+            border: 0;
+            width: 210vw;
+            height: 110vh;
+            transform: scale(0.80, 0.80);
+            -moz-transform-origin: top left;
+            -webkit-transform-origin: top left;
+            -o-transform-origin: top left;
+            -ms-transform-origin: top left;
+            transform-origin: top left;
+        }
+
+
+
+        html,
+        body {
+            background-color: #E6E6E6;
+            height: 100%;
+            overflow: hidden
+        }
+
+        #wrap {
+            height: 100%;
+            margin: 1px;
+        }
+
+        .header-line {
+
+            border-bottom: 1px solid 0.5px#FAFAFA;
+            width: 100%;
+            height: 6%;
+
+            background-color: white;
+        }
+
+        /* .contents{
+    height : 100%;
+    border:  1px solid black;
+} */
+
+        .contents-line {
+            overflow-y: hidden;
+            overflow-x: hidden;
+            height: 100%;
+
+
+        }
+
+        .footer-line {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 8%;
+            background: white;
+            border-top: 1px solid 0.5px #FAFAFA;
+
+        }
+
+
+        .addrDiv {
+            display: inline-block;
+            width: 5%;
+            height: 25px;
+            margin-top: 10px;
+            margin-left: 20px;
+            font-weight: bold;
+            font-size: 16px;
+            vertical-align: middle;
+            color: gray;
+
+        }
+
+        .proup-name {
+            display: inline-block;
+            vertical-align: middle;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+
+        a {
+            text-decoration: none;
+
+        }
+
+        a:link {
+            text-decoration: none;
+        }
+
+        a:visited {
+            text-decoration: none;
+            color: gray;
+
+
+        }
+
+        .hr1 {
+            margin-top: 8px;
+            border: 0.9px solid gray;
+            width: 250px;
+            position: relative;
+            left: 10px;
+            top: 6px;
+        }
+
+        .hr2 {
+            border: 0.9px solid gray;
+            width: 383px;
+            margin-left: 10px;
+            margin-bottom: 8px;
+        }
+
+
+
+
+
+        .pro_sucess {
+            display: inline-block;
+            vertical-align: middle;
+            margin-top: 10px;
+            margin-right: 25px;
+            float: right;
+
+        }
+
+
+        .proup-name {
+            display: inline-block;
+            vertical-align: middle;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        .pro_sucess>span {
+            font-weight: bold;
+            font-size: 17px;
+
+        }
+
+        .img_up {
+            width: 99%;
+            height: 100px;
+            background-color: white;
+            border-radius: 8px;
+            height: 720px;
+            margin: auto;
+            margin-top: 3px;
+
+
+
+        }
+
+        .img_but {
+            width: 100%;
+            height: 100px;
+
+
+        }
+
+        .main-photo {
+            border: solid 1px black;
+            height: 85px;
+            width: 85px;
+            margin-left: 10px;
+            margin-top: 10px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .fa-camera {
+            color: gray;
+            font-size: 25px;
+            margin-left: 29px;
+            margin-top: 20px;
+        }
+
+        .photo-number {
+            font-weight: bold;
+            margin-left: 24px;
+        }
+        #preview {
+            position: relative;
+        }
+        #preview .preview-box:first-child img {
+            width: 85px;
+            height: 85px;
+
+        }
+
+        #preview .preview-box img {
+            width: 85px;
+            height: 85px;
+        }
+
+        .content1 {
+
+            display: inline-block;
+            vertical-align: middle;
+            height: 100px;
+            width: 270px;
+            white-space: nowrap;
+            overflow-x: auto;
+
+        }
+
+        .preview-box {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 5px;
+            margin-top: 14px;
+        }
+
+
+        .proo_name {
+            background-color: #E6E6E6;
+            border: solid 1px gray;
+            height: 40px;
+            width: 95%;
+            margin: auto;
+            border-radius: 3px;
+            margin-left: 10px;
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            text-indent: 0.3em;
+
+        }
+
+        .catae_select {
+            background-color: #E6E6E6;
+            border: solid 1px gray;
+            height: 40px;
+            width: 95%;
+            margin: auto;
+            border-radius: 3px;
+            margin-left: 10px;
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            text-indent: 0.3em;
+        }
+
+        .price_pro {
+            background-color: #E6E6E6;
+            border: solid 1px gray;
+            height: 40px;
+            width: 95%;
+            margin: auto;
+            border-radius: 3px;
+            margin-left: 10px;
+            margin-top: -15px;
+            font-size: 16px;
+            font-weight: bold;
+            text-indent: 0.3em;
+        }
+
+
+        .addres {
+            background-color: #E6E6E6;
+            border: solid 1px gray;
+            height: 40px;
+            width: 70%;
+            margin: auto;
+            border-radius: 3px;
+            margin-left: 10px;
+            margin-top: 15px;
+        }
+
+        .pick {
+            background-color: #E6E6E6;
+            border: solid 1px gray;
+            height: 40px;
+            width: 70%;
+            margin: auto;
+            border-radius: 3px;
+            margin-left: 10px;
+            margin-top: 15px;
+        }
+
+        input::placeholder {
+            font-size: 16px;
+            font-weight: bold;
+            position: relative;
+            left: 5px;
+            top: 2px;
+        }
+
+        textarea::placeholder {
+            font-size: 16px;
+            font-weight: bold;
+            position: relative;
+            left: 5px;
+            top: 5px;
+        }
+
+        .fa-chevron-down {
+            position: relative;
+            left: 365px;
+            bottom: 30px;
+            font-size: 20px;
+            color: gray;
+        }
+
+        .select-pop {
+            width: 380px;
+            height: 450px;
+            border-radius: 5px;
+            background-color: #FAFAFA;
+            margin-left: 10px;
+            margin-top: -35px;
+            z-index: 3;
+            position: relative;
+            display: none;
+
+        }
+
+        .select-pop>div {
+            font-size: 17px;
+            font-weight: bold;
+            margin-left: 5px;
+            margin-top: 15px;
+
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .adrs {
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #848484), color-stop(1, #848484));
+            background: -moz-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -webkit-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -o-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -ms-linear-gradient(top, #848484 5%, #848484 100%);
+            background: linear-gradient(to bottom, #848484 5%, #848484 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#848484',
+                endColorstr='#848484', GradientType=0);
+            background-color: #848484;
+            -moz-border-radius: 6px;
+            -webkit-border-radius: 6px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            display: inline-block;
+            cursor: pointer;
+            color: #ffffff;
+            font-family: Arial;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 12px 2px;
+            text-decoration: none;
+            position: relative;
+            top: 1px;
+
+        }
+
+        .adrs:hover {
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #848484), color-stop(1, #848484));
+            background: -moz-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -webkit-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -o-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -ms-linear-gradient(top, #848484 5%, #848484 100%);
+            background: linear-gradient(to bottom, #848484 5%, #848484 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#848484',
+                endColorstr='#848484', GradientType=0);
+            background-color: #848484;
+        }
+
+        .find {
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #848484), color-stop(1, #848484));
+            background: -moz-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -webkit-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -o-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -ms-linear-gradient(top, #848484 5%, #848484 100%);
+            background: linear-gradient(to bottom, #848484 5%, #848484 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#848484',
+                endColorstr='#848484', GradientType=0);
+            background-color: #848484;
+            -moz-border-radius: 6px;
+            -webkit-border-radius: 6px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            display: inline-block;
+            cursor: pointer;
+            color: #ffffff;
+            font-family: Arial;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 12px 17.5px;
+            text-decoration: none;
+            position: relative;
+            top: 1px;
+
+        }
+
+        .find:hover {
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #848484), color-stop(1, #848484));
+            background: -moz-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -webkit-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -o-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -ms-linear-gradient(top, #848484 5%, #848484 100%);
+            background: linear-gradient(to bottom, #848484 5%, #848484 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#848484',
+                endColorstr='#848484', GradientType=0);
+            background-color: #848484;
+        }
+
+        .background {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .con {
+            background-color: #E6E6E6;
+            border: solid 1px gray;
+            height: 80px;
+            width: 95%;
+            margin: auto;
+            border-radius: 3px;
+            margin-left: 10px;
+            margin-top: 15px;
+            resize: none;
+            overflow-x: hidden;
+            font-size: 16px;
+            font-weight: bold;
+            text-indent: 0.3em;
+
+        }
+
+        .success {
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #848484), color-stop(1, #848484));
+            background: -moz-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -webkit-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -o-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -ms-linear-gradient(top, #848484 5%, #848484 100%);
+            background: linear-gradient(to bottom, #848484 5%, #848484 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#848484',
+                endColorstr='#848484', GradientType=0);
+            background-color: #848484;
+            -moz-border-radius: 6px;
+            -webkit-border-radius: 6px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            display: inline-block;
+            cursor: pointer;
+            color: #ffffff;
+            font-family: Arial;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 15px 165px;
+            text-decoration: none;
+            margin-top: 150px;
+            margin-left: 5px;
+
+        }
+
+        .success:hover {
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #848484), color-stop(1, #848484));
+            background: -moz-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -webkit-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -o-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -ms-linear-gradient(top, #848484 5%, #848484 100%);
+            background: linear-gradient(to bottom, #848484 5%, #848484 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#848484',
+                endColorstr='#848484', GradientType=0);
+            background-color: #848484;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap">
+        <div class="background">
+            <div class="header-line">
+                <div class="addrDiv">
+                    <a href="#" class="fas fa-arrow-left" onclick="history.back(-1); return false;"></a>
+                </div>
+                <div class="proup-name">
+                    <span>
+                        상품 등록하기 3버전
+                    </span>
+                </div>
+                <div class="pro_sucess">
+
+                </div>
+            </div>
+            <div class="contents-line">
+                <div class="img_up">
+                    <div class="img_but">
+                        <label for="uploadInputBox">
+                            <div class="main-photo" id="attach">
+                                <input id="uploadInputBox" style="display:none" class="but" type="file" name="filedata"
+                                    multiple />
+                                <i class="fas fa-camera"></i>
+                                <label class="photo-number">0/5</label>
+                            </div>
+                        </label>
+                        
+                        <div id="preview" name="preview" class="content1"></div>
+                   
+                    </div>
+
+                <form id="proRegi" method="post" enctype="multipart/form-data"
+                    role="form" action="39.127.7.47:8080/selling/uploadProduct2">
+                    <div class="product_name">
+                        
+                        <div class="product">
+                            <input type="text" class="proo_name" name="title" placeholder="상품명 입력">
+                        </div>
+
+                        <div>
+                            <input type="text" class="catae_select"  id="catae" placeholder="카테고리 선택" readonly> <i
+                                class="fas fa-chevron-down"></i>
+                            <input type="hidden" class="cate_code" name="cate_code" value="">
+                        </div>
+                        <div class="select-pop" id="pop">
+                            <div class="man" style="margin-bottom:10px;">남성의류</div>
+                            <div class="girl" style="margin-bottom:10px;"><span>여성의류</span></div>
+                            <div class="Electronic_products" style="margin-bottom:10px;"><span>전자제품</span></div>
+                            <div class="furniture" style="margin-bottom:10px;"><span>가구/인테리어</span></div>
+                            <div class="Baby" style="margin-bottom:10px;"><span>유아용품</span></div>
+                            <div class="sports" style="margin-bottom:10px;"><span>스포츠/레저</span></div>
+                            <div class="game" style="margin-bottom:10px;"><span>게임/취미</span></div>
+                            <div class="beauty" style="margin-bottom:10px;"><span>뷰티/미용</span></div>
+                            <div class="life" style="margin-bottom:10px;"><span>생활/가공품</span></div>
+                            <div class="animal" style="margin-bottom:10px;"><span>반려동물용품</span></div>
+                            <div class="book" style="margin-bottom:10px;"><span>도서/티켓/음반</span></div>
+                            <div class="stuff" style="margin-bottom:10px;"><span>기타/잡화</span></div>
+                        </div>
+                        <select id="u-name" class="form-control" value="DEMO"
+                     name="p_quality">
+                     <option value="중고">중고</option>
+                     <option value="중고+하자">중고+하자(하자가 있는 중고)</option>
+                     <option value="새물품">새물품(미사용)</option>
+                     <option value="새것+하자">새것+하자(새것이고 하자가 있음)</option>
+                     <option value="거의새것">거의새것(새것이고 하자가 없음</option>
+                  </select>
+
+
+                        <div>
+                            <input type="number"  name="price" class="price_pro" placeholder="가격입력">
+                        </div>
+
+
+                        <div>
+                            <textarea class="con" name="content" placeholder="내용입력"></textarea>
+
+
+
+                        </div>
+
+                        <div class="sell-addr">
+                            <input type="text" id="sample_addr" class="addres" name="addr">
+                            <input type="button" class="adrs" id="adrs"  value="거래지역 선택">
+                        </div>
+
+
+                        <div>
+                            <input type="text" id="pick" name="place_pick" class="pick">
+                            <button class="find">직플선택</button>
+                        </div>
+
+
+
+
+                    </div>
+
+                    <input type="submit" class="success" value="등록완료">
+                </form>
+                </div>
+
+                
+
+
+                <div id="myModal" class='bPop'>
+                    <div class="bPop modal-content">
+                        <iframe src="http://39.127.7.47:3000/api/daumJuso" id='daumIframe'
+                            style='display:none;'></iframe>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class='sendInputSet' style='display:none'>
+        <ul>
+
+        </ul>
+    </div>
+</body>
+
+
+<script>
+    //임의의 file object영역
+    var zeroMan = [];
+    var files = {};
+    var previewIndex = 0;
+    let pickFileName = '';
+
+    function sendAjaxProduction(){
+        var str;
+        $("ul li").each(function(i, obj) {
+                                    var jobj = $(obj);
+                                    console.dir(jobj);
+                                    console.log(jobj.data("filename"));
+                                    str += "<input type='hidden' name='uploadVOList["
+                                          + i
+                                          + "].uuid' value='"
+                                          + jobj.data("uuid")
+                                          + "'>";
+                                    str += "<input type='hidden' name='uploadVOList["
+                                          + i
+                                          + "].uploadPath' value='"
+                                          + jobj
+                                                .data("uploadpath")
+                                          + "'>";
+                                    str += "<input type='hidden' name='uploadVOList["
+                                          + i
+                                          + "].fileName' value='"
+                                          + jobj.data("filename")
+                                          + "'>";
+                                    str += "<input type='hidden' name='uploadVOList["
+                                          + i
+                                          + "].fileType' value='"
+                                          + jobj.data("filetype")
+                                          + "'>";
+                                    str += "<input type='hidden' name='uploadVOList["
+                                          + i
+                                          + "].rep' value='"
+                                          + jobj.data("rep") 
+                                          + "'>";
+
+                                    
+
+                                 });
+                                 console.log("결과 str : " + str);
+                                 var member = JSON.parse(sessionStorage.getItem('member'));
+                                 str += "<input type='hidden' name='m_num' value='"+member.m_num+"' >"
+                                $('form').append(str)
+    }
+
+    
+
+
+    //preview 영역에서 삭제 버튼 클릭시 해당 미리보기이미지 영역 삭제
+    function deletePreview(obj) {
+        console.log(obj);
+        if (!confirm('해당 이미지를 삭제 하시겠습니까?')) { return false; }
+        else {
+            var imgNum = obj.attributes['value'].value;
+            delete files[imgNum];
+            $("#preview .preview-box[value=" + imgNum + "]").remove();
+            previewIndex--;
+            resizeHeight();
+        }
+    }
+
+    //client-side validation
+    //always server-side validation required
+    function validation(fileName) {
+        fileName = fileName + "";
+        var fileNameExtensionIndex = fileName.lastIndexOf('.') + 1;
+        var fileNameExtension = fileName.toLowerCase().substring(
+            fileNameExtensionIndex, fileName.length);
+        if (!((fileNameExtension === 'jpg')
+            || (fileNameExtension === 'gif') || (fileNameExtension === 'png') || (fileNameExtension === 'hwp'))) {
+            alert('jpg, gif, png 확장자만 업로드 가능합니다.');
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /** 
+    <div id="preview" name="preview">
+      <div class="preview-box">
+          <img class="thumbnail"></img>
+      </div>
+      <div class="preview-box">
+          <img class="thumbnail"></img>
+      </div>
+      <div>
+          <img class="thumbnail"></img>
+      </div>
+    </div>
+    */
+
+   
+
+    var reader  = new FileReader(); 
+    
+    //이미지 URL을 이용해 Blob 객체로 생성한다.
+    //해당 함수 내부적으로 promise가 사용된다.
+    function makeFileIntoBlob(_imagePath) {
+        // INSTALL PLUGIN - cordova plugin add cordova-plugin-file
+        if (cordova.platformId==('android')) {
+            return new Promise((resolve, reject) => {
+                window.resolveLocalFileSystemURL(_imagePath, (fileEntry) => {
+                    fileEntry.file((resFile) => {
+                        var reader = new FileReader();
+                        //reader.onloadend = function(evt) => {
+                        reader.onloadend = function(evt) {
+                            var imgBlob = new Blob([evt.target.result], { type: 'image/jpeg' });
+                            imgBlob.name = 'sample.jpg';
+                            resolve(imgBlob);
+                        };
+                        reader.onerror = (e) => {
+                            console.log('Failed file read: ' + e.toString());
+                            reject(e);
+                        };
+                        reader.readAsArrayBuffer(resFile);
+                    });
+                });
+            });
+        } else {
+            return fetch(_imagePath).then((_response) => {
+                return _response.blob();
+            }).then((_blob) => {
+                return _blob;
+            }).catch((_error) => {
+                alert(JSON.stringify(_error.message));
+            });
+        }
+    }
+
+    // Blob 객체를 File 객체로 변환.
+    function blob2file(blobData, goodfilename) {
+        const fd = new FormData();
+        fd.set('a', blobData, goodfilename);
+        console.log('////////////////////////////////////////////////////////////');
+        console.log('////////////////////////////////////////////////////////////');
+        console.log(blobData, goodfilename);
+        console.log('////////////////////////////////////////////////////////////');
+        console.log('////////////////////////////////////////////////////////////');
+        return fd.get('a');
+    }
+
+    // FormData를 서버로 전송
+    function sendAjaxImg(fd, repPick){
+                console.log('ajax보낼꺼야')
+                $.ajax({
+                        type: "POST",
+                        enctype: 'multipart/form-data',
+                        url: "http://39.127.7.47:8080/uploadAjaxAction",
+                        data: fd,
+                        processData: false,
+                        contentType: false,
+                        cache: false,  
+                        success: (data) => {
+                            var str;
+                            console.log(data);
+                            var preBox = $('.preview-box');
+                            $(data).each(function(i,obj){
+                                    var uuid = "/s_" + obj.uuid;
+                                    var uploadPath = obj.uploadPath;
+                                    var fileName = "_" + obj.fileName;
+                                    var temp = obj.temp + "/";
+                                    var fileTempCallPath = encodeURIComponent(temp
+                                        + uploadPath + uuid + fileName);
+                                    console.log('obj rep : ' + $((preBox)[i]).data('rep'));
+                                    console.log(obj);
+                                    console.log('obj uuid : ' + uuid)
+                                    console.log('obj path : ' + uploadPath)
+                                    console.log('obj name : ' + fileName)
+                                    console.log('obj temp : ' + temp)
+                                    console.log('obj fileTempCallPath' + fileTempCallPath);
+                                    console.log(obj.fileName + ' 파일비교 '+ pickFileName + ' 결과는 ' + obj.fileName == pickFileName);
+                                    if(obj.fileName == pickFileName){
+                                        str += "<li data-uuid='"+obj.uuid+"' data-uploadPath='"+obj.uploadPath+"' data-fileName='"+obj.fileName+"' data-fileType='"+obj.fileType+"'"
+                                            + "data-rep=1>"+
+                                            + "<span data-file=\'"+fileTempCallPath+"\' data-type='image' > x </span>"
+                                            + "</li>"; 
+                                    } else {
+                                        str += "<li data-uuid='"+obj.uuid+"' data-uploadPath='"+obj.uploadPath+"' data-fileName='"+obj.fileName+"' data-fileType='"+obj.fileType+"'"
+                                            + "data-rep=0>"+
+                                            + "<span data-file=\'"+fileTempCallPath+"\' data-type='image' > x </span>"
+                                            + "</li>"; 
+                                    }
+                                        
+                                    
+                            });
+                            console.log("이미지 업로드 성공");
+                            $('ul').append(str);
+                            var Promise_arr2 = [];
+                            var b = new Promise(function (resolve, reject) {
+                                alert('2')
+                                console.log('히히 내가 잘못했어')
+                                sendAjaxProduction();  //li태그의 정보를 이용 form 안에 input[hidden].val(li정보들) append한다.
+                                resolve();
+                            })
+                            Promise_arr2.push(b);
+                            Promise.all(Promise_arr2).then(function(result){///promise 배열 전체가 수행이 끝날때까지 대기 후 then()실행.
+                                
+                                console.log('히히 마무리야')
+                                $('form').submit(); //ajax통신으로 서버에 전송한다.
+                            }).then(function(){
+                                console.log('제발이제그만')
+                                console.log('제발이제그만')
+                                console.log('제발이제그만')
+                                console.log('제발이제그만')
+                                console.log('제발이제그만')
+                            }) ;
+
+                        },
+                        error: function(xhr, status, error) {
+                            alert(xhr.responseText);
+                            console.log(xhr);
+                            console.log(status);
+                            console.log(error);
+                        }
+                });
+    }
+
+    //promise 배열생성.
+    //0.반복문 시작.
+    //1.url을 이용해 파일명을 추출.
+    //2.배열에 함수makeFileIntoBlob(url-> blob)실행, 
+            //    함수blob2file(blob -> file) 실행, 
+            //    FormData에 file을 append하는 promise 객체를 생성 및 추가하고 resolve(formdata). 실행.
+    //3. 반복문이 종료되면 Promise.all(promise배열)을 통해 배열내 모든 promise 객체가 성공적으로 완료된 후 then() 함수를 통해 Ajax함수 실행.
+    function sendImgtoFile(fd){
+        var arr = [];
+        var namelist = [];
+        var z = 0;
+        $(zeroMan).each(function(i,fileURL){
+                        console.log('z는 ' + z);
+                        console.log('i는 ' + i);
+                        console.log('파일URL  '+fileURL);
+                        namelist.push(fileURL.substr(fileURL.lastIndexOf('/') + 1));
+                        console.log('파일name['+i+'] : '+namelist[i]);
+                        console.log('z는 ' + z);
+                        console.log('i는 ' + i);
+                        arr.push(new Promise(function (resolve, reject) {
+                            makeFileIntoBlob(fileURL).then(blob => {
+                                console.log('z는 ' + z);
+                        console.log('i는 ' + i);
+                                console.log('히히 blob이다 블롭블롭!')
+                                console.log(blob);
+                                // file = new File(blob, namelist, {
+                                //     type: 'image/png'
+                                // });
+                                console.log('z는 ' + z);
+                        console.log('i는 ' + i);
+                                console.log('파일리스트['+z+']'+namelist[z]);
+                                file = blob2file(blob,namelist[z]);
+                                console.log('z는 ' + z);
+                        console.log('i는 ' + i);
+                                console.log(file);
+                                fd.append("uploadFile", file);
+                                console.log(zeroMan.length +'fd.append 완료되었어'+z);
+                                console.log('z는 ' + z);
+                        console.log('i는 ' + i);
+                                z++;
+                                console.log('z는 ' + z);
+                        console.log('i는 ' + i);
+                                resolve(fd);
+                                console.log('z는 ' + z);
+                        console.log('i는 ' + i);
+                            });
+                        }));
+                
+        });
+        // for(var i = 0; i < zeroMan.length; i++){
+        //     fileURL = zeroMan[i];
+        //                 console.log('파일URL  '+fileURL);
+        //                 namelist.push(fileURL.substr(fileURL.lastIndexOf('/') + 1));
+        //                 console.log('파일name['+i+'] : '+namelist[i]);
+
+        //                 arr.push(new Promise(function (resolve, reject) {
+        //                     makeFileIntoBlob(fileURL).then(blob => {
+                                
+        //                         console.log('히히 blob이다 블롭블롭!')
+        //                         console.log(blob);
+        //                         // file = new File(blob, namelist, {
+        //                         //     type: 'image/png'
+        //                         // });
+        //                         console.log('파일리스트['+i+']'+namelist[i]);
+        //                         file = blob2file(blob,namelist[i]);
+                                
+        //                         console.log(file);
+        //                         fd.append("uploadFile", file);
+        //                         console.log(zeroMan.length +'fd.append 완료되었어'+i);
+        //                         resolve(fd);
+        //                     });
+        //                 }));
+        //            z++
+        //     }
+            Promise.all(arr).then(function(result){///promise 배열 전체가 수행이 끝날때까지 대기 후 then()실행.
+                //매개변수로 넘어온 result는 promise배열의 각 원소promise들의 resolve한 값의 배열이다.
+                var i = result.length-1;
+                sendAjaxImg(result[i]);
+                // 위 코드에선 사실상 마지막 원소promise가 resolve한 formData만 필요하므로
+                // 해당 formData를 서버로 전송한다.
+            }) ;
+    }
+
+
+    
+    $(document).ready(function () {
+        let repPick;
+        $(document).on("click",".thumbnail",function(e){ 
+            
+            var imgDiv = $(e.target).parent();
+            $('.preview-box').each(function(i, previews){
+                    $(previews).attr("data-rep", "0");
+                    $('.capteen').remove();
+                    if(i == imgDiv.find('.preview-inputs').val()){
+                        repPick = i;
+                        console.log('헤헤히히히헤헿헤히헿')
+                    }
+                    console.log(i + '   ~~   ' +imgDiv.find('.preview-inputs').val() );
+                    console.log(i == imgDiv.find('.preview-inputs').val());
+                }
+            );
+            console.log(repPick);
+            srcsrcsrc  = e.target.src;
+            pickFileName = srcsrcsrc.substr(srcsrcsrc.lastIndexOf('/') + 1);
+            console.log(pickFileName);
+            imgDiv.attr("data-rep", "1");
+            imgDiv.prepend('<div class="capteen">대표이미지</div>');
+            
+            
+        });
+        $('form').submit(function(event) {
+                event.preventDefault();
+                var formData = $('form').serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://39.127.7.47:8080/selling/uploadProduct2',
+                    data: formData,
+                    success: function(){
+                        alert('와우!')
+                    },
+                    error : function(err){
+                        alert(err);
+                    }
+
+                });
+            // TODO
+        });
+
+
+
+        //전송.
+        $('.success').on('click', function (e) {
+            e.preventDefault();
+            console.log('클릭되었어');console.log('클릭되었어');console.log('클릭되었어');console.log('클릭되었어');
+            var fileURL = '';
+            var file;
+            var fd = new FormData();
+            var Promise_arr = [];
+
+            sendImgtoFile(fd, repPick);
+            // var a = new Promise(function (resolve, reject) {
+            //     alert('1');
+            //        sendImgtoFile(fd, repPick); //파일객체를 formdata객체에 넣는다. //서버에 전송. 서버에서 발생된 uuid 및 파일 정보를 들고와 li태그에 삽입.
+            //     resolve();
+            // });
+            
+            // var b = new Promise(function (resolve, reject) {
+            //     alert('2')
+            //     console.log('히히 내가 잘못했어')
+            //     sendAjaxProduction();  //li태그의 정보를 이용 form 안에 input[hidden].val(li정보들) append한다.
+            //     resolve();
+            // }).then(function (){
+            //     alert('3')
+            //     console.log('히히 마무리야')
+            //     $('form').submit();
+            // });
+            // Promise_arr.push(a);
+            // Promise_arr.push(b);
+            // Promise.all(Promise_arr).then(function(result){///promise 배열 전체가 수행이 끝날때까지 대기 후 then()실행.
+            //     alert('3')
+            //     console.log('히히 마무리야')
+            //     $('form').submit(); //ajax통신으로 서버에 전송한다.
+            // }).then(function(){
+            //     console.log('제발이제그만')
+            //     console.log('제발이제그만')
+            //     console.log('제발이제그만')
+            //     console.log('제발이제그만')
+            //     console.log('제발이제그만')
+            // }) ;
+
+
+            // var c = new Promise(function (resolve, reject) {
+            //     alert('3')
+            //     console.log('히히 마무리야')
+            //     $('form').submit(); //ajax통신으로 서버에 전송한다.
+            // });
+
+            
+            // // a.then(new Promise(function (resolve, reject) {
+            // //     alert('1');
+            // //     sendImgtoFile(fd, repPick);   //파일객체를 formdata객체에 넣는다. //서버에 전송. 서버에서 발생된 uuid 및 파일 정보를 들고와 li태그에 삽입.
+            // // })).then(new Promise(function (resolve, reject) {
+            //     alert('2')
+            //     console.log('히히 내가 잘못했어')
+            //     sendAjaxProduction();  //li태그의 정보를 이용 form 안에 input[hidden].val(li정보들) append한다.
+            //     resolve();
+            // })).then(new Promise(function (resolve, reject) {
+            //     alert('3')
+            //     console.log('히히 마무리야')
+            //     $('form').submit(); //ajax통신으로 서버에 전송한다.
+            //     resolve();
+            // })).then(function(){
+            //     console.log('제발이제그만')
+            //     console.log('제발이제그만')
+            //     console.log('제발이제그만')
+            //     console.log('제발이제그만')
+            //     console.log('제발이제그만')
+            // });
+            
+        });
+        // <input type=file> 태그 기능 구현
+
+        $('#attach input[type=file]').click(function (e) {
+            e.preventDefault();
+            window.plugins.imagePicker.getPictures(
+                function (results) {
+                    for (var i = 0; i < results.length; i++) {
+
+                        var imgNum = previewIndex++;
+                        if (previewIndex >= 6) {
+                            alert('이미지 최대 갯수 초과하셨습니다.');
+                            return false;
+                        }
+                        zeroMan[i] = results[i];
+                        //var objectURL = window.URL.createObjectURL(results[i]);
+                        //files[previewIndex-1] = objectURL;
+                        $(".photo-number").text((imgNum + 1) + "/5");
+                        console.log('Image URI: ' + results[i]);
+                        $("#preview")
+                            .append(
+                                "<div class=\"preview-box\">"
+                                + "<img class=\"thumbnail\" src=\"" + results[i] + "\"\/>"
+                                + "<input class=\"preview-inputs\" type=\"hidden\" value=\"" + imgNum + "\">"
+                                + "</div>");
+                    }
+                }, function (error) {
+                    console.log('Error: ' + error);
+                }, {
+                    maximumImagesCount: 5
+                }
+            );
+            //addPreview($(this)); //preview form 추가하기
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#catae").click(function () {
+            $("#pop").toggle();
+        })
+    })
+</script>
+
+<div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
+    <img src="http://t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer"
+        style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()"
+        alt="닫기 버튼">
+</div>
+
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<!-- <script>
+        // 우편번호 찾기 화면을 넣을 element
+        var element_layer = document.getElementById('layer');
+
+        function closeDaumPostcode() {
+            // iframe을 넣은 element를 안보이게 한다.
+            element_layer.style.display = 'none';
+        }
+
+        function sample2_execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                    var addr = ''; // 주소 변수
+                    var extraAddr = ''; // 참고항목 변수
+
+                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                        addr = data.roadAddress;
+                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                        addr = data.jibunAddress;
+                    }
+
+                    // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                    if(data.userSelectedType === 'R'){
+                        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                        // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                        if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                            extraAddr += data.bname;
+                        }
+                        // 건물명이 있고, 공동주택일 경우 추가한다.
+                        if(data.buildingName !== '' && data.apartment === 'Y'){
+                            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                        }
+                        // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                        if(extraAddr !== ''){
+                            extraAddr = ' (' + extraAddr + ')';
+                        }
+                        // 조합된 참고항목을 해당 필드에 넣는다.
+    //                     document.getElementById("sample2_extraAddress").value = extraAddr;
+
+                    } else {
+    //                     document.getElementById("sample2_extraAddress").value = '';
+                    }
+
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+    //                 document.getElementById('sample2_postcode').value = data.zonecode;
+                       document.getElementById("sample4_jibunAddress").value = addr;
+                    // 커서를 상세주소 필드로 이동한다.
+    //                document.getElementById("sample2_detailAddress").focus();
+
+                    // iframe을 넣은 element를 안보이게 한다.
+                    // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
+                    element_layer.style.display = 'none';
+                },
+                width : '100%',
+                height : '100%',
+                maxSuggestItems : 5
+            }).embed(element_layer);
+
+            // iframe을 넣은 element를 보이게 한다.
+            element_layer.style.display = 'block';
+
+            // iframe을 넣은 element의 위치를 화면의 가운데로 이동시킨다.
+            initLayerPosition();
+        }
+
+        // 브라우저의 크기 변경에 따라 레이어를 가운데로 이동시키고자 하실때에는
+        // resize이벤트나, orientationchange이벤트를 이용하여 값이 변경될때마다 아래 함수를 실행 시켜 주시거나,
+        // 직접 element_layer의 top,left값을 수정해 주시면 됩니다.
+        function initLayerPosition(){
+            var width = 400; //우편번호서비스가 들어갈 element의 width
+            var height = 400; //우편번호서비스가 들어갈 element의 height
+            var borderWidth = 5; //샘플에서 사용하는 border의 두께
+
+            // 위에서 선언한 값들을 실제 element에 넣는다.
+            element_layer.style.width = width + 'px';
+            element_layer.style.height = height + 'px';
+            element_layer.style.border = borderWidth + 'px solid';
+            // 실행되는 순간의 화면 너비와 높이 값을 가져와서 중앙에 뜰 수 있도록 위치를 계산한다.
+            element_layer.style.left = 1+ 'px';
+            element_layer.style.top = 360+ 'px';
+        }
+    </script> -->
+
+<script>
+    $(function () {
+        $(".background").css('height', window.innerHeight);
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('.man').click(function () {
+            $('#catae').val($('.man').text());
+            $('.cate_code').val('man');
+            $('#pop').hide();
+        });
+
+        $('.girl').click(function () {
+            $('#catae').val($('.girl').text());
+            $('.cate_code').val('woman');
+            $('#pop').hide();
+        });
+
+        $('.Electronic_products').click(function () {
+            $('#catae').val($('.Electronic_products').text());
+            $('.cate_code').val('elect');
+            $('#pop').hide();
+        });
+
+        $('.furniture').click(function () {
+            $('#catae').val($('.furniture').text());
+            $('.cate_code').val('furniture');
+            $('#pop').hide();
+        });
+
+        $('.Baby').click(function () {
+            $('#catae').val($('.Baby').text());
+            $('.cate_code').val('baby');
+            $('#pop').hide();
+        });
+
+        $('.sports').click(function () {
+            $('#catae').val($('.sports').text());
+            $('.cate_code').val('sport');
+            $('#pop').hide();
+        });
+
+        $('.game').click(function () {
+            $('#catae').val($('.game').text());
+            $('.cate_code').val('hobby');
+            $('#pop').hide();
+        });
+
+        $('.beauty').click(function () {
+            $('#catae').val($('.beauty').text());
+            $('.cate_code').val('beauty');
+            $('#pop').hide();
+        });
+
+        $('.life').click(function () {
+            $('#catae').val($('.life').text());
+            $('.cate_code').val('life');
+            $('#pop').hide();
+        });
+
+        $('.animal').click(function () {
+            $('#catae').val($('.animal').text());
+            $('.cate_code').val('animal');
+            $('#pop').hide();
+        });
+
+        $('.book').click(function () {
+            $('#catae').val($('.book').text());
+            $('.cate_code').val('book');
+            $('#pop').hide();
+        });
+
+        $('.stuff').click(function () {
+            $('#catae').val($('.stuff').text());
+            $('.cate_code').val('else');
+            $('#pop').hide();
+        });
+    });
+
+
+
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#adrs').click(function () {
+            document.getElementById('daumIframe').src += '';
+            $('#myModal').bPopup({
+                modalClose: true,
+                positionStyle: 'fixed',
+                position: [10, 100]
+            }, function () {
+                $('#daumIframe').css('display', 'block');
+                var setInter = setInterval(function () {
+                    $.ajax({
+                        url: 'http://39.127.7.47:3000/api/daumJuso/mobile',
+                        type: 'get',
+                        success: function (data) {
+                            if (data) {
+                                $('#myModal').bPopup().close();
+                                $('#sample_addr').val(data.fullAddr);
+                                $('#daumIframe').css('display', 'none');
+                                clearInterval(setInter);
+                            } else {
+                                
+                            }
+                        }, error: function (err) {
+                            console.log(err);
+                        }
+                    });
+                }, 1000);
+            });
+        });
+    });
+</script>
+
+<script>
+
+    /*** 업로드된 이미지 배열과
+        입력된 텍스트값들을 서버로 전달한다.
+    ****/
+
+</script>
+
+<script>
+    /***
+    대표이미지 선정하기.
+    이때 대표이미지는 별도의 값으로 지정된다.
+    
+    ***/
+</script>
+
+
+
+</html>

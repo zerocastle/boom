@@ -25,7 +25,7 @@
             $('.qr').click(function(){
                 $.ajax({
                     type : 'post',
-                    url : 'http://39.127.7.51:3000/api/QRpartner',
+                    url : 'http://39.127.7.47:3000/api/QRpartner',
                     data : { nickname : sessionStorage.getItem('jack'),   },
                     success : function(result){
                         console.log(result);
@@ -40,7 +40,7 @@
             $('.tt').click(function(){
                 $.ajax({
                     type : 'post',
-                    url : 'http://39.127.7.51:3000/api/push/getToken',
+                    url : 'http://39.127.7.47:3000/api/push/getToken',
                     data : { nickname : 'jack'  },
                     success : function(result){
                         console.log(result);
@@ -55,7 +55,7 @@
             $('.bb').click(function(){
                 $.ajax({
                     type : 'post',
-                    url : 'http://39.127.7.51:3000/api/push/updateToken',
+                    url : 'http://39.127.7.47:3000/api/push/updateToken',
                     data : { nickname : 'jack', token : 'ezeIWyjBT0E:APA91bHZZJRmjVZVZrU1m2UilXvGbLHFYYDuxzCnVbzdUqzCj1o483I_S7BVpcqnfLbmzybYJfpqY_-_-gqkUOHYHz0tfuLsPJfXWl4mspNZ0ur4NEjsWQ5cZFfK_KBKHx2S2Uxq8_D-'  } 
                 });
             });

@@ -144,7 +144,6 @@ cursor: pointer !important;
    <div>상품등록하기</div>
 </div>
 
-
 <div class="pro_con">
    <div class="uploadDiv">
       <div class="filebox">
@@ -539,9 +538,12 @@ cursor: pointer !important;
                            return false;
                            // 함수 적용 해서  체크 해보고 반환값이 true 가 아니면 return false;
                         }
-                        formData.append("uploadFile", files[i]); //폼 데이터에 uploadFile 네임값 즉 input 태그를 여러개 formdata에 붙친다.   
+                        formData.append("uploadFile", files[i]); //폼 데이터에 uploadFile 네임값 즉 input 태그를 여러개 formdata에 붙친다.
+                        console.log('형 내가 잘못했어');
+                        console.log(files[i]);
                      }
-
+                     console.log(formData);
+		
                      $.ajax({
                         url : '/uploadAjaxAction',
                         processData : false,
@@ -595,6 +597,8 @@ cursor: pointer !important;
                         } else {
 
                            var realPath = "${pageContext.request.contextPath}/resources/";
+                           console.log(realPath);
+                           
                            var uuid = "/s_" + obj.uuid;
                            var uploadPath = obj.uploadPath;
                            var fileName = "_" + obj.fileName;

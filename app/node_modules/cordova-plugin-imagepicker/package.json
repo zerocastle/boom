@@ -1,0 +1,55 @@
+{
+  "_from": "cordova-plugin-imagepicker",
+  "_id": "cordova-plugin-imagepicker@1.3.0",
+  "_inBundle": false,
+  "_integrity": "sha1-pexC0kjoQ1lzl14Oe5Li18Nc/hE=",
+  "_location": "/cordova-plugin-imagepicker",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "cordova-plugin-imagepicker",
+    "name": "cordova-plugin-imagepicker",
+    "escapedName": "cordova-plugin-imagepicker",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-imagepicker/-/cordova-plugin-imagepicker-1.3.0.tgz",
+  "_shasum": "a5ec42d248e8435973975e0e7b92e2d7c35cfe11",
+  "_spec": "cordova-plugin-imagepicker",
+  "_where": "C:\\Users\\bon300-8\\Documents\\GitHub\\boom\\app",
+  "bugs": {
+    "url": "https://github.com/jeduan/cordova-plugin-imagepicker/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-imagepicker",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "deprecated": false,
+  "description": "This plugin allows selection of multiple images from the camera roll / gallery in a phonegap app",
+  "homepage": "https://github.com/jeduan/cordova-plugin-imagepicker#readme",
+  "keywords": [
+    "cordova",
+    "image",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "media"
+  ],
+  "license": "Apache 2.0",
+  "name": "cordova-plugin-imagepicker",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeduan/cordova-plugin-imagepicker.git"
+  },
+  "version": "1.3.0"
+}

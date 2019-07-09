@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- Remember to include jQuery :) -->
+    <!-- jquery 모바일 , jquery -->
+    <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.5.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.mobile-1.4.5.js"></script>
+
+    <!-- 폰트애즈썸 -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+    <!-- 차트 cdn -->
+    <!-- Resources -->
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/dataviz.js"></script>
+    <script src="js/chat.js"></script>
+    <!-- 폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&amp;subset=korean"
+        rel="stylesheet">
+</head>
+<body>
+ <input name="ppap" type="file" multiple />
+ <input name="ppap" type="file" multiple />
+ <input name="ppap" type="file" multiple />
+ <input name="ppap" type="file" multiple />
+ <input name="ppap" type="file" multiple />
+ <input name="ppap" type="file" multiple />
+ <input name="ppap" type="file" multiple />
+ <input name="ppap2" type="text"  />
+ <button id="p3">p3</button>
+ <script>
+ $(document).ready(function(){
+    $('#p3').click(function(){
+      alert('ppap');
+      var inputFile = $("input[name='ppap']");
+      $("input[name='ppap']")[0].val = 'C:\Users\bon300-8\Documents\GitHub\boom\app\www\img\신발1.jpg';
+    })
+ });
+ </script>
+</body>
+</html>

@@ -21,7 +21,7 @@ var road_and_QR = function () {
     var muid = $(".qrcode")[i].innerHTML;
     console.log(muid);
     var qrcode = new QRCode(document.getElementsByClassName("qrcode")[i], {
-      text: "http://39.127.7.51:3000/testQR?muid=" + muid + "&Tname=" + Tname, ///주의!! 직플파트너의 닉네임이 노드서버에서 쿼리스트링의 변수 'nickname'에 더해진다.
+      text: "http://39.127.7.47:3000/testQR?muid=" + muid + "&Tname=" + Tname, ///주의!! 직플파트너의 닉네임이 노드서버에서 쿼리스트링의 변수 'nickname'에 더해진다.
       width: 250,
       height: 250,
       colorDark: "#000000",
@@ -43,7 +43,7 @@ var sendToken = function (msg, title, sender) {
   if (otherToken != null) {
     console.log("other's Token is not null");
     $.ajax({
-      url: "http://39.127.7.51:3000/api/push",
+      url: "http://39.127.7.47:3000/api/push",
       dataType: 'json',
       type: 'POST',
       data: {
@@ -105,7 +105,7 @@ $(document).ready(function () {
     };
     $.ajax({
       type: 'POST',
-      url: 'http://39.127.7.51:3000/jumsu',
+      url: 'http://39.127.7.47:3000/jumsu',
       data: data,
       success: function (data) {
         alert('success');
@@ -148,7 +148,7 @@ $(document).ready(function () {
   console.log("other's nickname is : " + other);
   $.ajax({
     type: 'post',
-    url: 'http://39.127.7.51:3000/api/push/getToken',
+    url: 'http://39.127.7.47:3000/api/push/getToken',
     data: { nickname: other },
     success: function (result) {
       console.log(result);
@@ -184,7 +184,7 @@ $(document).ready(function () {
       $('#daumIframe').css('display', 'block');
       var setInter = setInterval(function () {
         $.ajax({
-          url: 'http://39.127.7.51:3000/api/daumJuso/mobile',
+          url: 'http://39.127.7.47:3000/api/daumJuso/mobile',
           type: 'get',
           success: function (data) {
 
@@ -214,7 +214,7 @@ $(document).ready(function () {
   var buyer = $.urlParam('buyer');
   var pro_num = $.urlParam('pro_num');
   var mobile = $.urlParam('mobile');
-  var reqUrl = 'http://39.127.7.51:3000/roomchat?room_id=' + room_id + '&talker=' + talker + '&seller=' + seller + '&buyer=' + buyer + '&pro_num=' + pro_num + '&mobile=' + mobile + '';
+  var reqUrl = 'http://39.127.7.47:3000/roomchat?room_id=' + room_id + '&talker=' + talker + '&seller=' + seller + '&buyer=' + buyer + '&pro_num=' + pro_num + '&mobile=' + mobile + '';
   var Pdata = '서버응답이되는지보기위한변수입니다.'
   $.ajax({
     //방번호, 구매자판매자중 하나라도 null이라면 talker=out,판매자,구매자,상품번호,모바일여부(모바일은 서버단에서 메시지목록을 던져주고 PC는 페이지를 넘겨준다.)
@@ -338,7 +338,7 @@ $('#plusbtn').on('click', function () {
   $('.ui.sidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
 });
 var a = function (socket2) {
-  socket2 = io.connect('http://39.127.7.51:3000');
+  socket2 = io.connect('http://39.127.7.47:3000');
   return func_socket(socket2);
 }
 var func_socket = function (socket2) {
@@ -512,7 +512,7 @@ $('#buy').click(function () {
   //Nodejs 서버에 ajax요청을 한다.
   $.ajax({
     type: 'post',
-    url: 'http://39.127.7.51:3000/payCheck',
+    url: 'http://39.127.7.47:3000/payCheck',
     data: {
       pro_num: $('#bpro_num').text()//상품번호를 전달.
     },

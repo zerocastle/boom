@@ -31,8 +31,8 @@ var conn; // DB connection 객체가 될 변수
 var oracledb = require("oracledb"); //oracleDB import
 oracledb.autoCommit = true;//자동커밋
 oracledb.getConnection({// 커텍션 객체 생성
-  user: "kys", //DB-name
-  password: "kys", //DB-password
+  user: "tom", //DB-name
+  password: "tom", //DB-password
   connectString: "localhost/orcl"
 }, function (err, con) { //콜백함수. url/sid를 통해 접근하며 성공시 con 이라는 커넥션 객체 반환. 
   if (err) {//에러가 있다면 실행

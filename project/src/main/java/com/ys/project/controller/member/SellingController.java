@@ -226,4 +226,20 @@ public class SellingController {
 		return "redirect:/selling/selling";
 	}
 
+	
+	// 상품 등록하기
+		@PostMapping("uploadProduct2")
+		public void uploadProduct2(ProductionVO productionVO, Model model, RedirectAttributes rttr) {
+
+			if (productionVO.getUploadVOList() != null) {
+				productionVO.getUploadVOList().forEach(attach -> logger.info("" + attach));
+			}
+			logger.info("야 뭐가 넘 어 옴??" + productionVO);
+
+			service.insert(productionVO);
+
+			logger.info("========================================");
+
+			return ;
+		}
 }

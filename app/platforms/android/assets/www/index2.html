@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <script src="cordova.js"></script>
+    
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
           integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
@@ -551,6 +553,9 @@ height:100%;
                    상품 등록하기
                 </span>
             </div>
+            <div id="토니버거">
+                cordova-plugin-imagepicker
+            </div>
             <div class="pro_sucess">
 
             </div>
@@ -627,7 +632,7 @@ height:100%;
 
             <div id="myModal" class='bPop'>
                 <div class="bPop modal-content">
-                  <iframe src="http://39.127.7.51:3000/api/daumJuso"id='daumIframe' style='display:none;'></iframe>
+                  <iframe src="http://39.127.7.47:3000/api/daumJuso"id='daumIframe' style='display:none;'></iframe>
                 </div>
     
         </div>
@@ -652,6 +657,8 @@ height:100%;
 
 
       function addPreview(input) {
+          console.log(input);
+          console.log(input[0].files);
          if (input[0].files) {
             //파일 선택이 여러개였을 시의 대응
             for (var fileIndex = 0; fileIndex < input[0].files.length; fileIndex++) {
@@ -709,7 +716,7 @@ height:100%;
 
       $(document).ready(function () {
          //submit 등록. 실제로 submit type은 아니다.
-         $('.submit a').on('click', function () {
+         $('.success').on('click', function () {
             var form = $('#uploadForm')[0];
             var formData = new FormData(form);
 
@@ -727,14 +734,14 @@ height:100%;
                contentType: false,
                cache: false,
                timeout: 600000,
-               url: '/imageupload',
+               url: 'http://39.127.7.47:8080/uploadAjaxAction',
                dataType: 'JSON',
                data: formData,
                success: function (result) {
                   //이 부분을 수정해서 다양한 행동을 할 수 있으며,
                   //여기서는 데이터를 전송받았다면 순수하게 OK 만을 보내기로 하였다.
                   //-1 = 잘못된 확장자 업로드, -2 = 용량초과, 그외 = 성공(1)
-                  if (result === -1) {
+                  /**if (result === -1) {
                      alert('jpg, gif, png, bmp 확장자만 업로드 가능합니다.');
                      // 이후 동작 ...
                   } else if (result === -2) {
@@ -743,7 +750,13 @@ height:100%;
                   } else {
                      alert('이미지 업로드 성공');
                      // 이후 동작 ...
-                  }
+                  }**/
+                  if ($('.uploadResult ul li').length > 5) {
+                              alert('사진 업로드는 최대 5장까지 가능합니다');
+                              location.reload();
+                           }
+
+
                }
                //전송실패에대한 핸들링은 고려하지 않음
             });
@@ -756,10 +769,7 @@ height:100%;
    </script>
 
 
-<script>
-      $(document).ready(function () {
-
-      });
+      <script>
       var input;
       function openFile(event) {
          input = event.target;
@@ -1000,7 +1010,7 @@ $(document).ready(function(){
       $('#daumIframe').css('display','block');
       var setInter = setInterval(function() {
           $.ajax({
-              url: 'http://39.127.7.51:3000/api/daumJuso/mobile',
+              url: 'http://39.127.7.47:3000/api/daumJuso/mobile',
               type : 'get',
               success : function(data){
                 if(data){
@@ -1020,5 +1030,23 @@ $(document).ready(function(){
   });
 });
   </script> 
+
+<script>
+
+/*** 업로드된 이미지 배열과
+    입력된 텍스트값들을 서버로 전달한다.
+****/
+
+</script>
+
+<script>
+/***
+대표이미지 선정하기.
+이때 대표이미지는 별도의 값으로 지정된다.
+
+***/
+</script>
+
+
 
 </html>

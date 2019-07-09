@@ -89,7 +89,7 @@ $(document).ready(function() {
             });
             $.ajax({
                 type : 'post',
-                url : 'http://39.127.7.51:8080/app/mnickNameCheck',
+                url : 'http://39.127.7.47:8080/app/mnickNameCheck',
                 data : query,
                 contentType : 'application/json;charset=utf-8',
                 success : function (data){

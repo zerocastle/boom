@@ -18,7 +18,7 @@
 
     http 통신을 위해 필수로 위 주석에 적힌 절차들을 사용헤야 한다.
     몇일간 삽질끝에 알아냈다. -->
-    <name>HelloChatTest</name>
+    <name>직거래플러스</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
     </description>
@@ -54,6 +54,10 @@
     <!--QR코드 안드로이드 -->
     
     <platform name="android">
+        <icon src="res/icon/android/icon.png" density="ldpi" />
+	    <icon src="res/icon/android/icon.png" density="mdpi" />
+	    <icon src="res/icon/android/icon.png" density="hdpi" />
+	    <icon src="res/icon/android/icon.png" density="xhdpi" />
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
             <application android:usesCleartextTraffic="true" /><!--안드로이드 플랫폼에서 앱 실행시 http 경로 실행 허용. -->
              <uses-permission android:name="android.permission.CAMERA" />
