@@ -38,7 +38,18 @@ body{
     width: 100%;
     height: 100%;
 } */
-
+.delete {
+    position: absolute;
+    background-color: #943030;
+    color: white;
+    font-size: 14px;
+    letter-spacing: -.3px;
+    padding: 0px 0;
+    text-align: center;    
+    margin-top: 69px;
+    width: 85px;
+    font-weight:bold;
+}
 .capteen {
     position: absolute;
     background-color: #848484;
@@ -643,7 +654,7 @@ body{
                         </div>
 
                         <div class="sell-addr">
-                            <input type="text" id="sample_addr" class="addres" name="addr">
+                            <input type="text" id="sample_addr" class="addres" name="addr" readonly>
                             <input type="button" class="adrs" id="adrs"  value="거래지역 선택">
                         </div>
 
@@ -914,79 +925,62 @@ body{
             //    FormData에 file을 append하는 promise 객체를 생성 및 추가하고 resolve(formdata). 실행.
     //3. 반복문이 종료되면 Promise.all(promise배열)을 통해 배열내 모든 promise 객체가 성공적으로 완료된 후 then() 함수를 통해 Ajax함수 실행.
     function sendImgtoFile(fd){
-        var arr = [];
-        var namelist = [];
+        var arr = []; // promise 객체들을 저장할 배열.
+        let namelist = []; // 파일의 이름을 저장할 배열.
         var z = 0;
-        $(zeroMan).each(function(i,fileURL){
-                        console.log('z는 ' + z);
-                        console.log('i는 ' + i);
-                        console.log('파일URL  '+fileURL);
-                        namelist.push(fileURL.substr(fileURL.lastIndexOf('/') + 1));
-                        console.log('파일name['+i+'] : '+namelist[i]);
-                        console.log('z는 ' + z);
-                        console.log('i는 ' + i);
-                        arr.push(new Promise(function (resolve, reject) {
-                            makeFileIntoBlob(fileURL).then(blob => {
-                                console.log('z는 ' + z);
-                        console.log('i는 ' + i);
-                                console.log('히히 blob이다 블롭블롭!')
-                                console.log(blob);
-                                // file = new File(blob, namelist, {
-                                //     type: 'image/png'
-                                // });
-                                console.log('z는 ' + z);
-                        console.log('i는 ' + i);
-                                console.log('파일리스트['+z+']'+namelist[z]);
-                                file = blob2file(blob,namelist[z]);
-                                console.log('z는 ' + z);
-                        console.log('i는 ' + i);
-                                console.log(file);
-                                fd.append("uploadFile", file);
-                                console.log(zeroMan.length +'fd.append 완료되었어'+z);
-                                console.log('z는 ' + z);
-                        console.log('i는 ' + i);
-                                z++;
-                                console.log('z는 ' + z);
-                        console.log('i는 ' + i);
-                                resolve(fd);
-                                console.log('z는 ' + z);
-                        console.log('i는 ' + i);
-                            });
-                        }));
-                
-        });
-        // for(var i = 0; i < zeroMan.length; i++){
-        //     fileURL = zeroMan[i];
-        //                 console.log('파일URL  '+fileURL);
-        //                 namelist.push(fileURL.substr(fileURL.lastIndexOf('/') + 1));
-        //                 console.log('파일name['+i+'] : '+namelist[i]);
+        var ii = 0;
+        
 
-        //                 arr.push(new Promise(function (resolve, reject) {
-        //                     makeFileIntoBlob(fileURL).then(blob => {
-                                
-        //                         console.log('히히 blob이다 블롭블롭!')
-        //                         console.log(blob);
-        //                         // file = new File(blob, namelist, {
-        //                         //     type: 'image/png'
-        //                         // });
-        //                         console.log('파일리스트['+i+']'+namelist[i]);
-        //                         file = blob2file(blob,namelist[i]);
-                                
-        //                         console.log(file);
-        //                         fd.append("uploadFile", file);
-        //                         console.log(zeroMan.length +'fd.append 완료되었어'+i);
-        //                         resolve(fd);
-        //                     });
-        //                 }));
-        //            z++
-        //     }
-            Promise.all(arr).then(function(result){///promise 배열 전체가 수행이 끝날때까지 대기 후 then()실행.
+        
+        function forEachPromise(items, fn) {  ///
+            console.log('forEachPromise(items, fn) {');
+            return items.reduce(function (promise, item) { // 배열.reduce를 통해 배열의 각 원소를 변수 item에 담아 순차적으로 첫번째인수 promise객체를 생성 및 실행한다.
+                console.log('return items.reduce(function (promise, item) {');
+                return promise.then(function () {//promise객체의 별 다른 수행이 없으므로 바로 promise.then 블록이 실행되며 forEachPromise(배열, 실행함수-logItem)의 두번째 매개변수인 함수 logItem을 실행하는데 이때 매개변수로 배열의 원소인 item을 사용한다.
+                    console.log('return promise.then(function () {');
+                    return fn(item);//함수 logItem이 실행되며 매개변수로 넘어온 파일URL 배열의 원소값인 각 파일URL을 이용해 file객체로 변경하는 과정을 진행하고 마지막에 인덱스 값 ii를 1증가 함과 동시에 reduce의 다음을 수행하기 위해 resolve() 해준다.
+                });
+            }, Promise.resolve()); // 배열의 각 원소를 가지고 순차적으로 logItem을 실행하고 마지막 원소의 처리가 끝나면 resolve한다. 그 다음 동작인  forEachPromise.then()의 실행이 이루어진다.
+        }
+
+        function logItem(item){
+            console.log('function logItem(item){')
+            return new Promise((resolve,reject) => {
+                    fileURL = item;
+                    var Rname = fileURL.substr(fileURL.lastIndexOf('/') + 1);
+                    console.log(ii + '번째 프로미스 체인 실행입니다.');console.log(ii + '번째 프로미스 체인 실행입니다.');console.log(ii + '번째 프로미스 체인 실행입니다.');console.log(ii + '번째 프로미스 체인 실행입니다.');console.log(ii + '번째 프로미스 체인 실행입니다.');console.log(ii + '번째 프로미스 체인 실행입니다.');
+                    console.log('파일URL  '+fileURL);
+                    fileURL.substr(fileURL.lastIndexOf('/') + 1);
+                    namelist.push(fileURL.substr(fileURL.lastIndexOf('/') + 1));
+                    console.log('파일name['+ii+'] : '+namelist[ii]);
+                    arr.push(new Promise(function (resolve, reject) {
+                                    makeFileIntoBlob(fileURL).then(blob => {
+                                        console.log('blob : '+blob);
+                                        console.log('파일이름리스트['+ii+']'+Rname);
+                                        file = blob2file(blob,Rname);
+                                        console.log(file);
+                                        fd.append("uploadFile", file);
+                                        console.log((ii+1) + '번째 fd.append 완료되었어');
+                                        resolve(fd);
+                                    });
+                                }));
+                    ii++; //인덱스 1증가.
+                    item++; //의미없음.
+                    resolve();
+            });
+        }
+
+forEachPromise(zeroMan, logItem).then(()=>{
+    console.log('promise의 반복문 처리가 끝났다. reduce함수를 활용하였다.');
+    Promise.all(arr).then(function(result){///promise 배열 전체가 수행이 끝날때까지 대기 후 then()실행.
                 //매개변수로 넘어온 result는 promise배열의 각 원소promise들의 resolve한 값의 배열이다.
                 var i = result.length-1;
                 sendAjaxImg(result[i]);
                 // 위 코드에선 사실상 마지막 원소promise가 resolve한 formData만 필요하므로
                 // 해당 formData를 서버로 전송한다.
-            }) ;
+    }) ;
+})
+            
     }
 
 
@@ -1039,94 +1033,69 @@ body{
         //전송.
         $('.success').on('click', function (e) {
             e.preventDefault();
+            let check = [ '|대표사진| ', '|제목| ', '|내용| ', '|가격| ',
+                           '|거래지역| ' ];//미작성된 부분 알려주기 위해. 작성이 된다면 작성된 부분은 ''으로 변경됨.
+                     console.log("submit clicked");
+                     var allInputText = '//제목 : ' + $('input[name=title]').val()+'// 내용 : ' +$('input[name=content]').val() + '// 가격 : ' +$('input[name=price]').val() + ' // 주소 : ' + $('input[name=addr]').val()
+                    alert(allInputText);
+                     var check_msg = '';
+                     check = [ '|대표사진| ', '|제목| ', '|내용| ', '|가격| ',
+                           '|거래지역| ' ];
+                     if ($('.capteen').length != 0) {
+                        check[0] = '';
+                     }
+                     if ($('input[name=title]').val() != '') {//제목이 있다면 에러메시지 없앤다.
+                        check[1] = '';
+                     }
+                     if ($('.con').val() != '') {//내용이 있다면 에러메시지 없앤다.
+                        check[2] = '';
+                     }
+                     if ($('input[name=price]').val() != '') {//가격이 있다면 에러메시지 없앤다.
+                        check[3] = '';
+                     }
+                     if ($('input[name=addr]').val() != '') {//주소가 있다면 에러메시지 없앤다.
+                        check[4] = '';
+                     }
+
+                     for (var i = 0; i < check.length; i++) {//에러메시지들을 통합한다.
+                        check_msg += check[i];
+                     }
+                     console.log(check_msg);
+                     if (check_msg != '') {//만약 에러메시지가 남아있다면
+                        alert('다음 요소들을 작성해 주시길 바랍니다. \n ' + check_msg);//에러메시지 보여주기.
+
+                        return false;
+                     }
+
+
+
             console.log('클릭되었어');console.log('클릭되었어');console.log('클릭되었어');console.log('클릭되었어');
             var fileURL = '';
             var file;
             var fd = new FormData();
             var Promise_arr = [];
 
-            sendImgtoFile(fd, repPick);
-            // var a = new Promise(function (resolve, reject) {
-            //     alert('1');
-            //        sendImgtoFile(fd, repPick); //파일객체를 formdata객체에 넣는다. //서버에 전송. 서버에서 발생된 uuid 및 파일 정보를 들고와 li태그에 삽입.
-            //     resolve();
-            // });
-            
-            // var b = new Promise(function (resolve, reject) {
-            //     alert('2')
-            //     console.log('히히 내가 잘못했어')
-            //     sendAjaxProduction();  //li태그의 정보를 이용 form 안에 input[hidden].val(li정보들) append한다.
-            //     resolve();
-            // }).then(function (){
-            //     alert('3')
-            //     console.log('히히 마무리야')
-            //     $('form').submit();
-            // });
-            // Promise_arr.push(a);
-            // Promise_arr.push(b);
-            // Promise.all(Promise_arr).then(function(result){///promise 배열 전체가 수행이 끝날때까지 대기 후 then()실행.
-            //     alert('3')
-            //     console.log('히히 마무리야')
-            //     $('form').submit(); //ajax통신으로 서버에 전송한다.
-            // }).then(function(){
-            //     console.log('제발이제그만')
-            //     console.log('제발이제그만')
-            //     console.log('제발이제그만')
-            //     console.log('제발이제그만')
-            //     console.log('제발이제그만')
-            // }) ;
-
-
-            // var c = new Promise(function (resolve, reject) {
-            //     alert('3')
-            //     console.log('히히 마무리야')
-            //     $('form').submit(); //ajax통신으로 서버에 전송한다.
-            // });
-
-            
-            // // a.then(new Promise(function (resolve, reject) {
-            // //     alert('1');
-            // //     sendImgtoFile(fd, repPick);   //파일객체를 formdata객체에 넣는다. //서버에 전송. 서버에서 발생된 uuid 및 파일 정보를 들고와 li태그에 삽입.
-            // // })).then(new Promise(function (resolve, reject) {
-            //     alert('2')
-            //     console.log('히히 내가 잘못했어')
-            //     sendAjaxProduction();  //li태그의 정보를 이용 form 안에 input[hidden].val(li정보들) append한다.
-            //     resolve();
-            // })).then(new Promise(function (resolve, reject) {
-            //     alert('3')
-            //     console.log('히히 마무리야')
-            //     $('form').submit(); //ajax통신으로 서버에 전송한다.
-            //     resolve();
-            // })).then(function(){
-            //     console.log('제발이제그만')
-            //     console.log('제발이제그만')
-            //     console.log('제발이제그만')
-            //     console.log('제발이제그만')
-            //     console.log('제발이제그만')
-            // });
-            
+            sendImgtoFile(fd, repPick); // 파일을 업로드 후 서버에 입력 값들 과 이미지 경로를 insert한다.
         });
-        // <input type=file> 태그 기능 구현
 
+        // <input type=file multiple> 태그 기능 구현 - imagePicker 라이브러리 활용. 해당 라이브러리는 파일URL을 반환한다.
         $('#attach input[type=file]').click(function (e) {
             e.preventDefault();
             window.plugins.imagePicker.getPictures(
                 function (results) {
                     for (var i = 0; i < results.length; i++) {
-
                         var imgNum = previewIndex++;
                         if (previewIndex >= 6) {
                             alert('이미지 최대 갯수 초과하셨습니다.');
                             return false;
                         }
                         zeroMan[i] = results[i];
-                        //var objectURL = window.URL.createObjectURL(results[i]);
-                        //files[previewIndex-1] = objectURL;
                         $(".photo-number").text((imgNum + 1) + "/5");
                         console.log('Image URI: ' + results[i]);
                         $("#preview")
                             .append(
                                 "<div class=\"preview-box\">"
+                                + "<div class=\"delete\">제거하기</div>"
                                 + "<img class=\"thumbnail\" src=\"" + results[i] + "\"\/>"
                                 + "<input class=\"preview-inputs\" type=\"hidden\" value=\"" + imgNum + "\">"
                                 + "</div>");
@@ -1137,7 +1106,6 @@ body{
                     maximumImagesCount: 5
                 }
             );
-            //addPreview($(this)); //preview form 추가하기
         });
     });
 </script>
@@ -1157,94 +1125,6 @@ body{
 </div>
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<!-- <script>
-        // 우편번호 찾기 화면을 넣을 element
-        var element_layer = document.getElementById('layer');
-
-        function closeDaumPostcode() {
-            // iframe을 넣은 element를 안보이게 한다.
-            element_layer.style.display = 'none';
-        }
-
-        function sample2_execDaumPostcode() {
-            new daum.Postcode({
-                oncomplete: function(data) {
-                    // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-                    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                    var addr = ''; // 주소 변수
-                    var extraAddr = ''; // 참고항목 변수
-
-                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                        addr = data.roadAddress;
-                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                        addr = data.jibunAddress;
-                    }
-
-                    // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-                    if(data.userSelectedType === 'R'){
-                        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                        // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                        if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                            extraAddr += data.bname;
-                        }
-                        // 건물명이 있고, 공동주택일 경우 추가한다.
-                        if(data.buildingName !== '' && data.apartment === 'Y'){
-                            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                        }
-                        // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                        if(extraAddr !== ''){
-                            extraAddr = ' (' + extraAddr + ')';
-                        }
-                        // 조합된 참고항목을 해당 필드에 넣는다.
-    //                     document.getElementById("sample2_extraAddress").value = extraAddr;
-
-                    } else {
-    //                     document.getElementById("sample2_extraAddress").value = '';
-                    }
-
-                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
-    //                 document.getElementById('sample2_postcode').value = data.zonecode;
-                       document.getElementById("sample4_jibunAddress").value = addr;
-                    // 커서를 상세주소 필드로 이동한다.
-    //                document.getElementById("sample2_detailAddress").focus();
-
-                    // iframe을 넣은 element를 안보이게 한다.
-                    // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
-                    element_layer.style.display = 'none';
-                },
-                width : '100%',
-                height : '100%',
-                maxSuggestItems : 5
-            }).embed(element_layer);
-
-            // iframe을 넣은 element를 보이게 한다.
-            element_layer.style.display = 'block';
-
-            // iframe을 넣은 element의 위치를 화면의 가운데로 이동시킨다.
-            initLayerPosition();
-        }
-
-        // 브라우저의 크기 변경에 따라 레이어를 가운데로 이동시키고자 하실때에는
-        // resize이벤트나, orientationchange이벤트를 이용하여 값이 변경될때마다 아래 함수를 실행 시켜 주시거나,
-        // 직접 element_layer의 top,left값을 수정해 주시면 됩니다.
-        function initLayerPosition(){
-            var width = 400; //우편번호서비스가 들어갈 element의 width
-            var height = 400; //우편번호서비스가 들어갈 element의 height
-            var borderWidth = 5; //샘플에서 사용하는 border의 두께
-
-            // 위에서 선언한 값들을 실제 element에 넣는다.
-            element_layer.style.width = width + 'px';
-            element_layer.style.height = height + 'px';
-            element_layer.style.border = borderWidth + 'px solid';
-            // 실행되는 순간의 화면 너비와 높이 값을 가져와서 중앙에 뜰 수 있도록 위치를 계산한다.
-            element_layer.style.left = 1+ 'px';
-            element_layer.style.top = 360+ 'px';
-        }
-    </script> -->
-
 <script>
     $(function () {
         $(".background").css('height', window.innerHeight);
@@ -1368,19 +1248,25 @@ body{
 
 <script>
 
-    /*** 업로드된 이미지 배열과
-        입력된 텍스트값들을 서버로 전달한다.
+    /*** 이미지 제거.
     ****/
 
+    $(document).ready(function () {
+        $(document).on("click",".delete",function(e){ 
+            $(e.target).parent().remove();
+            var aaa = 0;
+            $('.prieview-box img').each(function(i,item){
+                $(".photo-number").text((i+1) + "/5");
+                aaa++;
+            });
+            var str = $(".photo-number").text();
+            var imgLength = str.substr(0,1);
+            previewIndex--;
+            
+        });
+    });
 </script>
 
-<script>
-    /***
-    대표이미지 선정하기.
-    이때 대표이미지는 별도의 값으로 지정된다.
-    
-    ***/
-</script>
 
 
 

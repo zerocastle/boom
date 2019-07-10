@@ -491,7 +491,7 @@ height:100%;
 
                 <div class="pro-plus">
                     
-                    <a href="index3.html">
+                    <a href="#" onclick="goPage()">
                         <div class="pro_add">
                             <img src="./img/add.svg">
                         </div>
@@ -534,7 +534,17 @@ height:100%;
 </body>
 <script>
     function goPage() {
-        location.href = "index3.html";
+        
+        
+        
+        if(sessionStorage.getItem('member')){
+            location.href = "index3.html";
+        }else {
+            
+            location.href = "login.html";
+        }
+        
+
     }
 </script>
 
