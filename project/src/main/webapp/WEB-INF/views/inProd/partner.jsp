@@ -2,12 +2,11 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
+<link rel="stylesheet" href="/resources/css/partner.css" />
 <link rel="stylesheet" type="text/css"
 	href="/resources/css/productList.css" />
  <link rel="stylesheet" type="text/css"
 	href="/resources/css/mypage-info.css">
-<!-- <link rel="stylesheet" type="text/css"
-	href="/resources/css/review.css"> -->
 <style>
 .page-link {
 	display: inline-block;
@@ -57,7 +56,6 @@ $(document).ready(function(){
 		e.preventDefault();
 		window.location.href = "/member/inProd/" + $('#nick').text();
 	});
-	
 	$('#inProd2').click(function(e){
 		e.preventDefault();
 		window.location.href = "/member/inProd2/" + $('#nick').text();
@@ -97,11 +95,17 @@ $(document).ready(function(){
 
 function fn_movePage(val) {
 	jQuery("input[name=pageNo]").val(val);
-	jQuery("form[name=frm]").attr("method", "get");
+	jQuery("form[name=frm]").attr("method", "post");
 	jQuery("form[name=frm]").attr("action", "").submit();
 }
-
-
+$('#partname').click(function(){
+	e.preventDefault();
+	window.location.href = "/member/partname";
+});
+$("#imgInp").change(function() {
+	readURL(this); // 변화될떄 현제 url 정보를 들고옴  
+	console.log(this);
+});
 
 
 </script>
@@ -151,18 +155,8 @@ $(document).ready(function(){
                       <td>${items.price }</td>
                       <td class="text-right"></td>
                     </tr>
-					
-					
 					*/
-					
 				}
-				
-				
-				
-				
-				
-				
-				
 			},
 			error : function(err) {
 				alert("Error" + err);
@@ -170,9 +164,40 @@ $(document).ready(function(){
 			}
 		});
 	});
+	$("#uptbtn").click(function(){
+		var part_name = $("#part_name").val();
+		var company_number = $("#company_number").val();
+		var boss_name = $("#boss_name").val();
+		var part_phone = $("#part_phone").val();
+		var zip_code = $("#zip_code").val();
+		var addr = $("#addr").val();
+		var road_name = $("#road_name").val();
+		var detail_addr = $("#detail_addr").val();
+		var query = JSON.stringify({part_name : part_name, company_number : company_number, boss_name : boss_name, 
+				part_phone : part_phone, zip_code : zip_code, addr : addr, road_name : road_name, detail_addr : detail_addr});
+		console.log(query);
+		 $.ajax({
+			type : 'POST',
+            url : "update",
+            data : query,
+            dataType : 'json',
+            contentType : "application/json;charset=UTF-8",
+            success : function(data){            	            	
+            	window.location.href = '/member/inProd2/'+$("#nickname").val();
+            }
+		});  
+	});
 });
+//$(document).ready(function(){
+//$('#uptbtn').click(function(){
+//	window.location.href="/member/update/"	
+//});
+//});
 </script>
 
+ 
+ 
+ <input type="hidden" id="nickname" value = "${sessionScope.loginSession.nickname}">
 <!-- Main Content -->
 <div class="container my-3">
 	<div class="row">
@@ -233,65 +258,77 @@ $(document).ready(function(){
 			</div>
 		</div>
 
-		<div class="col mt-3 mt-md-0">
-			<div class="card">
-				<div class="card-body">
-					<h3>직플레이스 입고 상품</h3> <select id="placeList">
-											<c:forEach var="items" items="${placeList }">
-												<option>${items.part_name }</option>
-											</c:forEach>
-										   </select>
-					<hr>
-             <div class="table-responsive">
-                <table class="table table-hover" data-addclass-on-xs="table-sm">
-                  <thead class="thead-light">
-                    <tr>
-                      <th scope="col">이미지</th>
-                      <th scope="col">결제코드</th>
-                      <th scope="col">상품명</th>
-                      <th scope="col">상품종류</th>
-                      <th scope="col">품질</th>
-                      <th scope="col">판매자</th>
-                      <th scope="col">구매자</th>
-                      <th scope="col">가격</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  <!-- 
-                  	'<tr class="inProducts_tr">'+
-								'<td class="text-right"><img src="/resources/'+json[i].UPLOADPATH+'/'+json[i].UUID+'_'+json[i].FILENAME+'" width="100" height="100" alt="User" class="rounded-circle mb-3"></td>'+
-								'<td>'+json[i].IMP_UID+'</td>'+
-								'<td>'+json[i].TITLE+'</td>'+
-								'<td>'+json[i].CATE_CODE+'</td>'+
-								'<td>'+json[i].QUALITY+'</td>'+
-								'<td>'+json[i].SELLER_NAME+'</td>'+
-								'<td>'+json[i].BUYER_NAME+'</td>'+
-								'<td>'+json[i].PRICE+'</td>'+
-					'</tr>';
-                  
-                   -->
-                   
-                 <c:forEach items="${inProducts}" var="items">
-                    <tr class="inProducts_tr">
-                      <td class="text-right"><img src="${pageContext.request.contextPath}/resources/${items.UPLOADPATH }/${items.UUID }_${items.FILENAME }" width="100" height="100" alt="User"
-						class="rounded-circle mb-3"></td>
-                      <td>${items.MERCHANT_UID }</td>
-                      <td>${items.TITLE }</td>
-                      <td>${items.CATE_CODE }</td>
-                      <td>${items.QUALITY }</td>
-                      <td>${items.SELLER_NAME }</td>
-                      <td>${items.BUYER_NAME }</td>
-                      <td>${items.PRICE }</td>\
-                    </tr>
-                    
-                  </c:forEach>
-                  </tbody>
-                </table>
-              </div>
-				</div>
-			</div>
-		</div>
-	</div>
+<!-- <div class="container"> -->
 
-</div>
+      <div class="main">
+         <h3>직플레이스 내역</h3>
+         <hr>
+         <div>
+            <form role="form" id="form" action="/member/update" method="post">
+               <fieldset>
+               <input type='file' id="imgInp" name="uploadFile"
+									class="form-control" style="width: 200px; margin: auto;" /> <img
+									id="foo" class="form-control"
+									src="/resources/image/no_image.png" alt="사진을 선택"
+									style="width: 200px; height: 200px; margin: auto;" />
+                  <div>
+                     <label for="store">점포명</label> <input type="text" id="part_name"
+                        name="part_name" value = "${partner.part_name }" placeholder="점포명을 정확히 입력해주세요" required>
+                     <span class="store"> <i class="fas fa-store"></i>
+                     </span>
+                  </div>
+
+
+
+                  <div>
+                     <label for="owner">사업자등록번호</label> <input type="text" maxlength="10"
+                        id="company_number" name="company_number" value = "${partner.company_number }" 
+                        placeholder="사업자등록번호-10자리의 숫자" required readonly> <span
+                        class="owner"> <i class="far fa-list-alt"></i>
+                     </span>
+                  </div>
+
+
+                  <div>
+                     <label for="name">대표</label> <input type="text" id="boss_name"
+                        name="boss_name" value = "${partner.boss_name }" placeholder="대표자 성명을 입력해주세요" required>
+                     <span class="name"> <i class="fas fa-user"></i>
+                     </span>
+
+                  </div>
+
+                  <div>
+                     <label for="phone">휴대폰번호</label><input type="text" id="part_phone"
+                        name="part_phone" maxlength="11" value = "${partner.part_phone }" placeholder="휴대폰번호*숫자만허용"
+                        required> <span class="phone"> <i
+                        class="fas fa-mobile-alt"></i>
+                     </span>
+                  </div>
+
+                  <div>
+                     <label for="home">우편번호</label> <input type="text" id="zip_code"
+                        name="zip_code" value = "${partner.zip_code }" placeholder="우편번호" required> <input
+                        type="text" id="road_name" value = "${partner.road_name }" name="road_name" placeholder="도로명주소"
+                        required><br/> <input type="text" id="addr" value = "${partner.addr }" name="addr"
+                        placeholder="지번주소" required> <input type="text"
+                        id="detail_addr" name="detail_addr" value = "${partner.detail_addr }" placeholder="상세주소">
+                     <span class="home"> <i class="fas fa-home"></i>
+                     </span>
+
+                  </div>
+
+
+                   <input type="button" class="adrs" onclick="sample4_execDaumPostcode()"
+                     value="우편번호 찾기"><br> <input type="hidden" id="lag"
+                     name="lag" /> <input type="hidden" id="lng" name="lng" /><br />
+                     
+                     <input type="submit" class="uptbtn" id="uptbtn" value="수정하기">
+               </fieldset>
+            </form>
+         </div>
+      </div>
+   </div>
+   </div>
+
+<!-- </div> -->
 <!-- /Main Content -->

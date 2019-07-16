@@ -233,4 +233,29 @@ public class MemberService implements IMemberService {
 		// TODO Auto-generated method stub
 		return dao.getInProdList(part_name);
 	}
+
+	@Override
+	public PartnerVO partnerManage(String data) {
+		// TODO Auto-generated method stub
+		return dao.partnerManage(data);
+	}
+
+	@Override
+	public void partnerUpdate(PartnerVO vo) {
+		// TODO Auto-generated method stub
+		dao.partnerUpdate(vo);
+	}
+
+	@Override
+	public void partnerDelete(String string) {
+		// TODO Auto-generated method stub
+		dao.partnerDelete(string);
+	}
+
+	@Override
+	public void partnerProdelete(String aa) {
+		// TODO Auto-generated method stub
+		dao.partnerProdelete(aa);
+	}
+
 }

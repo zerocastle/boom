@@ -20,9 +20,9 @@
 		<property name="driverClassName"
 			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
 		<property name="jdbcUrl"
-			value="jdbc:log4jdbc:oracle:thin:@localhost:1521:orcl"></property>
-		<property name="username" value="kys"></property>
-		<property name="password" value="kys"></property>
+			value="jdbc:log4jdbc:oracle:thin:@localhost:1521:admin"></property>
+		<property name="username" value="haehong2"></property>
+		<property name="password" value="admin"></property>
 
 	</bean>
 
@@ -84,7 +84,7 @@
 		base-package="com.ys.project.dao" />
 
 	<!-- spring interface 매퍼 -->
-	<mybatis-spring:scan
+	 <mybatis-spring:scan
 		base-package="com.ys.project.dao.admin" />
 	<mybatis-spring:scan
 		base-package="com.ys.project.dao.sellingUpdate" />
@@ -93,7 +93,7 @@
 	<mybatis-spring:scan
 		base-package="com.ys.project.dao.productionUpload" />
 	<mybatis-spring:scan
-		base-package="com.ys.project.dao.production" />
+		base-package="com.ys.project.dao.production" /> 
 
 
 	<!-- @Service를 컴포넌트 스캔을 한다. -->

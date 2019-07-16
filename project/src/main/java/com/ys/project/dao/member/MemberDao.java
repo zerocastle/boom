@@ -243,4 +243,30 @@ public class MemberDao implements IMemberDao {
 		// TODO Auto-generated method stub
 		return session.selectList("member.getInProdList", part_name);
 	}
+
+	@Override
+	public PartnerVO partnerManage(String data) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.partnerManage", data);
+	}
+
+	@Override
+	public void partnerUpdate(PartnerVO vo) {
+		
+		session.update("member.partnerUpdate", vo);
+	}
+
+	@Override
+	public void partnerDelete(String company_number) {
+		// TODO Auto-generated method stub
+		
+		session.delete("member.partnerDelete", company_number);
+	}
+
+	@Override
+	public void partnerProdelete(String aa) {
+		// TODO Auto-generated method stub
+		session.delete("member.productDelete", aa);
+	}
+
 }

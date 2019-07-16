@@ -57,7 +57,6 @@ $(document).ready(function(){
 		e.preventDefault();
 		window.location.href = "/member/inProd/" + $('#nick').text();
 	});
-	
 	$('#inProd2').click(function(e){
 		e.preventDefault();
 		window.location.href = "/member/inProd2/" + $('#nick').text();
@@ -110,6 +109,16 @@ $(document).ready(function(){
 	$('#inProd').click(function(e){
 		e.preventDefault();
 		window.location.href = "/member/inProd/" + $('#nick').text();
+	});
+	
+	$('.partname').click(function(e){
+		
+		var part_name = $(e.target).text();
+		console.log($(e.target));
+		
+		
+		alert(part_name);
+		window.location.href = "/member/partname/" + part_name;
 	});
 	
 	$('#placeList').change(function(){
@@ -171,6 +180,46 @@ $(document).ready(function(){
 		});
 	});
 });
+</script>
+<script>
+	$(document).ready(function(){
+		$('#delbtn').click(function(){
+			var confirm_val = confirm("정말 삭제하시겠습니까?");
+			
+			if(confirm_val) {
+				var checkArr = new Array();
+				
+				$("input[class='checkbox']:checked").each(function(){
+					var hihi = {"c_num" : $(this).val()};
+					checkArr.push(hihi);
+					alert("첫번째");
+				});
+				
+				if(!checkArr.length){
+					return false;
+				}
+				else{
+					alert("두번째");
+					console.log(checkArr)
+					var result = 1;
+					/* var checkArr = json.stringify(checkArr); */
+					$.ajax({
+						url : "/member/delete",
+						type : "post",
+						contentType : 'application/json',
+						data : JSON.stringify(checkArr),
+						success : function(){
+							result = 0; 
+							alert("세번째");
+							window.location.href = "/member/inProd2/" + "${sessionScope.loginSession.nickname}";
+						},error : function(){
+							alert("에러발생");
+						}
+					});
+				}
+			}
+		});
+	});
 </script>
 
 <!-- Main Content -->
@@ -236,24 +285,17 @@ $(document).ready(function(){
 		<div class="col mt-3 mt-md-0">
 			<div class="card">
 				<div class="card-body">
-					<h3>직플레이스 입고 상품</h3> <select id="placeList">
-											<c:forEach var="items" items="${placeList }">
-												<option>${items.part_name }</option>
-											</c:forEach>
-										   </select>
+					<h3>직플레이스 내역</h3>
 					<hr>
              <div class="table-responsive">
                 <table class="table table-hover" data-addclass-on-xs="table-sm">
                   <thead class="thead-light">
                     <tr>
-                      <th scope="col">이미지</th>
-                      <th scope="col">결제코드</th>
-                      <th scope="col">상품명</th>
-                      <th scope="col">상품종류</th>
-                      <th scope="col">품질</th>
-                      <th scope="col">판매자</th>
-                      <th scope="col">구매자</th>
-                      <th scope="col">가격</th>
+                      <th scope="col"></th>
+                      <th scope="col">점포명</th>
+                      <th scope="col">사업자 등록번호</th>
+                      <th scope="col">대표성명</th>
+                      <th scope="col">휴대폰번호</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -271,23 +313,21 @@ $(document).ready(function(){
                   
                    -->
                    
-                 <c:forEach items="${inProducts}" var="items">
-                    <tr class="inProducts_tr">
-                      <td class="text-right"><img src="${pageContext.request.contextPath}/resources/${items.UPLOADPATH }/${items.UUID }_${items.FILENAME }" width="100" height="100" alt="User"
-						class="rounded-circle mb-3"></td>
-                      <td>${items.MERCHANT_UID }</td>
-                      <td>${items.TITLE }</td>
-                      <td>${items.CATE_CODE }</td>
-                      <td>${items.QUALITY }</td>
-                      <td>${items.SELLER_NAME }</td>
-                      <td>${items.BUYER_NAME }</td>
-                      <td>${items.PRICE }</td>\
+                 <c:forEach items="${partner}" var="items">
+                    <tr class="partner_tr">
+                      
+                      <td><input type = "checkbox" id = "checkbox" class = "checkbox" value = ${items.company_number }></td>
+                      <td><a href = "#" class = "partname">${items.part_name }</a></td>
+                      <td>${items.company_number }</td>
+                      <td>${items.boss_name }</td>
+                      <td>${items.part_phone }</td>
                     </tr>
                     
                   </c:forEach>
                   </tbody>
                 </table>
               </div>
+              <input type = "button" id = "delbtn" value = "삭제">              
 				</div>
 			</div>
 		</div>

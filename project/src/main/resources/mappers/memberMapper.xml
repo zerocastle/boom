@@ -258,4 +258,26 @@
 		select up.*, pd.*, py.* from payment py, partner pr, production pd, production_upload up where py.pro_num = pd.pro_num and py.place_pick like pr.part_name||'%'  and pd.state_msg = 2 and up.pro_num = pd.pro_num and   pr.part_name = #{part_name}
 	</select>
 	
+	<select id="partnerManage" parameterType="string" resultType="PartnerVO"> 
+		select * from partner where part_name = #{data}
+	</select>
+	
+	<update id="partnerUpdate" parameterType="PartnerVO">
+		update partner set
+		part_name=#{part_name},
+		boss_name=#{boss_name},
+		part_phone=#{part_phone},
+		zip_code=#{zip_code},
+		road_name=#{road_name},
+		addr=#{addr},
+		detail_addr=#{detail_addr}
+		where company_number = #{company_number}
+	</update>
+	
+	<delete id="partnerDelete">
+		delete from partner where company_number = #{company_number}
+	</delete>
+	<delete id="productDelete">
+		delete from production where pro_num = #{pro_num}
+	</delete>
 </mapper>

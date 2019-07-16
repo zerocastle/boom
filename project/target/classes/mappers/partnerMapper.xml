@@ -57,6 +57,10 @@
 		SELECT * FROM PARTNER
 	</select>
 	
+	<select id="partnerList" resultType="PartnerVO">
+		SELECT * FROM PARTNER
+	</select>
+	
 	
 
 

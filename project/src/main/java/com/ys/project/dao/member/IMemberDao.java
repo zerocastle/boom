@@ -89,4 +89,13 @@ public interface IMemberDao {
 	public List<PartnerVO> getPlaceList(int m_num);
 
 	public List<HashMap<String, String>> getInProdList(String part_name);
+
+	public PartnerVO partnerManage(String data);
+
+	public void partnerUpdate(PartnerVO vo);
+
+	public void partnerDelete(String string);
+
+	public void partnerProdelete(String aa);
+
 }

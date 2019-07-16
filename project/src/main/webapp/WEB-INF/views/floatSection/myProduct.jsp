@@ -17,6 +17,9 @@
 .grid-gap-3{
 	grid-gap : 0;
 }
+#delbtn{
+	text-align: right;
+}
 </style>
 
 
@@ -153,7 +156,7 @@ $(function() {
 					+ "</div>"
 					+ "</div>"
 					+ "</div>"
-					+ "</a></li>"
+					+ "</a></label><input type = 'checkbox' class = 'delbtn2' id = 'delbtn2' value = '"+ list[j].pro_num +"'></li>"
 					+ "<input type='hidden' value='"
 					+ list[j].pro_num + "' class='pro_num' />";
 			array.push(str);
@@ -176,7 +179,47 @@ $(function() {
 
 });
 </script>
-
+<script>
+$(document).ready(function(){
+	$('#delbtn').click(function(){
+		var confirm_val = confirm("정말 삭제하시겠습니까?");
+		
+		if(confirm_val) {
+			var pro = new Array();
+			
+			$("input[class='delbtn2']:checked").each(function(i, obj){
+				var hihi = {"p_num" : $(obj).val()};
+				pro.push(hihi);
+				alert("첫번째" + pro.length);
+				console.log(pro);
+			});
+			
+			if(confirm("시발")){
+				return false;
+			}
+			else{
+				alert("두번째");
+				alert(pro);
+				var result = 1;
+				/* var checkArr = json.stringify(checkArr); */
+				$.ajax({
+					url : "/member/prodelete",
+					type : "post",
+					contentType : 'application/json',
+					data : JSON.stringify(pro),
+					success : function(){
+						result = 0; 
+						alert("세번째");
+						window.location.href = "/member/myProduct/" + "${sessionScope.loginSession.nickname}";
+					},error : function(){
+						alert("에러발생");
+					}
+				});
+			}
+		}
+	});
+});
+</script>
 
 
 <!-- Main Content -->
@@ -265,6 +308,7 @@ $(function() {
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
+				<input type = "button" id = "delbtn" value = "삭제">
 			</span>
 			<c:if test="${pageVO.pageNo != pageVO.finalPageNo }">
 				<a class="page-link" href="javascript:fn_movePage(${pageVO.nextPageNo})"

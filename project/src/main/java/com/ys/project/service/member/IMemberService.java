@@ -83,5 +83,13 @@ public interface IMemberService {
 
 	public List<HashMap<String, String>> getInProdList(String part_name);
 
+	public PartnerVO partnerManage(String data);
+
+	public void partnerUpdate(PartnerVO vo);
+
+	public void partnerDelete(String aa);
+
+	public void partnerProdelete(String aa);
+
 
 }
