@@ -90,7 +90,23 @@ function fn_movePage(val) {
 	jQuery("form[name=frm]").attr("action", "").submit();
 }
 </script>
+<script>
+$(document).ready(function(){
+	$('#inProd').click(function(e){
+		e.preventDefault();
+		window.location.href = "/member/inProd/" + $('#nick').text();
+	});
+});
+</script>
 
+<script>
+$(document).ready(function(){
+	$('#inProd2').click(function(e){
+		e.preventDefault();
+		window.location.href = "/member/inProd2/" + $('#nick').text();
+	});
+});
+</script>
 
 <!-- Main Content -->
 <div class="container my-3">
@@ -130,7 +146,21 @@ function fn_movePage(val) {
 						data-feather="shopping-bag" class="mr-3"></i>구매내역
 					</a> <a href="#" id="sellList" class="list-group-item list-group-item-action"> <i
 						data-feather="shopping-bag" class="mr-3"></i>판매내역
-					</a> <a href="#"
+					</a> 
+					
+					<!-- 직플레이스가 하나라도 있으면 해당 메뉴를 한개 출력한다. -->
+						<c:if test="${1 <= sessionScope.loginSession.partner_signal }">
+							<a href="#" id="inProd" class="list-group-item list-group-item-action">
+							<i data-feather="log-out" class="mr-3"></i> 직플레이스 입고 상품</a>
+						</c:if>
+						
+						<c:if test="${1 <= sessionScope.loginSession.partner_signal }">
+							<a href="#" id="inProd2" class="list-group-item list-group-item-action">
+							<i data-feather="log-out" class="mr-3"></i> 직플레이스 내역</a>
+						</c:if>
+						<!-- 직플레이스가 하나라도 있으면 해당 메뉴를 한개 출력한다. -->
+					
+					<a href="#"
 						class="list-group-item list-group-item-action text-danger logout">
 						<i data-feather="log-out" class="mr-3"></i> Logout
 					</a>

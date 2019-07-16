@@ -58,6 +58,7 @@ $(document).ready(function(){
 		window.location.href = "/member/sellList/" + $('#nick').text();
 	});
 	
+	
 	// 매너 게이지
 	var manner = ${member.manner};
 	   function startFoo(){
@@ -220,8 +221,23 @@ $(document).ready(function(){
 	});
 });
 </script>
+<script>
+$(document).ready(function(){
+	$('#inProd').click(function(e){
+		e.preventDefault();
+		window.location.href = "/member/inProd/" + $('#nick').text();
+	});
+});
+</script>
 
-
+<script>
+$(document).ready(function(){
+	$('#inProd2').click(function(e){
+		e.preventDefault();
+		window.location.href = "/member/inProd2/" + $('#nick').text();
+	});
+});
+</script>
 <!-- Main Content -->
 <div class="container my-3">
 	<div class="row">
@@ -257,9 +273,14 @@ $(document).ready(function(){
 						 
 						 
 						 <!-- 직플레이스가 하나라도 있으면 해당 메뉴를 한개 출력한다. -->
-						<c:if test="${!empty placeList }">
-							<a href="#" id="in-prod" class="list-group-item list-group-item-action">
+						<c:if test="${1 <= sessionScope.loginSession.partner_signal }">
+							<a href="#" id="inProd" class="list-group-item list-group-item-action">
 							<i data-feather="log-out" class="mr-3"></i> 직플레이스 입고 상품</a>
+						</c:if>
+						
+						<c:if test="${1 <= sessionScope.loginSession.partner_signal }">
+							<a href="#" id="inProd2" class="list-group-item list-group-item-action">
+							<i data-feather="log-out" class="mr-3"></i> 직플레이스 내역</a>
 						</c:if>
 						<!-- 직플레이스가 하나라도 있으면 해당 메뉴를 한개 출력한다. -->
 						 
