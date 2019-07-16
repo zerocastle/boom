@@ -263,7 +263,7 @@ $(document).ready(function(){
 					</a> 
 					<!-- 직플레이스가 하나라도 있으면 해당 메뉴를 한개 출력한다. -->
 						<c:if test="${!empty placeList }">
-							<a href="#" id="inProd" class="list-group-item list-group-item-action active">
+							<a href="#" id="inProd" class="list-group-item list-group-item-action">
 							<i data-feather="log-out" class="mr-3"></i> 직플레이스 입고 상품</a>
 						</c:if>
 						
