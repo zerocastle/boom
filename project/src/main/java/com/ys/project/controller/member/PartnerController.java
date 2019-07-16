@@ -222,5 +222,56 @@ public class PartnerController {
 		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 		return attr.getRequest();
 	}
+	
+	// 검색 페이지 이동
+		@SuppressWarnings("unchecked")
+		@RequestMapping(value = "GetZicpleList", method = RequestMethod.GET)
+		public String GetZicpleList(Model model) throws Exception {
+			/* model.addAttribute("list" , service.getList()); */
+			JSONArray array = new JSONArray();
+			JSONObject object = null;
 
+			PartnerVO partner;
+			List<PartnerVO> partnerList = service.getList();
+
+			int length = partnerList.size();
+			for (int i = 0; i < length; i++) {
+				object = new JSONObject();
+
+				partner = partnerList.get(i);
+				object.put("company_number", partner.getCompany_number());
+				object.put("part_name", partner.getPart_name());
+				object.put("boss_name", partner.getBoss_name());
+				object.put("part_phone", partner.getPart_phone());
+				object.put("zip_code", partner.getZip_code());
+				object.put("road_name", partner.getRoad_name());
+				object.put("addr", partner.getAddr());
+				object.put("detail_addr", partner.getDetail_addr());
+				object.put("reg_date", partner.getReg_date().toString());
+				object.put("lag", partner.getLag());
+				object.put("lng", partner.getLng());
+				object.put("uuid", partner.getUuid());
+				object.put("uploadPath", partner.getUploadPath());
+				object.put("fileName", partner.getFileName());
+				object.put("m_num", partner.getM_num());
+
+				array.add(object);
+
+			}
+
+			logger.info("fuck : " + array.toString());
+			/*
+			 * object3 = new JSONObject(); object3.put("fucking",object2);
+			 */
+			model.addAttribute("list", array);
+			logger.info("JSON으로 넘어온 LIST : " + array);
+			System.out.println();
+//				return "partner/placeSearch";
+
+			return "/partner/updateZicpleMap";
+		}
+
+
+	
+ 
 }

@@ -109,7 +109,18 @@ body{
             transform-origin: top left;
         }
 
-
+        select { 
+            width: 425px; /* 원하는 너비설정 */ 
+            padding: .8em .5em; /* 여백으로 높이 설정 */ 
+            font-family: inherit; /* 폰트 상속 */ 
+            background: url(https://farm1.staticflickr.com/379/19928272501_4ef877c265_t.jpg) no-repeat 95% 50%; /* 네이티브 화살표 대체 */ 
+            border: 1px solid #999; border-radius: 0px; /* iOS 둥근모서리 제거 */ 
+            -webkit-appearance: none; /* 네이티브 외형 감추기 */ 
+            -moz-appearance: none; 
+            appearance: none; 
+            margin-left : 10px;
+            margin-top : 15px;
+            }
 
         html,
         body {
@@ -553,7 +564,7 @@ body{
             font-weight: bold;
             padding: 15px 165px;
             text-decoration: none;
-            margin-top: 150px;
+            margin-top: 50px;
             margin-left: 5px;
 
         }
@@ -581,7 +592,7 @@ body{
                 </div>
                 <div class="proup-name">
                     <span>
-                        상품 등록하기 3버전
+                        상품 등록하기
                     </span>
                 </div>
                 <div class="pro_sucess">
@@ -611,7 +622,14 @@ body{
                         <div class="product">
                             <input type="text" class="proo_name" name="title" placeholder="상품명 입력">
                         </div>
-
+                        <select id="u-name" class="form-control" value="DEMO"
+                     name="p_quality">
+                     <option value="중고">중고</option>
+                     <option value="중고+하자">중고+하자(하자가 있는 중고)</option>
+                     <option value="새물품">새물품(미사용)</option>
+                     <option value="새것+하자">새것+하자(새것이고 하자가 있음)</option>
+                     <option value="거의새것">거의새것(새것이고 하자가 없음</option>
+                  </select>
                         <div>
                             <input type="text" class="catae_select"  id="catae" placeholder="카테고리 선택" readonly> <i
                                 class="fas fa-chevron-down"></i>
@@ -631,14 +649,7 @@ body{
                             <div class="book" style="margin-bottom:10px;"><span>도서/티켓/음반</span></div>
                             <div class="stuff" style="margin-bottom:10px;"><span>기타/잡화</span></div>
                         </div>
-                        <select id="u-name" class="form-control" value="DEMO"
-                     name="p_quality">
-                     <option value="중고">중고</option>
-                     <option value="중고+하자">중고+하자(하자가 있는 중고)</option>
-                     <option value="새물품">새물품(미사용)</option>
-                     <option value="새것+하자">새것+하자(새것이고 하자가 있음)</option>
-                     <option value="거의새것">거의새것(새것이고 하자가 없음</option>
-                  </select>
+                        
 
 
                         <div>
@@ -699,10 +710,9 @@ body{
 
 <script>
     //임의의 file object영역
-    var zeroMan = [];
-    var files = {};
-    var previewIndex = 0;
-    let pickFileName = '';
+    var zeroMan = []; //이미지 url을 배열로 저장한다.
+    var previewIndex = 0; //이미지의 갯수.
+    let pickFileName = ''; //대표사진 파일명.
 
     function sendAjaxProduction(){
         var str;
@@ -746,52 +756,6 @@ body{
                                 $('form').append(str)
     }
 
-    
-
-
-    //preview 영역에서 삭제 버튼 클릭시 해당 미리보기이미지 영역 삭제
-    function deletePreview(obj) {
-        console.log(obj);
-        if (!confirm('해당 이미지를 삭제 하시겠습니까?')) { return false; }
-        else {
-            var imgNum = obj.attributes['value'].value;
-            delete files[imgNum];
-            $("#preview .preview-box[value=" + imgNum + "]").remove();
-            previewIndex--;
-            resizeHeight();
-        }
-    }
-
-    //client-side validation
-    //always server-side validation required
-    function validation(fileName) {
-        fileName = fileName + "";
-        var fileNameExtensionIndex = fileName.lastIndexOf('.') + 1;
-        var fileNameExtension = fileName.toLowerCase().substring(
-            fileNameExtensionIndex, fileName.length);
-        if (!((fileNameExtension === 'jpg')
-            || (fileNameExtension === 'gif') || (fileNameExtension === 'png') || (fileNameExtension === 'hwp'))) {
-            alert('jpg, gif, png 확장자만 업로드 가능합니다.');
-            return true;
-        } else {
-            return false;
-        }
-    }
-    /** 
-    <div id="preview" name="preview">
-      <div class="preview-box">
-          <img class="thumbnail"></img>
-      </div>
-      <div class="preview-box">
-          <img class="thumbnail"></img>
-      </div>
-      <div>
-          <img class="thumbnail"></img>
-      </div>
-    </div>
-    */
-
-   
 
     var reader  = new FileReader(); 
     
@@ -889,7 +853,6 @@ body{
                             $('ul').append(str);
                             var Promise_arr2 = [];
                             var b = new Promise(function (resolve, reject) {
-                                alert('2')
                                 console.log('히히 내가 잘못했어')
                                 sendAjaxProduction();  //li태그의 정보를 이용 form 안에 input[hidden].val(li정보들) append한다.
                                 resolve();
@@ -1018,10 +981,10 @@ forEachPromise(zeroMan, logItem).then(()=>{
                     url: 'http://39.127.7.47:8080/selling/uploadProduct2',
                     data: formData,
                     success: function(){
-                        alert('와우!')
+                        location.href = "index.html";
                     },
                     error : function(err){
-                        alert(err);
+                        location.href = "index.html";
                     }
 
                 });
@@ -1253,16 +1216,15 @@ forEachPromise(zeroMan, logItem).then(()=>{
 
     $(document).ready(function () {
         $(document).on("click",".delete",function(e){ 
+            var a = $(e.target).parent().find('.preview-inputs').val(); //클릭한 이미지의 인덱스를 구한다.
             $(e.target).parent().remove();
-            var aaa = 0;
-            $('.prieview-box img').each(function(i,item){
-                $(".photo-number").text((i+1) + "/5");
-                aaa++;
-            });
-            var str = $(".photo-number").text();
-            var imgLength = str.substr(0,1);
             previewIndex--;
-            
+            var i = $('.preview-box img').length;
+            $(".photo-number").text((i) + "/5");
+
+            console.log('배열제거전', zeroMan);
+            zeroMan.splice(a, 1); //url 배열인 zeroMan에서 클릭한 이미지의 url을 제거한다.
+            console.log('배열제거후', zeroMan);
         });
     });
 </script>

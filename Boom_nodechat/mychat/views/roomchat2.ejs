@@ -22,7 +22,7 @@
   <script src="javascripts/semantic.js"></script>
   <script src="javascripts/qrcode.js"></script>
   <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.js"></script><!-- 팝업창 스크립트  -->
   <!-- jQuery -->
   <!--결제 모듈-->
   <!-- iamport.payment.js -->
@@ -33,6 +33,12 @@
 
 <body>
   <div id='talk'>
+      <div id="myModal" class='bPop'>
+          <div class="bPop modal-content">
+            <iframe src="http://39.127.7.47:8080/partner/GetZicpleList/"id='zicpleIframe' style='display:none;' width="360" height="400" scrolling='no'></iframe>
+          </div>
+
+      </div>
     <ul id="messages" class="chat-box">
       <% var list = result%>
       <% var date = datetime
@@ -182,6 +188,36 @@ var subDate;
       <a class="item menu" id="confirm_test">
         모든구매 완료
       </a>
+      
+
+      
+      <a class="item menu" id="updateZicpleA">
+          <%if(jprod.place_pick!=''){
+            var place_pick = jprod.place_pick;
+          var zicpleSum = place_pick.split('-');
+          var part_name = zicpleSum[0];
+          var road = zicpleSum[1];
+          var jibun = zicpleSum[2];
+          %>
+    
+        <b><%=part_name%></b><br>
+        <addr><%=road%><br><%=jibun%></addr><br>
+        <button id='updateZicpleB' class="send menu send_addr plus_send"
+        style="margin-left:7px; font-weight:bold;">수정하기</button>
+        <%
+        } else {
+          %>
+          
+          <b>직플레이스가 없습니다.</b><br>
+        <addr><br></addr><br>
+        <button id='updateZicpleB' class="send menu send_addr plus_send"
+        style="margin-left:7px; font-weight:bold;">선정하기</button>
+          <%
+        }
+      %>
+
+        
+      </a>
       <a class="item nullmenu">
         <input type="button" id="set_address"
           style="font-size:15px; width:100%;line-height: 100%;white-space: normal;padding-top: 0px;text-align:left;padding-left: 5px;padding-bottom: 0px;margin-bottom: 0px;"
@@ -202,6 +238,9 @@ var subDate;
         <button id="send_date" class="send menu send_date plus_send"
           style="margin-left:7px; font-weight:bold;">전송</button>
       </a>
+
+      <!--표현언어 사용 줄여야해.-->
+
       <%if(nickname == seller){%>
       <a class="item nullmenu menu" id='buy'>
         결제 명세서 전송
@@ -277,6 +316,7 @@ var subDate;
     IMP.init("imp57701295");
 
     $(document).on('click', '.payment', function () {
+
       var buyer2 = $.urlParam('buyer');
 
 
@@ -402,6 +442,7 @@ var subDate;
     socket.emit('joinRoom', num, name);
     // 일딴 세로 고침
     socket.on('ref', () => {
+      $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
       window.location.reload();
       $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
     });
@@ -451,6 +492,50 @@ var subDate;
       $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
     });
     // ========================================================
+
+    //직플수정 로직.
+    $(document).on("click", ".Zyes", function (event) {
+      var beUpdatePlace = $(event.target).siblings('.beUpdatePlace').text();
+      alert('직플레이스 제안 "' + beUpdatePlace + '"를 수락하셨습니다.');
+      $('addr').text(data.addr); 
+      $('#updateZicpleA b').text(data.part_name)
+      var addressP = '직플레이스 : ' + part_name + '-' + road + '-' + jibun;   
+      socket.emit('zicpleYes', addressP, num); //서버로 전송한다.
+    });
+    $(document).on("click", ".Zno", function (event) {// 거절버튼 클릭시
+      var beUpdatePlace = $(event.target).siblings('.beUpdatePlace');
+      var road = $(beUpdatePlace).data('road');
+      var part_name = $(beUpdatePlace).data('part_name');
+      var jibun = $(beUpdatePlace).data('jibun');
+      message_id = $(event.target).val();
+      var addressP = '직플레이스 : ' + part_name + '-' + road + '-' + jibun;
+      socket.emit('addressNo', addressP, num, message_id); //서버로 전송한다.
+    });
+    window.addEventListener('message', function(e) {
+          console.log(e.data); // 
+          var data = e.data;
+          console.log(data.fullString);
+          console.log(data.part_name);
+          console.log(data.road);
+          console.log(data.jibun);
+          alert('roomChat2.ejs Clicked : ' + data.fullString);
+          //$('addr').text(data.road); 수락하면 바뀌어야해
+          //$('#updateZicpleA b').text(data.part_name)  수락하면 바뀌어야해
+          socket.emit('messageZicple', num, name, data)
+          $('#myModal').bPopup().close();
+    });
+    $('#updateZicpleB').click(function(){
+      console.log('직플 업데이트 시작.')
+      $('#myModal').bPopup({
+      modalClose: true,
+      positionStyle: 'fixed',
+      position: [10, 100]
+      }, function () {
+        $('#zicpleIframe').css('display', 'block');
+      });
+      
+    });
+    //직플수정 로직.
 
     //결제 명세서 전송버튼을 클릭하면(165번 라인)
     $('#buy').click(function () {
@@ -717,6 +802,7 @@ var subDate;
 <!--점수 버튼을 눌렀을때 적용 ======================================================-->
 <script>
   $(function () {
+    
 
     $('.jumsu').on("click", function () {
 

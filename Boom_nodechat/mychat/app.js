@@ -516,8 +516,17 @@ app.get('/jackchat', (req, res) => {//localhost:3000/jackchat 으로 접근시 �
 
 });//app.get함수
 
+
+
+
+//======================================================================================================================
+//============================================채팅방 socketIO =======================================================================
+//============================================채팅방 socketIO =======================================================================
+//============================================채팅방 socketIO =======================================================================
+//======================================================================================================================
 io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되는 문자열이 일치하는 메소드를 실행한다.
   //내가 좀더 찾아봐야할 부분이라 제거하지 않음. 사용되어지진 않는다.
+  //ㅐ
   socket.on('leaveRoom', (num, name) => {
     socket.leave(num, () => {
       console.log(name + ' leave a ' + room[num]);
@@ -885,7 +894,7 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
 
   });
 
-
+  
 
   socket.on('inprod', function(num,str){
     //INSERT INTO "KYS"."MESSAGE" (MESSAGE_NUM, SENDER_NUM, CONTENT, ROOM_ID) VALUES ('7890', '5', 'asdasdfasf', '148')
@@ -902,6 +911,76 @@ io.on('connection', (socket) => {//socketIO연결이 되며 소켓에 전송되�
     });
     
   })
+
+  //// 직플업데이트
+  socket.on('messageZicple', function(num, name, zicple){
+    console.log(zicple);
+    var buttonSet = "<button class=''Zyes'' value='||message_seq.NEXTVAL||'>수락</button><button class='Zno' value='||message_seq.NEXTVAL||'>거절</button>";
+    var insertZicpleMessageSQL = "INSERT INTO MESSAGE (MESSAGE_num, SENDER_num, ROOM_ID, CONTENT) VALUES (message_seq.NEXTVAL, (select m_num from member where nickname = '" + name + "'), " + num + ", '직플레이스제안 - " + name + "님이 직플레이스를 제안하셨습니다. :<i class=''beUpdatePlace'' data-road='"+zicple.road+"' data-part_name='"+zicple.part_name+"' data-jibun='"+zicple.jibun+"'>" + zicple.fullString  + "</i><br>" + buttonSet + "')";
+    console.log('insertZicpleMessageSQL : ', insertZicpleMessageSQL);
+    conn.execute(insertZicpleMessageSQL, function(err,result){
+      if(err){
+        console.log('insertZicpleMessageSQL : 에러발생 : ' + err)
+      }else {
+        console.log('insertZicpleMessageSQL : 정상작동 : '+ result);
+        io.to(num).emit('ref');//메시지 입력이 완료되었으니 새로고침을 지시한다.
+      }
+    });
+    
+  });
+
+  socket.on('updateZicple', function(num,num,c_num){
+    var updateZicpleSQL = "update production set place_pick = "
+    +"(select part_name || '-' || road_name || '-' || addr   "
+    +"from partner where company_number =  '"+c_num+"')"
+    +"where pro_num = "
+    +"(select pro_num from chatroom where room_id = '"+num+"')";
+    console.log('updateZicpleSQL : ' + updateZicpleSQL);
+    conn.execute(updateZicpleSQL, function(err,result){
+        if(err){
+          console.log('updateZicpleSQL Error : ' , err);
+        } else {
+          console.log('updateZicpleSQL success : ' , result);
+          
+        }
+    });
+  })
+  socket.on('zicpleNo', (addressP, num, message_id) => {//거절버튼을 누른다면
+    message_id = Number(message_id);
+    var noSql = "update message set content = '<i>거절하셨습니다</i><br>" + addressP + "' where message_num = " + message_id;
+    conn.execute(noSql, function (err, result) {
+      if (err) {
+        console.log("거절 에러", err);
+      } else {
+        console.log(noSql);
+        console.log("거절 업데이트 성공! : ", result);
+        io.to(num).emit('ref');
+      }
+    });
+  });
+  socket.on('zicpleYes', (addressP, num) => {//일정수락 신호가 온다면
+    var updateDate = "update chatroom set c_address = '" + addressP + "' where room_id=" + num + "";
+    conn.execute(updateDate, function (err, result) {
+      if (err) {
+        console.log("소켓약속일시 update 에러", err);
+      } else {
+        console.log("업데이트 성공! : ", result);
+      }
+    });
+
+    console.log(addressP);
+    console.log('하하하하');
+    var yesSql = "update message set content = '<i>수락하셨습니다.</i><br>" + addressP + "' where content like '장소협의%' and room_id = " + num;
+    conn.execute(yesSql, function (err, result) {
+      if (err) {
+        console.log("하히히하하하하 예쓰에러", err);
+      } else {
+        console.log("예ㅖㅖㅖㅖㅖㅖㅖ쓰업데이트 성공! : ", result);
+        io.to(num).emit('ref');
+      }
+    });
+
+  });
 
 });
 
