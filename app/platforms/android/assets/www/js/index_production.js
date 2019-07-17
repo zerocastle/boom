@@ -18,7 +18,7 @@ $(document).ready(function () {
             callbackFun(response);
         });
     }
-
+   
     // 상품정보 콜백 들고오기
     getProduction(function (data) {
         console.log(data);
@@ -151,5 +151,26 @@ $(document).ready(function () {
 
 
     // })
+
+});
+
+$(document).ready(function(){
+    $('.pro-category').on('click',function(){
+        window.location.href="kategorie.html";
+    });
+});
+
+
+$('.category').change(function () {
+    // 상품을 들고오기 위한 ajax
+    var place_signal;
+    $('.pro').empty();
+    var cate_code = $('.category').val();
+    var order = $('.order').val();
+    function getProduction(callbackFun) {
+        $.get('http://39.127.7.51:8080/app/production/list/' + order + '/' + cate_code, function (response) {
+            callbackFun(response);
+        });
+    }
 
 });
