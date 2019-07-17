@@ -101,20 +101,17 @@
 
 <script>
 	$(function() {
-
 		App.atcDemo() // Add to Cart Demo
 		App.atwDemo() // Add to Wishlist Demo
 		App.homeSlider('#home-slider')
 		App.dealsSlider('#deals-slider')
 		App.colorOption()
-
 		// example countdown, 6 hours from now for flash deals
 		var countdown = new Date()
 		countdown.setHours(countdown.getHours() + 6)
 		$('#flash-deals-countdown').countdown(countdown, function(event) {
 			$(this).text(event.strftime('%H:%M:%S'))
 		})
-
 	})
 </script>
 
@@ -399,7 +396,6 @@
 
 	<script type="text/javascript">
 		$(function() {
-
 			function readURL(input) {
 				if (input.files && input.files[0]) {
 					// 파일이면서 파일에 영번지
@@ -411,12 +407,10 @@
 					reader.readAsDataURL(input.files[0]);
 				}
 			}
-
 			$("#imgInp").change(function() {
 				readURL(this); // 변화될떄 현제 url 정보를 들고옴  
 				console.log(this);
 			});
-
 			$('#partner').click(function(e) {
 				e.preventDefault();
 				/* $('#form')[0].on('submit', function() {
@@ -426,15 +420,12 @@
 				$('#form')[0].submit(function(callback){
 					window.alert(callback);
 				})
-
 			})
-
 		})
 	</script>
 	
 	<script type="text/javascript">
 		$(function() {
-
 			function readURL(input) {
 				if (input.files && input.files[0]) {
 					// 파일이면서 파일에 영번지
@@ -446,12 +437,10 @@
 					reader.readAsDataURL(input.files[0]);
 				}
 			}
-
 			$("#imgInp2").change(function() {
 				readURL(this); // 변화될떄 현제 url 정보를 들고옴  
 				console.log(this);
 			});
-
 			$('#reg-nickCkeck').click(function(){
 				var data = {
 					nickname : $('#reg-nick').val()
@@ -540,9 +529,7 @@
 				$('#form2')[0].submit(function(callback){
 					window.alert(callback);
 				})
-
 			})
-
 		})
 	</script>
 	<script src="/resources/customJs/partner.js"></script>

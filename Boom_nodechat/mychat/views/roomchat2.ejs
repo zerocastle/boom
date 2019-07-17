@@ -29,15 +29,727 @@
   <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 
   <link rel="stylesheet" type="text/css" href="stylesheets/chat.css" />
+
+  <style>
+      body {
+        /* display: flex; */
+        /* align-items: center; */
+        /* justify-content: center; */
+        /* min-height: 100vh; */
+        /* background: #27ae60; */
+        /* font-family: "proxima-nova", "Source Sans Pro", sans-serif; */
+        font-size: 1em;
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 0.1px;
+        color: #32465a;
+        text-rendering: optimizeLegibility;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+        -webkit-font-smoothing: antialiased;
+      }
+      
+      #frame {
+        /* width: 98%; */
+        min-width: 360px;
+        /* max-width: 1000px; */
+        height: 92vh;
+        min-height: 300px;
+        /* max-height: 720px; */
+        background: #E6EAEA;
+      }
+      @media screen and (max-width: 360px) {
+        #frame {
+          width: 100%;
+          height: 100vh;
+        }
+      }
+      #frame #sidepanel {
+        float: left;
+        min-width: 280px;
+        max-width: 340px;
+        width: 40%;
+        height: 100%;
+        background: #2c3e50;
+        color: #f5f5f5;
+        overflow: hidden;
+        position: relative;
+      }
+      @media screen and (max-width: 735px) {
+        #frame #sidepanel {
+          width: 58px;
+          min-width: 58px;
+        }
+      }
+      #frame #sidepanel #profile {
+        width: 80%;
+        margin: 25px auto;
+      }
+      @media screen and (max-width: 735px) {
+        #frame #sidepanel #profile {
+          width: 100%;
+          margin: 0 auto;
+          padding: 5px 0 0 0;
+          background: #32465a;
+        }
+      }
+      #frame #sidepanel #profile.expanded .wrap {
+        height: 210px;
+        line-height: initial;
+      }
+      #frame #sidepanel #profile.expanded .wrap p {
+        margin-top: 20px;
+      }
+      #frame #sidepanel #profile.expanded .wrap i.expand-button {
+        -moz-transform: scaleY(-1);
+        -o-transform: scaleY(-1);
+        -webkit-transform: scaleY(-1);
+        transform: scaleY(-1);
+        filter: FlipH;
+        -ms-filter: "FlipH";
+      }
+      #frame #sidepanel #profile .wrap {
+        height: 60px;
+        line-height: 60px;
+        overflow: hidden;
+        -moz-transition: 0.3s height ease;
+        -o-transition: 0.3s height ease;
+        -webkit-transition: 0.3s height ease;
+        transition: 0.3s height ease;
+      }
+      @media screen and (max-width: 735px) {
+        #frame #sidepanel #profile .wrap {
+          height: 55px;
+        }
+      }
+      #frame #sidepanel #profile .wrap img {
+        width: 50px;
+        border-radius: 50%;
+        padding: 3px;
+        border: 2px solid #e74c3c;
+        height: auto;
+        float: left;
+        cursor: pointer;
+        -moz-transition: 0.3s border ease;
+        -o-transition: 0.3s border ease;
+        -webkit-transition: 0.3s border ease;
+        transition: 0.3s border ease;
+      }
+      @media screen and (max-width: 735px) {
+        #frame #sidepanel #profile .wrap img {
+          width: 40px;
+          margin-left: 4px;
+        }
+      }
+      #frame #sidepanel #profile .wrap img.online {
+        border: 2px solid #2ecc71;
+      }
+      #frame #sidepanel #profile .wrap img.away {
+        border: 2px solid #f1c40f;
+      }
+      #frame #sidepanel #profile .wrap img.busy {
+        border: 2px solid #e74c3c;
+      }
+      #frame #sidepanel #profile .wrap img.offline {
+        border: 2px solid #95a5a6;
+      }
+      #frame #sidepanel #profile .wrap p {
+        float: left;
+        margin-left: 15px;
+      }
+      @media screen and (max-width: 735px) {
+        #frame #sidepanel #profile .wrap p {
+          display: none;
+        }
+      }
+      #frame #sidepanel #profile .wrap i.expand-button {
+        float: right;
+        margin-top: 23px;
+        font-size: 0.8em;
+        cursor: pointer;
+        color: #435f7a;
+      }
+      @media screen and (max-width: 735px) {
+        #frame #sidepanel #profile .wrap i.expand-button {
+          display: none;
+        }
+      }
+      #frame #sidepanel #profile .wrap #status-options {
+        position: absolute;
+        opacity: 0;
+        visibility: hidden;
+        width: 150px;
+        margin: 70px 0 0 0;
+        border-radius: 6px;
+        z-index: 99;
+        line-height: initial;
+        background: #435f7a;
+        -moz-transition: 0.3s all ease;
+        -o-transition: 0.3s all ease;
+        -webkit-transition: 0.3s all ease;
+        transition: 0.3s all ease;
+      }
+      @media screen and (max-width: 735px) {
+        #frame #sidepanel #profile .wrap #status-options {
+          width: 58px;
+          margin-top: 57px;
+        }
+      }
+      #frame #sidepanel #profile .wrap #status-options.active {
+        opacity: 1;
+        visibility: visible;
+        margin: 75px 0 0 0;
+      }
+      @media screen and (max-width: 735px) {
+        #frame #sidepanel #profile .wrap #status-options.active {
+          margin-top: 62px;
+        }
+      }
+      #frame #sidepanel #profile .wrap #status-options:before {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-bottom: 8px solid #435f7a;
+        margin: -8px 0 0 24px;
+      }
+      @media screen and (max-width: 735px) {
+        #frame #sidepanel #profile .wrap #status-options:before {
+          margin-left: 23px;
+        }
+      }
+      #frame #sidepanel #profile .wrap #status-options ul {
+        overflow: hidden;
+        border-radius: 6px;
+      }
+      #frame #sidepanel #profile .wrap #status-options ul li {
+        padding: 15px 0 30px 18px;
+        display: block;
+        cursor: pointer;
+      }
+      @media screen and (max-width: 735px) {
+        #frame #sidepanel #profile .wrap #status-options ul li {
+          padding: 15px 0 35px 22px;
+        }
+      }
+      #frame #sidepanel #profile .wrap #status-options ul li:hover {
+        background: #496886;
+      }
+      #frame #sidepanel #profile .wrap #status-options ul li span.status-circle {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin: 5px 0 0 0;
+      }
+      @media screen and (max-width: 735px) {
+        #frame #sidepanel #profile .wrap #status-options ul li span.status-circle {
+          width: 14px;
+          height: 14px;
+        }
+      }
+      #frame #sidepanel #profile .wrap #status-options ul li span.status-circle:before {
+        content: '';
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        margin: -3px 0 0 -3px;
+        background: transparent;
+        border-radius: 50%;
+        z-index: 0;
+      }
+      @media screen and (max-width: 735px) {
+        #frame #sidepanel #profile .wrap #status-options ul li span.status-circle:before {
+          height: 18px;
+          width: 18px;
+        }
+      }
+      #frame #sidepanel #profile .wrap #status-options ul li p {
+        padding-left: 12px;
+      }
+      @media screen and (max-width: 735px) {
+        #frame #sidepanel #profile .wrap #status-options ul li p {
+          display: none;
+        }
+      }
+      #frame #sidepanel #profile .wrap #status-options ul li#status-online span.status-circle {
+        background: #2ecc71;
+      }
+      #frame #sidepanel #profile .wrap #status-options ul li#status-online.active span.status-circle:before {
+        border: 1px solid #2ecc71;
+      }
+      #frame #sidepanel #profile .wrap #status-options ul li#status-away span.status-circle {
+        background: #f1c40f;
+      }
+      #frame #sidepanel #profile .wrap #status-options ul li#status-away.active span.status-circle:before {
+        border: 1px solid #f1c40f;
+      }
+      #frame #sidepanel #profile .wrap #status-options ul li#status-busy span.status-circle {
+        background: #e74c3c;
+      }
+      #frame #sidepanel #profile .wrap #status-options ul li#status-busy.active span.status-circle:before {
+        border: 1px solid #e74c3c;
+      }
+      #frame #sidepanel #profile .wrap #status-options ul li#status-offline span.status-circle {
+        background: #95a5a6;
+      }
+      #frame #sidepanel #profile .wrap #status-options ul li#status-offline.active span.status-circle:before {
+        border: 1px solid #95a5a6;
+      }
+      #frame #sidepanel #profile .wrap #expanded {
+        padding: 100px 0 0 0;
+        display: block;
+        line-height: initial !important;
+      }
+      #frame #sidepanel #profile .wrap #expanded label {
+        float: left;
+        clear: both;
+        margin: 0 8px 5px 0;
+        padding: 5px 0;
+      }
+      #frame #sidepanel #profile .wrap #expanded input {
+        border: none;
+        margin-bottom: 6px;
+        background: #32465a;
+        border-radius: 3px;
+        color: #f5f5f5;
+        padding: 7px;
+        width: calc(100% - 43px);
+      }
+      #frame #sidepanel #profile .wrap #expanded input:focus {
+        outline: none;
+        background: #435f7a;
+      }
+      #frame #sidepanel #search {
+        border-top: 1px solid #32465a;
+        border-bottom: 1px solid #32465a;
+        font-weight: 300;
+      }
+      @media screen and (max-width: 735px) {
+        #frame #sidepanel #search {
+          display: none;
+        }
+      }
+      #frame #sidepanel #search label {
+        position: absolute;
+        margin: 10px 0 0 20px;
+      }
+      #frame #sidepanel #search input {
+        font-family: "proxima-nova",  "Source Sans Pro", sans-serif;
+        padding: 10px 0 10px 46px;
+        width: calc(100% - 25px);
+        border: none;
+        background: #32465a;
+        color: #f5f5f5;
+      }
+      #frame #sidepanel #search input:focus {
+        outline: none;
+        background: #435f7a;
+      }
+      #frame #sidepanel #search input::-webkit-input-placeholder {
+        color: #f5f5f5;
+      }
+      #frame #sidepanel #search input::-moz-placeholder {
+        color: #f5f5f5;
+      }
+      #frame #sidepanel #search input:-ms-input-placeholder {
+        color: #f5f5f5;
+      }
+      #frame #sidepanel #search input:-moz-placeholder {
+        color: #f5f5f5;
+      }
+      #frame #sidepanel #contacts {
+        height: calc(100% - 177px);
+        overflow-y: scroll;
+        overflow-x: hidden;
+      }
+      @media screen and (max-width: 735px) {
+        #frame #sidepanel #contacts {
+          height: calc(100% - 149px);
+          overflow-y: scroll;
+          overflow-x: hidden;
+        }
+        #frame #sidepanel #contacts::-webkit-scrollbar {
+          display: none;
+        }
+      }
+      #frame #sidepanel #contacts.expanded {
+        height: calc(100% - 334px);
+      }
+      #frame #sidepanel #contacts::-webkit-scrollbar {
+        width: 8px;
+        background: #2c3e50;
+      }
+      #frame #sidepanel #contacts::-webkit-scrollbar-thumb {
+        background-color: #243140;
+      }
+      #frame #sidepanel #contacts ul li.contact {
+        position: relative;
+        padding: 10px 0 15px 0;
+        font-size: 0.9em;
+        cursor: pointer;
+      }
+      @media screen and (max-width: 735px) {
+        #frame #sidepanel #contacts ul li.contact {
+          padding: 6px 0 46px 8px;
+        }
+      }
+      #frame #sidepanel #contacts ul li.contact:hover {
+        background: #32465a;
+      }
+      #frame #sidepanel #contacts ul li.contact.active {
+        background: #32465a;
+        border-right: 5px solid #435f7a;
+      }
+      #frame #sidepanel #contacts ul li.contact.active span.contact-status {
+        border: 2px solid #32465a !important;
+      }
+      #frame #sidepanel #contacts ul li.contact .wrap {
+        width: 88%;
+        margin: 0 auto;
+        position: relative;
+      }
+      @media screen and (max-width: 735px) {
+        #frame #sidepanel #contacts ul li.contact .wrap {
+          width: 100%;
+        }
+      }
+      #frame #sidepanel #contacts ul li.contact .wrap span {
+        position: absolute;
+        left: 0;
+        margin: -2px 0 0 -2px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 2px solid #2c3e50;
+        background: #95a5a6;
+      }
+      #frame #sidepanel #contacts ul li.contact .wrap span.online {
+        background: #2ecc71;
+      }
+      #frame #sidepanel #contacts ul li.contact .wrap span.away {
+        background: #f1c40f;
+      }
+      #frame #sidepanel #contacts ul li.contact .wrap span.busy {
+        background: #e74c3c;
+      }
+      #frame #sidepanel #contacts ul li.contact .wrap img {
+        width: 40px;
+        border-radius: 50%;
+        float: left;
+        margin-right: 10px;
+      }
+      @media screen and (max-width: 735px) {
+        #frame #sidepanel #contacts ul li.contact .wrap img {
+          margin-right: 0px;
+        }
+      }
+      #frame #sidepanel #contacts ul li.contact .wrap .meta {
+        padding: 5px 0 0 0;
+      }
+      @media screen and (max-width: 735px) {
+        #frame #sidepanel #contacts ul li.contact .wrap .meta {
+          display: none;
+        }
+      }
+      #frame #sidepanel #contacts ul li.contact .wrap .meta .name {
+        font-weight: 600;
+      }
+      #frame #sidepanel #contacts ul li.contact .wrap .meta .preview {
+        margin: 5px 0 0 0;
+        padding: 0 0 1px;
+        font-weight: 400;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -moz-transition: 1s all ease;
+        -o-transition: 1s all ease;
+        -webkit-transition: 1s all ease;
+        transition: 1s all ease;
+      }
+      #frame #sidepanel #contacts ul li.contact .wrap .meta .preview span {
+        position: initial;
+        border-radius: initial;
+        background: none;
+        border: none;
+        padding: 0 2px 0 0;
+        margin: 0 0 0 1px;
+        opacity: .5;
+      }
+      #frame #sidepanel #bottom-bar {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+      }
+      #frame #sidepanel #bottom-bar button {
+        float: left;
+        border: none;
+        width: 50%;
+        padding: 10px 0;
+        background: #32465a;
+        color: #f5f5f5;
+        cursor: pointer;
+        font-size: 0.85em;
+        font-family: "proxima-nova",  "Source Sans Pro", sans-serif;
+      }
+      @media screen and (max-width: 735px) {
+        #frame #sidepanel #bottom-bar button {
+          float: none;
+          width: 100%;
+          padding: 15px 0;
+        }
+      }
+      #frame #sidepanel #bottom-bar button:focus {
+        outline: none;
+      }
+      #frame #sidepanel #bottom-bar button:nth-child(1) {
+        border-right: 1px solid #2c3e50;
+      }
+      @media screen and (max-width: 735px) {
+        #frame #sidepanel #bottom-bar button:nth-child(1) {
+          border-right: none;
+          border-bottom: 1px solid #2c3e50;
+        }
+      }
+      #frame #sidepanel #bottom-bar button:hover {
+        background: #435f7a;
+      }
+      #frame #sidepanel #bottom-bar button i {
+        margin-right: 3px;
+        font-size: 1em;
+      }
+      @media screen and (max-width: 735px) {
+        #frame #sidepanel #bottom-bar button i {
+          font-size: 1.3em;
+        }
+      }
+      @media screen and (max-width: 735px) {
+        #frame #sidepanel #bottom-bar button span {
+          display: none;
+        }
+      }
+      #frame .content {
+        /* float: right; */
+        /* width: 60%; */
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+      }
+      @media screen and (max-width: 735px) {
+        #frame .content {
+          /* width: calc(100% - 58px); */
+          min-width: 300px !important;
+        }
+      }
+      @media screen and (min-width: 900px) {
+        #frame .content {
+          /* width: calc(100% - 340px); */
+        }
+      }
+      #frame .content .contact-profile {
+        width: 100%;
+        height: 60px;
+        line-height: 60px;
+        background: #f5f5f5;
+      }
+      #frame .content .contact-profile img {
+        width: 40px;
+        border-radius: 50%;
+        float: left;
+        margin: 9px 12px 0 9px;
+      }
+      #frame .content .contact-profile p {
+        float: left;
+      }
+      #frame .content .contact-profile .social-media {
+        float: right;
+      }
+      #frame .content .contact-profile .social-media i {
+        margin-left: 14px;
+        cursor: pointer;
+      }
+      #frame .content .contact-profile .social-media i:nth-last-child(1) {
+        margin-right: 20px;
+      }
+      #frame .content .contact-profile .social-media i:hover {
+        color: #435f7a;
+      }
+      #frame .content .messages {
+        height: auto;
+        width: 100%;
+        min-height: calc(100% - 93px);
+        max-height: calc(100% - 93px);
+        overflow-y: scroll;
+        overflow-x: hidden;
+      }
+      @media screen and (max-width: 735px) {
+        #frame .content .messages {
+          max-height: calc(100% - 105px);
+        }
+      }
+      #frame .content .messages::-webkit-scrollbar {
+        width: 8px;
+        background: transparent;
+      }
+      #frame .content .messages::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+      #frame .content .messages ul li {
+        display: inline-block;
+        clear: both;
+        float: left;
+        /* margin: 15px 15px 5px 15px; */
+        width: calc(100% - 25px);
+        font-size: 0.9em;
+      }
+      #frame .content .messages ul li:nth-last-child(1) {
+        margin-bottom: 20px;
+      }
+      #frame .content .messages ul li.sent img {
+        margin: 6px 8px 0 0;
+      }
+      #frame .content .messages ul li.sent p {
+        background: #bcddff;
+        color: black;
+      }
+      #frame .content .messages ul li.replies img {
+        float: right;
+        margin: 6px 0 0 8px;
+      }
+      #frame .content .messages ul li.replies p {
+        border: 1px solid #c8cecf;
+        background: #f5f5f5;
+        float: right;
+      }
+      #frame .content .messages ul li img {
+        width: 22px;
+        border-radius: 50%;
+        float: left;
+      }
+      #frame .content .messages ul li p {
+        display: inline-block;
+        padding: 10px 15px;
+        border-radius: 20px;
+        max-width: 205px;
+        line-height: 130%;
+      }
+      @media screen and (min-width: 735px) {
+        #frame .content .messages ul li p {
+          max-width: 300px;
+        }
+      }
+      #frame .content .message-input {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        z-index: 99;
+      }
+      #frame .content .message-input .wrap {
+        position: relative;
+      }
+      #frame .content .message-input .wrap input {
+        font-family: "proxima-nova",  "Source Sans Pro", sans-serif;
+        float: left;
+        border: none;
+        width: calc(100% - 90px);
+        padding: 11px 32px 10px 8px;
+        font-size: 0.8em;
+        color: #32465a;
+      }
+      @media screen and (max-width: 735px) {
+        #frame .content .message-input .wrap input {
+          padding: 15px 32px 16px 8px;
+        }
+      }
+      #frame .content .message-input .wrap input:focus {
+        outline: none;
+      }
+      #frame .content .message-input .wrap .attachment {
+        position: absolute;
+        right: 60px;
+        z-index: 4;
+        margin-top: 10px;
+        font-size: 1.1em;
+        color: #435f7a;
+        opacity: .5;
+        cursor: pointer;
+      }
+      @media screen and (max-width: 735px) {
+        #frame .content .message-input .wrap .attachment {
+          margin-top: 17px;
+          right: 65px;
+        }
+      }
+      #frame .content .message-input .wrap .attachment:hover {
+        opacity: 1;
+      }
+      #frame .content .message-input .wrap button {
+        float: right;
+        border: none;
+        width: 50px;
+        padding: 12px 0;
+        cursor: pointer;
+        background: #32465a;
+        color: #f5f5f5;
+      }
+      @media screen and (max-width: 735px) {
+        #frame .content .message-input .wrap button {
+          padding: 16px 0;
+        }
+      }
+      #frame .content .message-input .wrap button:hover {
+        background: #435f7a;
+      }
+      #frame .content .message-input .wrap button:focus {
+        outline: none;
+      }
+      .nav-logo {
+          color: #007bff;
+          font-weight: bolder;
+        }
+        .right-flot{
+          float: right;
+          margin-right: 50px;
+        }
+
+        .pg_tid{
+          word-break:break-all;
+        }
+        
+        /* .qrcode {
+          display: none;
+        } */
+
+        .receipt_title{
+          display: table;
+          margin: auto;
+          padding-top: 25px !important;
+        }
+      </style>
+    
 </head>
 
 <body>
   <div id='talk'>
+      <div id="frame">
+          <% var list = result%>
+          <% var date = datetime
+          var jprod = JSON.parse(pro_data);    
+          %>
+          <div class="content">
+              <div class="contact-profile">
+                  <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" style="margin-left: 30px;" />
+                  <p style="font-weight: bolder; font-size: 18px; line-height: 60px;"><%=nickname%>
+                  <span style="font-size: 14px; margin-left:10px"><%=jprod.title%></span>
+                  </p>
+                  
+                  <div class="nav-logo">
+                      <strong class="right-flot">직톡방</strong>
+                  </div>
+              </div>
+              <div class="messages">
     <ul id="messages" class="chat-box">
-      <% var list = result%>
-      <% var date = datetime
-      var jprod = JSON.parse(pro_data);    
-      %>
       <div class='hidden_pro' style="display:none;">
         <div id="Hpro_num"><%=jprod.pro_num%></div>
         <div id="Htitle"><%=jprod.title%></div>
@@ -47,6 +759,7 @@
         <div id="Hquality"><%=jprod.p_quality%></div>
         <div id="Hplace"><%=jprod.place_pick%></div>
       </div>
+
 
       <!--채빙방 관련 된거-->
       <div id="pro_num" style="display:none;"><%=pro_num%></div>
@@ -71,13 +784,12 @@
                 getSession = data.getSession;
               }
             })
-
           }
           get();
- 
-          var me = document.getElementsByClassName('meme')[0].innerHTML;
-          var other = document.getElementsByClassName('otherother')[0].innerHTML;
-
+          if(!document.getElementsByClassName('meme')){
+            var me = document.getElementsByClassName('meme')[0].innerHTML;
+            var other = document.getElementsByClassName('otherother')[0].innerHTML;
+          }
           $('.other').hide();
           $('.me').hide();
           $('.end').hide();
@@ -95,7 +807,6 @@
           }else{
             $('.other').show();
           }
-
         });
         //============================================================================================================================
         // var mknickname = sessionStorage.getItem('nickname');
@@ -135,39 +846,60 @@ var subDate;
     }
 %>
 <div id="pro_data" style="display:none;">
-    <ol id='pro_data'>
-      <div id='QRhidden'></div>
+      <span id='QRhidden'></span>
+      <span style="color: black; text-align: center">===== 명세서 ======</span><br> 
       판매자 : <%=jprod.seller%> //
       구매자 : <%=jprod.buyer%> //
       상품번호 : <%=jprod.pro_num%>
-      <hr>
+      <br>
       제목 : <%=jprod.title%><br>
       분류 : <%=jprod.cate_name%><br>
       내용 : <%=jprod.content%><br>
       가격 : <%=jprod.price%><br>
       품질 : <%=jprod.p_quality%><br>
-      <hr>
+      <br>
       직플레이스 : <br><%=jprod.place_pick%><br>
-      입금할 가상계좌 : (대구은행) 308-29-80376732-8<br>
-      <button class="buy_no">거절</button><button class="payment">결제</button>
+      <button class="payment" style="color: black;">결제</button><button class="buy_no" style="color: black;">거절</button>
       <!--구매자에게만 보이는 이 버튼은 수락버튼 클릭시 결제창이 열리게 되며 에스크로 결제가 진행된다. 결제가 성공적으로 완료되면 서버에 QR코드 생성하라는 신호를 발생시킨다. 이 신호는 채팅방에 전달되며 판매자에게만 보여지게 된다. QR코드는
       명세서 정보가 담긴 쿼리스트링을 포함한 url 데이터이다. 이 QR코드는 판매자에게만 보이게 되며 직플스캐너가 아닌 카메라로 인식시 안내페이지를 반환하게 된다. 
     또한 거래당사자가 아닌 회원이 직플스캐너로 인식시에도 안내페이지를 반환하게 된다. 거래당사자가 인식한다면 거래과정을 진행하게 된다.-->
 
-    </ol>
   </div>
 
-      <%for(var i =0; i<arr.length;i++){ %>
-      <%if(arr[i].tnickname == 'System'){%>
-      <li class="system"><%=arr[i].tnickname%> : <%-arr[i].tmessage%></li>
-      <%} else if(arr[i].tnickname == nickname){%>
-      <li class="even"><%=arr[i].tnickname%> : <%-arr[i].tmessage%></li>
-      <%} else {%>
-      <li class="odd"><%=arr[i].tnickname%> : <%-arr[i].tmessage%></li>
-      <%}%>
+  <%for(var i =0; i<arr.length;i++){ %>
+  <%if(arr[i].tnickname == 'System'){%>
+  <li class="system sent"> 
+    <div style="text-align: left; margin-top: 30px;">
+        <%=arr[i].tnickname%> 
+    </div>
+    <div>    
+       <%-arr[i].tmessage%>
+    </div>
+    </li>
+  <%} else if(arr[i].tnickname == nickname){%>
+    <li class="even replies">
+        <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
+        <div style="text-align: right">
+            <%=arr[i].tnickname%> 
+        </div>
+        <div>    
+            <p class="tmsg"><%-arr[i].tmessage%></p>
+        </div>
+    </li>
+  <%} else {%>
+    <li class="odd sent">
+        <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
+        <div>
+            <%=arr[i].tnickname%> 
+        </div>
+        <div>    
+            <p class="tmsg"><%-arr[i].tmessage%></p>
+        </div>
+        </li>
+  <%}%>
 <%}%>
 
-    </ul>
+</ul>
 
   </div>
   <div id="input-sets">
@@ -214,9 +946,7 @@ var subDate;
 </div>
 <script src="javascripts/socket.js"></script>
 <script>
-
   $(() => {
-
     $.urlParam = function (name) {
       var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
       if (results == null) {
@@ -227,12 +957,11 @@ var subDate;
       }
     }
     var ref = function () {
-      $(document).scrollTop($(document).height());
+      $('.messages').scrollTop($('.messages')[0].scrollHeight); 
       window.location.reload();
-      $(document).scrollTop($(document).height());
+      $('.messages').scrollTop($('.messages')[0].scrollHeight); 
     }
     var road_and_QR = function () {
-
       var seller = $('#seller').text();
       var buyer = $('#buyer').text();
       var pro_num = $('#pro_num').text();
@@ -241,47 +970,39 @@ var subDate;
         var muid = $(".qrcode")[i].innerHTML;
         console.log(muid);
         var qrcode = new QRCode(document.getElementsByClassName("qrcode")[i], {
-          text: "http://39.127.7.51:3000/testQR?muid=" + muid + "&Tname=" + '<%=nickname%>',  ///주의!! 직플파트너의 닉네임이 노드서버에서 쿼리스트링의 변수 'nickname'에 더해진다.
+          text: "http://39.127.7.51:3000/testQR?muid=" + muid + "&Tname=" + '<%=nickname%>',  ///주의!! 직플파트너의 닉네임이 노드서버에서 쿼리스트링의 변수 'nickname'에 더해진다.,
           width: 350,
           height: 350,
           colorDark: "#000000",
           colorLight: "#ffffff",
-          correctLevel: QRCode.CorrectLevel.H
+          correctLevel: QRCode.CorrectLevel.H,
+          
         });
       }
     }
     road_and_QR();
-
-
     var a = $('#status').text();
     $('#set_date').bootstrapMaterialDatePicker({ format: 'YYYY/MM/DD HH:mm', minDate: new Date() });//캘린더 - datePicker를 달아준다.
-
-
     if (a == 'out') {
       $('.nullmenu').css("display", "none");
     }
     $('#plusbtn').click(function () {
       $('.ui.sidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
     });
-    $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+    $('.messages').scrollTop($('.messages')[0].scrollHeight); 
     const name = $('#nickname').text();
     const room_id = $('#room_id').text();
     const socket = io();
     let num = room_id;
     let qrCount;
     qrCount = 0;
-
-
     // =============================================================
     var IMP = window.IMP; // 생략해도 괜찮습니다.
     IMP.init("imp57701295");
-
     $(document).on('click', '.payment', function () {
       var buyer2 = $.urlParam('buyer');
-
-
-      // alert(name == buyer2);
-
+      alert(buyer2);
+      alert(name == buyer2);
       if (name + '' != buyer2) {
         alert('구매자만 결제가 가능합니다.');
         return false;
@@ -308,53 +1029,42 @@ var subDate;
       }, function (rsp) { // callback
         console.log(rsp);
         if (rsp.success) {
-
           var msg = '결제 정보 확인 루틴';
           var today = new Date();
           var dd = today.getDate();
           var mm = today.getMonth() + 1; //January is 0!
           var yyyy = today.getFullYear();
-
           if (dd < 10) {
             dd = '0' + dd
           }
-
           if (mm < 10) {
             mm = '0' + mm
           }
-
           today = yyyy + '/' + mm + '/' + dd;
           console.log("투데이 : " + today);
-
-
           var buyer_name = rsp.buyer_name;
-
-          var tag2 = "<ol><div class=''qrcode''>" + rsp.merchant_uid + "</div></ol>"
-            + "<ol><div class=''receipt_title''>========== 영 수 증 ==========</div></ol>"
-            + "<ol><div class=''imp_uid''>가맹점 코드 : " + rsp.imp_uid + "  </div></ol>"
-            + "<ol><div class=''merchant_uid''>결제코드 : " + rsp.merchant_uid + " </div></ol>"
-            + "<ol><div class=''pro_num''>상품번호 : " + $('#Hpro_num').html() + " </div></ol>"
-            + "<ol><div class=''cate_code''>상품 분류 : " + $('#Hcate').html() + " </div></ol>"
-            + "<ol><div class=''quality''>상품 품질 : " + $('#Hquality').html() + " </div></ol>"
-            + "<ol><div class=''title''>상품이름 : " + rsp.name + " </div></ol>"
-            + "<ol><div class=''price''>상품가격 : " + rsp.paid_amount + " </div></ol>"
-            + "<ol><div class=''card_name''>카드사 : " + rsp.card_name + " </div></ol>"
-            + "<ol><div class=''pg_tid''>카드결제 코드: " + rsp.pg_tid + " </div></ol>"
-            + "<ol><div class=''buyer_name''>구매자 : " + rsp.buyer_name + " </div></ol>"
-            + "<ol><div class=''seller_name''>판매자 : " + $('#seller').html() + " </div></ol>"
-            + "<ol><div class=''place_pick''>직플레이스 : " + $('#Hplace').html() + " </div></ol>"
-            + "<ol><div class=''seller_name''>결제날짜 : " + today + " </div></ol>";
-
+          var tag2 = "<span class=''qrcode''>" + rsp.merchant_uid + "</span> <br>"
+            + "<span class=''receipt_title''>==== 영 수 증 ====</span> <br>"
+            + "<span class=''imp_uid''>가맹점 코드 : " + rsp.imp_uid + "  </span> <br>"
+            + "<span class=''merchant_uid''>결제코드 : " + rsp.merchant_uid + " </span> <br>"
+            + "<span class=''pro_num''>상품번호 : " + $('#Hpro_num').html() + " </span> <br>"
+            + "<span class=''cate_code''>상품 분류 : " + $('#Hcate').html() + " </span> <br>"
+            + "<span class=''quality''>상품 품질 : " + $('#Hquality').html() + " </span> <br>"
+            + "<span class=''title''>상품이름 : " + rsp.name + " </span> <br>"
+            + "<span class=''price''>상품가격 : " + rsp.paid_amount + " </span> <br>"
+            + "<span class=''card_name''>카드사 : " + rsp.card_name + " </span> <br>"
+            + "<span class=''pg_tid''>카드결제 코드: " + rsp.pg_tid + " </span> <br>"
+            + "<span class=''buyer_name''>구매자 : " + rsp.buyer_name + " </span> <br>"
+            + "<span class=''seller_name''>판매자 : " + $('#seller').html() + " </span> <br>"
+            + "<span class=''place_pick''>직플레이스 : " + $('#Hplace').html() + " </span> <br>"
+            + "<span class=''seller_name''>결제날짜 : " + today + " </span>";
           console.log(room_id + '' + buyer_name + '' + tag2);
-
           //결제 완료후 핑
           socket.emit('receipt', room_id, rsp.buyer_name, tag2);
-
           jQuery.ajax({
             url: "/payment", //cross-domain error가 발생하지 않도록 주의해주세요
             type: 'POST',
             data: {
-
               imp_uid: rsp.imp_uid, // 상점 번호
               merchant_uid: rsp.merchant_uid, // 결제 번호
               //기타 필요한 데이터가 있으면 추가 전달
@@ -371,17 +1081,11 @@ var subDate;
               price: $('#Hprice').html(),
               pro_num: $('#pro_num').html(),
               room_id: $('#room_id').html()
-
             }
-
           }).done(function (data) {
             //[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
             console.log(data + '...............................................');
-
             if (everythings_fine) {
-
-
-
             } else {
               //[3] 아직 제대로 결제가 되지 않았습니다.
               //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
@@ -390,71 +1094,64 @@ var subDate;
         } else {
           alert("실패");
           // 결제 실패 시 로직,
-
         }
       });
     })
-
     // =============================================================
-
-
-
     socket.emit('joinRoom', num, name);
     // 일딴 세로 고침
     socket.on('ref', () => {
       window.location.reload();
-      $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+      $('.messages').scrollTop($('.messages')[0].scrollHeight); 
     });
     // 체팅방을 떠남
     $(window).bind("beforeunload", function (e) {
       socket.emit('leaveRoom', num, name);
     });
-
     var getSession; // 세션값 들고와
     // // 모든 에스크로 거래 상황 마무리_테스트
     $('#confirm_test').click(function (e) {
-
       $.ajax({
         type: 'get',
         url: '/getSession',
         async: false,
         success: function (data) {
+          alert(data.getSession + "맞니??");
           getSession = data.getSession;
         }
       });
-
       var pro_num = $('#pro_num').text();
       var room_id = $('#room_id').text();
-
       var seller = $('#seller').text();
       var buyer = $('#buyer').text();
-
       var nickname = $('#nickname').text();
       
-      var tag = "<ol class=''me''><div><p style=''color:brown;'' class=''meme''>" + seller + "</p>과의 거래는 만족 스러웠나요??</div><div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div><div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol><ol class=''other''><div><p style=''color:brown;'' class=''otherother''>" + buyer + "</p>과의 거래는 만족 스러웠나요??</div><div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div><div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>";
+      window.alert(seller + '하핫');
+      window.alert(buyer + '하핫');
+      var tag = "<p class=''me''><span class=''meme''>" + seller + "</span>님과의 거래는 만족 스러웠나요??<br>" 
+        + "더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요<br>"
+        + "<input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></p>"
+        + "<p class=''other''><span class=''otherother''>" + buyer + "</span>님과의 거래는 만족 스러웠나요??</br>"
+        + "더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요"
+        + "<input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu'' >전송하기</button></p>";
       console.log(pro_num);
-
       socket.emit('confirm_test', pro_num, room_id, tag, seller, buyer);
      
     })
-
-
     // 최종 마무리
     socket.on('confirm_test', function (test) {
       // window.location.reload();
+      window.alert('test?Hellow?' + test);
       window.location.reload();
     })
-
     // 결제 완료시 영수증 ========================================================
     socket.on('receipt', function (room_id, buyer_name, tag) {
       window.location.reload();
-      $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+      $('.messages').scrollTop($('.messages')[0].scrollHeight); 
     });
     // ========================================================
-
     //결제 명세서 전송버튼을 클릭하면(165번 라인)
     $('#buy').click(function () {
-
       //Nodejs 서버에 ajax요청을 한다.
       $.ajax({
         type: 'post',
@@ -465,61 +1162,55 @@ var subDate;
         success: function (result) {
           //결과 콘솔 출력
           console.log('status( ' + result + ' )');
-
           //결제가 완료되었다면 결제명세서 전송과정을 중단하고 안내문구 alert
           if (result == 'done') {
             alert('status( ' + result + ') : 결제가 완료되어 결제를 진행 할 수 없습니다.');
-
             //결제가 아직 진행중이라면 결제명세서 전송과정을 마저 진행한다.  
           } else {
-            $('#messages').append($('<li class="even">').html(name + ' : ' + tag));//명세서를 채팅방에 뿌려준다.
-            $(document).scrollTop($(document).height());//스크롤 최하단.
+            $('#messages').append($('<li class="even replies">').html('<img src="http://emilcarlsson.se/assets/mikeross.png" alt=""><div style="text-align:right">'+name +'</div><p class="tmsg>'+ tag+'</p>'));//명세서를 채팅방에 뿌려준다.
+            window.location.reload();
+            $('.messages').scrollTop($('.messages')[0].scrollHeight);//스크롤 최하단.
             socket.emit('socket_sendAcc', num, name, tag);//서버를 통한 결제명세서 메시지를 상대방에게 전송한다.
           }
         }
-
       })
-
-
       var tag = $('#pro_data').html(); // 체팅방에 박혀있는 상품 정보 테그들
-
-
-
     });
-
-
     socket.on('socket_sendAcc', (num, name, tag) => {
       if (name == $('#nickname').text()) {
-
+        // window.location.reload();
       } else {
-        $('#messages').append($('<li class="odd">').html(name + ' : ' + tag));//버튼은 상대방에게만 보인다.
+        $('#messages').append($('<li class="odd sent">').html('<img src="http://emilcarlsson.se/assets/mikeross.png" alt=""><div style="text-align:left">'+name +'</div><p class="tmsg>'+ tag+'</p>'));//버튼은 상대방에게만 보인다.
+            // $('.messages').scrollTop($('.messages')[0].scrollHeight); // 스크롤 가장아래로 내림
+         window.location.reload();
+        $('.messages').scrollTop($('.messages')[0].scrollHeight);
       }
-      $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+     
     });
-
     // 약속장소 잡기 버튼
     $('#send_address').click(function () {
       if ($('#set_address').val() == '약속장소 선정') {
         alert('장소를 지정해 주시기 바랍니다.');
         return false;
       }
-     
+      alert($('#set_address').val()); // 고른 시간 한번 알려주고
       var address = $('#set_address').val();
       socket.emit('socket_address', num, address, name); //서버로 전송한다.
     });
-
     // 
     socket.on('socket_address', (num, address, name, message_id) => {// 상대방으로부터 채팅방에 소켓데이트 신호가 온다면 실행.
       var buttonSet = "<button class='Ayes'>수락</button><button class='Ano' value=" + message_id + ">거절</button>";
       if (name == $('#nickname').text()) {
-        $('#messages').append($('<li class="even">').html(name + ' : ' + '<i>상대방에게 장소협의를 제안하셨습니다</i><br><i >' + address + '</i>'));//버튼은 상대방에게만 보인다.
-      } else {
-        $('#messages').append($('<li class="odd">').html(name + ' : ' + '장소협의 - ' + name + '님에 의해 약속장소가 선정되었습니다 :<br><i class="addressP">' + address + "</i><br>" + buttonSet));//시스템메시지 약속지정정보를 보낸다.
-      }
-      $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+        //$('#messages').append($('<li class="even">').html(name + ' : ' + '<i>상대방에게 장소협의를 제안하셨습니다</i><br><i >' + address + '</i>'));//버튼은 상대방에게만 보인다.
+          window.location.reload();
+        } else {
+        //$('#messages').append($('<li class="odd">').html(name + ' : ' + '장소협의 - ' + name + '님에 의해 약속장소가 선정되었습니다 :<br><i class="addressP">' + address + "</i><br>" + buttonSet));//시스템메시지 약속지정정보를 보낸다.
+          window.location.reload();
+        }
+      $('.messages').scrollTop($('.messages')[0].scrollHeight); 
     });
     $(document).on("click", ".Ayes", function (event) {
-      // alert($(event.target).siblings('.addressP').text());
+      alert($(event.target).siblings('.addressP').text());
       var addressP = $(event.target).siblings('.addressP').text();
       alert('약속 :' + addressP + '으로 지정되었습니다.');
       $('#set_address').val(addressP);//제안들중 선택 
@@ -548,14 +1239,16 @@ var subDate;
     socket.on('socket_date', (num, date, name, message_id) => {// 상대방으로부터 채팅방에 소켓데이트 신호가 온다면 실행.
       var buttonSet = "<button class='yes'>수락</button><button class='no' value=" + message_id + ">거절</button>";
       if (name == $('#nickname').text()) {
-        $('#messages').append($('<li class="even">').html(name + ' : ' + '<i>상대방에게 시간협의를 제안하셨습니다</i><br><i >' + date + '</i>'));//버튼은 상대방에게만 보인다.
-      } else {
-        $('#messages').append($('<li class="odd">').html(name + ' : ' + '시간협의 - ' + name + '님에 의해 약속일정이 선정되었습니다 :<i class="dateP">' + date + "</i><br>" + buttonSet));//시스템메시지 약속지정정보를 보낸다.
-      }
-      $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+        //$('#messages').append($('<li class="even">').html(name + ' : ' + '<i>상대방에게 시간협의를 제안하셨습니다</i><br><i >' + date + '</i>'));//버튼은 상대방에게만 보인다.
+          window.location.reload();
+        } else {
+       // $('#messages').append($('<li class="odd">').html(name + ' : ' + '시간협의 - ' + name + '님에 의해 약속일정이 선정되었습니다 :<i class="dateP">' + date + "</i><br>" + buttonSet));//시스템메시지 약속지정정보를 보낸다.
+          window.location.reload();
+        }
+      $('.messages').scrollTop($('.messages')[0].scrollHeight); 
     });
     $(document).on("click", ".yes", function (event) {
-      // alert($(event.target).siblings('.dateP').text());
+      alert($(event.target).siblings('.dateP').text());
       var dateP = $(event.target).siblings('.dateP').text();
       alert('약속 :' + dateP + '으로 지정되었습니다.');
       $('#set_date').val(dateP);//제안들중 선택 
@@ -568,7 +1261,6 @@ var subDate;
       alert('약속일시 제안 (' + $(event.target).siblings('.dateP').text() + ')을 거절하셨습니다.');
       socket.emit('dateNo', dateP, num, message_id); //서버로 전송한다.
     });
-
     var func_qr = function () {
       return func_qrcount();
     }
@@ -583,19 +1275,20 @@ var subDate;
     socket.on('QRsend', (num1, name1, tag1) => {
       if (name1 == name) {
         $('#messages').append($('<li class="even"><div class="qrcode"></div>'));
-      } else {
+          window.location.reload();
+        } else {
         $('#messages').append($('<li class="odd"><div class="qrcode"></div>'));
-      }
+          window.location.reload();
+        }
       return ref();
     });
-
     //1. qr가 들어갈 div를 생성.
     //2. div의 클래스 중 qrcount번째 객체에 qr코드생성
     //3. qrcount++;
     //4. 넘어왔을때. 아니 QR코드화 또한 어떻게 하지. 왜 낫띵클릭하면 메시지 append하잖아 그때 db에 저장을 하자. 단 QR코드 보낼때 생성되어지는 div에 우리가 넣을려고 하는 값들:(구매자판매자상품번호가격등등)도 넣는다.
     $('#QRsend').click(function () {// 아무것도 아닌 추가기능을 실행하면 일단 귀여운 강아지 보여줌 ㅎㅎ
       $('#messages').append($('<li class="even"><div class="qrcode"></div><img src="images/dog4.png" width="300px" height="300px">'));
-      $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+        $('.messages').scrollTop($('.messages')[0].scrollHeight); 
       //socket의 emit()함수가 없어서 전송도 안됨 ㅎㅎ
       return func_qr();
     });
@@ -611,14 +1304,12 @@ var subDate;
         return false;
       }
     });
-
     socket.on('room_out', (num, name) => {// 소켓에 room_out신호가 온다면
       $('.nullmenu').css("display", "none");//상대방이 없다면 사용불가의 메뉴:입력태그, send버튼, 채팅방나가기를 제외한 추가기능들을 안보이게한다.
       $('#messages').append($('<li class="system">').text('System : ' + name + ' 회원님이 방을 탈주하셨습니다.  '));//시스템메시지 상대방이 나갔다고 알려준다.
       $('#status').text = 'out';//방의 상태를 out으로 지정
       window.location.search = '?room_id=' + num + '&talker=out';//url의 queryString도 나갔다고 바꿔준다. 새로고침이 되어도 out값을 가지기에 .nullMenu들이 여전히 안보여진다.
     });
-
     // 재약 조건걸기 
     var i = 0;
     $('form').submit(() => {// Enter칠때마다 Send 할때마다 실행
@@ -627,7 +1318,7 @@ var subDate;
         return false;
       } else {
         socket.emit('chat message', num, name, $('#m').val());// 서버로  작성자, 방번호, 메시지를 전달한다.
-        $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+        $('.messages').scrollTop($('.messages')[0].scrollHeight); 
         $('#m').val('');//입력창 비워주기
         return false;
       } //원하는 작업만 마친 후 submit의 동작을 멈춘다.
@@ -639,26 +1330,22 @@ var subDate;
         msg));
         
     });*/
-
-
     // 체팅 메세지 하기 =====================================================
     socket.on('chat message', (name, msg) => {// 소켓에 신호가 오면 chat message 기능 실행.
       if (name == $('#nickname').text()) {//날아온 메시지의 이름이 세션의 닉네임과 같다면
-        $('#messages').append($('<li class="even">').text(name + '  :  ' +
-          msg));
+       $('#messages').append('<li class="even replies"><img src="http://emilcarlsson.se/assets/mikeross.png" alt="" /><div style="text-align: right">'+name+'</div><div><p>'+msg+'</p></div></li>');
+        
       }//우측에 위치한다. 내가쓴메시지
       else {//아니라면 좌측에 위치한다. 남이쓴메시지
-        $('#messages').append($('<li class="odd">').text(name + '  :  ' +
-          msg));
+        $('#messages').append('<li class="odd sent"><img src="http://emilcarlsson.se/assets/mikeross.png" alt="" /><div>'+name+'</div><div><p>'+msg+'</p></div></li>');
+        
       }
       console.log('chat message' + name + msg);
-      $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+      $('.messages').scrollTop($('.messages')[0].scrollHeight); // 스크롤 가장아래로 내림
     });
   });
   // ================= end 체팅 메세지 하기 =====================================================
   // 채팅방 전체기능=======================================================================
-
-
   //주소
   function sample4_execDaumPostcode() {
     daum.postcode.load(function () {
@@ -695,10 +1382,8 @@ var subDate;
           document.getElementById("set_address").value = addr;
         }
       }).open();
-
     });
   }
-
 </script>
 
 <!--주소-->
@@ -709,30 +1394,21 @@ var subDate;
 <!--아래부터 결제하기 스크립트-->
 
 <!-- .done(function(){ console.log("요청 성공시 호출") })
-
 .fail(function(){ console.log("요청 실패시 호출") })
-
 .always(function(){ console.log("성공 실패 상관없이 호출") }) -->
 
 <!--점수 버튼을 눌렀을때 적용 ======================================================-->
 <script>
   $(function () {
-
     $('.jumsu').on("click", function () {
-
      var sender = $(this).parent().parent().find('p').text();
      var score = parseInt($(this).siblings().first().val());
      var room_id = parseInt($('#room_id').text());
-     var message_id = parseInt($(this).parent().parent().parent().find('.jumsuNum').text());
-    //  window.alert('발신자 : ' + sender + '|| 발생점수 :  ' + score + '|| 메시지번호 : ' + message_id);
-
+     window.alert(sender + '' + score);
       var data = {
-        seller : $('#seller').text(),
-        buyer : $('#buyer').text(),
         sender: sender,
         score: score,
-        room_id : room_id,
-        message_id : message_id
+        room_id : room_id
       };
       $.ajax({
         type: 'POST',
@@ -745,19 +1421,12 @@ var subDate;
           }else{
             window.alert("점수를 평가하는데 실패 했습니다.")
           }
-      $(document).scrollTop($(document).height());
-      window.location.reload();
-      $(document).scrollTop($(document).height());
-          
         },
         error: function (err) {
           alert(err);
         }
-
       })
     });
-
-
   })
 </script>
 

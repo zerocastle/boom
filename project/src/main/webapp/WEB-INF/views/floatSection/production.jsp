@@ -7,6 +7,8 @@
 	crossorigin="anonymous">
 <script src="/resources/customJs/recentProduct.js"></script>
 <script src="/resources/customJs/remote.js"></script>
+  <link rel="stylesheet" href="/resources/plugins/swiper.min.css">
+<script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
 <style>
 .pro-title-span {
 	display: inline-block;
@@ -16,6 +18,65 @@
 	width: 120px;
 	height: 20px;
 }
+
+.swiper-container {
+	width: 100%;
+	height: 421px;
+}
+
+.swiper-slide {
+	text-align: center;
+	font-size: 18px;
+	/* Center slide text vertically */
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+}
+
+.slideshow-container {
+	position: relative;
+	margin: auto;
+}
+
+.mySlides {
+	display: none;
+}
+
+img {
+	vertical-align: middle;
+	
+}
+
+.dot1 {
+    position: relative;
+    bottom: 35px;
+    text-align: center;
+}
+.dot {
+height: 15px;
+width: 15px;
+margin: 0 2px;
+background-color: #bbb;
+border-radius: 50%;
+display: inline-block;
+transition: background-color 0.6s ease;
+position: relative;
+
+}
+.img1{
+width:100%;
+height:400px;
+}
+
 </style>
 <!-- 인덱스 사진들 -->
 
@@ -380,687 +441,1057 @@
 						})
 	})
 </script>
-  <!-- Main Content -->
+<!-- 위치기반 배너 보이기 -->
+<script>
+ 	$(function(){
+ 		
+ 		var array = new Array();
+ 		var resultArray = new Array();
 
-    <!-- Home slider -->
-    <div class="swiper-container" id="home-slider">
-      <div class="swiper-wrapper">
+ 		
+ 		//배열에 대한 객체
+ 		var object = function(distance,object){
+ 				this.distance = distance,
+ 				this.object = object,
+ 				
+ 				this.signal = function(){
+ 					window.alert(this.distance + "<=>"+ this.object);
+ 				};
+ 				
+ 		};
+ 		
+ 		// 내 정보 전송하고 값 가공해서 프로미스처리
+ 		var getPartner = function(lat,lon){
+ 			
+ 			return new Promise(function(resolve,reject){
+ 			
+ 			$.get('/getPartner',function(data){
+ 				console.log(lat + "나야 나" + lon);
+ 				console.log(data);
+ 				var distent = getDistanceFromLatLonInKm(lat,lon,data[0].lag,data[0].lng);
+ 				console.log("거리는 : " + distent);
+ 				for(var i = 0; i < data.length; i++){
+ 					var temp = getDistanceFromLatLonInKm(lat,lon,data[i].lag,data[i].lng);
+ 					array.push(temp);
+ 					var myObject = new object(temp,data[i]);
+ 					resultArray.push(myObject);
+ 				}
+ 				
+ 				console.log(resultArray);
+ 				
+ 				console.log(resultArray[0].distance);
+ 				
+ 				  for(var i = 0; i < resultArray.length; i++){
+ 					for(var j = 0; j < (resultArray.length -1) -i; j++ ){
+ 						if(resultArray[j].distance > resultArray[j+1].distance){
+ 							var temp = resultArray[j + 1];
+ 							resultArray[j + 1]= resultArray[j];
+ 							resultArray[j] = temp;
+ 						}
+ 					}
+ 				}  
+ 				console.log(resultArray);
+ 				if(resultArray){
+ 					resolve(resultArray);
+ 				}else{
+ 					reject(new Error("Request is failed"));
+ 				}
+ 				
+ 			});
+ 			
+ 			});
+ 			
+ 		};
 
-        <div class="swiper-slide" data-cover="/resources/image/banner/banner1.png" data-xs-height="220px" data-sm-height="350px" data-md-height="400px" data-lg-height="430px" data-xl-height="460px">
-      <!--     <div class="swiper-overlay right">
-            <div class="text-center">
-              <p class="display-4 animated textOne" data-animate="fadeDown"><span class="cop-name"></p>
-              <a href="https://www.vr-jamong.com/" target="_black" class="btn btn-primary rounded-pill animated" data-animate="fadeUp" data-addclass-on-xs="btn-sm">바로가기</a>
-            </div>
-          </div> -->
-        </div>
+ 		navigator.geolocation.getCurrentPosition(function(position) {
 
-        <div class="swiper-slide" data-cover="/resources/image/banner/jamong.png" data-xs-height="220px" data-sm-height="350px" data-md-height="400px" data-lg-height="430px" data-xl-height="460px">
-          <!-- <div class="swiper-overlay left">
-            <div class="text-center">
-              <h1 class="bg-white text-dark d-inline-block p-1 animated" data-animate="fadeDown"></h1>
-              <p class="display-4 animated textOne" data-animate="fadeDown"><span class="cop-name">JAMONG</span>!<br/>직플파트너와 <span class="cop-name">함께</span>하다!</p>
-              <a href="https://www.vr-jamong.com/" class="btn btn-warning rounded-pill animated gogo" data-animate="fadeUp" data-addclass-on-xs="btn-sm"><span>바로 가기</span></a>
-            </div>
-          </div> -->
-        </div>
+ 			console.log(position);
+ 			getGPS(position.coords);
+ 		});
+ 		
+ 		// 값뿌려 봅시다.
+ 		var getGPS = function(position){
+ 			var realPath = "${pageContext.request.contextPath}/resources/";
+ 			console.log(realPath);
+ 			var lat = position.latitude;
+ 			var lon = position.longitude;
+ 			getPartner(lat,lon).then(function(data){
+ 	 			console.log("promise 도착");
+ 	 			console.log(data);
+ 	 			
+ 	 			var swiperWrapper = $('.swiper-wrapper');
+ 	 			/* console.log(swiperWrapper.length); */
+ 	 			
+ 	 			for(var i = 0; i < 5; i++){
+ 	 				/* swiperWrapper.eq(i++); */
+ 	 				var name = realPath + data[i].object.uploadPath + "\\" + data[i].object.uuid + "_"+data[i].object.fileName;
+ 	 				swiperWrapper.append("<div class='swiper-slide banner'> <img src='"+name+"'/' class='img1'> </div> ");
+ 	 				
+ 	 			}
+ 	 	
+ 	 		});
+ 			
+ 		}
+ 		
+ 		// 위도 경도 차이 구하기
+ 		function getDistanceFromLatLonInKm(lat1,lng1,lat2,lng2) {
+ 		    function deg2rad(deg) {
+ 		        return deg * (Math.PI/180)
+ 		    }
 
-      </div>
-      <div class="swiper-pagination"></div>
-      <div class="swiper-button-prev autohide"><i data-feather="chevron-left"></i></div>
-      <div class="swiper-button-next autohide"><i data-feather="chevron-right"></i></div>
-    </div>
-    <!-- /Home slider -->
+ 		    var R = 6371; // Radius of the earth in km
+ 		    var dLat = deg2rad(lat2-lat1);  // deg2rad below
+ 		    var dLon = deg2rad(lng2-lng1);
+ 		    var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2);
+ 		    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+ 		    var d = R * c; // Distance in km
+ 		    return d;
+ 		}
+ 		
+ 	})
+	
 
-	<div><h4 class="bold text-center mt-gutter">카테고리 최신상품</h4></div>
+    </script>
 
-    <div class="container mt-3">
-      <h4 class="bold text-center mt-gutter cus" data-cate="man">남성의류</h4>
-      <!-- Featured Products -->
-      <div id="target" class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
-        <div class="card card-product">
-          <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-		 <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        </div>
-      </div>
-      <!-- /Featured Products -->
-      
-      <div class="container mt-3">
-      <h4 class="bold text-center mt-gutter cus" data-cate="woman">여성의류</h4>
-            <!-- Featured Products -->
-      <div id="target2" class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
-        <div class="card card-product">
-          <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-		 <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        </div>
-      </div>
-      <!-- /Featured Products -->
-      
-      <div class="container mt-3">
-      <h4 class="bold text-center mt-gutter cus" data-cate="elect">전자제품</h4>
-      <!-- Featured Products -->
-      <div id="target3" class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
-        <div class="card card-product">
-          <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-		 <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        </div>
-      </div>
-      <!-- /Featured Products -->
-      
-      <div class="container mt-3">
-      <h4 class="bold text-center mt-gutter cus" data-cate="furniture">가구인테리어</h4>
-       <!-- Featured Products -->
-      <div id="target4" class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
-        <div class="card card-product">
-          <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-		 <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        </div>
-      </div>
-      <!-- /Featured Products -->
-      
-      <div class="container mt-3">
-      <h4 class="bold text-center mt-gutter cus" data-cate="baby">유아용품</h4>
-       <!-- Featured Products -->
-      <div id="target5" class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
-        <div class="card card-product">
-          <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-		 <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        </div>
-      </div>
-      <!-- /Featured Products -->
-      
-      <div class="container mt-3">
-      <h4 class="bold text-center mt-gutter cus" data-cate="sport">스포츠레저</h4>
-        <!-- Featured Products -->
-      <div id="target6" class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
-        <div class="card card-product">
-          <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-		 <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        </div>
-      </div>
-      <!-- /Featured Products -->
-      
-      <div class="container mt-3">
-      <h4 class="bold text-center mt-gutter cus" data-cate="hobby">게임/취미</h4>
-        <!-- Featured Products -->
-      <div id="target7" class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
-        <div class="card card-product">
-          <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-		 <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        </div>
-      </div>
-      <!-- /Featured Products -->
-      
-      <div class="container mt-3">
-      <h4 class="bold text-center mt-gutter cus" data-cate="beauty">뷰티미용</h4>
-        <!-- Featured Products -->
-      <div id="target8" class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
-        <div class="card card-product">
-          <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-		 <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        </div>
-      </div>
-      <!-- /Featured Products -->
-      
-      <div class="container mt-3">
-      <h4 class="bold text-center mt-gutter cus" data-cate="life">생활/가공품</h4>
-         <!-- Featured Products -->
-      <div id="target9" class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
-        <div class="card card-product">
-          <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-		 <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        </div>
-      </div>
-      <!-- /Featured Products -->
-      
-      <div class="container mt-3">
-      <h4 class="bold text-center mt-gutter cus" data-cate="animal">반려동물</h4>
-            <!-- Featured Products -->
-      <div id="target10" class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
-        <div class="card card-product">
-          <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-		 <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        </div>
-      </div>
-      <!-- /Featured Products -->
-      
-      <div class="container mt-3">
-      <h4 class="bold text-center mt-gutter cus" data-cate="book">도서/티켓/음반</h4>
-        <!-- Featured Products -->
-      <div id="target11" class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
-        <div class="card card-product">
-          <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-		 <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        </div>
-      </div>
-      <!-- /Featured Products -->
-      
-      <div class="container mt-3">
-      <h4 class="bold text-center mt-gutter cus" data-cate="else">기타/잡화</h4>
-           <!-- Featured Products -->
-      <div id="target12" class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
-        <div class="card card-product">
-          <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-		 <div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        <div class="card card-product">
-<div class="card-body">
-	          <div class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
-	            <a href="#"><img class="card-img-top" src="http://placehold.it/160x160" alt="img" width="160px;" height="160px;"></a>
-	            <a href="#" class="card-title">상품없음</a>
-	            <div class="price"><span class="h5"></span></div>
-	            <span class="badge badge-success"></span>
-	            <div class="hidenNo"></div>
-	          </div>
-          </div>
-        </div>
-        </div>
-      </div>
-      <!-- /Featured Products -->
+<!-- Main Content -->
+
+<!-- Home slider -->
+<div class="swiper-container">
+
+	<div class="swiper-wrapper">
+		
+<!-- 		<div class="swiper-slide"> -->
+<!-- 			<img src="/resources/봄봄3.jpg" /> -->
+<!-- 		</div> -->
+
+<!-- 		<div class="swiper-slide"> -->
+<!-- 			<img src="/resources/star0.png" /> -->
+<!-- 		</div>  -->
+	
+
+		
+
       
 
-    <!-- /Main Content -->
+		<!-- <div class="swiper-slide banner">
+			<img class="img1" src="">
+		</div>
+
+		<div class="swiper-slide banner">
+			<img class="img2" src="">
+		</div>
+
+
+		<div class="swiper-slide banner">
+			<img class="img3" src="">
+		</div>
+
+
+		<div class="swiper-slide banner">
+			<img class="img4" src="">
+		</div>
+
+		<div class="swiper-slide banner">
+			<img class="img5" src="">
+		</div> -->
+
+
+
+
+	</div>
+
+</div>
+
+<!-- <div class="swiper-container" id="home-slider"> -->
+<!-- 	<div class="swiper-wrapper bannerWrapper"> -->
+
+<!-- 		<!-- 1 배너 -->
+
+<!-- 		<div class="swiper-slide banner" -->
+<!-- 			data-cover="/resources/image/banner/1.png" data-xs-height="220px" -->
+<!-- 			data-sm-height="350px" data-md-height="400px" data-lg-height="430px" -->
+<!-- 			data-xl-height="460px"></div> -->
+<!-- 		<!-- 2 배너 -->
+
+<!-- 		<div class="swiper-slide banner" data-cover="/resources/image/banner/2.png" -->
+<!-- 			data-xs-height="220px" data-sm-height="350px" data-md-height="400px" -->
+<!-- 			data-lg-height="430px" data-xl-height="460px"></div> -->
+<!-- 		<!-- 3 배너 -->
+
+<!-- 		<div class="swiper-slide banner" data-cover="/resources/image/banner/3.png" -->
+<!-- 			data-xs-height="220px" data-sm-height="350px" data-md-height="400px" -->
+<!-- 			data-lg-height="430px" data-xl-height="460px"></div> -->
+<!-- 		<!-- 4 배너 -->
+
+<!-- 		<div class="swiper-slide banner" data-cover="/resources/image/banner/4.png" -->
+<!-- 			data-xs-height="220px" data-sm-height="350px" data-md-height="400px" -->
+<!-- 			data-lg-height="430px" data-xl-height="460px"></div> -->
+<!-- 		<!-- 5 배너 -->
+
+<!-- 		<div class="swiper-slide banner" data-cover="/resources/image/banner/5.png" -->
+<!-- 			data-xs-height="220px" data-sm-height="350px" data-md-height="400px" -->
+<!-- 			data-lg-height="430px" data-xl-height="460px"></div> -->
+
+<!-- 	</div> -->
+<!-- 	<div class="swiper-pagination"></div> -->
+<!-- 	<div class="swiper-button-prev autohide"> -->
+<!-- 		<i data-feather="chevron-left"></i> -->
+<!-- 	</div> -->
+<!-- 	<div class="swiper-button-next autohide"> -->
+<!-- 		<i data-feather="chevron-right"></i> -->
+<!-- 	</div> -->
+<!-- </div> -->
+<!-- /Home slider -->
+
+<div>
+	<h4 class="bold text-center mt-gutter">카테고리 최신상품</h4>
+</div>
+
+<div class="container mt-3">
+	<h4 class="bold text-center mt-gutter cus" data-cate="man">남성의류</h4>
+	<!-- Featured Products -->
+	<div id="target" class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Featured Products -->
+
+<div class="container mt-3">
+	<h4 class="bold text-center mt-gutter cus" data-cate="woman">여성의류</h4>
+	<!-- Featured Products -->
+	<div id="target2" class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Featured Products -->
+
+<div class="container mt-3">
+	<h4 class="bold text-center mt-gutter cus" data-cate="elect">전자제품</h4>
+	<!-- Featured Products -->
+	<div id="target3" class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Featured Products -->
+
+<div class="container mt-3">
+	<h4 class="bold text-center mt-gutter cus" data-cate="furniture">가구인테리어</h4>
+	<!-- Featured Products -->
+	<div id="target4" class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Featured Products -->
+
+<div class="container mt-3">
+	<h4 class="bold text-center mt-gutter cus" data-cate="baby">유아용품</h4>
+	<!-- Featured Products -->
+	<div id="target5" class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Featured Products -->
+
+<div class="container mt-3">
+	<h4 class="bold text-center mt-gutter cus" data-cate="sport">스포츠레저</h4>
+	<!-- Featured Products -->
+	<div id="target6" class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Featured Products -->
+
+<div class="container mt-3">
+	<h4 class="bold text-center mt-gutter cus" data-cate="hobby">게임/취미</h4>
+	<!-- Featured Products -->
+	<div id="target7" class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Featured Products -->
+
+<div class="container mt-3">
+	<h4 class="bold text-center mt-gutter cus" data-cate="beauty">뷰티미용</h4>
+	<!-- Featured Products -->
+	<div id="target8" class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Featured Products -->
+
+<div class="container mt-3">
+	<h4 class="bold text-center mt-gutter cus" data-cate="life">생활/가공품</h4>
+	<!-- Featured Products -->
+	<div id="target9" class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Featured Products -->
+
+<div class="container mt-3">
+	<h4 class="bold text-center mt-gutter cus" data-cate="animal">반려동물</h4>
+	<!-- Featured Products -->
+	<div id="target10"
+		class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Featured Products -->
+
+<div class="container mt-3">
+	<h4 class="bold text-center mt-gutter cus" data-cate="book">도서/티켓/음반</h4>
+	<!-- Featured Products -->
+	<div id="target11"
+		class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Featured Products -->
+
+<div class="container mt-3">
+	<h4 class="bold text-center mt-gutter cus" data-cate="else">기타/잡화</h4>
+	<!-- Featured Products -->
+	<div id="target12"
+		class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+		<div class="card card-product">
+			<div class="card-body">
+				<div
+					class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/160x160" alt="img" width="160px;"
+						height="160px;"></a> <a href="#" class="card-title">상품없음</a>
+					<div class="price">
+						<span class="h5"></span>
+					</div>
+					<span class="badge badge-success"></span>
+					<div class="hidenNo"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="/resources/plugins/swiper.min.js"></script>
+<script>
+          var swiper = new Swiper('.swiper-container');
+</script>
+<!-- /Featured Products -->
+
+<!-- /Main Content -->

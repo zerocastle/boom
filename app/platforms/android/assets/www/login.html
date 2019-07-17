@@ -8,44 +8,314 @@
     <!-- <meta name="description" content="">
     <meta name="author" content=""> -->
     
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/jack.css" />
+   
     <script src="js/jquery-3.4.0.min.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src='cordova.js'></script>
     <script src="js/login.js"></script>
     <title>로그인 폼</title>
-
-  </head>
-
-  <body cellpadding="0" cellspacing="0" marginleft="0" margintop="0" width="100%" height="100%">
-
-	<div class="card align-middle" style="margin-left:2.5rem;margin-top:7rem;width:20rem; border-radius:20px;">
-		<div class="card-title" style="margin-top:30px;">
-            <img src="./img/jiklogo.svg" class="card-title text-center" style="margin-left:4rem"/>
-            <strong>직거래 PLUS</strong>
-		</div>
-		<div class="card-body">
-      <form class="form-signin">
-        <h5 class="form-signin-heading">로그인 정보를 입력하세요</h5>
-        <label for="inputEmail" class="sr-only">Your ID</label>
-        <input type="text" class="form-control" placeholder="Your ID" id="id" required autofocus><BR>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password"  class="form-control" placeholder="Password" id="pw" required><br>
-       
-        <input type="button" id="login" class="btn btn-lg btn-primary btn-block" value="로 그 인">
-        <input type="button" id="join" class="btn btn-lg btn-primary btn-block" value="회원가입">
-      </form>
+    <style>
+      .zero-raduis{
+    border-radius: 0px !important;
+  }
+  body{
+      background-color: #d3f3ff;
+  
+  }
+  a {
+    color: #92badd;
+    display:inline-block;
+    text-decoration: none;
+    font-weight: 400;
+  }
+  
+  h2 {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    display:inline-block;
+    color: #56baed;
+  }
+  
+  
+  
+  /* STRUCTURE */
+  
+  .wrapper {
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    width: 100%;
+    min-height: 100%;
+    padding: 20px;
+    padding-top: 48%;
+    
+  
+  }
+  
+  #formContent {
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    background: #fff;
+    padding: 30px;
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    padding: 0px;
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.3);
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.3);
+    text-align: center;
+    height: 300px;
+  }
+  
+  #formFooter {
+    padding: 2px ;
+    text-align: right;
+    width: 90%;
+  }
+  
+  
+  
+  /* TABS */
+  
+  h2.inactive {
+    color: #cccccc;
+  }
+  
+  h2.active {
+    color: #0d0d0d;
+    border-bottom: 2px solid #5fbae9;
+  }
+  
+  /* FORM TYPOGRAPHY*/
+  
+  input[type=button], input[type=submit], input[type=reset]  {
+    background-color: #56baed;
+    border: none;
+    color: white;
+    width: 85%;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    text-transform: uppercase;
+    font-size: 16px;
+    cursor: pointer;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    border-radius: 5px 5px 5px 5px;
+    margin: 0 0 10px;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  
+  input[type=button]:active, input[type=submit]:active, input[type=reset]:active  {
+    -moz-transform: scale(0.95);
+    -webkit-transform: scale(0.95);
+    -o-transform: scale(0.95);
+    -ms-transform: scale(0.95);
+    transform: scale(0.95);
+  }
+  
+  input[type=text], input[type=password] {
+    background-color: #f6f6f6;
+    border: none;
+    color: #0d0d0d;
+    padding: 10px 25px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px;
+    border: 2px solid #f6f6f6;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    border-radius: 5px 5px 5px 5px;
+    width: 67.6%;
+  }
+  
+  
+  input[type=text]:placeholder, input[type=password]:placeholder {
+    color: #cccccc;
+    text-align: left;
+  }
+  
+  
+  
+  /* ANIMATIONS */
+  
+  /* Simple CSS3 Fade-in-down Animation */
+  .fadeInDown {
+    -webkit-animation-name: fadeInDown;
+    animation-name: fadeInDown;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+  }
+  
+  @-webkit-keyframes fadeInDown {
+    0% {
+      opacity: 0;
+      -webkit-transform: translate3d(0, -100%, 0);
+      transform: translate3d(0, -100%, 0);
+    }
+    100% {
+      opacity: 1;
+      -webkit-transform: none;
+      transform: none;
+    }
+  }
+  
+  @keyframes fadeInDown {
+    0% {
+      opacity: 0;
+      -webkit-transform: translate3d(0, -100%, 0);
+      transform: translate3d(0, -100%, 0);
+    }
+    100% {
+      opacity: 1;
+      -webkit-transform: none;
+      transform: none;
+    }
+  }
+  
+  /* Simple CSS3 Fade-in Animation */
+  @-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  @-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  
+  .fadeIn {
+    opacity:0;
+    -webkit-animation:fadeIn ease-in 1;
+    -moz-animation:fadeIn ease-in 1;
+    animation:fadeIn ease-in 1;
+  
+    -webkit-animation-fill-mode:forwards;
+    -moz-animation-fill-mode:forwards;
+    animation-fill-mode:forwards;
+  
+    -webkit-animation-duration:1s;
+    -moz-animation-duration:1s;
+    animation-duration:1s;
+  }
+  
+  .fadeIn.first {
+    -webkit-animation-delay: 0.4s;
+    -moz-animation-delay: 0.4s;
+    animation-delay: 0.4s;
+  }
+  
+  .fadeIn.second {
+    -webkit-animation-delay: 0.6s;
+    -moz-animation-delay: 0.6s;
+    animation-delay: 0.6s;
+  }
+  
+  .fadeIn.third {
+    -webkit-animation-delay: 0.8s;
+    -moz-animation-delay: 0.8s;
+    animation-delay: 0.8s;
+  }
+  
+  .fadeIn.fourth {
+    -webkit-animation-delay: 1s;
+    -moz-animation-delay: 1s;
+    animation-delay: 1s;
+  }
+  
+  /* Simple CSS3 Fade-in Animation */
+  .underlineHover:after {
+    display: block;
+    width: 0;
+    height: 2px;
+    background-color: #56baed;
+    content: "";
+    transition: width 0.2s;
+  }
+  
+  .underlineHover:hover {
+    color: #0d0d0d;
+  }
+  
+  .underlineHover:hover:after{
+    width: 100%;
+  }
+  
+  
+  
+  /* OTHERS */
+  
+  *:focus {
+      outline: none;
+  } 
+  
+  #icon {
+    width:30%;
+  }
+  
+  .lolo{
+   padding-top: 2%;
+   padding-left: 2%;
+  }
+  
+  .logo_name{
+    display: inline-block;
+      vertical-align: middle;
+      color:#00aeff;
+      font-weight: bold;
+  }
+  .logo_img{
+    display: inline-block;
+      vertical-align: middle;
+      padding-top: 1%;
+    
+  } 
       
-		</div>
-	</div>
+      </style>
+  </head>
+  <body>
+ 
+    <!------ Include the above in your HEAD tag ---------->
+    
+    <div class="wrapper fadeInDown zero-raduis">
+          <div id="formContent">
+            <!-- Tabs Titles -->
+    
+            <!-- Icon -->
+            <div class="fadeIn first">
+              <!-- <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" /> -->
+                <div class="lolo">
+                    <div class="logo_img">  
+                    <img src="./img/jiklogo.svg" alt="Mimity">
+                    </div>  
+                    <div class="logo_name">
+                      <strong>직거래 PLUS</strong>
+                    </div>
+                  </div>
+            </div>
+    
+            <!-- Login Form -->
+            <form class="form-signin" style="padding-top: 5%">
+              <input type="text" id="id" class="fadeIn second zero-raduis form-control" name="id" placeholder="아이디" required autofocus>
+              
+              <input type="password" id="pw" class="fadeIn third zero-raduis form-control" name="password" placeholder="비밀번호">
+            
+              <input type="button" id="login" class="fadeIn fourth zero-raduis" value="로그인" style="margin-top:6%;">
+              <input type="button" id="join" class="fadeIn fourth zero-raduis pc" value="회원가입">
+            </form>
+            
+    
+          </div>
+      </div>
+    </body>
+  
 
-	<!-- <div class="modal">
-	</div> -->
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-     
-  </body>
+
 </html>
