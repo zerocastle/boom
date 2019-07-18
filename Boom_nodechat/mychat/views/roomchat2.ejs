@@ -134,6 +134,16 @@ var subDate;
           console.log(subDate);
           console.log(jsonoobj.tmessage.length);
           jsonoobj.tmessage = '<i>상대방에게 장소협의를 제안하셨습니다</i><br><i>'+subDate+'</i>';
+        } else if(jsonoobj.tmessage.indexOf('직플레이스제안') == 0){
+          var nickLength = nickname.length;
+
+          var end = jsonoobj.tmessage.indexOf('</i><br>');
+          var start = jsonoobj.tmessage.indexOf(":");
+         start++;
+          subDate = jsonoobj.tmessage.substring(start,end);
+          console.log(subDate);
+          console.log(jsonoobj.tmessage.length);
+          jsonoobj.tmessage = '<i>상대방에게 직플레이스를 제안하셨습니다</i><br><i>'+subDate+'</i>';
         }
       }
       var realJson = JSON.parse(JSON.stringify(jsonoobj));
@@ -192,18 +202,20 @@ var subDate;
 
       
       <a class="item menu" id="updateZicpleA">
-          <%if(jprod.place_pick!=''){
+          <%if((jprod.place_pick+'')!=''){
             var place_pick = jprod.place_pick;
-          var zicpleSum = place_pick.split('-');
+            place_pick = place_pick+'';
+            var zicpleSum = [];
+            zicpleSum = place_pick.split('-');
           var part_name = zicpleSum[0];
           var road = zicpleSum[1];
           var jibun = zicpleSum[2];
           %>
     
-        <b><%=part_name%></b><br>
+        직플레이스 : <b><%=part_name%></b><br>
         <addr><%=road%><br><%=jibun%></addr><br>
         <button id='updateZicpleB' class="send menu send_addr plus_send"
-        style="margin-left:7px; font-weight:bold;">수정하기</button>
+        style="margin-left:7px; font-weight:bold;">다시 선정하기</button>
         <%
         } else {
           %>
@@ -417,6 +429,20 @@ var subDate;
           }).done(function (data) {
             //[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
             console.log(data + '...............................................');
+            var timerJson = {
+              room_id : $('#room_id').html()
+            }
+            $.ajax({
+              url:'/api/timer',
+              data: timerJson,
+              type:'post',
+              success : function(result){
+                result
+              }, 
+              error : function(err){
+                console.log(err);
+              }
+            })
 
             if (everythings_fine) {
 
@@ -497,19 +523,24 @@ var subDate;
     $(document).on("click", ".Zyes", function (event) {
       var beUpdatePlace = $(event.target).siblings('.beUpdatePlace').text();
       alert('직플레이스 제안 "' + beUpdatePlace + '"를 수락하셨습니다.');
-      $('addr').text(data.addr); 
-      $('#updateZicpleA b').text(data.part_name)
-      var addressP = '직플레이스 : ' + part_name + '-' + road + '-' + jibun;   
-      socket.emit('zicpleYes', addressP, num); //서버로 전송한다.
+      //$('addr').text(data.addr); 
+      //$('#updateZicpleA b').text(data.part_name)
+      var road = $($(event.target).siblings('.beUpdatePlace')).data('road');
+      var part_name = $($(event.target).siblings('.beUpdatePlace')).data('part_name');
+      var jibun = $($(event.target).siblings('.beUpdatePlace')).data('jibun');
+      var addressP = part_name + '-' + road + '-' + jibun;
+      alert(addressP);
+      var message_id = $(event.target).val();
+      socket.emit('zicpleYes', addressP, num, message_id); //서버로 전송한다.
     });
     $(document).on("click", ".Zno", function (event) {// 거절버튼 클릭시
       var beUpdatePlace = $(event.target).siblings('.beUpdatePlace');
       var road = $(beUpdatePlace).data('road');
       var part_name = $(beUpdatePlace).data('part_name');
       var jibun = $(beUpdatePlace).data('jibun');
-      message_id = $(event.target).val();
-      var addressP = '직플레이스 : ' + part_name + '-' + road + '-' + jibun;
-      socket.emit('addressNo', addressP, num, message_id); //서버로 전송한다.
+      var addressP = part_name + '-' + road + '-' + jibun;
+      var message_id = $(event.target).val();
+      socket.emit('zicpleNo', addressP, num, message_id); //서버로 전송한다.
     });
     window.addEventListener('message', function(e) {
           console.log(e.data); // 

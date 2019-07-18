@@ -83,10 +83,6 @@ var other = '';
 $('#set_date').bootstrapMaterialDatePicker({ format: 'YYYY/MM/DD HH:mm', minDate: new Date() });//캘린더 - datePicker를 달아준다.
 $(document).ready(function () {
 
-
-
-
-
   $(document).on("click",'.jumsu',  function () {
     
     var sender = $(this).parent().parent().find('p').text();
@@ -114,8 +110,9 @@ $(document).ready(function () {
       error: function (err) {
         alert(err);
       }
+    });
 
-    })
+
   });
 
 
