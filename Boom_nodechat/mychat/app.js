@@ -93,6 +93,28 @@ app.post('/payment', (req, res) => {
 
 // });
 
+app.post('/otherImage',function(req,res){
+  
+  var otherImageSQL = "select uploadPath  || '/' || uuid ||'_'|| fileName img, nickname from chatroom c, member m where room_id = "+req.body.room_id+" and (seller_num = m_num or buyer_num = m_num) and nickname != '"+req.body.nickname+"'";
+  console.log('otherImageSQL : ' + otherImageSQL);
+  conn.execute(otherImageSQL, function(err,result){
+    if(err){
+      console.log('otherImageSQL error : ', err)
+    }else {
+      console.log('otherImageSQL success : ', result)
+      var sendJson = {
+        img : result.rows[0][0],
+        nickname : result.rows[0][1]
+      };
+      console.log('otherImageSQL response : ' , sendJson);
+      res.json(sendJson);
+    }
+  })
+  
+});
+
+
+
 app.get('/getSession',function(req,res){
   var mocl = req.session.nickname;
   console.log('요청??? ->' + mocl);
@@ -198,18 +220,22 @@ app.post('/jumsu', function (req, res) {
   var room_id = req.body.room_id;
   var message_id = req.body.message_id;
   console.log('에라이시발이게나라냐!' + req.body.message_id);
-  var query1 = "update member a set a.mannersum = a.mannersum + " + score + " where nickname = '" + sender + "'";
-  var query2 = "update member set manner_pick = (manner_pick + 1) where nickname = '" + sender + "'";
-  var query3 = "update member c set c.manner = (select (mannersum/manner_pick) from member where nickname = '"+sender+"')where c.nickname = '"+sender+"'";
+  var query1 = "update member set mannersum = mannersum + "+score+", manner_pick = 0 + manner_pick + 1, manner = (mannersum+"+score+"/(manner_pick+1)) where nickname = '"+sender+"'";
+  
   var target = '';
   var value = '';
   //sender는 아래 p태그에 적힌 사람이다.
+  // 내가 평가 대상자가 곧 sender.다.
+  //"<kaka class=''"+req.body.seller+"''><span class=''meme "+req.body.seller+"'' >"+req.body.seller+"/span>님과의 거래는 만족 스러웠나요??<br>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요<br><input placeholder='1~100점' type='text' class='confirm_test'/> <button class='jumsu'>전송하기</button></kaka><kaka class='tom'><span class='otherother tom' >tom</span>님과의 거래는 만족 스러웠나요??</br>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요<br><input placeholder='1~100점' type='text' class='confirm_test'/> <button class='jumsu' >전송하기</button></kaka><div class='jumsuNum' style='display:none'>1356</div>
   if(req.body.seller == req.body.sender){
-    target = "<ol class=''me''><div><p style=''color:brown;'' class=''meme''>"+req.body.sender+"</p>과의 거래는 만족 스러웠나요??</div><div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div><div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>";
-    value = "<div class=''me''><p style=''display:none;'' class=''meme''>" + req.body.sender + "</p>이미 매너 게이지 측정을 완료하셨습니다.</div>";
+//    target = "<ol class=''me''><div><p style=''color:brown;'' class=''meme''>"+req.body.sender+"</p>과의 거래는 만족 스러웠나요??</div><div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div><div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>";
+    target = "<span class=''meme "+req.body.seller+"'' >"+req.body.seller+"</span>님과의 거래는 만족 스러웠나요??<br>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요<br><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button>";
+    //value = "<span class=''me''><p style=''display:none;'' class=''meme''>" + req.body.sender + "</p>이미 매너 게이지 측정을 완료하셨습니다.</sapn>";
+    value = "<ppap style=''display:none;'' class=''meme''>" + req.body.sender + "</ppap>이미 매너 게이지 측정을 완료하셨습니다.";
   }else if(req.body.buyer == req.body.sender){
-    target = "<ol class=''other''><div><p style=''color:brown;'' class=''otherother''>" + req.body.sender + "</p>과의 거래는 만족 스러웠나요??</div><div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div><div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>";
-    value = "<div class=''other''><p style=''display:none;'' class=''otherother''>" + req.body.sender + "</p>이미 매너 게이지 측정을 완료하셨습니다.</div>";
+   // target = "<ol class=''other''><div><p style=''color:brown;'' class=''otherother''>" + req.body.sender + "</p>과의 거래는 만족 스러웠나요??</div><div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div><div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>";
+    target = "<span class=''otherother "+req.body.buyer+"'' >"+req.body.buyer+"</span>님과의 거래는 만족 스러웠나요??</br>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요<br><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu'' >전송하기</button>";    
+    value = "<ppap style=''display:none;'' class=''otherother''>" + req.body.sender + "</ppap>이미 매너 게이지 측정을 완료하셨습니다.";
   }
   
   console.log(target);
@@ -220,43 +246,24 @@ app.post('/jumsu', function (req, res) {
   
   var query4 = "update message set content = replace(content,'"+target+"', '"+value+"') where message_num = " + message_id;
 
-
+  
   // var query4 = "update message set content = '<div class=''end'' steyle=''color:brown''>평가가 완료 되었습니다.</div></ol>' where room_id = "+room_id+"" ;
   console.log('query 1//' + query1);
-  console.log('query 2//' + query2);
-  console.log('query 3//' + query3);
   console.log('query 4//' + query4);
   conn.execute(query1, function (err, result) {
     console.log('query1 끝')
     console.log('query1 끝' + result)
-    console.log('query1 끝' + result)
+    console.log('query1 끝' , result)
     console.log('query1 끝' + err)
     if (!err) {
-      conn.execute(query2, function (err, result) {
-        console.log('query2 끝')
-        console.log('query2 끝' + result)
-        console.log('query2 끝' + result)
-        console.log('query2 끝' + err)
-        if (!err) {
-          conn.execute(query3, function (err, result) {
-            console.log('query3 끝')
-            console.log('query3 끝' + result)
-            console.log('query3 끝' + result)
-            console.log('query3 끝' + err)
-            if (!err) {
-              conn.execute(query4,function(err,result){
-                
-                  console.log('평가 완료');
-                  console.log('평가 완료');
-                  console.log('평가 완료' + result);
-                  console.log('평가 완료' + result);
-                  console.log('평가 완료' + result);
-                  console.log('평가 완료' + err);
-                  res.send({"success" : "success"});
-              })
-            }
-          })
-        }
+      conn.execute(query4,function(err,result){
+          console.log('평가 완료');
+          console.log('평가 완료');
+          console.log('평가 완료' + result);
+          console.log('평가 완료' + result);
+          console.log('평가 완료' , result);
+          console.log('평가 완료' + err);
+          res.send({"success" : "success"});
       })
     }
   })
