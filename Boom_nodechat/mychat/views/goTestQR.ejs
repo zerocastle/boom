@@ -28,7 +28,7 @@
                 if (seller != null && buyer != null) {
                     console.log("qrTokens are not null");
                     $.ajax({
-                        url: "http://39.127.7.51:3000/api/push/qrToken",
+                        url: "http://39.127.7.47:3000/api/push/qrToken",
                         dataType: 'json',
                         type: 'POST',
                         data: {
@@ -65,7 +65,7 @@
             /**직플레이스 part_name과 상품번호로 해당 직플레이스 파트너의 닉네임값과 거래 상태를 가져오기 위한 ajax 통신.*/
             $.ajax({
                 type: 'post',
-                url: 'http://39.127.7.51:3000/api/QRpartner',//QRpartner.js
+                url: 'http://39.127.7.47:3000/api/QRpartner',//QRpartner.js
                 dataType: 'json',
                 data: {
                     pro_num: '<%=pro_num%>', //상품 번호..?       
@@ -75,7 +75,7 @@
                     //채팅방넘버불러오기
                     $.ajax({
                     type: 'post',
-                    url: 'http://39.127.7.51:3000/api/QRpartner/getRoomid',//QRpartner.js/inAccept
+                    url: 'http://39.127.7.47:3000/api/QRpartner/getRoomid',//QRpartner.js/inAccept
                     dataType: 'json',
                     data: {
                         pro_num: '<%=pro_num%>', //상품 번호의 state_msg를 2로 바꾼다.       
@@ -145,7 +145,7 @@
                 socket.emit('inprod', room_id, '상품이 입고 되었습니다.');
                 $.ajax({
                     type: 'post',
-                    url: 'http://39.127.7.51:3000/api/QRpartner/accept',//QRpartner.js/inAccept
+                    url: 'http://39.127.7.47:3000/api/QRpartner/accept',//QRpartner.js/inAccept
                     dataType: 'json',
                     data: {
                         pro_num: '<%=pro_num%>', //상품 번호..?       
@@ -178,7 +178,7 @@
                 socket.emit('inprod', room_id, '상품이 출고 되었습니다.');
                 $.ajax({
                     type: 'post',
-                    url: 'http://39.127.7.51:3000/api/QRpartner/accept',//QRpartner.js/inAccept
+                    url: 'http://39.127.7.47:3000/api/QRpartner/accept',//QRpartner.js/inAccept
                     dataType: 'json',
                     data: {
                         pro_num: '<%=pro_num%>', //상품 번호의 state_msg를 2로 바꾼다.       
@@ -215,8 +215,14 @@
                     var buyer = '<%=buyer_name%>';
 
                    
+                    var tag = "<kaka class=''"+seller+"''><span class=''meme "+seller+"'' >" + seller + "</span>님과의 거래는 만족 스러웠나요??<br>" 
+        + "더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요<br>"
+        + "<input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></kaka>"
+        + "<kaka class=''"+buyer+"''><span class=''otherother "+buyer+"'' >" + buyer + "</span>님과의 거래는 만족 스러웠나요??</br>"
+        + "더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요<br>"
+        + "<input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu'' >전송하기</button></kaka>";
 
-                    var tag = "<ol class=''me''><div><p style=''color:brown; background:none;'' class=''meme''>" + seller + "</p>과의 거래는 만족 스러웠나요??</div><div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div><div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol><ol class=''other''><div><p style=''color:brown;'' class=''otherother''>" + buyer + "</p>과의 거래는 만족 스러웠나요??</div><div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div><div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>";
+                    //var tag = "<ol class=''me''><div><p style=''color:brown; background:none;'' class=''meme''>" + seller + "</p>과의 거래는 만족 스러웠나요??</div><div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div><div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol><ol class=''other''><div><p style=''color:brown;'' class=''otherother''>" + buyer + "</p>과의 거래는 만족 스러웠나요??</div><div>더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요</div><div style=''color:black''><input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></div></ol>";
                     console.log(pro_num);
 
                     socket.emit('confirm_test', pro_num, room_id, tag, seller, buyer);

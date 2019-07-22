@@ -31,6 +31,10 @@
   <link rel="stylesheet" type="text/css" href="stylesheets/chat.css" />
 
   <style>
+
+      .tmsg {
+        display : block;
+      }
       body {
         /* display: flex; */
         /* align-items: center; */
@@ -611,6 +615,7 @@
       }
       #frame .content .messages ul li.sent p {
         background: #bcddff;
+        border : 1px solid #92cbf9;
         color: black;
       }
       #frame .content .messages ul li.replies img {
@@ -726,6 +731,28 @@
           margin: auto;
           padding-top: 25px !important;
         }
+        .me {
+          background :#bcddff;
+        }
+        .other {
+          background :#bcddff;
+        }
+
+        .meme{
+          float : none;
+        }
+        .otherother {
+          float : none;
+        }
+
+        .<%=nickname%>{
+         display : none;
+        }
+
+        .chat-box {
+          margin-bottom: 0px;
+        }
+        
       </style>
     
 </head>
@@ -739,8 +766,8 @@
           %>
           <div class="content">
               <div class="contact-profile">
-                  <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" style="margin-left: 30px;" />
-                  <p style="font-weight: bolder; font-size: 18px; line-height: 60px;"><%=nickname%>
+                  <img src="http://39.127.7.47:8080/resources/" alt="" style="margin-left: 30px;" />
+                  <p style="font-weight: bolder; font-size: 18px; line-height: 60px;">
                   <span style="font-size: 14px; margin-left:10px"><%=jprod.title%></span>
                   </p>
                   
@@ -768,6 +795,31 @@
       <div id="nickname" style="display:none;"><%=nickname%></div>
       <div id="room_id" style="display:none;"><%=roomid%></div>
       <div id="status" style="display:none;"><%=rstatus%></div>
+      <script>
+        //// 상대방 이미지 불러오기.
+      $(document).ready(function(){
+        //(select uploadPath  || '/' || uuid ||'_'|| fileName from member where m_num = c.buyer_num) img
+        // http://39.127.7.47:8080/resources/  + img
+        $.ajax({
+            url : '/otherImage',
+            type:'post',
+            data : {
+                      room_id : '<%=roomid%>',
+                      nickname : '<%=nickname%>'
+                    },
+            dataType:'json',
+            success:function(data){
+              console.log(data);
+              $('.contact-profile img').attr('src', 'http://39.127.7.47:8080/resources/'  + data.img);
+              $('.contact-profile p').prepend(data.nickname);
+            
+            },error : function(err){
+
+            }
+          });
+      });
+      </script>
+      
       <script>
         // 평가지 보여주는 부분
         //============================================================================================================================
@@ -873,27 +925,27 @@ var subDate;
         <%=arr[i].tnickname%> 
     </div>
     <div>    
-       <%-arr[i].tmessage%>
+      <p class="tmsg"><%-arr[i].tmessage%>
     </div>
     </li>
   <%} else if(arr[i].tnickname == nickname){%>
     <li class="even replies">
-        <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
+        <!--<img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />-->
         <div style="text-align: right">
             <%=arr[i].tnickname%> 
         </div>
         <div>    
-            <p class="tmsg"><%-arr[i].tmessage%></p>
+            <p class="tmsg"><%-arr[i].tmessage%>
         </div>
     </li>
   <%} else {%>
     <li class="odd sent">
-        <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
+        <!--<img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />-->
         <div>
             <%=arr[i].tnickname%> 
         </div>
         <div>    
-            <p class="tmsg"><%-arr[i].tmessage%></p>
+            <p class="tmsg"><%-arr[i].tmessage%>
         </div>
         </li>
   <%}%>
@@ -970,7 +1022,7 @@ var subDate;
         var muid = $(".qrcode")[i].innerHTML;
         console.log(muid);
         var qrcode = new QRCode(document.getElementsByClassName("qrcode")[i], {
-          text: "http://39.127.7.51:3000/testQR?muid=" + muid + "&Tname=" + '<%=nickname%>',  ///주의!! 직플파트너의 닉네임이 노드서버에서 쿼리스트링의 변수 'nickname'에 더해진다.,
+          text: "http://39.127.7.47:3000/testQR?muid=" + muid + "&Tname=" + '<%=nickname%>',  ///주의!! 직플파트너의 닉네임이 노드서버에서 쿼리스트링의 변수 'nickname'에 더해진다.,
           width: 350,
           height: 350,
           colorDark: "#000000",
@@ -1001,8 +1053,6 @@ var subDate;
     IMP.init("imp57701295");
     $(document).on('click', '.payment', function () {
       var buyer2 = $.urlParam('buyer');
-      alert(buyer2);
-      alert(name == buyer2);
       if (name + '' != buyer2) {
         alert('구매자만 결제가 가능합니다.');
         return false;
@@ -1116,7 +1166,6 @@ var subDate;
         url: '/getSession',
         async: false,
         success: function (data) {
-          alert(data.getSession + "맞니??");
           getSession = data.getSession;
         }
       });
@@ -1126,14 +1175,12 @@ var subDate;
       var buyer = $('#buyer').text();
       var nickname = $('#nickname').text();
       
-      window.alert(seller + '하핫');
-      window.alert(buyer + '하핫');
-      var tag = "<p class=''me''><span class=''meme''>" + seller + "</span>님과의 거래는 만족 스러웠나요??<br>" 
+      var tag = "<kaka class=''"+seller+"''><span class=''meme "+seller+"'' >" + seller + "</span>님과의 거래는 만족 스러웠나요??<br>" 
         + "더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요<br>"
-        + "<input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></p>"
-        + "<p class=''other''><span class=''otherother''>" + buyer + "</span>님과의 거래는 만족 스러웠나요??</br>"
-        + "더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요"
-        + "<input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu'' >전송하기</button></p>";
+        + "<input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu''>전송하기</button></kaka>"
+        + "<kaka class=''"+buyer+"''><span class=''otherother "+buyer+"'' >" + buyer + "</span>님과의 거래는 만족 스러웠나요??</br>"
+        + "더 나은 서비스를 제공하기 위해 서로에 매너 게이지를 측정 해보세요<br>"
+        + "<input placeholder=''1~100점'' type=''text'' class=''confirm_test''/> <button class=''jumsu'' >전송하기</button></kaka>";//일단 서버쪽도 처리가 끝났다.
       console.log(pro_num);
       socket.emit('confirm_test', pro_num, room_id, tag, seller, buyer);
      
@@ -1141,7 +1188,6 @@ var subDate;
     // 최종 마무리
     socket.on('confirm_test', function (test) {
       // window.location.reload();
-      window.alert('test?Hellow?' + test);
       window.location.reload();
     })
     // 결제 완료시 영수증 ========================================================
@@ -1167,7 +1213,7 @@ var subDate;
             alert('status( ' + result + ') : 결제가 완료되어 결제를 진행 할 수 없습니다.');
             //결제가 아직 진행중이라면 결제명세서 전송과정을 마저 진행한다.  
           } else {
-            $('#messages').append($('<li class="even replies">').html('<img src="http://emilcarlsson.se/assets/mikeross.png" alt=""><div style="text-align:right">'+name +'</div><p class="tmsg>'+ tag+'</p>'));//명세서를 채팅방에 뿌려준다.
+            $('#messages').append($('<li class="even replies">').html('<div style="text-align:right">'+name +'</div><p class="tmsg>'+ tag+'</p>'));//명세서를 채팅방에 뿌려준다.
             window.location.reload();
             $('.messages').scrollTop($('.messages')[0].scrollHeight);//스크롤 최하단.
             socket.emit('socket_sendAcc', num, name, tag);//서버를 통한 결제명세서 메시지를 상대방에게 전송한다.
@@ -1180,7 +1226,7 @@ var subDate;
       if (name == $('#nickname').text()) {
         // window.location.reload();
       } else {
-        $('#messages').append($('<li class="odd sent">').html('<img src="http://emilcarlsson.se/assets/mikeross.png" alt=""><div style="text-align:left">'+name +'</div><p class="tmsg>'+ tag+'</p>'));//버튼은 상대방에게만 보인다.
+        $('#messages').append($('<li class="odd sent">').html('<div style="text-align:left">'+name +'</div><p class="tmsg>'+ tag+'</p>'));//버튼은 상대방에게만 보인다.
             // $('.messages').scrollTop($('.messages')[0].scrollHeight); // 스크롤 가장아래로 내림
          window.location.reload();
         $('.messages').scrollTop($('.messages')[0].scrollHeight);
@@ -1193,7 +1239,6 @@ var subDate;
         alert('장소를 지정해 주시기 바랍니다.');
         return false;
       }
-      alert($('#set_address').val()); // 고른 시간 한번 알려주고
       var address = $('#set_address').val();
       socket.emit('socket_address', num, address, name); //서버로 전송한다.
     });
@@ -1210,7 +1255,6 @@ var subDate;
       $('.messages').scrollTop($('.messages')[0].scrollHeight); 
     });
     $(document).on("click", ".Ayes", function (event) {
-      alert($(event.target).siblings('.addressP').text());
       var addressP = $(event.target).siblings('.addressP').text();
       alert('약속 :' + addressP + '으로 지정되었습니다.');
       $('#set_address').val(addressP);//제안들중 선택 
@@ -1219,7 +1263,6 @@ var subDate;
     $(document).on("click", ".Ano", function (event) {// 거절버튼 클릭시
       var addressP = $(event.target).siblings('.addressP').text();
       message_id = $(event.target).val();
-      alert('클릭된 거절버튼의 메시지 아이디' + message_id + '입니다');
       alert('약속제안 (' + $(event.target).siblings('.addressP').text() + ')을 거절하셨습니다.');
       socket.emit('addressNo', addressP, num, message_id); //서버로 전송한다.
     });
@@ -1228,7 +1271,6 @@ var subDate;
         alert('날짜를 지정해 주시기 바랍니다.');
         return false;
       }
-      alert($('#set_date').val()); // 고른 시간 한번 알려주고
       var date = $('#set_date').val();
       socket.emit('socket_date', num, date, name); //서버로 전송한다.
     });
@@ -1248,7 +1290,6 @@ var subDate;
       $('.messages').scrollTop($('.messages')[0].scrollHeight); 
     });
     $(document).on("click", ".yes", function (event) {
-      alert($(event.target).siblings('.dateP').text());
       var dateP = $(event.target).siblings('.dateP').text();
       alert('약속 :' + dateP + '으로 지정되었습니다.');
       $('#set_date').val(dateP);//제안들중 선택 
@@ -1257,7 +1298,6 @@ var subDate;
     $(document).on("click", ".no", function (event) {// 거절버튼 클릭시
       var dateP = $(event.target).siblings('.dateP').text();
       message_id = $(event.target).val();
-      alert('클릭된 거절버튼의 메시지 아이디' + message_id + '입니다');
       alert('약속일시 제안 (' + $(event.target).siblings('.dateP').text() + ')을 거절하셨습니다.');
       socket.emit('dateNo', dateP, num, message_id); //서버로 전송한다.
     });
@@ -1333,11 +1373,11 @@ var subDate;
     // 체팅 메세지 하기 =====================================================
     socket.on('chat message', (name, msg) => {// 소켓에 신호가 오면 chat message 기능 실행.
       if (name == $('#nickname').text()) {//날아온 메시지의 이름이 세션의 닉네임과 같다면
-       $('#messages').append('<li class="even replies"><img src="http://emilcarlsson.se/assets/mikeross.png" alt="" /><div style="text-align: right">'+name+'</div><div><p>'+msg+'</p></div></li>');
+       $('#messages').append('<li class="even replies"><div style="text-align: right">'+name+'</div><div><p>'+msg+'</p></div></li>');
         
       }//우측에 위치한다. 내가쓴메시지
       else {//아니라면 좌측에 위치한다. 남이쓴메시지
-        $('#messages').append('<li class="odd sent"><img src="http://emilcarlsson.se/assets/mikeross.png" alt="" /><div>'+name+'</div><div><p>'+msg+'</p></div></li>');
+        $('#messages').append('<li class="odd sent"><div>'+name+'</div><div><p>'+msg+'</p></div></li>');
         
       }
       console.log('chat message' + name + msg);
@@ -1400,15 +1440,25 @@ var subDate;
 <!--점수 버튼을 눌렀을때 적용 ======================================================-->
 <script>
   $(function () {
-    $('.jumsu').on("click", function () {
-     var sender = $(this).parent().parent().find('p').text();
-     var score = parseInt($(this).siblings().first().val());
+    $('.jumsu').on("click", function (e) {
+      var sender = $(e.target).parent().find('span').text();
+     var score = $(e.target).parent().find('input').val();
      var room_id = parseInt($('#room_id').text());
-     window.alert(sender + '' + score);
+     var message_id = $(e.target).parent().parent().parent().find('.jumsuNum').text();
+
+     console.log('room_id : ', room_id);
+     console.log('message_id : ' , message_id);
+     console.log('상대방 : ',  sender);
+     console.log('score : ',  score);
+
+     
       var data = {
         sender: sender,
         score: score,
-        room_id : room_id
+        room_id : room_id,
+        message_id : message_id,
+        seller : $('#seller').text(),
+        buyer : $('#buyer').text()
       };
       $.ajax({
         type: 'POST',
@@ -1418,11 +1468,13 @@ var subDate;
           console.log(data.success);
           if(data.success){
             window.alert("성공적으로 평가를 완료 했습니다.");
+            window.location.reload();
           }else{
             window.alert("점수를 평가하는데 실패 했습니다.")
           }
         },
         error: function (err) {
+          console.log(err);
           alert(err);
         }
       })
