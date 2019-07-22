@@ -1289,8 +1289,14 @@ var subDate;
       socket.emit('zicpleNo', addressP, num, message_id); //서버로 전송한다.
     });
     window.addEventListener('message', function(e) {
-          console.log(e.data); // 
+          
+        console.log(e.data); // 
           var data = e.data;
+          if(data.map != 'map'){
+            return false
+          } else{
+
+          
           console.log(data.fullString);
           console.log(data.part_name);
           console.log(data.road);
@@ -1300,6 +1306,7 @@ var subDate;
           //$('#updateZicpleA b').text(data.part_name)  수락하면 바뀌어야해
           socket.emit('messageZicple', num, name, data)
           $('#myModal').bPopup().close();
+        }
     });
     $('#updateZicpleB').click(function(){
       console.log('직플 업데이트 시작.')

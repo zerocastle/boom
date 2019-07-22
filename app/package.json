@@ -48,8 +48,8 @@
       "cordova-plugin-geolocation": {},
       "cordova-plugin-photo-library": {},
       "cordova-plugin-save-image-gallery": {},
-      "cordova-plugin-barcodescanner": {},
-      "cordova-plugin-imagepicker": {}
+      "cordova-plugin-imagepicker": {},
+      "cordova-plugin-barcodescanner": {}
     },
     "platforms": [
       "android"

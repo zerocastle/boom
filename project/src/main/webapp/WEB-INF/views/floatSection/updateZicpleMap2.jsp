@@ -97,6 +97,7 @@ $(document).ready(function(){
 		var jibun = $(e.target).data('jibun');
 		console.log(company_num);
 		var json = {
+				'map' : 'map',
 				'road' : road,
 				'jibun' : jibun,
 				'part_name' : part_name,
