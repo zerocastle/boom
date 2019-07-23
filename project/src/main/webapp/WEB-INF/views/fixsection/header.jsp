@@ -266,6 +266,11 @@ select:focus {
 					class="nav-link active dropdown-toggle forwardable"
 					data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
 					aria-expanded="false"> 신고게시판 </a></li>
+				<li class="nav-item dropdown dropdown-hover"><a
+					id="marketPrice"
+					class="nav-link active dropdown-toggle forwardable"
+					data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+					aria-expanded="false"> 시세알아보기 </a></li>
 			</ul>
 			<!-- /Main navigation -->
 
@@ -311,7 +316,7 @@ select:focus {
 		<!-- /.container -->
 	</header>
 
-<!-- 	<script>
+	<!-- 	<script>
  // 위치정보를 받아들인다.
 	
  	$(function(){

@@ -10,6 +10,7 @@ import com.ys.project.projectVO.MemberVO;
 import com.ys.project.projectVO.PartnerVO;
 import com.ys.project.projectVO.PaymentVO;
 import com.ys.project.projectVO.ProductionReviewVO;
+import com.ys.project.projectVO.ProductionVO;
 import com.ys.project.projectVO.joinPickVO;
 import com.ys.project.projectVO.joinProductVO;
 import com.ys.project.projectVO.joinReviewVO;
@@ -89,4 +90,8 @@ public interface IMemberDao {
 	public List<PartnerVO> getPlaceList(int m_num);
 
 	public List<HashMap<String, String>> getInProdList(String part_name);
+	
+	
+	//시세측정하기
+	public List<ProductionVO> getMarketPrice();
 }

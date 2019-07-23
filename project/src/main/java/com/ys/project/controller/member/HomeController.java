@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ys.project.dao.member.IMemberDao;
 import com.ys.project.projectDTO.IndexProductionDTO;
 import com.ys.project.projectVO.PartnerVO;
+import com.ys.project.projectVO.ProductionVO;
 import com.ys.project.service.production.IProductionService;
 import com.ys.project.service.sellingUpdate.ISellingUpdateService;
 
@@ -29,6 +31,8 @@ public class HomeController {
 
 	// 직플파트너 가져오기 위한 서비스 레이어
 	private ISellingUpdateService service2;
+
+	private IMemberDao memberDaoService;
 
 	/* @ResponseBody */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -73,8 +77,6 @@ public class HomeController {
 		return "index";
 	}
 
-	
-	
 	// 직플레이스 정보를 얻기 위한 작업
 	@ResponseBody
 	@GetMapping("/getPartner")
@@ -83,6 +85,15 @@ public class HomeController {
 
 		return service2.directPickList();
 
+	}
+
+	// 시세측정 들고오기
+	@GetMapping("/getMarketPrice")
+	public String getMarketPrice(Model model) {
+		List<ProductionVO> listVO = memberDaoService.getMarketPrice();
+
+		model.addAttribute("marketPriceView", listVO);
+		return "marketPrice/marketPriceView";
 	}
 
 }

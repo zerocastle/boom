@@ -15,6 +15,7 @@ import com.ys.project.projectVO.MemberVO;
 import com.ys.project.projectVO.PartnerVO;
 import com.ys.project.projectVO.PaymentVO;
 import com.ys.project.projectVO.ProductionReviewVO;
+import com.ys.project.projectVO.ProductionVO;
 import com.ys.project.projectVO.joinPickVO;
 import com.ys.project.projectVO.joinProductVO;
 import com.ys.project.projectVO.joinReviewVO;
@@ -242,5 +243,13 @@ public class MemberDao implements IMemberDao {
 	public List<HashMap<String, String>> getInProdList(String part_name) {
 		// TODO Auto-generated method stub
 		return session.selectList("member.getInProdList", part_name);
+	}
+	
+	//시세 측정하기
+
+	@Override
+	public List<ProductionVO> getMarketPrice() {
+		// TODO Auto-generated method stub
+		return session.selectList("member.getMarketPrice");
 	}
 }
