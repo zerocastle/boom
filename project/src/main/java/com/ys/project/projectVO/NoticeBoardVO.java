@@ -13,5 +13,6 @@ public class NoticeBoardVO {
 	private String admin_id; // 관리자 포린키
 	private Date create_date;
 	private Date update_date;
+	private String updt_date;
 
 }

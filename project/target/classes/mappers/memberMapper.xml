@@ -277,7 +277,31 @@
 	<delete id="partnerDelete">
 		delete from partner where company_number = #{company_number}
 	</delete>
+	
 	<delete id="productDelete">
 		delete from production where pro_num = #{pro_num}
 	</delete>
+	
+	<select id="noticeboard" resultType="NoticeBoardVO">
+		select * from noticeboard
+	</select>
+	
+	<select id="noticelist" resultType="NoticeBoardVO">
+		select * from noticeboard where no_num = #{no_num}
+	</select>
+	
+	<select id="warningboard" resultType="WarningBoardVO">
+		select * from warningboard
+	</select>
+	
+	<select id="warninglist" resultType="WarningBoardVO">
+		select * from warningboard where wa_num = #{wa_num}
+	</select>
+	
+	<insert id="warningreply" parameterType="WarningBoardReplyVO">
+		insert into warningboardreply
+		(reply_num, replyer, reply, wa_num)
+		values(warningboardreply_seq.nextval, #{replyer},#{reply},#{wa_num})
+		
+	</insert>
 </mapper>

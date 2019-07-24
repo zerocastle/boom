@@ -15,5 +15,6 @@ public class WarningBoardVO {
 	private String wa_type; //신고 분류
 	private int replycnt; //댓글 숫자
 	private int m_num; //회원 포린키
-
+	private String updt_date;
+//	private String cret_date;
 }

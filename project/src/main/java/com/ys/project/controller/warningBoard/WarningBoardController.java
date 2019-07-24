@@ -84,5 +84,12 @@ public class WarningBoardController {
 		}
 		return "redirect:/warningBoard/warningBoard" + cri.getListLink();
 	}
+	
+	@PostMapping("/register2")
+	public void register2(WarningBoardVO warningBoardVO) {
+		log.info("register : " + warningBoardVO);
+
+		service.register(warningBoardVO);
+	}
 
 }

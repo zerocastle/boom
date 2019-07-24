@@ -111,45 +111,5 @@ $(document).ready(function () {
             })
         }
     })
-    // $('#searchbar').keydown(function (key) {
-    //     var searchValue = $(this).val();
-    //     var request = new XMLHttpRequest();
-    //     var encodeSearchValue = encodeURIComponent(searchValue, true);
-    //     console.log(searchValue);
-    //     console.log(encodeSearchValue);
-    //     $('.pro').empty();
-    //     $.ajax({
-    //         type: 'post',
-    //         url: "http://39.127.7.51:8080/app/production/search/" + encodeSearchValue,
-    //         contentType: "application/json; charset=UTF-8",
-    //         success: function (data) {
-    //             console.log(data);
-    //             for (var i = 0; i < data.length; i++) {
-    //                 if (data[i].place_signal == 1) {
-    //                     place_signal = "img/11.png";
-    //                 } else {
-    //                     place_signal = "img/22.png"
-    //                 }
-    //                 $('.pro').append('<div class="content-wrap"><div class="imgess">'
-    //                     + '<img class="pro-img" src="http://39.127.7.51:8080/resources/' + data[i].uploadPath + '/s_' + data[i].uuid + '_' + data[i].fileName + ' " width="90px;" height="85px;"/>'
-    //                     + '</div>'
-    //                     //다른 개행
-    //                     + '<div class="img-name">'
-    //                     + '<p>' + data[i].title + '</p>'
-    //                     + '<p class="addr-name">' + data[i].addr + '</p>'
-    //                     + '<p class="pro-price">가격 : ' + comma(data[i].price) + '원</p>'
-    //                     + '<input class="pro_num" type="hidden" value="' + data[i].pro_num + '" />'
-    //                     + '</div><img class="pick" src="' + place_signal + '" /></div>'
-    //                 );
-    //             }
-    //         },
-    //         error: function (error) {
-    //             console.log(error);
-    //         }
-
-    //     })
-
-
-    // })
 
 });
