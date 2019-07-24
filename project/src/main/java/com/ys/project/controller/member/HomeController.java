@@ -91,8 +91,9 @@ public class HomeController {
 	@GetMapping("/getMarketPrice")
 	public String getMarketPrice(Model model) {
 		List<ProductionVO> listVO = memberDaoService.getMarketPrice();
+		String jsonString = net.sf.json.JSONArray.fromObject(listVO).toString();
+		model.addAttribute("marketPriceView", jsonString);
 
-		model.addAttribute("marketPriceView", listVO);
 		return "marketPrice/marketPriceView";
 	}
 
