@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="js/jquery-3.4.0.min.js"></script>
     <script src="js/mypage.js"></script>
+    <script src="js/kategorie.js"></script>
     <link rel="stylesheet" href="css/mypage.css" />
     <script src="cordova.js"></script>
     <title>Document</title>
@@ -294,7 +295,7 @@
 
             <div class="pro-home">
 
-                <a href="./index.html">
+                <a href="">
                     <div class="pro_house">
                         <img src="./img/house.svg">
                     </div>
@@ -413,7 +414,7 @@
             $.ajax({
                 type: "POST",
                 data: query,
-                url: "http://39.127.7.51:8080/app/myPageList/nick",
+                url: "http://39.127.7.47:8080/app/myPageList/nick",
                 contentType: "application/json; charset=UTF-8",
                 success: function (data) {
                     console.log(data);

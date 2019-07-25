@@ -110,7 +110,6 @@ form button {
 
 .chat-box li span {
   padding: 0 0 5px;
-  color: black;
 }
 
 .item {
@@ -153,6 +152,7 @@ form button {
   box-sizing: border-box;
   border: 2px solid red;
   border-radius: 15px;
+  color : black;
 }
 .jumsu{
   height: 30px;

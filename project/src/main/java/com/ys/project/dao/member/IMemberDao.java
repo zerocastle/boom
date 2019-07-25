@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.repository.query.Param;
+import org.springframework.ui.Model;
 
 import com.ys.project.projectVO.LikeListVO;
 import com.ys.project.projectVO.MemberVO;
@@ -113,11 +114,14 @@ public interface IMemberDao {
 
 	public void appWarningReply(WarningBoardReplyVO vo);
 
-	
+	//ÆÇ¸Å³»¿ª
+	public List<PaymentVO> sellList(int m_num);
 	
 	//ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 	public List<ProductionVO> getMarketPrice();
 	
 	//ï¿½Ã¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
 	public List<ProductionVO> searchGetMarketPrice(@Param("word")String word);
+	
+	
 }

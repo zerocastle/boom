@@ -65,4 +65,7 @@
 	<delete id="delete">
 		DELETE FROM PRODUCTION_UPLOAD WHERE UUID = #{uuid}
 	</delete>
+	
+	
+	
 </mapper>

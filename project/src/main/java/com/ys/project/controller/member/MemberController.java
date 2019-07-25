@@ -31,6 +31,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ys.project.dao.member.IMemberDao;
 import com.ys.project.projectVO.LikeListVO;
 import com.ys.project.projectVO.MemberVO;
 import com.ys.project.projectVO.PageVO;
@@ -52,6 +53,7 @@ public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	@Autowired
 	private IMemberService service;
+	private IMemberDao dao;
 
 	// 占싸깍옙占쏙옙 처占쏙옙
 	@RequestMapping(value = "login", method = RequestMethod.GET)
@@ -467,7 +469,7 @@ public class MemberController {
 
 	// 占실매놂옙占쏙옙
 	@RequestMapping(value = "sellList/" + "{data}", method = RequestMethod.GET)
-	public String sellList(Model model, @PathVariable String data) throws Exception {
+	public String sellList(Model model, @PathVariable String data, HttpServletRequest req) throws Exception {
 
 		logger.info("占실몌옙 占쏙옙占쏙옙 占싱듸옙");
 
@@ -489,6 +491,15 @@ public class MemberController {
 		int totalPick = service.totalPick(num);
 		model.addAttribute("like", totalPick);
 
+		HttpSession session = req.getSession();
+		MemberVO vo = (MemberVO)session.getAttribute("loginSession");
+		
+		int m_num = vo.getM_num();
+		
+		model.addAttribute("dude",dao.sellList(m_num));
+		
+		logger.info("판매 내역 이동");
+		
 		return "sell/sellList";
 
 	}

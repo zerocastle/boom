@@ -4,56 +4,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<!-- Bootstrap core CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/css/mdb.min.css" rel="stylesheet">
+
     <title>Document</title>
     <style>
-        /* 홀수 row의 색 */
-.chat-box .odd {
-    background-color: #ecf0f1;
-}
- 
-/* 짝수 row의 색 */
-.chat-box .even {
-    background-color: #e1e5e5;
-}
-ul.mylist, ol.mylist {
-    list-style: none;
-    margin: 0px;
-    padding: 0px;
-  
-    max-width: 900px;
-    width: 100%;
-}
-  
-ul.mylist li, ol.mylist li {
-    display: inline-block;
-    padding: 10px;
-    margin-bottom: 5px;
-    border: 1px solid #efefef;
-    font-size: 20px;
-    cursor: pointer;
-}
-ul.mylist li,
-ol.mylist li {
-    -webkit-transition: background-color 0.3s linear;
-    -moz-transition: background-color 0.3s linear;
-    -ms-transition: background-color 0.3s linear;
-    -o-transition: background-color 0.3s linear;
-    transition: background-color 0.3s linear;
-}
-  
-ul.mylist li:hover,
-ol.mylist li:hover {
-    
-    background-color: #FFFF;
-}
-li{
-  background-color: #BBffff;
+      body{
+      font-weight: 500;
+      overflow-x:hidden; overflow-y:hidden;
+    }
 
-}
+    .white2{
+      height: 496px;
+      max-height: 100%;
+      overflow-x:hidden; overflow-y:auto;
+    }
+
+    .INFO{
+      margin-bottom: 10px;
+    }
+
+    img{
+      width: 3rem;
+    }
+
+    ul {
+      margin-bottom: 0;
+    }
+
+    .pb-0, .py-0{
+      padding-bottom: 1rem!important;
+    }
+
+    .nav-logo {
+      color: #007bff;
+      font-weight: bolder;
+    }
+    .right-flot{
+      float: right;
+    }
+
+    .zic-nick{
+      margin-top: 5px;
+      margin-bottom: 15px;
+      font-weight: 600;
+
+      border-bottom: 1px solid black;
+    }
+
+    .realNick{
+      font-size: 18px;
+      color: #007bff;
+      font-weight: bolder;
+    }
+    .p-2{
+      margin-bottom: 10px;
+    }
+    .p-2:hover{
+      background-color: #eee;
+    }
+
+    .img-div{
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .text-small{
+      display: inline-block;
+      margin-left: 20px;
+      width: 70%;
+      vertical-align: middle;
+    }
+    .text-product{
+      
+      overflow : hidden;
+
+      text-overflow : ellipsis;
+
+      height : 20px; 
+
+      word-wrap : brek-word; 
+
+      display : -webkit-box;
+
+      -webkit-line-clamp : 1;
+
+      -webkit-box-orient: vertical; 
+    }
+
+    .scrollbar-light-blue::-webkit-scrollbar-thumb{
+      border-radius: 10px;
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+      background-color: #82B1FF;
+    }
+
+    .MemberImg{
+      border-radius: 20%;
+      width: 60px;
+      border: 0.1px solid #007bff;
+      height: 60px;
+    }
 </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         $(document).ready(function(){
+            
             if(!sessionStorage.getItem('member')){
                 alert('로그인하셔야합니다.');
                 
@@ -61,7 +121,7 @@ li{
         }else {
             var temp =  {}//세션에 저장된 member JSONObject를 가져온다.
             temp = JSON.parse(sessionStorage.getItem('member'));
-            
+            $('.realNick').text(temp.nickname);
             console.log(temp);
             console.log(temp.nickname + '님의 방목록을 호출합니다.');
            
@@ -85,39 +145,74 @@ li{
                             pro_num : list.rows[i][3],
                             room_title : list.rows[i][4],
                             seller : list.rows[i][6],
-                            buyer : list.rows[i][5]
+                            buyer : list.rows[i][5],
+                            img : list.rows[i][7]
                         }
                         arr.push(jsondata);
                         console.log(temp.nickname+'회원의'+(i+1)+'번째 채빙방 : ', jsondata);
-                        if(jsondata.buyer == null || jsondata.seller == null ){
-                            urlStr = 'chatRoom.html?room_id='+jsondata.room_id+'&talker=out&seller='+jsondata.seller+'&buyer='+jsondata.buyer+'&pro_num='+jsondata.pro_num+'&mobile=1';
-                            $('ul').append('<ol><a href='+urlStr+'>'+jsondata.room_title+'</a>//상대방이 직톡방을 나갔습니다.')
+                        
+                        if(jsondata.seller == temp.nickname){
+                            var selectTag = '<strong>'+jsondata.buyer+'</strong>';
                         } else {
-                            urlStr = 'chatRoom.html?room_id='+jsondata.room_id+'&talker=in&seller='+jsondata.seller+'&buyer='+jsondata.buyer+'&pro_num='+jsondata.pro_num+'&mobile=1';
-                            $('ul').append('<ol>No.'+jsondata.room_id+' 직톡방 : <a href='+urlStr+'>'+jsondata.room_title+'</a>//구매자 : '+jsondata.buyer+', 판매자 : '+jsondata.seller+'')
+                            var selectTag = '<strong>'+jsondata.seller+'</strong>';
                         }
                         
-                    }
+                        if(jsondata.buyer == null || jsondata.seller == null ){
+                            
+                            urlStr = 'chatRoom.html?room_id='+jsondata.room_id+'&talker=out&seller='+jsondata.seller+'&buyer='+jsondata.buyer+'&pro_num='+jsondata.pro_num+'&mobile=1';
+                            $('ul').append('<li><a href='+urlStr+'>'+jsondata.room_title+'</a>//상대방이 직톡방을 나갔습니다.')
+                        } else {
+                            urlStr = 'chatRoom.html?room_id='+jsondata.room_id+'&talker=in&seller='+jsondata.seller+'&buyer='+jsondata.buyer+'&pro_num='+jsondata.pro_num+'&mobile=1';
+                            var longLi = '<li class="p-2"><a href="'+urlStr+'"><div class="img-div"><img class="MemberImg" src="http://39.127.7.47:8080/resources/'+jsondata.img+'" alt="sunil"></div><div class="text-small"><div>'+selectTag+'</div><div class="text-product"><span class="last-message text-muted">상품명 : '+jsondata.room_title+'</span></div></div><div class="chat-footer"><span class="text-muted float-right"><i class="fas fa-mail-reply" aria-hidden="true"></i></span></div></a></li>';
+                        
+                            $('ul').append(longLi);
+                        }
 
-                    
+                    }//반복문
                 }, error : function(err){//실패
                     console.log(err);
                 }
-
             })
-
-
         }
         });
     
     </script>
 </head>
 <body>
-    <div>
-        <ul>
-            
-        </ul>
-
+    <div class="card-body">
+      
+        <!-- Grid row -->
+        <div class="row px-lg-2 px-2">
+    
+            <div class="col-md-6 col-xl-4 px-0 INFO">
+                <div class="white z-depth-1 px-3 pt-3 pb-0">
+                  <div class="nav-logo">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18m-5 4a4 4 0 0 1-8 0"/></svg>
+                      <strong>직거래 PLUS</strong>
+                      <strong class="right-flot">직톡목록</strong>
+                  </div>
+                </div>
+            </div>
+          <!-- Grid column -->
+          <div class="col-md-6 col-xl-4 px-0">
+            <div class="white z-depth-1 px-3 pt-3 pb-0 white2 .scrollbar-light-blue">
+              <ul class="list-unstyled friend-list">
+                  <div class="zic-nick">
+                      <span class="realNick"></span>
+                      님의 거래목록
+                  </div>
+              </ul>
+            </div>
+    
+          </div>
+          <!-- Grid column -->
+    
+        
+    
+        </div>
+        <!-- Grid row -->
+    
+      </div>
     </div>
     <script src="js/index.js"></script>
 </body>

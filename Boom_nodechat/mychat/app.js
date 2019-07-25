@@ -291,7 +291,7 @@ app.post('/jumsu', function (req, res) {
   var room_id = req.body.room_id;
   var message_id = req.body.message_id;
   console.log('에라이시발이게나라냐!' + req.body.message_id);
-  var query1 = "update member set mannersum = mannersum + "+score+", manner_pick = 0 + manner_pick + 1, manner = (mannersum+"+score+"/(manner_pick+1)) where nickname = '"+sender+"'";
+  var query1 = "update member set mannersum = mannersum + "+score+", manner_pick = 0 + manner_pick + 1, manner = ((mannersum+"+score+")/(manner_pick+1)) where nickname = '"+sender+"'";
   
   var target = '';
   var value = '';

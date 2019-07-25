@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.ui.Model;
 
 import com.ys.project.projectVO.LikeListVO;
 import com.ys.project.projectVO.MemberVO;
@@ -317,5 +318,11 @@ public class MemberDao implements IMemberDao {
 	public List<ProductionVO> searchGetMarketPrice(String word) {
 		// TODO Auto-generated method stub
 		return session.selectList("member.getWordSearch", word);
+	}
+
+	@Override
+	public List<PaymentVO> sellList(int m_num) {
+		// TODO Auto-generated method stub
+		return session.selectList("member.getSoldList", m_num);
 	}
 }

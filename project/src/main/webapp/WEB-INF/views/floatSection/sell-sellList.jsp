@@ -4,7 +4,7 @@
 <script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="/resources/css/productList.css" />
- <link rel="stylesheet" type="text/css"
+<link rel="stylesheet" type="text/css"
 	href="/resources/css/mypage-info.css">
 <!-- <link rel="stylesheet" type="text/css"
 	href="/resources/css/review.css"> -->
@@ -117,8 +117,9 @@ $(document).ready(function(){
 		<div class="col-md-4 col-lg-3">
 			<div class="card">
 				<div class="card-body text-center">
-					<img src="${pageContext.request.contextPath}/resources/${member.uploadPath }/${member.uuid }_${member.fileName }" width="100" height="100" alt="User"
-						class="rounded-circle mb-3">
+					<img
+						src="${pageContext.request.contextPath}/resources/${member.uploadPath }/${member.uuid }_${member.fileName }"
+						width="100" height="100" alt="User" class="rounded-circle mb-3">
 					<h5 id="nick" class="bold mb-0">${member.nickname }</h5>
 					<small class="counter">${member.email }</small>
 					<hr>
@@ -131,8 +132,8 @@ $(document).ready(function(){
 				<div class="list-group list-group-flush">
 					<a href="#" id="profileLink"
 						class="list-group-item list-group-item-action"><i
-						data-feather="user" class="mr-3"></i>프로필</a> <a
-						href="#" id="myProduct"
+						data-feather="user" class="mr-3"></i>프로필</a> <a href="#"
+						id="myProduct"
 						class="list-group-item has-badge list-group-item-action"> <i
 						data-feather="shopping-bag" class="mr-3"></i>내 상품<span
 						class="badge rounded badge-primary">${proCount }</span></a> <a
@@ -141,27 +142,33 @@ $(document).ready(function(){
 						data-feather="heart" class="mr-3"></i>찜목록<span
 						class="badge rounded badge-primary">${like }</span></a> <a href="#"
 						id="review"
-						class="list-group-item has-badge list-group-item-action">
-						<i data-feather="edit-3" class="mr-3"></i>리뷰<span
+						class="list-group-item has-badge list-group-item-action"> <i
+						data-feather="edit-3" class="mr-3"></i>리뷰<span
 						class="badge rounded badge-primary">${pv }</span>
-					</a> <a href="#" id="buyList" class="list-group-item list-group-item-action"> <i
+					</a> <a href="#" id="buyList"
+						class="list-group-item list-group-item-action"> <i
 						data-feather="shopping-bag" class="mr-3"></i>구매내역
-					</a> <a href="#" id="sellList" class="list-group-item list-group-item-action active"> <i
+					</a> <a href="#" id="sellList"
+						class="list-group-item list-group-item-action active"> <i
 						data-feather="shopping-bag" class="mr-3"></i>판매내역
-					</a> 
-					
+					</a>
+
 					<!-- 직플레이스가 하나라도 있으면 해당 메뉴를 한개 출력한다. -->
-						<c:if test="${1 <= sessionScope.loginSession.partner_signal }">
-							<a href="#" id="inProd" class="list-group-item list-group-item-action">
-							<i data-feather="log-out" class="mr-3"></i> 직플레이스 입고 상품</a>
-						</c:if>
-						
-						<c:if test="${1 <= sessionScope.loginSession.partner_signal }">
-							<a href="#" id="inProd2" class="list-group-item list-group-item-action">
-							<i data-feather="log-out" class="mr-3"></i> 직플레이스 목록</a>
-						</c:if>
-						<!-- 직플레이스가 하나라도 있으면 해당 메뉴를 한개 출력한다. -->
-					
+					<c:if test="${1 <= sessionScope.loginSession.partner_signal }">
+						<a href="#" id="inProd"
+							class="list-group-item list-group-item-action"> <i
+							data-feather="log-out" class="mr-3"></i> 직플레이스 입고 상품
+						</a>
+					</c:if>
+
+					<c:if test="${1 <= sessionScope.loginSession.partner_signal }">
+						<a href="#" id="inProd2"
+							class="list-group-item list-group-item-action"> <i
+							data-feather="log-out" class="mr-3"></i> 직플레이스 목록
+						</a>
+					</c:if>
+					<!-- 직플레이스가 하나라도 있으면 해당 메뉴를 한개 출력한다. -->
+
 					<a href="#"
 						class="list-group-item list-group-item-action text-danger logout">
 						<i data-feather="log-out" class="mr-3"></i> Logout
@@ -175,36 +182,36 @@ $(document).ready(function(){
 				<div class="card-body">
 					<h3>판매 내역</h3>
 					<hr>
-             <div class="table-responsive">
-                <table class="table table-hover" data-addclass-on-xs="table-sm">
-                  <thead class="thead-light">
-                    <tr>
-                      <th scope="col">가맹점코드</th>
-                      <th scope="col">상품번호</th>
-                      <th scope="col">카테고리</th>
-                      <th scope="col">상품 이름</th>
-                      <th scope="col">상품 상태</th>
-                      <th scope="col">상품 가격</th>
-                      <th scope="col">판매자</th>
-                      <th scope="col" class="text-right">결제시간</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                 <%--  <c:forEach items="${paymentList}" var="list"> --%>
-                    <tr>
-                      <th scope="row"><span class="badge badge-warning rounded"></span></th>
-                      <td class="text-right"></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td class="text-right"></td>
-                    </tr>
-                  <%--  </c:forEach> --%>
-                  </tbody>
-                </table>
-              </div>
+					<div class="table-responsive">
+						<table class="table table-hover" data-addclass-on-xs="table-sm">
+							<thead class="thead-light">
+								<tr>
+									<th scope="col">가맹점코드</th>
+									<th scope="col">상품번호</th>
+									<th scope="col">카테고리</th>
+									<th scope="col">상품 이름</th>
+									<th scope="col">상품 상태</th>
+									<th scope="col">상품 가격</th>
+									<th scope="col">판매자</th>
+									<th scope="col" class="text-right">결제시간</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach items="${dude}" var="list">
+									<tr>
+										<th scope="row"><span class="badge badge-warning rounded"></span></th>
+										<td class="text-right">${list.pro_num}</td>
+										<td>${list.cate_code}</td>
+				                      	<td>${list.title }</td>
+				                      	<td>${list.quality}</td>
+				                      	<td>${list.price}</td>
+				                      	<td>${list.buyer_name}</td>
+				                      	<td class="text-right">${list.create_date}</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>

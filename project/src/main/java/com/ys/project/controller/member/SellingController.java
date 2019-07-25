@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ys.project.dao.member.IMemberDao;
 import com.ys.project.projectDTO.Criteria2;
 import com.ys.project.projectDTO.MemberProductionList;
 import com.ys.project.projectDTO.PageDTO2;
@@ -45,11 +46,11 @@ public class SellingController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	private ISellingUpdateService service;
+	private IMemberDao dao;
 
 	// 판매하기로 이동
 	@RequestMapping(value = "selling", method = RequestMethod.GET)
 	public String sellGet(Model model) {
-
 		logger.info("판매하기로 이동 한다.");
 		return "sell/selling";
 
@@ -148,8 +149,14 @@ public class SellingController {
 
 	// 판매내역
 	@RequestMapping(value = "sellList", method = RequestMethod.GET)
-	public String sellList(Model model) {
-
+	public String sellList(Model model, HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		MemberVO vo = (MemberVO)session.getAttribute("loginSession");
+		
+		int m_num = vo.getM_num();
+		
+		model.addAttribute("dude",dao.sellList(m_num));
+		
 		logger.info("판매 내역 이동");
 
 		return "sell/sellList";

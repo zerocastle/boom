@@ -1,11 +1,11 @@
-$(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+$('.messages').scrollTop(99999999); // 스크롤 가장아래로 내림
 console.log('chat.js 호출성공');
 //새로고침을 위한 함수.
 var ref = function () {
   road_and_QR()
-  $(document).scrollTop($(document).height());
+  $('.messages').scrollTop(99999999);
   window.location.reload();
-  $(document).scrollTop($(document).height());
+  $('.messages').scrollTop(99999999);
   road_and_QR()
 }
 //새로고침을 위한 함수.
@@ -82,6 +82,7 @@ var other = '';
 
 $('#set_date').bootstrapMaterialDatePicker({ format: 'YYYY/MM/DD HH:mm', minDate: new Date() });//캘린더 - datePicker를 달아준다.
 $(document).ready(function () {
+  $('.messages').scrollTop(99999999); // 스크롤 가장아래로 내림
   $.ajax({
     url : 'http://39.127.7.47:3000/otherImage',
     type:'post',
@@ -326,6 +327,7 @@ $(document).ready(function () {
             $('#messages').append($('<li class="odd sent">').html('<div>'+jsonoobj.tnickname + '</div><div><p class="tmsg">'+ jsonoobj.tmessage + '</p></div>'));//버튼은 상대방에게만 보인다.  
           }
         }
+        $('.messages').scrollTop(99999999); // 스크롤 가장아래로 내림
 
       }//for()
       road_and_QR();
@@ -351,7 +353,7 @@ $(document).ready(function () {
       }
       /////평가메시지 상대방과 나의 구분
 
-      $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+      $('.messages').scrollTop(99999999); // 스크롤 가장아래로 내림
       
     },
     error: function (err) {
@@ -402,7 +404,7 @@ socket.emit('joinRoom', num, Tname);
 // 일딴 세로 고침
 socket.on('ref', () => {
   window.location.reload();
-  $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+  $('.messages').scrollTop(99999999); // 스크롤 가장아래로 내림
 });
 
 
@@ -414,7 +416,7 @@ $('form').submit(() => {// Enter칠때마다 Send 할때마다 실행
     socket.emit('chat message', num, Tname, $('#m').val());// 서버로  작성자, 방번호, 메시지를 전달한다.
     //socket.emit('chat message phone', num, Tname, $('#m').val());// 서버로  작성자, 방번호, 메시지를 전달한다.
     sendToken($('#m').val(), $('#btitle').text(), Tname);
-    $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+    $('.messages').scrollTop(99999999); // 스크롤 가장아래로 내림
 
     $('#m').val('');//입력창 비워주기
   }
@@ -568,7 +570,7 @@ $('#buy').click(function () {
         //결제가 아직 진행중이라면 결제명세서 전송과정을 마저 진행한다.  
       } else {
         $('#messages').append($('<li class="even replies">').html('<div style="text-align:right">'+name +'</div><p class="tmsg>'+ tag+'</p>'));//명세서를 채팅방에 뿌려준다.
-        $(document).scrollTop($(document).height());//스크롤 최하단.
+        $('.messages').scrollTop(99999999);//스크롤 최하단.
         socket.emit('socket_sendAcc', num, Tname, tag);//서버를 통한 결제명세서 메시지를 상대방에게 전송한다.
       }
     }
@@ -724,7 +726,7 @@ $('#updateZicpleB').click(function(){
 // 결제 완료시 영수증 ========================================================
 socket.on('receipt', function (room_id, buyer_name, tag) {
   window.location.reload();
-  $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+  $('.messages').scrollTop(99999999); // 스크롤 가장아래로 내림
 });
 // ========================================================
 
@@ -732,14 +734,18 @@ socket.on('receipt', function (room_id, buyer_name, tag) {
 socket.on('chat message', (name, msg) => {// 소켓에 신호가 오면 chat message 기능 실행.
   if (name == Tname) {//날아온 메시지의 이름이 세션의 닉네임과 같다면
     //$('#messages').append($('<li class="even">').text(name + '  :  ' + msg));//우측에 위치한다. 내가쓴메시지
+    $('.messages').scrollTop(99999999); // 스크롤 가장아래로 내림
     window.location.reload();
+    $('.messages').scrollTop(99999999); // 스크롤 가장아래로 내림
   }
   else {//아니라면 좌측에 위치한다. 남이쓴메시지
     //$('#messages').append($('<li class="odd">').text(name + '  :  ' + msg));
+    $('.messages').scrollTop(99999999); // 스크롤 가장아래로 내림
     window.location.reload();
+    $('.messages').scrollTop(99999999); // 스크롤 가장아래로 내림
   }
   console.log('chat message' + name + msg);
-  $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+  $('.messages').scrollTop(99999999); // 스크롤 가장아래로 내림
 });
 //서버로부터 채팅메시지가 온다면
 
@@ -764,7 +770,7 @@ socket.on('socket_address', (num, address, name, message_id) => {// 상대방으
    // $('#messages').append($('<li class="odd">').html(name + ' : ' + '장소협의 - ' + name + '님에 의해 약속장소가 선정되었습니다 :<br><i class="addressP">' + address + "</i><br>" + buttonSet));//시스템메시지 약속지정정보를 보낸다.
    window.location.reload();
   }
-  $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+  $('.messages').scrollTop(99999999); // 스크롤 가장아래로 내림
 });
 //서버로부터 주소선정제안 메시지가 온다면
 
@@ -778,7 +784,7 @@ socket.on('socket_date', (num, date, name, message_id) => {
     window.location.reload();
     //$('#messages').append($('<li class="odd">').html(name + ' : ' + '시간협의 - ' + name + '님에 의해 약속일정이 선정되었습니다 :<i class="dateP">' + date + "</i><br>" + buttonSet));//시스템메시지 약속지정정보를 보낸다.
   }
-  $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+  $('.messages').scrollTop(99999999); // 스크롤 가장아래로 내림
 });
 //서버로부터 약속일시제안 메시지가 온다면
 
@@ -786,7 +792,7 @@ socket.on('socket_date', (num, date, name, message_id) => {
 //서버로부터 새로고침 지시
 socket.on('ref', () => {
   window.location.reload();
-  $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
+  $('.messages').scrollTop(99999999); // 스크롤 가장아래로 내림
 });
 //서버로부터 새로고침 지시
 

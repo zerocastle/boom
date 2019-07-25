@@ -393,5 +393,9 @@
 		WHERE STATE_MSG >= 3 AND TITLE LIKE '%'||#{word}||'%'
 		ORDER BY CREATE_DATE DESC
 	</select>
+	
+	<select id="getSoldList" resultType="PaymentVO" parameterType="int">
+		SELECT py.* FROM PAYMENT py, production pd WHERE py.pro_num = pd.pro_num and pd.m_num = #{m_num} and pd.state_msg = 3
+	</select>
 
 </mapper>
