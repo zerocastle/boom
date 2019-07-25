@@ -117,7 +117,6 @@ $(function() {
 		
 		//시세알아보기
 		$('#marketPrice').click(function(e){
-			window.alert('시세측정');
 			e.preventDefault();
 			window.location.href="/getMarketPrice";
 		})

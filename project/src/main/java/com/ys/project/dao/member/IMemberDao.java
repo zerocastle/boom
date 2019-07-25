@@ -1,9 +1,10 @@
 package com.ys.project.dao.member;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.data.repository.query.Param;
 
 import com.ys.project.projectVO.LikeListVO;
 import com.ys.project.projectVO.MemberVO;
@@ -94,4 +95,7 @@ public interface IMemberDao {
 	
 	//시세측정하기
 	public List<ProductionVO> getMarketPrice();
+	
+	//시세 측정 워딩 검색
+	public List<ProductionVO> searchGetMarketPrice(@Param("word")String word);
 }

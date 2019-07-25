@@ -74,21 +74,25 @@
 
 	<select id="pagingListCount" parameterType="int"
 		resultType="int">
-		SELECT COUNT(*) FROM PRODUCTIONREVIEW WHERE M_NUM = #{m_num}
+		SELECT COUNT(*) FROM PRODUCTIONREVIEW WHERE M_NUM =
+		#{m_num}
 	</select>
 
 	<select id="pagingReivewList" parameterType="ProductionReviewVO"
 		resultType="ProductionReviewVO">
 		SELECT
-		A.PR_NUM, A.STARPOINT, A.REPLY, A.REPLYER, A.CREATE_DATE, A.M_NUM
+		A.PR_NUM, A.STARPOINT, A.REPLY, A.REPLYER,
+		A.CREATE_DATE, A.M_NUM
 		FROM (
 
 		SELECT ROWNUM RNUM, S.*
 
 		FROM (
-		SELECT PR_NUM, STARPOINT, REPLY, REPLYER, CREATE_DATE, M_NUM
+		SELECT
+		PR_NUM, STARPOINT, REPLY, REPLYER, CREATE_DATE, M_NUM
 
-		FROM PRODUCTIONREVIEW
+		FROM
+		PRODUCTIONREVIEW
 
 		WHERE 1=1 AND M_NUM = #{m_num}
 		ORDER BY PR_NUM DESC
@@ -154,13 +158,18 @@
 		SELECT A.NICKNAME, A.M_NUM, B.PRO_NUM, B.TITLE, B.CONTENT ,
 		B.PRICE, B.ADDR, B.UUID, B.UPLOADPATH, B.FILENAME, B.REP FROM MEMBER A
 		,
-		(SELECT C.PRO_NUM, C.M_NUM, D.TITLE, D.CONTENT , D.PRICE, D.ADDR, D.UUID,
+		(SELECT C.PRO_NUM, C.M_NUM, D.TITLE, D.CONTENT , D.PRICE, D.ADDR,
+		D.UUID,
 		D.UPLOADPATH , D.FILENAME, D.REP FROM LIKELIST C ,
-		(SELECT E.PRO_NUM, E.TITLE, E.CONTENT , E.PRICE, E.ADDR, F.UUID,
-		F.UPLOADPATH, F.FILENAME, F.REP FROM PRODUCTION E, PRODUCTION_UPLOAD F
-		WHERE E.PRO_NUM = F.PRO_NUM) D
+		(SELECT
+		E.PRO_NUM, E.TITLE, E.CONTENT , E.PRICE, E.ADDR, F.UUID,
+		F.UPLOADPATH,
+		F.FILENAME, F.REP FROM PRODUCTION E, PRODUCTION_UPLOAD F
+		WHERE
+		E.PRO_NUM = F.PRO_NUM) D
 		WHERE C.PRO_NUM = D.PRO_NUM) B
-		WHERE A.M_NUM = B.M_NUM AND A.M_NUM =
+		WHERE A.M_NUM =
+		B.M_NUM AND A.M_NUM =
 		#{m_num} AND B.REP = 1
 	</select>
 
@@ -188,23 +197,30 @@
 	<select id="myPageList" parameterType="joinPickVO"
 		resultType="joinPickVO">
 		SELECT
-		AA.PRO_NUM, AA.M_NUM, AA.TITLE, AA.PRICE, AA.ADDR, AA.UUID, AA.UPLOADPATH,
+		AA.PRO_NUM, AA.M_NUM, AA.TITLE, AA.PRICE, AA.ADDR,
+		AA.UUID, AA.UPLOADPATH,
 		AA.FILENAME, AA.REP
 		FROM (
-		SELECT ROWNUM RNUM, S.*
+		SELECT ROWNUM RNUM,
+		S.*
 		FROM (
-		SELECT A.PRO_NUM,A.M_NUM , A.TITLE,A.PRICE,A.ADDR ,B.UUID,B.UPLOADPATH
-		,B.FILENAME, B.REP FROM PRODUCTION A , PRODUCTION_UPLOAD B WHERE
-		A.PRO_NUM = B.PRO_NUM AND A.M_NUM = #{m_num} AND B.REP = 1
+		SELECT A.PRO_NUM,A.M_NUM , A.TITLE,A.PRICE,A.ADDR
+		,B.UUID,B.UPLOADPATH
+		,B.FILENAME, B.REP FROM PRODUCTION A ,
+		PRODUCTION_UPLOAD B WHERE
+		A.PRO_NUM = B.PRO_NUM AND A.M_NUM = #{m_num}
+		AND B.REP = 1
 		ORDER BY PRO_NUM DESC
 		)S
 		)AA
-		WHERE RNUM BETWEEN #{startRowNo} AND #{endRowNo}
+		WHERE RNUM BETWEEN
+		#{startRowNo} AND #{endRowNo}
 	</select>
 
 	<select id="myPageListCount" parameterType="int"
 		resultType="int">
-		SELECT COUNT(*) FROM PRODUCTION A , PRODUCTION_UPLOAD B WHERE A.PRO_NUM =
+		SELECT COUNT(*) FROM PRODUCTION A , PRODUCTION_UPLOAD B
+		WHERE A.PRO_NUM =
 		B.PRO_NUM AND A.M_NUM = #{m_num} AND B.REP = 1
 	</select>
 
@@ -225,7 +241,8 @@
 		A.REPLYER , A.CREATE_DATE , B.NICKNAME , B.EMAIL , B.MANNER ,
 		B.IMG_PATH
 		FROM PRODUCTIONREVIEW A , MEMBER B
-		WHERE A.M_NUM = B.M_NUM AND A.M_NUM =
+		WHERE A.M_NUM = B.M_NUM
+		AND A.M_NUM =
 		#{m_num}
 		ORDER BY A.CREATE_DATE DESC
 	</select>
@@ -233,7 +250,8 @@
 	<select id="appOtherProduct" parameterType="int"
 		resultType="joinProductVO">
 		SELECT
-		AA.PRO_NUM, AA.M_NUM, AA.TITLE, AA.PRICE, AA.ADDR, AA.CREATE_DATE, AA.UUID,
+		AA.PRO_NUM, AA.M_NUM, AA.TITLE, AA.PRICE, AA.ADDR,
+		AA.CREATE_DATE, AA.UUID,
 		AA.UPLOADPATH, AA.FILENAME, AA.REP
 		FROM (
 		SELECT ROWNUM RNUM, S.*
@@ -242,7 +260,8 @@
 		A.PRO_NUM,A.M_NUM,A.TITLE,A.PRICE,A.ADDR,A.CREATE_DATE,B.UUID,B.UPLOADPATH
 		,B.FILENAME, B.REP FROM PRODUCTION A , PRODUCTION_UPLOAD B WHERE
 		A.PRO_NUM = B.PRO_NUM AND A.M_NUM = #{m_num} AND B.REP = 1
-		ORDER BY CREATE_DATE DESC
+		ORDER BY
+		CREATE_DATE DESC
 		)S
 		)AA
 		WHERE RNUM BETWEEN 1 AND 3
@@ -251,15 +270,18 @@
 	<select id="appOtherReview" parameterType="int"
 		resultType="ProductionReviewVO">
 		SELECT
-		A.PR_NUM, A.STARPOINT, A.REPLY, A.REPLYER, A.CREATE_DATE, A.M_NUM
+		A.PR_NUM, A.STARPOINT, A.REPLY, A.REPLYER,
+		A.CREATE_DATE, A.M_NUM
 		FROM (
 
 		SELECT ROWNUM RNUM, S.*
 
 		FROM (
-		SELECT PR_NUM, STARPOINT, REPLY, REPLYER, CREATE_DATE, M_NUM
+		SELECT
+		PR_NUM, STARPOINT, REPLY, REPLYER, CREATE_DATE, M_NUM
 
-		FROM PRODUCTIONREVIEW
+		FROM
+		PRODUCTIONREVIEW
 
 		WHERE 1=1 AND M_NUM = #{m_num}
 		ORDER BY PR_NUM DESC
@@ -298,18 +320,31 @@
 
 	<select id="getInProdList" parameterType="string"
 		resultType="hashMap">
-		select up.*, pd.*, py.* from payment py, partner pr, production pd,
-		production_upload up where py.pro_num = pd.pro_num and py.place_pick
-		like pr.part_name||'%' and pd.state_msg = 2 and up.pro_num =
+		select up.*, pd.*, py.* from payment py, partner pr,
+		production pd,
+		production_upload up where py.pro_num = pd.pro_num and
+		py.place_pick
+		like pr.part_name||'%' and pd.state_msg = 2 and
+		up.pro_num =
 		pd.pro_num and pr.part_name = #{part_name}
 	</select>
 
 	<!-- 시세 측정하는 쿼리 -->
 	<select id="getMarketPrice" resultType="ProductionVO">
-		SELECT PRO_NUM,TITLE,PRICE,TO_CHAR(CREATE_DATE,'YYYY-MM-DD') AS CREATE_DATE
+		SELECT
+		PRO_NUM,TITLE,PRICE,TO_CHAR(CREATE_DATE,'YYYY-MM-DD') AS CREATE_DATE
 		FROM PRODUCTION
 		WHERE STATE_MSG >= 3
+		ORDER BY CREATE_DATE DESC
 	</select>
 
+	<!-- 시세 측정 검색 쿼리 -->
+	<select id="getWordSearch" resultType="ProductionVO" parameterType="String">
+		SELECT
+		PRO_NUM,TITLE,PRICE,TO_CHAR(CREATE_DATE,'YYYY-MM-DD') AS CREATE_DATE
+		FROM PRODUCTION
+		WHERE STATE_MSG >= 3 AND TITLE LIKE '%'||#{word}||'%'
+		ORDER BY CREATE_DATE DESC
+	</select>
 
 </mapper>

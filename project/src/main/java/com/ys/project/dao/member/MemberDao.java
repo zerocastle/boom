@@ -30,7 +30,7 @@ public class MemberDao implements IMemberDao {
 	@Autowired
 	private SqlSession session;
 
-	//È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ map Ã³ï¿½ï¿½
+	// È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ map Ã³ï¿½ï¿½
 	@Override
 	public void registerMember(Map map) throws Exception {
 		// TODO Auto-generated method stub
@@ -60,14 +60,14 @@ public class MemberDao implements IMemberDao {
 	public void memberDelete(String nickname) throws Exception {
 		// TODO Auto-generated method stub
 		System.out.println("È¸ï¿½ï¿½ Å»ï¿½ï¿½ ");
-		session.delete("member.memberDelete",nickname);
+		session.delete("member.memberDelete", nickname);
 	}
 
 	@Override
 	public void memberUpdate(MemberVO vo) throws Exception {
 		// TODO Auto-generated method stub
 		System.out.println("È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
-		session.insert("member.memberUpdate",vo);
+		session.insert("member.memberUpdate", vo);
 	}
 
 	@Override
@@ -80,13 +80,13 @@ public class MemberDao implements IMemberDao {
 	@Override
 	public List<ProductionReviewVO> getReviewData2(String data) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectList("member.getShopReview2",data);
+		return session.selectList("member.getShopReview2", data);
 	}
 
 	@Override
 	public int getPagingListCount(int i) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectOne("member.pagingListCount",i);
+		return session.selectOne("member.pagingListCount", i);
 	}
 
 	@Override
@@ -98,61 +98,61 @@ public class MemberDao implements IMemberDao {
 	@Override
 	public List<ProductionReviewVO> scrollPaging(String nickname) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectList("member.scrollPaging",nickname);
+		return session.selectList("member.scrollPaging", nickname);
 	}
 
 	@Override
 	public List<ProductionReviewVO> infiniteScrollDown(Map map) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectList("member.infiniteScrollDown",map);
+		return session.selectList("member.infiniteScrollDown", map);
 	}
 
 	@Override
 	public int usingData(String data) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectOne("member.usingData",data);
+		return session.selectOne("member.usingData", data);
 	}
 
 	@Override
 	public List<MemberVO> AppMemberCheck(String nickName) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectOne("member.nicknameCheck",nickName);
+		return session.selectOne("member.nicknameCheck", nickName);
 	}
 
 	@Override
 	public int appMemberUpdate(MemberVO vo) throws Exception {
 		// TODO Auto-generated method stub
-		return session.update("member.appMemberUpdate",vo);
+		return session.update("member.appMemberUpdate", vo);
 	}
-	
+
 	@Override
 	public void insertPick(LikeListVO vo) throws Exception {
 		// TODO Auto-generated method stub
-		session.insert("member.insertPick",vo);
+		session.insert("member.insertPick", vo);
 	}
 
 	@Override
 	public int searchPick(LikeListVO vo) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectOne("member.searchPick",vo);
+		return session.selectOne("member.searchPick", vo);
 	}
 
 	@Override
 	public int totalPick(int num) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectOne("member.totalPick",num);
+		return session.selectOne("member.totalPick", num);
 	}
 
 	@Override
 	public List<joinPickVO> joinPickPaging(joinPickVO vo) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectList("member.joinPickPaging",vo);
+		return session.selectList("member.joinPickPaging", vo);
 	}
 
 	@Override
 	public List<joinPickVO> myPageList(joinPickVO pv) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectList("member.myPageList",pv);
+		return session.selectList("member.myPageList", pv);
 	}
 
 	@Override
@@ -164,13 +164,13 @@ public class MemberDao implements IMemberDao {
 	@Override
 	public List<joinPickVO> joinPick(int m_num) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectList("member.joinPick",m_num);
+		return session.selectList("member.joinPick", m_num);
 	}
 
 	@Override
 	public void deletePick(LikeListVO vo) throws Exception {
 		// TODO Auto-generated method stub
-		session.delete("member.deletePick",vo);
+		session.delete("member.deletePick", vo);
 	}
 
 	@Override
@@ -182,61 +182,61 @@ public class MemberDao implements IMemberDao {
 	@Override
 	public List<joinReviewVO> appReview(int num) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectList("member.appReview",num);
+		return session.selectList("member.appReview", num);
 	}
 
 	@Override
 	public List<joinProductVO> appOtherProduct(int m_num) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectList("member.appOtherProduct",m_num);
+		return session.selectList("member.appOtherProduct", m_num);
 	}
 
 	@Override
 	public List<ProductionReviewVO> appOtherReview(int m_num) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectList("member.appOtherReview",m_num);
+		return session.selectList("member.appOtherReview", m_num);
 	}
 
 	@Override
 	public int appReviewCount(int m_num) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectOne("member.appReviewCount",m_num);
+		return session.selectOne("member.appReviewCount", m_num);
 	}
 
 	@Override
 	public List<joinProductVO> appProduct(int m_num) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectList("member.appProduct",m_num);
+		return session.selectList("member.appProduct", m_num);
 	}
 
 	@Override
 	public void appProductDelete(LikeListVO vo) throws Exception {
 		// TODO Auto-generated method stub
-		session.delete("member.appProductDelete",vo);
+		session.delete("member.appProductDelete", vo);
 	}
 
 	@Override
 	public List<PaymentVO> getMemberPayment(String nickName) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectList("member.getMemberPayment",nickName);
+		return session.selectList("member.getMemberPayment", nickName);
 	}
 
 	@Override
 	public int insertRegister(MemberVO vo) throws Exception {
 		// TODO Auto-generated method stub
-		return session.insert("member.insertRegister",vo);
+		return session.insert("member.insertRegister", vo);
 	}
 
 	@Override
 	public int checkNick(MemberVO vo) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectOne("member.checkNick",vo);
+		return session.selectOne("member.checkNick", vo);
 	}
 
 	@Override
 	public List<PartnerVO> getPlaceList(int m_num) {
 		// TODO Auto-generated method stub
-		return session.selectList("member.getPlaceList",m_num);
+		return session.selectList("member.getPlaceList", m_num);
 	}
 
 	@Override
@@ -244,12 +244,18 @@ public class MemberDao implements IMemberDao {
 		// TODO Auto-generated method stub
 		return session.selectList("member.getInProdList", part_name);
 	}
-	
-	//½Ã¼¼ ÃøÁ¤ÇÏ±â
+
+	// ½Ã¼¼ ÃøÁ¤ÇÏ±â
 
 	@Override
 	public List<ProductionVO> getMarketPrice() {
 		// TODO Auto-generated method stub
 		return session.selectList("member.getMarketPrice");
+	}
+
+	@Override
+	public List<ProductionVO> searchGetMarketPrice(String word) {
+		// TODO Auto-generated method stub
+		return session.selectList("member.getWordSearch", word);
 	}
 }
