@@ -84,7 +84,7 @@ $.urlParam = function (name) {
     var url = $.urlParam('cate');
     console.log(url);
     $.ajax({
-      url: "http://39.127.7.48:8080/app/production/list/asc/" + url,
+      url: "http://39.127.7.47:8080/app/production/list/asc/" + url,
       type: "GET",
       contentType: "application/json; charset=UTF-8",
       success: function (result) {

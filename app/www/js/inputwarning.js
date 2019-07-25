@@ -9,7 +9,7 @@ $(document).ready(function(){
         //     content : $('#content').val(),
         //     }
         // $.ajax({
-        //     url: "http://39.127.7.48:8080/app/myPageList/InputWarning",
+        //     url: "http://39.127.7.47:8080/app/myPageList/InputWarning",
         //     type: "post",
         //     data: data,
         //     contentType: "application/json; charset=UTF-8",
@@ -24,7 +24,7 @@ $(document).ready(function(){
     //     var form = $('#warningform').serialize();
     //     console.log(form);
     //     $.ajax({
-    //             url: "http://39.127.7.48:8080//warningBoard/register2",
+    //             url: "http://39.127.7.47:8080//warningBoard/register2",
     //             type: "post",
     //             data: form,
     //             success: function(){
@@ -35,8 +35,8 @@ $(document).ready(function(){
     //             }
     //         });
 
-    // action= "http://39.127.7.48:8080//warningBoard/register2"
-document.getElementById('warningform').action = "http://39.127.7.48:8080//warningBoard/register2";
+    // action= "http://39.127.7.47:8080//warningBoard/register2"
+document.getElementById('warningform').action = "http://39.127.7.47:8080//warningBoard/register2";
     $('#warningform').submit();
 
         

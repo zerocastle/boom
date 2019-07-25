@@ -15,7 +15,7 @@ $(document).ready(function(){
   
   console.log(sibal);
     $.ajax({
-        url: "http://39.127.7.48:8080/app/myPageList/WarningList",
+        url: "http://39.127.7.47:8080/app/myPageList/WarningList",
         type: "post",
         data: sibal,
         success: function(data) {
@@ -55,7 +55,7 @@ $(document).ready(function(){
       var senddata = {reply : reply, replyer : replyer, wa_num : wa_num};
       console.log(senddata);
       $.ajax({
-        url: "http://39.127.7.48:8080/app/myPageList/InputReply",
+        url: "http://39.127.7.47:8080/app/myPageList/InputReply",
         type: "post",
         data: senddata,
         contentType : "application/json; charset=UTF-8",

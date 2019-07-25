@@ -161,7 +161,9 @@ a:hover {
       $('#send').click(function() {
           console.log(result.val());
         sessionStorage.setItem('tempPick', result.val()); 
-        window.location.href = 'index3.html';
+		//window.location.href = 'index3.html';
+		history.go(-1);
+    	navigator.app.backHistory();
       })
 
       // 직플 검색

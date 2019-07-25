@@ -14,7 +14,7 @@ $(document).ready(function(){
   var sibal = $.urlParam('data');
   console.log(sibal);
     $.ajax({
-        url: "http://39.127.7.48:8080/app/myPageList/NoticeList",
+        url: "http://39.127.7.47:8080/app/myPageList/NoticeList",
         type: "post",
         data: sibal,
         success: function(data) {

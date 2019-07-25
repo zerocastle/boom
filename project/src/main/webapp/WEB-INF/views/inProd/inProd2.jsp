@@ -269,7 +269,7 @@ $(document).ready(function(){
 						
 						<c:if test="${!empty placeList }">
 							<a href="#" id="inProd2" class="list-group-item list-group-item-action active">
-							<i data-feather="log-out" class="mr-3"></i> 직플레이스 내역</a>
+							<i data-feather="log-out" class="mr-3"></i> 직플레이스 목록</a>
 						</c:if>
 						<!-- 직플레이스가 하나라도 있으면 해당 메뉴를 한개 출력한다. -->
 					
@@ -285,7 +285,7 @@ $(document).ready(function(){
 		<div class="col mt-3 mt-md-0">
 			<div class="card">
 				<div class="card-body">
-					<h3>직플레이스 내역</h3>
+					<h3>직플레이스 목록</h3>
 					<hr>
              <div class="table-responsive">
                 <table class="table table-hover" data-addclass-on-xs="table-sm">

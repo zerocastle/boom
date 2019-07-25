@@ -280,7 +280,7 @@ $(document).ready(function(){
 						
 						<c:if test="${1 <= sessionScope.loginSession.partner_signal }">
 							<a href="#" id="inProd2" class="list-group-item list-group-item-action">
-							<i data-feather="log-out" class="mr-3"></i> 직플레이스 내역</a>
+							<i data-feather="log-out" class="mr-3"></i> 직플레이스 목록</a>
 						</c:if>
 						<!-- 직플레이스가 하나라도 있으면 해당 메뉴를 한개 출력한다. -->
 						 

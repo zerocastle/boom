@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $.ajax({
-        url: "http://39.127.7.48:8080/app/myPageList/WarningBoard",
+        url: "http://39.127.7.47:8080/app/myPageList/WarningBoard",
         type: "post",
         contentType: "application/json; charset=UTF-8",
         success: function(data) {
