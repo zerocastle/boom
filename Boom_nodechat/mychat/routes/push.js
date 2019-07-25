@@ -30,14 +30,14 @@ var pushTokenBuyer = function(sellerToken, buyerToken, message, title, sender, r
         // "to":"/topics/all",
         priority: "high",
         // App 패키지 이름
-        restricted_package_name: "kr.yjc.wd3", //config.xml 의 id
+        restricted_package_name: "kr.yjc.wd3" //config.xml 의 id
         // App에게 전달할 데이터
-        "data": {
-            "title": title, //chat.js의 184번 라인
-            "message": sender +' : '+message, //chat.js의 184번 라인
-            "param1": "value1", //Any data to be retrieved in the notification callback 
-            "param2": "value2",
-        }
+        // "data": {
+        //     "title": title, //chat.js의 184번 라인
+        //     "message": sender +' : '+message, //chat.js의 184번 라인
+        //     "param1": "value1", //Any data to be retrieved in the notification callback 
+        //     "param2": "value2",
+        // }
     };
     /** 아래는 푸시메시지 발송절차 */
     
@@ -70,14 +70,14 @@ var pushTokenSeller = function(sellerToken, buyerToken, message, title, sender, 
         // "to":"/topics/all",
         priority: "high",
         // App 패키지 이름
-        restricted_package_name: "kr.yjc.wd3", //config.xml 의 id
+        restricted_package_name: "kr.yjc.wd3" //config.xml 의 id
         // App에게 전달할 데이터
-        "data": {
-            "title": title, //chat.js의 184번 라인
-            "message": sender +' : '+message, //chat.js의 184번 라인
-            "param1": "value1", //Any data to be retrieved in the notification callback 
-            "param2": "value2",
-        }
+        // "data": {
+        //     "title": title, //chat.js의 184번 라인
+        //     "message": sender +' : '+message, //chat.js의 184번 라인
+        //     "param1": "value1", //Any data to be retrieved in the notification callback 
+        //     "param2": "value2",
+        // }
     };
     /** 아래는 푸시메시지 발송절차 */
     
@@ -135,6 +135,7 @@ router.post('/', function(req,res) {
     console.log('토큰토큰토큰토큰토큰토큰토큰토큰토큰');  
     console.log(req.body);  
     console.log(req.body.data);
+   
     /*
     client에서 아래과 같은 json data와 url로 post ajax통신을 요청하면
     지정한 수신자의 스마트폰으로 푸시알림이 전송되게 된다.
@@ -200,6 +201,13 @@ router.post('/', function(req,res) {
             click_action: "FCM_PLUGIN_ACTIVITY",
             icon: "pushicon.png"
         },
+        android: {
+            ttl: 3600 * 1000,
+            notification: {
+              icon: "pushicon.png",
+              color: '#f45342',
+            },
+        },
         // 메시지 중요도
         // "to":"/topics/all",
         priority: "high",
@@ -208,9 +216,10 @@ router.post('/', function(req,res) {
         // App에게 전달할 데이터
         "data": {
             "title": req.body.title, //chat.js의 184번 라인
-            "message": req.body.message, //chat.js의 184번 라인
-            "param1": "value1", //Any data to be retrieved in the notification callback 
+            "message": message, //chat.js의 184번 라인
+            "timer": req.body.timer, //Any data to be retrieved in the notification callback 
             "param2": "value2",
+            "content-available": '1'
         }
     };
 

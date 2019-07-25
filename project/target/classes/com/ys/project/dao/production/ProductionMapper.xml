@@ -22,7 +22,7 @@
 		parameterType="int">
 		SELECT * FROM
 		PRODUCTION_UPLOAD WHERE PRO_NUM =
-		#{pro_num}
+		#{pro_num} order by rep desc
 	</select>
 
 	<!--상품에 대한 맴버 조인 -->

@@ -136,7 +136,7 @@ $(document).ready(function () {
  });
  $(document).ready(function(){
    $('.pro-plus').on('click',function(){
-       window.location.href="index2.html";
+       window.location.href="index3.html";
    });
  });
  $(document).ready(function(){

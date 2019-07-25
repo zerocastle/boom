@@ -618,6 +618,14 @@
         border : 1px solid #92cbf9;
         color: black;
       }
+      #frame .content .messages ul li.system img {
+        margin: 6px 8px 0 0;
+      }
+      #frame .content .messages ul li.system p {
+        background: black;
+        border : 1px solid gray;
+        color: white;
+      }
       #frame .content .messages ul li.replies img {
         float: right;
         margin: 6px 0 0 8px;
@@ -772,7 +780,7 @@
           %>
           <div class="content">
               <div class="contact-profile">
-                  <img src="http://39.127.7.47:8080/resources/" alt="" style="margin-left: 30px;" />
+                  <img src="http://39.127.7.47:8080/resources/" width="40px" height="45px" alt="" style="margin-left: 30px;" />
                   <p style="font-weight: bolder; font-size: 18px; line-height: 60px;">
                   <span style="font-size: 14px; margin-left:10px"><%=jprod.title%></span>
                   </p>
@@ -902,7 +910,7 @@ var subDate;
 
           var end = jsonoobj.tmessage.indexOf('</i><br>');
           var start = jsonoobj.tmessage.indexOf(":");
-         start++;
+          start++;
           subDate = jsonoobj.tmessage.substring(start,end);
           console.log(subDate);
           console.log(jsonoobj.tmessage.length);

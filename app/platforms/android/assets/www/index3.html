@@ -671,7 +671,7 @@ body{
 
 
                         <div>
-                            <input type="text" id="pick" name="place_pick" class="pick">
+                            <input type="text" id="pick" name="place_pick" class="pick" readonly>
                             <button class="find">직플선택</button>
                         </div>
 
@@ -705,8 +705,52 @@ body{
 
         </ul>
     </div>
+    <script src="js/index.js"></script>
 </body>
+<script>
+$(document).ready(function(){
 
+    $('.find').on('click', function(){
+        json = {
+            title : $('.proo_name').val(),
+            content : $('.con').html(),
+            price : $('.price_pro').val(),
+            cate : $('#catae').val(),
+            cate_code : $('.cate_code').val(),
+            addr : $('#sample_addr').val(),
+            select : $('#u-name').val()
+        }
+        console.log(json);
+        console.log(JSON.stringify(json));
+        sessionStorage.setItem('tempJson', JSON.stringify(json));
+        window.location.href = 'zicpleList.html';
+    });
+
+    var loop = window.setInterval(function(){
+        var result = sessionStorage.getItem('tempPick');
+        var jjson = sessionStorage.getItem('tempJson');
+        var json = {};
+        if(jjson){
+            json = JSON.parse(jjson);
+            console.log(json);
+            $('.proo_name').val(json.title);
+            $('.con').html(json.content);
+            $('.price_pro').val(json.price);
+            $('#catae').val(json.cate);
+            $('.cate_code').val(json.cate_code);
+            $('#sample_addr').val(json.addr);
+            $('#u-name').val(json.select);
+            sessionStorage.removeItem('tempJson');
+        }
+        if(result){
+            console.log('선택한 직플 : ' + result);
+            $('#pick').val(result);
+            clearInterval(loop);
+        }
+    }, 100);
+    
+})
+</script>
 
 <script>
     //임의의 file object영역

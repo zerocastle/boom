@@ -374,16 +374,18 @@
          $("button[data-oper='modify']").on("click", function(e) {
 
             e.preventDefault();
-            operForm.attr("action", "/warningBoard/modify").submit();
-
+            operForm.attr("action", "/warningBoard/modify")[0].submit();
+         
          });
 
          $("button[data-oper='list']").on("click", function(e) {
 
             operForm.find("#bno").remove();
             operForm.attr("action", "/warningBoard/warningBoard")
-            operForm.submit();
+            operForm[0].submit();
 
          });
       });
    </script>
+   
+   <jsp:include page="../fixsection/footer.jsp"></jsp:include>

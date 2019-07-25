@@ -110,7 +110,7 @@
          console.log(operation);
 
          if (operation === 'remove') {
-            formObj.attr("action", "/warningBoard/remove");
+            formObj.attr("action", "/warningBoard/remove").attr("method","post");
 
          } else if (operation === 'list') {
             //move to list
@@ -129,8 +129,10 @@
             formObj.append(typeTag);
          }
 
-         formObj.submit();
+         formObj[0].submit();
       });
 
    });
 </script>
+
+<jsp:include page="../fixsection/footer.jsp"></jsp:include>

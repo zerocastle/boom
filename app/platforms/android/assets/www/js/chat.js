@@ -22,8 +22,8 @@ var road_and_QR = function () {
     console.log(muid);
     var qrcode = new QRCode(document.getElementsByClassName("qrcode")[i], {
       text: "http://39.127.7.47:3000/testQR?muid=" + muid + "&Tname=" + Tname, ///주의!! 직플파트너의 닉네임이 노드서버에서 쿼리스트링의 변수 'nickname'에 더해진다.
-      width: 250,
-      height: 250,
+      width: 170,
+      height: 170,
       colorDark: "#000000",
       colorLight: "#ffffff",
       correctLevel: QRCode.CorrectLevel.H
@@ -82,7 +82,47 @@ var other = '';
 
 $('#set_date').bootstrapMaterialDatePicker({ format: 'YYYY/MM/DD HH:mm', minDate: new Date() });//캘린더 - datePicker를 달아준다.
 $(document).ready(function () {
+  $.ajax({
+    url : 'http://39.127.7.47:3000/otherImage',
+    type:'post',
+    data : {
+              room_id : num,
+              nickname : Tname
+            },
+    dataType:'json',
+    success:function(data){
+      console.log(data);
+      $('.contact-profile img').attr('src', 'http://39.127.7.47:8080/resources/'  + data.img);
+      $('.contact-profile p').prepend(data.nickname);
+      $('.contact-profile p span').append(data.title);
+    },error : function(err){
 
+    }
+  });
+  $.ajax({
+    url : 'http://39.127.7.47:3000/whatZicple',
+    type : 'post',
+    data : {room_id : num },
+    success : function(data){
+      var place_pick = data.place_pick;
+      if(place_pick+''!=''){//선정된 직플이 있다면
+        place_pick = place_pick+'';
+        var zicpleSum = [];
+        zicpleSum = place_pick.split('-');
+        var part_name = zicpleSum[0];
+        var road = zicpleSum[1];
+        var jibun = zicpleSum[2];
+        var menu = "직플레이스 : <b>"+part_name+"</b><br><addr>"+road+"<br>"+jibun+"</addr><br><button id='updateZicpleB' class='send menu send_addr plus_send' style='margin-left:7px; font-weight:bold;'>다시 선정하기</button>"
+        $('#updateZicpleA').append(menu);  
+      }else {
+          var menu = "<b>직플레이스가 없습니다.</b><br><addr><br></addr><br><button id='updateZicpleB' class='send menu send_addr plus_send' style='margin-left:7px; font-weight:bold;'>선정하기</button>"
+          $('#updateZicpleA').append(menu);  
+      }
+       
+    }, error : function(err){
+      console.log(err);
+    }
+  })
   $(document).on("click",'.jumsu',  function () {
     
     var sender = $(this).parent().parent().find('p').text();
@@ -264,21 +304,26 @@ $(document).ready(function () {
             console.log(subDate);
             console.log(jsonoobj.tmessage.length);
             jsonoobj.tmessage = '<i>상대방에게 장소협의를 제안하셨습니다</i><br><i>' + subDate + '</i>';
+          } else if(jsonoobj.tmessage.indexOf('직플레이스제안') == 0){
+            var end = jsonoobj.tmessage.indexOf('</i><br>');
+            var start = jsonoobj.tmessage.indexOf(":");
+            start++;
+            subDate = jsonoobj.tmessage.substring(start,end);
+            console.log(subDate);
+            console.log(jsonoobj.tmessage.length);
+            jsonoobj.tmessage = '<i>상대방에게 직플레이스를 제안하셨습니다</i><br><i>'+subDate+'</i>';
           }
-
-
-
         }//if(이름비교)
         console.log('jsonoobj : ', jsonoobj.tnickname)
         console.log('nickname : ', Tname);
         if (jsonoobj.tnickname == Tname) {
           //내메시지
-          $('#messages').append($('<li class="even">').html(jsonoobj.tnickname + ' : ' + jsonoobj.tmessage));//버튼은 상대방에게만 보인다.  
+          $('#messages').append($('<li class="even replies">').html('<div>'+jsonoobj.tnickname + '</div><div><p class="tmsg">'+ jsonoobj.tmessage + '</p></div>'));//버튼은 상대방에게만 보인다.  
         } else { //메시지발신자와 세션의 닉네임이 같지 않다면 --> 상대방메시지
           if (jsonoobj.tnickname == 'System') {
-            $('#messages').append($('<li class="system">').html(jsonoobj.tnickname + ' : ' + jsonoobj.tmessage));//버튼은 상대방에게만 보인다.  
+            $('#messages').append($('<li class="system sent">').html('<div>'+jsonoobj.tnickname + '</div><div><p class="tmsg">'+ jsonoobj.tmessage + '</p></div>'));//버튼은 상대방에게만 보인다.  
           } else {
-            $('#messages').append($('<li class="odd">').html(jsonoobj.tnickname + ' : ' + jsonoobj.tmessage));//시스템메시지 약속지정정보를 보낸다.
+            $('#messages').append($('<li class="odd sent">').html('<div>'+jsonoobj.tnickname + '</div><div><p class="tmsg">'+ jsonoobj.tmessage + '</p></div>'));//버튼은 상대방에게만 보인다.  
           }
         }
 
@@ -522,7 +567,7 @@ $('#buy').click(function () {
         alert('status( ' + result + ') : 결제가 완료되어 결제를 진행 할 수 없습니다.');
         //결제가 아직 진행중이라면 결제명세서 전송과정을 마저 진행한다.  
       } else {
-        $('#messages').append($('<li class="even">').html(Tname + ' : ' + tag));//명세서를 채팅방에 뿌려준다.
+        $('#messages').append($('<li class="even replies">').html('<div style="text-align:right">'+name +'</div><p class="tmsg>'+ tag+'</p>'));//명세서를 채팅방에 뿌려준다.
         $(document).scrollTop($(document).height());//스크롤 최하단.
         socket.emit('socket_sendAcc', num, Tname, tag);//서버를 통한 결제명세서 메시지를 상대방에게 전송한다.
       }
@@ -610,6 +655,61 @@ $('#room_out').click(function () {
 });
 //채팅방 나가기--DB에서 삭제됨.
 
+//직플수정 로직.
+$(document).on("click", ".Zyes", function (event) {
+  var beUpdatePlace = $(event.target).siblings('.beUpdatePlace').text();
+  alert('직플레이스 제안 "' + beUpdatePlace + '"를 수락하셨습니다.');
+  //$('addr').text(data.addr); 
+  //$('#updateZicpleA b').text(data.part_name)
+  var road = $($(event.target).siblings('.beUpdatePlace')).data('road');
+  var part_name = $($(event.target).siblings('.beUpdatePlace')).data('part_name');
+  var jibun = $($(event.target).siblings('.beUpdatePlace')).data('jibun');
+  var addressP = part_name + '-' + road + '-' + jibun;
+  alert(addressP);
+  var message_id = $(event.target).val();
+  socket.emit('zicpleYes', addressP, num, message_id); //서버로 전송한다.
+});
+$(document).on("click", ".Zno", function (event) {// 거절버튼 클릭시
+  var beUpdatePlace = $(event.target).siblings('.beUpdatePlace');
+  var road = $(beUpdatePlace).data('road');
+  var part_name = $(beUpdatePlace).data('part_name');
+  var jibun = $(beUpdatePlace).data('jibun');
+  var addressP = part_name + '-' + road + '-' + jibun;
+  var message_id = $(event.target).val();
+  socket.emit('zicpleNo', addressP, num, message_id); //서버로 전송한다.
+});
+window.addEventListener('message', function(e) {
+      
+    console.log(e.data); // 
+      var data = e.data;
+      if(data.map != 'map'){
+        return false
+      } else{
+
+      
+      console.log(data.fullString);
+      console.log(data.part_name);
+      console.log(data.road);
+      console.log(data.jibun);
+      alert('roomChat2.ejs Clicked : ' + data.fullString);
+      //$('addr').text(data.road); 수락하면 바뀌어야해
+      //$('#updateZicpleA b').text(data.part_name)  수락하면 바뀌어야해
+      socket.emit('messageZicple', num, name, data)
+      $('#myModal').bPopup().close();
+    }
+});
+$('#updateZicpleB').click(function(){
+  console.log('직플 업데이트 시작.')
+  $('#myModal2').bPopup({
+  modalClose: true,
+  positionStyle: 'fixed',
+  position: [10, 100]
+  }, function () {
+    $('#zicpleIframe').css('display', 'block');
+  });
+  
+});
+
 /****서버에게 전달하는 emit 모음 |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
 
 
@@ -631,10 +731,12 @@ socket.on('receipt', function (room_id, buyer_name, tag) {
 //서버로부터 채팅메시지가 온다면
 socket.on('chat message', (name, msg) => {// 소켓에 신호가 오면 chat message 기능 실행.
   if (name == Tname) {//날아온 메시지의 이름이 세션의 닉네임과 같다면
-    $('#messages').append($('<li class="even">').text(name + '  :  ' + msg));//우측에 위치한다. 내가쓴메시지
+    //$('#messages').append($('<li class="even">').text(name + '  :  ' + msg));//우측에 위치한다. 내가쓴메시지
+    window.location.reload();
   }
   else {//아니라면 좌측에 위치한다. 남이쓴메시지
-    $('#messages').append($('<li class="odd">').text(name + '  :  ' + msg));
+    //$('#messages').append($('<li class="odd">').text(name + '  :  ' + msg));
+    window.location.reload();
   }
   console.log('chat message' + name + msg);
   $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
@@ -646,7 +748,7 @@ socket.on('socket_sendAcc', (num, name, tag) => {
   if (name == $('#nickname').text()) {
     
   } else {
-    $('#messages').append($('<li class="odd">').html(name + ' : ' + tag));//버튼은 상대방에게만 보인다.
+    $('#messages').append($('<li class="odd sent">').html('<div style="text-align:left">'+name +'</div><p class="tmsg>'+ tag+'</p>'));//버튼은 상대방에게만 보인다.
       }
   ref(); // 스크롤 가장아래로 내림(영수증전송시 QR코드 이미지출력을 위해)
 });
@@ -656,9 +758,11 @@ socket.on('socket_sendAcc', (num, name, tag) => {
 socket.on('socket_address', (num, address, name, message_id) => {// 상대방으로부터 채팅방에 소켓데이트 신호가 온다면 실행.
   var buttonSet = "<button class='Ayes'>수락</button><button class='Ano' value=" + message_id + ">거절</button>";
   if (name == Tname) {
-    $('#messages').append($('<li class="even">').html(name + ' : ' + '<i>상대방에게 장소협의를 제안하셨습니다</i><br><i >' + address + '</i>'));//버튼은 상대방에게만 보인다.
+   // $('#messages').append($('<li class="even">').html(name + ' : ' + '<i>상대방에게 장소협의를 제안하셨습니다</i><br><i >' + address + '</i>'));//버튼은 상대방에게만 보인다.
+   window.location.reload();
   } else {
-    $('#messages').append($('<li class="odd">').html(name + ' : ' + '장소협의 - ' + name + '님에 의해 약속장소가 선정되었습니다 :<br><i class="addressP">' + address + "</i><br>" + buttonSet));//시스템메시지 약속지정정보를 보낸다.
+   // $('#messages').append($('<li class="odd">').html(name + ' : ' + '장소협의 - ' + name + '님에 의해 약속장소가 선정되었습니다 :<br><i class="addressP">' + address + "</i><br>" + buttonSet));//시스템메시지 약속지정정보를 보낸다.
+   window.location.reload();
   }
   $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
 });
@@ -668,9 +772,11 @@ socket.on('socket_address', (num, address, name, message_id) => {// 상대방으
 socket.on('socket_date', (num, date, name, message_id) => {
   var buttonSet = "<button class='yes'>수락</button><button class='no' value=" + message_id + ">거절</button>";
   if (name == Tname) {
-    $('#messages').append($('<li class="even">').html(name + ' : ' + '<i>상대방에게 시간협의를 제안하셨습니다</i><br><i >' + date + '</i>'));//버튼은 상대방에게만 보인다.
+    window.location.reload();
+    //$('#messages').append($('<li class="even">').html(name + ' : ' + '<i>상대방에게 시간협의를 제안하셨습니다</i><br><i >' + date + '</i>'));//버튼은 상대방에게만 보인다.
   } else {
-    $('#messages').append($('<li class="odd">').html(name + ' : ' + '시간협의 - ' + name + '님에 의해 약속일정이 선정되었습니다 :<i class="dateP">' + date + "</i><br>" + buttonSet));//시스템메시지 약속지정정보를 보낸다.
+    window.location.reload();
+    //$('#messages').append($('<li class="odd">').html(name + ' : ' + '시간협의 - ' + name + '님에 의해 약속일정이 선정되었습니다 :<i class="dateP">' + date + "</i><br>" + buttonSet));//시스템메시지 약속지정정보를 보낸다.
   }
   $(document).scrollTop($(document).height()); // 스크롤 가장아래로 내림
 });

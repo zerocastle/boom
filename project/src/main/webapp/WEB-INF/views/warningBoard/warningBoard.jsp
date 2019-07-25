@@ -2,12 +2,7 @@
    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>관리자 페이지 입니다.</title>
-</head>
+
 <jsp:include page="../fixsection/header.jsp"></jsp:include>
 <body>
 
@@ -134,9 +129,6 @@
       <!-- end panel -->
    </div>
 
-
-
-</body>
 <script>
    $(function() {
       var result = '<c:out value="${result}"/>';
@@ -164,7 +156,7 @@
          console.log('click');
 
          actionForm.find("input[name='pageNum']").val($(this).attr("href"));
-         actionForm.submit();
+         actionForm[0].submit();
       });
 
       /*검색 script 처리*/
@@ -185,10 +177,11 @@
          searchForm.find("input[name='pageNum']").val("1");
          e.preventDefault();
 
-         searchForm.submit();
+         searchForm[0].submit();
 
       });
 
    })
 </script>
-</html>
+
+<jsp:include page="../fixsection/footer.jsp"></jsp:include>

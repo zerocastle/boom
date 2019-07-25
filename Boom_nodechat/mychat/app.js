@@ -95,7 +95,7 @@ app.post('/payment', (req, res) => {
 
 app.post('/otherImage',function(req,res){
   
-  var otherImageSQL = "select uploadPath  || '/' || uuid ||'_'|| fileName img, nickname from chatroom c, member m where room_id = "+req.body.room_id+" and (seller_num = m_num or buyer_num = m_num) and nickname != '"+req.body.nickname+"'";
+  var otherImageSQL = "select uploadPath  || '/' || uuid ||'_'|| fileName img, nickname, (select title from production where pro_num = c.pro_num) from chatroom c, member m where room_id = "+req.body.room_id+" and (seller_num = m_num or buyer_num = m_num) and nickname != '"+req.body.nickname+"'";
   console.log('otherImageSQL : ' + otherImageSQL);
   conn.execute(otherImageSQL, function(err,result){
     if(err){
@@ -104,7 +104,8 @@ app.post('/otherImage',function(req,res){
       console.log('otherImageSQL success : ', result)
       var sendJson = {
         img : result.rows[0][0],
-        nickname : result.rows[0][1]
+        nickname : result.rows[0][1],
+        title : result.rows[0][2]
       };
       console.log('otherImageSQL response : ' , sendJson);
       res.json(sendJson);
@@ -113,7 +114,22 @@ app.post('/otherImage',function(req,res){
   
 });
 
-
+app.post('/whatZicple', function(req,res){
+  var whatJson = {};
+  var whatZicpleSQL = 'select (select place_pick from production where pro_num = chatroom.pro_num) from chatroom where room_id = ' + req.body.room_id;
+  conn.execute(whatZicpleSQL, function(err,result){
+    if(err){
+      console.log('whatZicpleSQL error', err);
+    }else {
+      console.log('whatZicpleSQL result', result.rows[0][0]);
+      whatJson = {
+        place_pick : result.rows[0][0]
+      }
+      res.json(whatJson)
+    }
+  })
+  
+});
 
 app.get('/getSession',function(req,res){
   var mocl = req.session.nickname;
@@ -122,6 +138,61 @@ app.get('/getSession',function(req,res){
   res.json(responseData);
 })
 
+app.post('/searchZicpleList',function(req,res){
+  var choose = req.body.choose;
+  var keyword = req.body.keyword;                                                                                                       //ADDR LIKE '%'||#{keyword}||'%'
+  var searchZicpleListSQL = "select uploadpath, uuid, filename, part_name, boss_name, part_phone, road_name, detail_addr from partner where " + choose + " like '%"+keyword+"%'";
+  var json = [];
+  console.log('searchZicpleListSQL : ', searchZicpleListSQL);
+  conn.execute(searchZicpleListSQL, function(err,result){
+    if(err){
+      console.log('searchZicpleListSQL error', err);
+    }else {
+      console.log('searchZicpleListSQL result ' + result.rows.length + ' rows');
+      for(var i = 0 ; i < result.rows.length; i++){
+        json[i] = {
+            //part_name, boss_name, part_phone, road_name, detail_addr
+            uploadpath : result.rows[i][0],
+            uuid : result.rows[i][1],
+            fileName : result.rows[i][2],
+            part_name : result.rows[i][3],
+            boss_name : result.rows[i][4],
+            part_phone : result.rows[i][5],
+            road_name : result.rows[i][6],
+            detail_addr : result.rows[i][7],
+        };
+      }
+      res.json(json);
+    }
+  });
+});
+
+app.post('/zicpleList',function(req,res){
+  var zicpleListSQL= 'select uploadpath, uuid, filename, part_name, boss_name, part_phone, road_name, detail_addr from partner';
+  var json = [];
+  console.log('zicpleListSQL : ', zicpleListSQL);
+  conn.execute(zicpleListSQL, function(err,result){
+    if(err){
+      console.log('zicpleListSQL error', err);
+    }else {
+      console.log('zicpleListSQL result ' + result.rows.length + ' rows');
+      for(var i = 0 ; i < result.rows.length; i++){
+        json[i] = {
+            //part_name, boss_name, part_phone, road_name, detail_addr
+            uploadpath : result.rows[i][0],
+            uuid : result.rows[i][1],
+            fileName : result.rows[i][2],
+            part_name : result.rows[i][3],
+            boss_name : result.rows[i][4],
+            part_phone : result.rows[i][5],
+            road_name : result.rows[i][6],
+            detail_addr : result.rows[i][7],
+        };
+      }
+      res.json(json);
+    }
+  })
+});
 
 app.get('/doChat2', (req, res) => {
   //redis작업

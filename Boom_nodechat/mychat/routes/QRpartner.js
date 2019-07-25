@@ -46,17 +46,36 @@ router.post('/', function(req,res) {
 //
 router.post('/accept', function(req,res) {
     console.log(req.body.pro_num +'///' + req.body.state );
-
-    var acceptSql = "update production set state_msg = '"+req.body.state+"' where pro_num = " + req.body.pro_num;
-    console.log('acceptSql : ' + acceptSql);
-    conn.execute(acceptSql, function(err,result){
-        if(err){
-            console.log(err);
-        } else {
-            console.log("acceptSql's accepted rows : " + result);
-            res.send({data: 'success'});
+    var promiseAccept = function (req){
+        return new Promise(function (resolve, reject) {
+            if(req.body.state == 2){
+                conn.execute('update chatroom set timer = sysdate +7 where room_id = ' + req.body.room_id, function(err, result){
+                    if(err){
+                        console.log('입고 후 출고타이머 재설정 업데이트 에러', err);
+                    }else {
+                        console.log('입고 후 출고타이머 재설정 업데이트 성공', result);
+                    }
+                    resolve(req);
+                });
+            }
+        });
+    }
+    promiseAccept(req).then(
+        function(req){
+            var acceptSql = "update production set state_msg = '"+req.body.state+"' where pro_num = " + req.body.pro_num;
+            console.log('acceptSql : ' + acceptSql);
+            conn.execute(acceptSql, function(err,result){
+                if(err){
+                    console.log(err);
+                } else {
+                    console.log("acceptSql's accepted rows : " + result);
+                    res.send({data: 'success'});
+                }
+            })
+        }, function(error){
+            console.log(error);
         }
-    })
+    )
 });
 
 
