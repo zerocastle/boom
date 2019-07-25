@@ -11,9 +11,12 @@ import org.springframework.stereotype.Service;
 import com.ys.project.dao.member.IMemberDao;
 import com.ys.project.projectVO.LikeListVO;
 import com.ys.project.projectVO.MemberVO;
+import com.ys.project.projectVO.NoticeBoardVO;
 import com.ys.project.projectVO.PartnerVO;
 import com.ys.project.projectVO.PaymentVO;
 import com.ys.project.projectVO.ProductionReviewVO;
+import com.ys.project.projectVO.WarningBoardReplyVO;
+import com.ys.project.projectVO.WarningBoardVO;
 import com.ys.project.projectVO.joinPickVO;
 import com.ys.project.projectVO.joinProductVO;
 import com.ys.project.projectVO.joinReviewVO;
@@ -233,4 +236,60 @@ public class MemberService implements IMemberService {
 		// TODO Auto-generated method stub
 		return dao.getInProdList(part_name);
 	}
+
+	@Override
+	public PartnerVO partnerManage(String data) {
+		// TODO Auto-generated method stub
+		return dao.partnerManage(data);
+	}
+
+	@Override
+	public void partnerUpdate(PartnerVO vo) {
+		// TODO Auto-generated method stub
+		dao.partnerUpdate(vo);
+	}
+
+	@Override
+	public void partnerDelete(String string) {
+		// TODO Auto-generated method stub
+		dao.partnerDelete(string);
+	}
+
+	@Override
+	public void partnerProdelete(String aa) {
+		// TODO Auto-generated method stub
+		dao.partnerProdelete(aa);
+	}
+
+	@Override
+	public List<NoticeBoardVO> appNoticeBoard() {
+		// TODO Auto-generated method stub
+		return dao.appNoticeBoard();
+	}
+
+	@Override
+	public NoticeBoardVO appNoticeList(String no_num) {
+		// TODO Auto-generated method stub
+		return dao.appNoticeList(no_num);
+	}
+
+	@Override
+	public List<WarningBoardVO> appWarningBoard() {
+		// TODO Auto-generated method stub
+		return dao.appWarningBoard();
+	}
+
+	@Override
+	public WarningBoardVO appWarningList(String wa_num) {
+		// TODO Auto-generated method stub
+		return dao.appWarningList(wa_num);
+	}
+
+	@Override
+	public void appWarningReply(WarningBoardReplyVO vo) {
+		// TODO Auto-generated method stub
+		dao.appWarningReply(vo);
+	}
+
+
 }

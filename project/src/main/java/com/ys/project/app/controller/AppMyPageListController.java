@@ -1,33 +1,33 @@
 package com.ys.project.app.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.apache.ibatis.annotations.Param;
+import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ys.project.projectVO.LikeListVO;
 import com.ys.project.projectVO.MemberVO;
+import com.ys.project.projectVO.NoticeBoardVO;
 import com.ys.project.projectVO.ProductionReviewVO;
+import com.ys.project.projectVO.WarningBoardReplyVO;
+import com.ys.project.projectVO.WarningBoardVO;
 import com.ys.project.projectVO.joinPickVO;
 import com.ys.project.projectVO.joinProductVO;
 import com.ys.project.projectVO.joinReviewVO;
 import com.ys.project.service.member.IMemberService;
 
 import lombok.AllArgsConstructor;
+import net.sf.json.JSONObject;
 
 @RestController
 @AllArgsConstructor
@@ -231,5 +231,62 @@ public class AppMyPageListController {
 		System.out.println("LikeListVO : "+vo);
 		// DB변경 on cascade production_upload , likelist;
 		service.appProductDelete(vo);
+	}
+	
+	@CrossOrigin(origins = "*", maxAge = 3600)
+	@PostMapping(value = "/NoticeBoard")
+	public List<NoticeBoardVO> appnoticeboard() throws Exception{
+		List<NoticeBoardVO> list = service.appNoticeBoard();
+		return list;
+	}
+	
+	@CrossOrigin(origins = "*", maxAge = 3600)
+	@PostMapping(value = "/NoticeList")
+	@ResponseBody
+	public NoticeBoardVO appnoticelist(@RequestBody String no_num) throws Exception{
+		String a = no_num.substring(0,(no_num.length()-1));
+		System.out.println(a);
+		int j = Integer.parseInt(a);
+		NoticeBoardVO list = service.appNoticeList(a);
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy년 MM월 dd일 HH시mm분ss초");
+		String aa = format1.format(list.getUpdate_date());
+		list.setUpdt_date(aa);
+		
+		return list;
+	}
+	
+	@CrossOrigin(origins = "*", maxAge = 3600)
+	@PostMapping(value = "/WarningBoard")
+	public List<WarningBoardVO> appwarningboard() throws Exception{
+		List<WarningBoardVO> list = service.appWarningBoard();
+	return list;
+	}
+	
+	@CrossOrigin(origins = "*", maxAge = 3600)
+	@PostMapping(value = "/WarningList")
+	@ResponseBody
+	public WarningBoardVO appWarninglist(@RequestBody String wa_num) throws Exception{
+		String a = wa_num.substring(0,(wa_num.length()-1));
+		System.out.println(a);
+		int j = Integer.parseInt(a);
+//		System.out.println(wa_num);
+		WarningBoardVO list = service.appWarningList(a);
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy년 MM월 dd일 HH시mm분ss초");
+		String aa = format1.format(list.getUpdate_date());
+		list.setUpdt_date(aa);
+//		String bb = format1.format(list.getCret_date());
+//		System.out.println(aa);
+		
+		return list;
+	}
+
+	@CrossOrigin(origins = "*", maxAge = 3600)
+	@PostMapping(value = "/InputReply")
+	public void AppInputReply(@RequestBody WarningBoardReplyVO vo) throws Exception{
+		String a = vo.toString(); 
+		JSONParser jsonParser = new JSONParser();
+		JSONObject obj = (JSONObject) jsonParser.parse(a);
+		System.out.println("넘어오냐?" + a);
+		service.appWarningReply(vo);
 	}
 }

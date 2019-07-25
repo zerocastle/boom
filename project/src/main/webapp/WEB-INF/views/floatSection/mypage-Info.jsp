@@ -127,6 +127,14 @@ $(document).ready(function(){
 });
 </script>
 
+<script>
+$(document).ready(function(){
+	$('#inProd2').click(function(e){
+		e.preventDefault();
+		window.location.href = "/member/inProd2/" + $('#nick').text();
+	});
+});
+</script>
 
 <!-- Main Content -->
 <div class="container my-3">
@@ -165,6 +173,11 @@ $(document).ready(function(){
 						<c:if test="${!empty placeList }">
 							<a href="#" id="inProd" class="list-group-item list-group-item-action">
 							<i data-feather="log-out" class="mr-3"></i> 직플레이스 입고 상품</a>
+						</c:if>
+						
+						<c:if test="${!empty placeList }">
+							<a href="#" id="inProd2" class="list-group-item list-group-item-action">
+							<i data-feather="log-out" class="mr-3"></i> 직플레이스 내역</a>
 						</c:if>
 						<!-- 직플레이스가 하나라도 있으면 해당 메뉴를 한개 출력한다. -->
 						 

@@ -6,9 +6,12 @@ import java.util.Map;
 
 import com.ys.project.projectVO.LikeListVO;
 import com.ys.project.projectVO.MemberVO;
+import com.ys.project.projectVO.NoticeBoardVO;
 import com.ys.project.projectVO.PartnerVO;
 import com.ys.project.projectVO.PaymentVO;
 import com.ys.project.projectVO.ProductionReviewVO;
+import com.ys.project.projectVO.WarningBoardReplyVO;
+import com.ys.project.projectVO.WarningBoardVO;
 import com.ys.project.projectVO.joinPickVO;
 import com.ys.project.projectVO.joinProductVO;
 import com.ys.project.projectVO.joinReviewVO;
@@ -83,5 +86,22 @@ public interface IMemberService {
 
 	public List<HashMap<String, String>> getInProdList(String part_name);
 
+	public PartnerVO partnerManage(String data);
+
+	public void partnerUpdate(PartnerVO vo);
+
+	public void partnerDelete(String aa);
+
+	public void partnerProdelete(String aa);
+
+	public List<NoticeBoardVO> appNoticeBoard();
+
+	public NoticeBoardVO appNoticeList(String no_num);
+
+	public List<WarningBoardVO> appWarningBoard();
+
+	public WarningBoardVO appWarningList(String wa_num);
+
+	public void appWarningReply(WarningBoardReplyVO vo);
 
 }

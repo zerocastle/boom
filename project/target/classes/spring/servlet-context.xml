@@ -40,7 +40,7 @@
 	<!-- 파일업로드를 위한 디렉토리 설정 -->
 	<!-- String uploadPath=new String("d:/upload"); -->
 	<beans:bean id="uploadPath" class="java.lang.String">
-		<beans:constructor-arg value="d:/upload" />
+		<beans:constructor-arg value="c:/upload" />
 	</beans:bean>
 
 

@@ -17,6 +17,9 @@
 .grid-gap-3{
 	grid-gap : 0;
 }
+#delbtn{
+	text-align: right;
+}
 </style>
 
 
@@ -54,6 +57,7 @@ $(document).ready(function(){
 		e.preventDefault();
 		window.location.href = "/member/sellList/" + $('#nick').text();
 	});
+	
 	
 	// 매너 게이지
 	var manner = ${member.manner};
@@ -153,7 +157,7 @@ $(function() {
 					+ "</div>"
 					+ "</div>"
 					+ "</div>"
-					+ "</a></li>"
+					+ "</a></label><input type = 'checkbox' class = 'delbtn2' id = 'delbtn2' value = '"+ list[j].pro_num +"'></li>"
 					+ "<input type='hidden' value='"
 					+ list[j].pro_num + "' class='pro_num' />";
 			array.push(str);
@@ -176,9 +180,64 @@ $(function() {
 
 });
 </script>
+<script>
+$(document).ready(function(){
+	$('#delbtn').click(function(){
+		var confirm_val = confirm("정말 삭제하시겠습니까?");
+		
+		if(confirm_val) {
+			var pro = new Array();
+			
+			$("input[class='delbtn2']:checked").each(function(i, obj){
+				var hihi = {"p_num" : $(obj).val()};
+				pro.push(hihi);
+				alert("첫번째" + pro.length);
+				console.log(pro);
+			});
+			
+			if(confirm("시발")){
+				return false;
+			}
+			else{
+				alert("두번째");
+				alert(pro);
+				var result = 1;
+				/* var checkArr = json.stringify(checkArr); */
+				$.ajax({
+					url : "/member/prodelete",
+					type : "post",
+					contentType : 'application/json',
+					data : JSON.stringify(pro),
+					success : function(){
+						result = 0; 
+						alert("세번째");
+						window.location.href = "/member/myProduct/" + "${sessionScope.loginSession.nickname}";
+					},error : function(){
+						alert("에러발생");
+					}
+				});
+			}
+		}
+	});
+});
+</script>
+<script>
+$(document).ready(function(){
+	$('#inProd').click(function(e){
+		e.preventDefault();
+		window.location.href = "/member/inProd/" + $('#nick').text();
+	});
+});
+</script>
 
-
-
+<script>
+$(document).ready(function(){
+	$('#inProd2').click(function(e){
+		e.preventDefault();
+		window.location.href = "/member/inProd2/" + $('#nick').text();
+	});
+});
+</script>
 <!-- Main Content -->
 <div class="container my-3">
 	<div class="row">
@@ -214,9 +273,14 @@ $(function() {
 						 
 						 
 						 <!-- 직플레이스가 하나라도 있으면 해당 메뉴를 한개 출력한다. -->
-						<c:if test="${!empty placeList }">
-							<a href="#" id="in-prod" class="list-group-item list-group-item-action">
+						<c:if test="${1 <= sessionScope.loginSession.partner_signal }">
+							<a href="#" id="inProd" class="list-group-item list-group-item-action">
 							<i data-feather="log-out" class="mr-3"></i> 직플레이스 입고 상품</a>
+						</c:if>
+						
+						<c:if test="${1 <= sessionScope.loginSession.partner_signal }">
+							<a href="#" id="inProd2" class="list-group-item list-group-item-action">
+							<i data-feather="log-out" class="mr-3"></i> 직플레이스 내역</a>
 						</c:if>
 						<!-- 직플레이스가 하나라도 있으면 해당 메뉴를 한개 출력한다. -->
 						 
@@ -265,6 +329,7 @@ $(function() {
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
+				<input type = "button" id = "delbtn" value = "삭제">
 			</span>
 			<c:if test="${pageVO.pageNo != pageVO.finalPageNo }">
 				<a class="page-link" href="javascript:fn_movePage(${pageVO.nextPageNo})"

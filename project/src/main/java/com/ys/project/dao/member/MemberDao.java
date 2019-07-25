@@ -12,9 +12,12 @@ import org.springframework.stereotype.Repository;
 
 import com.ys.project.projectVO.LikeListVO;
 import com.ys.project.projectVO.MemberVO;
+import com.ys.project.projectVO.NoticeBoardVO;
 import com.ys.project.projectVO.PartnerVO;
 import com.ys.project.projectVO.PaymentVO;
 import com.ys.project.projectVO.ProductionReviewVO;
+import com.ys.project.projectVO.WarningBoardReplyVO;
+import com.ys.project.projectVO.WarningBoardVO;
 import com.ys.project.projectVO.joinPickVO;
 import com.ys.project.projectVO.joinProductVO;
 import com.ys.project.projectVO.joinReviewVO;
@@ -243,4 +246,62 @@ public class MemberDao implements IMemberDao {
 		// TODO Auto-generated method stub
 		return session.selectList("member.getInProdList", part_name);
 	}
+
+	@Override
+	public PartnerVO partnerManage(String data) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.partnerManage", data);
+	}
+
+	@Override
+	public void partnerUpdate(PartnerVO vo) {
+		
+		session.update("member.partnerUpdate", vo);
+	}
+
+	@Override
+	public void partnerDelete(String company_number) {
+		// TODO Auto-generated method stub
+		
+		session.delete("member.partnerDelete", company_number);
+	}
+
+	@Override
+	public void partnerProdelete(String aa) {
+		// TODO Auto-generated method stub
+		session.delete("member.productDelete", aa);
+	}
+
+	@Override
+	public List<NoticeBoardVO>appNoticeBoard() {
+		// TODO Auto-generated method stub
+		return session.selectList("member.noticeboard");
+	}
+
+	@Override
+	public NoticeBoardVO appNoticeList(String no_num) {
+		// TODO Auto-generated method stub
+		
+		int a = Integer.parseInt(no_num);
+		return session.selectOne("member.noticelist", a);
+	}
+
+	@Override
+	public List<WarningBoardVO> appWarningBoard() {
+		// TODO Auto-generated method stub
+		return session.selectList("member.warningboard");
+	}
+
+	@Override
+	public WarningBoardVO appWarningList(String wa_num) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.warninglist", wa_num);
+	}
+
+	@Override
+	public void appWarningReply(WarningBoardReplyVO vo) {
+		// TODO Auto-generated method stub
+		session.insert("member.warningreply", vo);
+	}
+
 }

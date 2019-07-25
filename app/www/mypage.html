@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,29 +14,29 @@
     <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.5.css">
     <script src="js/jquery.js"></script>
     <script src="js/jquery.mobile-1.4.5.js"></script>
-    <script src="js/kategorie.js"></script>
-    
+    <!--<script src="js/kategorie.js"></script>-->
     <!-- 폰트애즈썸 -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 
     <!-- 차트 cdn -->
     <!-- Resources -->
-    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <!-- <script src="https://www.amcharts.com/lib/4/core.js"></script>
     <script src="https://www.amcharts.com/lib/4/charts.js"></script>
-    <script src="https://www.amcharts.com/lib/4/themes/dataviz.js"></script>
-    
+    <script src="https://www.amcharts.com/lib/4/themes/dataviz.js"></script> -->
+    <script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
 
     <!-- 폰트 -->
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&amp;subset=korean"
-    rel="stylesheet">
+        rel="stylesheet">
     <style>
-       
-        *{
+        * {
             font-family: 'Noto Sans KR';
             margin: 0;
             padding: 0;
         }
-        .profile-line{
+
+        .profile-line {
             border: 0.1px solid #ddd;
             height: 80px;
             margin: auto;
@@ -51,387 +52,464 @@
             object-position: top;
             border-radius: 50%;
         }
-        .profile-name{
+
+        .profile-name {
             vertical-align: middle;
             line-height: 2.5;
             font-size: 18px;
             font-weight: 700;
         }
-        .profile-email{
+
+        .profile-email {
             color: #695c5c;
         }
-        .list-btn-line{
+
+        .list-btn-line {
             width: 90%;
             margin-left: 5%;
         }
-        .ui-body{
+
+        .ui-body {
             margin-bottom: 5%;
         }
-        .manner-line{
+
+        .manner-line {
             font-weight: bold;
             text-align: center;
         }
+
         #chartdiv {
             width: 100%;
             height: 200px;
             font-size: 10px;
         }
-        .ui-collapsible-heading .ui-btn{
+
+        .ui-collapsible-heading .ui-btn {
             text-align: center;
         }
 
-        img{
+        img {
             -webkit-perspective: 1;
         }
 
         .footer-line {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 8%;
-    background: white;
-    border-top: 1px solid #BDBDBD;
-    margin-top: 5px;
-}
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 8%;
+            background: white;
+            border-top: 1px solid #BDBDBD;
+            margin-top: 5px;
+        }
 
-.pro-home {
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 9.5%;
-    margin-top: 7px;
+        .pro-home {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 9.5%;
+            margin-top: 7px;
 
-}
+        }
 
-.pro-category {
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 8%;
-    margin-top: 7px;
+        .pro-category {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 8%;
+            margin-top: 7px;
 
-}
+        }
 
-.pro-plus {
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 8%;
-    margin-top: 7px;
-}
+        .pro-plus {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 8%;
+            margin-top: 7px;
+        }
 
-.pro-chat {
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 8%;
-    margin-top: 7px;
-}
+        .pro-chat {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 8%;
+            margin-top: 7px;
+        }
 
-.my-user {
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 8%;
-    margin-top: 7px;
-}
+        .my-user {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 8%;
+            margin-top: 7px;
+        }
 
-.pro_house{
-    margin-left: 15%;
-}
+        .pro_house {
+            margin-left: 15%;
+        }
 
-.pro_menu{
-    margin-left: 22%;
-}
+        .pro_menu {
+            margin-left: 22%;
+        }
 
-.pro_add{
-    margin-left: 26%;
-}
+        .pro_add {
+            margin-left: 26%;
+        }
 
-.pro_bubble{
-    margin-left: 15%;
-}
+        .pro_bubble {
+            margin-left: 15%;
+        }
 
-#usericon{
-    margin-left: 18%;
-}
-.name-home {
-    font-size: 12px;
-    margin-left: 9px;
-    font-weight: bold;
-}
+        #usericon {
+            margin-left: 18%;
+        }
 
-.name-chat {
-    font-size: 12px;
-    font-weight: bold;
-}
+        .name-home {
+            font-size: 12px;
+            margin-left: 9px;
+            font-weight: bold;
+        }
 
-.name-plus {
-    font-size: 12px;
-    font-weight: bold;
-}
+        .name-chat {
+            font-size: 12px;
+            font-weight: bold;
+        }
 
-.name-category {
-    font-size: 12px;
-    font-weight: bold;
-}
+        .name-plus {
+            font-size: 12px;
+            font-weight: bold;
+        }
 
-.name-user {
-    font-size: 12px;
-    font-weight: bold;
-}
-a{
-text-decoration: none !important;
-color: black !important;
-font-weight: bold !important;
-}
- a:link{
- text-decoration: none !important;
- color: black !important;
-}
+        .name-category {
+            font-size: 12px;
+            font-weight: bold;
+        }
 
- a:visited{
-text-decoration: none !important;
-color:black !important;
- }
+        .name-user {
+            font-size: 12px;
+            font-weight: bold;
+        }
 
+        a {
+            text-decoration: none !important;
+            color: black !important;
+            font-weight: bold !important;
+        }
+
+        a:link {
+            text-decoration: none !important;
+            color: black !important;
+        }
+
+        a:visited {
+            text-decoration: none !important;
+            color: black !important;
+        }
     </style>
 </head>
 
 <body>
- <!-- 첫번째 페이지 -->
+    <!-- 첫번째 페이지 -->
 
- <section id="myPageList" data-role="page">
-	
+    <section id="myPageList" data-role="page">
 
-    <header data-role="header" data-theme="b">
+
+        <header data-role="header" data-theme="b">
             <a href="#" class="ui-btn" data-rel="back" style=" color:#fff;"><i class="fas fa-arrow-left"></i></a>
             <h1><i class="far fa-address-card" style="margin-right: 5px;"></i>내 정보</h1>
-    </header>		
+        </header>
 
 
-    <div class="content" data-role="content" data-theme="a">		
-        <div id="profile-Div" class="ui-body ui-body-a">
-            <div class="ui-grid-a">
-                <div class="ui-block-a">
-                    <div class="profile-line">
-                        
+        <div class="content" data-role="content" data-theme="a">
+            <div id="profile-Div" class="ui-body ui-body-a">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <div class="profile-line">
+
+                        </div>
                     </div>
-                </div>
-                <div class="ui-block-b">
-                    <div class="profile-name">
-                        
-                    </div>
-                    <div class="profile-email">
-                        
+                    <div class="ui-block-b">
+                        <div class="profile-name">
+
+                        </div>
+                        <div class="profile-email">
+
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="ui-body ui-body-a">
-            <div class="manner-line">
-                <div>매너게이지</div>
-                <div id="chartdiv"></div>
+            <div class="ui-body ui-body-a">
+                <div class="manner-line">
+                    <div>매너게이지</div>
+                    <canvas id="foo" class="foo">
+  
+                    </canvas>
+                </div>
             </div>
-        </div>
 
-        <div class="ui-body ui-body-a">
-            <div class="ui-grid-a">
-                <div class="ui-block-a">
-                    <div class="list-btn-line" >
+            <div class="ui-body ui-body-a">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <div class="list-btn-line">
                             <button id="review">상점 후기</button>
-                    </div>
-                    <div class="list-btn-line">
+                        </div>
+                        <div class="list-btn-line">
                             <button id="pickList">찜 목록</button>
+                        </div>
                     </div>
-                </div>
-                 <div class="ui-block-b">
-                    <div class="list-btn-line">
-                            <button>판매 내역</button>
-                    </div>
-                    <div class="list-btn-line">
-                            <button>구매 내역</button>
+                    <div class="ui-block-b">
+                        <div class="list-btn-line">
+                            <button id="sellList">판매 내역</button>
+                        </div>
+                        <div class="list-btn-line">
+                            <button id="purchaseList">구매 내역</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="product-management">
-            <button id="management">판매상품 관리</button>
-        </div>
-        <div class="partner">
-            <button id="register">직플레이스 등록하기</button>
-        </div>
-
-        <div style="text-align:center">
-            <div data-role="collapsible">
-                <h3>더 보기</h3>
-                <button id="logout">로그아웃</button>
-
-                <button>공지사항</button>
-
-                <button>신고게시판</button>
-
-                <button>회원탈퇴</button>
+            <div class="product-management">
+                <button id="management">판매상품 관리</button>
+            </div>
+            <div class="partner">
+                <button id="register">직플레이스 등록하기</button>
             </div>
 
-            
-            <div class="alert">ㅎㅎ</div>
-        </div>
-    </div>
+            <div style="text-align:center">
+                <div data-role="collapsible">
+                    <h3>더 보기</h3>
+                    <button id="logout">로그아웃</button>
 
-    <div class="footer-line" style="background-color: white;">
+                    <button id="noticeboard">공지사항</button>
 
-        <!-- <div class="menuDiv"> -->
+                    <button id="warningboard">신고게시판</button>
 
-        <div class="pro-home">
-
-            <a href="#">
-                <div class="pro_house">
-                    <img src="./img/house.svg">
+                    <button>회원탈퇴</button>
                 </div>
 
-                <div>
-                    <span class="name-home">홈</span>
 
-                </div>
-            </a>
+                <div class="alert">ㅎㅎ</div>
+            </div>
         </div>
 
+        <div class="footer-line" style="background-color: white;">
 
-        <div class="pro-category">
+            <!-- <div class="menuDiv"> -->
 
-            <a href="#">
-                <div class="pro_menu">
-                   <img src="./img/menu.svg">
-                </div>
+            <div class="pro-home">
 
-                <div>
-                    <span class="name-category">카테고리</span>
-                </div>
-            </a>
+                <a href="./index.html">
+                    <div class="pro_house">
+                        <img src="./img/house.svg">
+                    </div>
+
+                    <div>
+                        <span class="name-home">홈</span>
+
+                    </div>
+                </a>
+            </div>
+
+
+            <div class="pro-category">
+
+                <a href="#">
+                    <div class="pro_menu">
+                        <img src="./img/menu.svg">
+                    </div>
+
+                    <div>
+                        <span class="name-category">카테고리</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="pro-plus">
+                <a href="#">
+                    <div class="pro_add">
+                        <img src="./img/add.svg">
+                    </div>
+
+                    <div>
+                        <span class="name-plus" onclick="goPage()">상품등록</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="pro-chat">
+                <a href="chatList.html">
+                    <div class="pro_bubble">
+                        <img src="img/speech-bubble.svg">
+                    </div>
+
+                    <div>
+                        <span class="name-chat">거래방</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="my-user">
+                <a href="#">
+                    <div id="usericon">
+                        <img src="img/profile.svg">
+                    </div>
+
+                    <div>
+                        <span class="name-user">내정보</span>
+                    </div>
+                </a>
+            </div>
+
+
         </div>
 
-        <div class="pro-plus">
-            <a href="#">
-                <div class="pro_add">
-                   <img src="./img/add.svg">
-                </div>
-
-                <div>
-                    <span class="name-plus" onclick="goPage()">상품등록</span>
-                </div>
-            </a>
-        </div>
-
-        <div class="pro-chat">
-            <a href="chatList.html">
-                <div class="pro_bubble">
-                    <img src="img/speech-bubble.svg">
-                </div>
-
-                <div>
-                    <span class="name-chat">거래방</span>
-                </div>
-            </a>
-        </div>
-
-        <div class="my-user">
-            <a href="#">
-                <div id="usericon">
-                    <img src="img/profile.svg">
-                </div>
-
-                <div>
-                    <span class="name-user">내정보</span>
-                </div>
-            </a>
-        </div>
-
-
-    </div>
-
-    <!-- <footer data-role="footer" data-position="fixed" data-theme="b">
+        <!-- <footer data-role="footer" data-position="fixed" data-theme="b">
         <h2>ⓒ직거래 플러스 2019</h2>
     </footer> -->
 
-</section>
+    </section>
 
-<script>
-$(document).ready(function() {
-    
-    var query =
-        sessionStorage.getItem("member");
+    <script>
+        $(document).ready(function () {
 
-    $.ajax({
-            type : "POST",
-            data : query,
-            url : "http://39.127.7.47:8080/app/myPageList/nick",
-            contentType : "application/json; charset=UTF-8",
-            success : function(data){
-                console.log(data);
-                console.log(data.nickname);
-                $('.profile-name').append(data.nickname);
-                $('.profile-email').append(data.email);
-                
-                if(data.partner_signal >= 1){
-                    $('.partner').append(
-                        "<button id='scan' class='ui-btn ui-shadow ui-corner-all'>직플파트너용 QR스캐너</button>"
-                    )
-                }
-            },error : function(err){
-                console.log(err);
-            }
-    });
+            var query =
+                sessionStorage.getItem("member");
+            // 매너 게이지
+            var memberJsonObject = JSON.parse(query);
+            console.log(memberJsonObject);
+            var mannerValue = memberJsonObject.manner;
+            console.log(mannerValue);
+           
+           
+            //     // 매너 게이지
+            //  var jsonObject = JSON.parse(query);
+            //  var mannerValue = jsonObject.manner;
 
-    $('#management').click(function(e){
-        var member = JSON.parse(sessionStorage.getItem('member'));
-        var nickname = member.nickname;
-        window.location.href="productionList.html?name="+nickname;
-    });
-
-    $('#profile-Div').click(function(e){
-        e.preventDefault();
-        window.location.href="myPage-Info.html";
-        // window.location.href="test.html";
-    });
-    
-    $('#logout').click(function(){
-        sessionStorage.removeItem("member");
-        window.location.href="index.html";
-    });
-
-    $('#review').click(function(){
-        var member = JSON.parse(sessionStorage.getItem('member'));
-        var nickname = member.nickname;
-        window.location.href="review.html?name="+nickname;
-    });
-
-    $('#register').click(function(){
-        window.location.href="register.html";
-    });
-
-$(document.body).on('click', '#scan', function(){
-    cordova.plugins.barcodeScanner.scan(
-        function(result) {
-            var list = $("<ul>").append("<li>" + result.text + "</li>")
-                .append("<li>" + result.format + "</li>")
-                .append("<li>" + result.cancelled + "</li>");
-            
-            $(".alert").html(list);
-            
-            var nickname = JSON.parse(sessionStorage.getItem('member')).nickname;
-            var url = result.text + '&nickname=' + nickname;
-            alert(url);
-            var ref = cordova.InAppBrowser.open(url, '_blank', 'location=yes');
-            ref.addEventListener('loadstop', function(){
-                var loop = window.setInterval(function(){
-                    ref.executeScript({
-                        code:"window.shouldClose"
+            //  console.log(mannerValue);
+            function startFoo() {
+                var opts = {
+                    angle: 0.15, // The span of the gauge arc
+                    lineWidth: 0.44, // The line thickness
+                    radiusScale: 1, // Relative radius
+                    pointer: {
+                        length: 0.51, // // Relative to gauge radius
+                        strokeWidth: 0.077, // The thickness
+                        color: '#000000' // Fill color
                     },
-                    function(values){
-                        if(values[0]){
-                            ref.close();
-                            window.clearInterval(loop);
-                        }
-                    });
-                },100);
+                    limitMax: false,     // If false, max value increases automatically if value > maxValue
+                    limitMin: false,     // If true, the min value of the gauge will be fixed
+                    colorStart: '#f70000',   // Colors
+                    colorStop: '#f70000',    // just experiment with them
+                    strokeColor: '#E0E0E0',  // to see which ones work best for you
+                    generateGradient: true,
+                    highDpiSupport: true,     // High resolution support
+
+                };
+                var target = document.getElementById('foo'); // your canvas element
+                var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+                gauge.maxValue = 100; // set max gauge value
+                gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+                gauge.animationSpeed = 49; // set animation speed (32 is default value)
+                gauge.set(mannerValue); // set actual value
+            }
+
+            startFoo();
+            $.ajax({
+                type: "POST",
+                data: query,
+                url: "http://39.127.7.51:8080/app/myPageList/nick",
+                contentType: "application/json; charset=UTF-8",
+                success: function (data) {
+                    console.log(data);
+                    console.log(data.nickname);
+                    $('.profile-name').append(data.nickname);
+                    $('.profile-email').append(data.email);
+                   
+                    if (data.partner_signal >= 1) {
+                        $('.partner').append(
+                            "<button id='scan' class='ui-btn ui-shadow ui-corner-all'>직플파트너용 QR스캐너</button>"
+                        )
+                    }
+                }, error: function (err) {
+                    console.log(err);
+                }
+            });
+
+            $('#management').click(function (e) {
+                var member = JSON.parse(sessionStorage.getItem('member'));
+                var nickname = member.nickname;
+                window.location.href = "productionList.html?name=" + nickname;
+            });
+
+            $('#profile-Div').click(function (e) {
+                e.preventDefault();
+                window.location.href = "myPage-Info.html";
+                // window.location.href="test.html";
+            });
+
+            $('#logout').click(function () {
+                sessionStorage.removeItem("member");
+                window.location.href = "index.html";
+            });
+
+            $('#noticeboard').click(function () {
+                window.location.href = "noticeboard.html";
+            });
+
+            $('#warningboard').click(function () {
+                window.location.href = "warningboard.html";
+            });
+
+            $('#review').click(function () {
+                var member = JSON.parse(sessionStorage.getItem('member'));
+                var nickname = member.nickname;
+                window.location.href = "review.html?name=" + nickname;
+            });
+
+            $('#register').click(function () {
+                window.location.href = "register.html";
+            });
+
+            $('#sellList').click(function () {
+                window.location.href = "sellList.html";
+            });
+
+            $('#purchaseList').click(function () {
+                window.location.href = "purchaseList.html";
+            });
+
+            $(document.body).on('click', '#scan', function () {
+                cordova.plugins.barcodeScanner.scan(
+                    function (result) {
+                        var list = $("<ul>").append("<li>" + result.text + "</li>")
+                            .append("<li>" + result.format + "</li>")
+                            .append("<li>" + result.cancelled + "</li>");
+
+                        $(".alert").html(list);
+
+                        var nickname = JSON.parse(sessionStorage.getItem('member')).nickname;
+                        var url = result.text + '&nickname=' + nickname;
+                        alert(url);
+                        var ref = cordova.InAppBrowser.open(url, '_blank', 'location=yes');
+                        ref.addEventListener('loadstop', function () {
+                            var loop = window.setInterval(function () {
+                                ref.executeScript({
+                                    code: "window.shouldClose"
+                                },
+                                    function (values) {
+                                        if (values[0]) {
+                                            ref.close();
+                                            window.clearInterval(loop);
+                                        }
+                                    });
+                            }, 100);
+                        });
+                    },
+                    function (error) {
+                        // 에러정보 표시
+                        $(".alert").html(error);
+                    }
+                );
+            })
+            /*
+            $('#scan').click(function(){
+                
             });
         },
         function(error) {
@@ -452,4 +530,5 @@ $('#scan').click(function(){
 </script>
 <script src="js/index.js"></script>
 </body>
+
 </html>
