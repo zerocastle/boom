@@ -17,6 +17,7 @@ import com.ys.project.projectVO.PaymentVO;
 import com.ys.project.projectVO.ProductionReviewVO;
 import com.ys.project.projectVO.WarningBoardReplyVO;
 import com.ys.project.projectVO.WarningBoardVO;
+import com.ys.project.projectVO.ProductionVO;
 import com.ys.project.projectVO.joinPickVO;
 import com.ys.project.projectVO.joinProductVO;
 import com.ys.project.projectVO.joinReviewVO;
@@ -292,4 +293,11 @@ public class MemberService implements IMemberService {
 	}
 
 
+	
+	//�ü����� �������
+	@Override
+	public List<ProductionVO> getMarketPrice() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

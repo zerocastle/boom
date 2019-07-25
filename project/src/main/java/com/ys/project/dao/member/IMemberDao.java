@@ -1,9 +1,10 @@
 package com.ys.project.dao.member;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.data.repository.query.Param;
 
 import com.ys.project.projectVO.LikeListVO;
 import com.ys.project.projectVO.MemberVO;
@@ -13,6 +14,7 @@ import com.ys.project.projectVO.PaymentVO;
 import com.ys.project.projectVO.ProductionReviewVO;
 import com.ys.project.projectVO.WarningBoardReplyVO;
 import com.ys.project.projectVO.WarningBoardVO;
+import com.ys.project.projectVO.ProductionVO;
 import com.ys.project.projectVO.joinPickVO;
 import com.ys.project.projectVO.joinProductVO;
 import com.ys.project.projectVO.joinReviewVO;
@@ -111,4 +113,11 @@ public interface IMemberDao {
 
 	public void appWarningReply(WarningBoardReplyVO vo);
 
+	
+	
+	//�ü������ϱ�
+	public List<ProductionVO> getMarketPrice();
+	
+	//�ü� ���� ���� �˻�
+	public List<ProductionVO> searchGetMarketPrice(@Param("word")String word);
 }

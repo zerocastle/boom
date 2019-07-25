@@ -12,6 +12,7 @@ import com.ys.project.projectVO.PaymentVO;
 import com.ys.project.projectVO.ProductionReviewVO;
 import com.ys.project.projectVO.WarningBoardReplyVO;
 import com.ys.project.projectVO.WarningBoardVO;
+import com.ys.project.projectVO.ProductionVO;
 import com.ys.project.projectVO.joinPickVO;
 import com.ys.project.projectVO.joinProductVO;
 import com.ys.project.projectVO.joinReviewVO;
@@ -85,6 +86,9 @@ public interface IMemberService {
 	public List<PartnerVO> getPlaceList(int m_num);
 
 	public List<HashMap<String, String>> getInProdList(String part_name);
+	
+	//�ü����� �����Ͱ� �������
+	public List<ProductionVO> getMarketPrice();
 
 	public PartnerVO partnerManage(String data);
 

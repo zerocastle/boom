@@ -115,6 +115,12 @@ $(function() {
 			window.location.href = "/warningBoard/warningBoard"
 		})
 		
+		//시세알아보기
+		$('#marketPrice').click(function(e){
+			e.preventDefault();
+			window.location.href="/getMarketPrice";
+		})
+		
 		// 검색 누르기
 		$(".input-group-text").click(function(){
 			
@@ -122,5 +128,7 @@ $(function() {
 			var keyword = $('.form-control').val();
 			window.location.href="/search?type="+choose+"&keyword="+keyword;
 		})
+		
+		
 
 	});
