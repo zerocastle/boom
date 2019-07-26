@@ -199,7 +199,7 @@ $(document).ready(function(){
 							<tbody>
 								<c:forEach items="${dude}" var="list">
 									<tr>
-										<th scope="row"><span class="badge badge-warning rounded"></span></th>
+										<th scope="row"><span class="badge badge-warning rounded">${list.merchant_uid }</span></th>
 										<td class="text-right">${list.pro_num}</td>
 										<td>${list.cate_code}</td>
 				                      	<td>${list.title }</td>
