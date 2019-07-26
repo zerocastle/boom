@@ -14,7 +14,11 @@ $(document).ready(function () {
 
     // 기본 전체보기 가격순 불러오기
     function getProduction(callbackFun) {
+<<<<<<< Updated upstream
         $.get('http://39.127.7.51:8080/app/production/list/' + order + '/' + cate_code, function (response) {
+=======
+        $.get('http://15.164.188.135:8080/app/production/list/' + order + '/' + cate_code, function (response) {
+>>>>>>> Stashed changes
             callbackFun(response);
         });
     }
@@ -31,7 +35,11 @@ $(document).ready(function () {
                 place_signal = "<div class='badge badge-warning'>직거래</div>"
             }
             $('.pro').append('<div class="content-wrap"><div class="imgess">'
+<<<<<<< Updated upstream
                 + '<img class="pro-img" src="http://39.127.7.51:8080/resources/' + data[i].uploadPath + '/s_' + data[i].uuid + '_' + data[i].fileName + ' " width="90px;" height="85px;"/>'
+=======
+                + '<img class="pro-img" src="http://15.164.188.135:8080/resources/' + data[i].uploadPath + '/s_' + data[i].uuid + '_' + data[i].fileName + ' " width="90px;" height="85px;"/>'
+>>>>>>> Stashed changes
                 + '</div>'
                 //다른 개행
                 + '<div class="img-name">'
@@ -73,7 +81,11 @@ $(document).ready(function () {
         if (searchValue != null) {
             $.ajax({
                 type: 'post',
+<<<<<<< Updated upstream
                 url: "http://39.127.7.51:8080/app/production/search/" + encodeSearchValue,
+=======
+                url: "http://15.164.188.135:8080/app/production/search/" + encodeSearchValue,
+>>>>>>> Stashed changes
                 contentType: "application/json; charset=UTF-8",
                 success: function (data) {
                     for (var i = 0; i < data.length; i++) {
@@ -83,7 +95,11 @@ $(document).ready(function () {
                             place_signal = "<div class='badge badge-warning'>직거래</div>"
                         }
                         $('.pro').append('<div class="content-wrap"><div class="imgess">'
+<<<<<<< Updated upstream
                             + '<img class="pro-img" src="http://39.127.7.51:8080/resources/' + data[i].uploadPath + '/s_' + data[i].uuid + '_' + data[i].fileName + ' " width="90px;" height="85px;"/>'
+=======
+                            + '<img class="pro-img" src="http://15.164.188.135:8080/resources/' + data[i].uploadPath + '/s_' + data[i].uuid + '_' + data[i].fileName + ' " width="90px;" height="85px;"/>'
+>>>>>>> Stashed changes
                             + '</div>'
                             //다른 개행
                             + '<div class="img-name">'
@@ -120,7 +136,11 @@ $(document).ready(function () {
     //     $('.pro').empty();
     //     $.ajax({
     //         type: 'post',
+<<<<<<< Updated upstream
     //         url: "http://39.127.7.51:8080/app/production/search/" + encodeSearchValue,
+=======
+    //         url: "http://15.164.188.135:8080/app/production/search/" + encodeSearchValue,
+>>>>>>> Stashed changes
     //         contentType: "application/json; charset=UTF-8",
     //         success: function (data) {
     //             console.log(data);
@@ -131,7 +151,11 @@ $(document).ready(function () {
     //                     place_signal = "img/22.png"
     //                 }
     //                 $('.pro').append('<div class="content-wrap"><div class="imgess">'
+<<<<<<< Updated upstream
     //                     + '<img class="pro-img" src="http://39.127.7.51:8080/resources/' + data[i].uploadPath + '/s_' + data[i].uuid + '_' + data[i].fileName + ' " width="90px;" height="85px;"/>'
+=======
+    //                     + '<img class="pro-img" src="http://15.164.188.135:8080/resources/' + data[i].uploadPath + '/s_' + data[i].uuid + '_' + data[i].fileName + ' " width="90px;" height="85px;"/>'
+>>>>>>> Stashed changes
     //                     + '</div>'
     //                     //다른 개행
     //                     + '<div class="img-name">'
@@ -168,7 +192,7 @@ $('.category').change(function () {
     var cate_code = $('.category').val();
     var order = $('.order').val();
     function getProduction(callbackFun) {
-        $.get('http://39.127.7.51:8080/app/production/list/' + order + '/' + cate_code, function (response) {
+        $.get('http://15.164.188.135:8080/app/production/list/' + order + '/' + cate_code, function (response) {
             callbackFun(response);
         });
     }

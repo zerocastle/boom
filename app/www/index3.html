@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="cordova.js"></script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+        integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.js"></script><!-- 팝업창 스크립트  -->
+    <script src="https://www.promisejs.org/polyfills/promise-7.0.4.min.js"></script> <!-- 비동기 처리를 위한 Promise 라이브러리 CDN-->
+    <script>
+        var objDiv = document.getElementsByClassName("contents-line");
+        objDiv.scrollTop = objDiv.scrollHeight;
+    </script>
+
+    <style>
+        .img-responsive {
+            width: 50px;
+            height: 50px;
+            float: right;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        /*
+body{
+    background-color: #E6E6E6;
+    width: 100%;
+    height: 100%;
+} */
+.delete {
+    position: absolute;
+    background-color: #943030;
+    color: white;
+    font-size: 14px;
+    letter-spacing: -.3px;
+    padding: 0px 0;
+    text-align: center;    
+    margin-top: 69px;
+    width: 85px;
+    font-weight:bold;
+}
+.capteen {
+    position: absolute;
+    background-color: #848484;
+    color: white;
+    font-size: 14px;
+    letter-spacing: -.3px;
+    padding: 0px 0;
+    text-align: center;
+    width: 78px;
+    font-weight:bold;
+}
+        .modal.modal-center {
+            text-align: center;
+        }
+
+        @media screen and (min-width: 768px) {
+            .modal.modal-center:before {
+                display: inline-block;
+                vertical-align: middle;
+                content: " ";
+                height: 100%;
+            }
+        }
+
+        .modal-dialog.modal-center {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .modal-content {
+            overflow: hidden;
+            width: 105%;
+            height: 68%;
+        }
+
+        #myModal {
+            z-index: 100;
+            width: 95%;
+            height: 100%;
+        }
+
+        iframe {
+            overflow-y: hidden;
+            overflow: hidden;
+            padding-top: 3px;
+            padding-left: 3px;
+            margin-top: 3px;
+            margin-left: -20px;
+            border: 0;
+            width: 210vw;
+            height: 110vh;
+            transform: scale(0.80, 0.80);
+            -moz-transform-origin: top left;
+            -webkit-transform-origin: top left;
+            -o-transform-origin: top left;
+            -ms-transform-origin: top left;
+            transform-origin: top left;
+        }
+
+        select { 
+            width: 425px; /* 원하는 너비설정 */ 
+            padding: .8em .5em; /* 여백으로 높이 설정 */ 
+            font-family: inherit; /* 폰트 상속 */ 
+            background: url(https://farm1.staticflickr.com/379/19928272501_4ef877c265_t.jpg) no-repeat 95% 50%; /* 네이티브 화살표 대체 */ 
+            border: 1px solid #999; border-radius: 0px; /* iOS 둥근모서리 제거 */ 
+            -webkit-appearance: none; /* 네이티브 외형 감추기 */ 
+            -moz-appearance: none; 
+            appearance: none; 
+            margin-left : 10px;
+            margin-top : 15px;
+            }
+
+        html,
+        body {
+            background-color: #E6E6E6;
+            height: 100%;
+            overflow: hidden
+        }
+
+        #wrap {
+            height: 100%;
+            margin: 1px;
+        }
+
+        .header-line {
+
+            border-bottom: 1px solid 0.5px#FAFAFA;
+            width: 100%;
+            height: 6%;
+
+            background-color: white;
+        }
+
+        /* .contents{
+    height : 100%;
+    border:  1px solid black;
+} */
+
+        .contents-line {
+            overflow-y: hidden;
+            overflow-x: hidden;
+            height: 100%;
+
+
+        }
+
+        .footer-line {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 8%;
+            background: white;
+            border-top: 1px solid 0.5px #FAFAFA;
+
+        }
+
+
+        .addrDiv {
+            display: inline-block;
+            width: 5%;
+            height: 25px;
+            margin-top: 10px;
+            margin-left: 20px;
+            font-weight: bold;
+            font-size: 16px;
+            vertical-align: middle;
+            color: gray;
+
+        }
+
+        .proup-name {
+            display: inline-block;
+            vertical-align: middle;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+
+        a {
+            text-decoration: none;
+
+        }
+
+        a:link {
+            text-decoration: none;
+        }
+
+        a:visited {
+            text-decoration: none;
+            color: gray;
+
+
+        }
+
+        .hr1 {
+            margin-top: 8px;
+            border: 0.9px solid gray;
+            width: 250px;
+            position: relative;
+            left: 10px;
+            top: 6px;
+        }
+
+        .hr2 {
+            border: 0.9px solid gray;
+            width: 383px;
+            margin-left: 10px;
+            margin-bottom: 8px;
+        }
+
+
+
+
+
+        .pro_sucess {
+            display: inline-block;
+            vertical-align: middle;
+            margin-top: 10px;
+            margin-right: 25px;
+            float: right;
+
+        }
+
+
+        .proup-name {
+            display: inline-block;
+            vertical-align: middle;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        .pro_sucess>span {
+            font-weight: bold;
+            font-size: 17px;
+
+        }
+
+        .img_up {
+            width: 99%;
+            height: 100px;
+            background-color: white;
+            border-radius: 8px;
+            height: 720px;
+            margin: auto;
+            margin-top: 3px;
+
+
+
+        }
+
+        .img_but {
+            width: 100%;
+            height: 100px;
+
+
+        }
+
+        .main-photo {
+            border: solid 1px black;
+            height: 85px;
+            width: 85px;
+            margin-left: 10px;
+            margin-top: 10px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .fa-camera {
+            color: gray;
+            font-size: 25px;
+            margin-left: 29px;
+            margin-top: 20px;
+        }
+
+        .photo-number {
+            font-weight: bold;
+            margin-left: 24px;
+        }
+        #preview {
+            position: relative;
+        }
+        #preview .preview-box:first-child img {
+            width: 85px;
+            height: 85px;
+
+        }
+
+        #preview .preview-box img {
+            width: 85px;
+            height: 85px;
+        }
+
+        .content1 {
+
+            display: inline-block;
+            vertical-align: middle;
+            height: 100px;
+            width: 270px;
+            white-space: nowrap;
+            overflow-x: auto;
+
+        }
+
+        .preview-box {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 5px;
+            margin-top: 14px;
+        }
+
+
+        .proo_name {
+            background-color: #E6E6E6;
+            border: solid 1px gray;
+            height: 40px;
+            width: 95%;
+            margin: auto;
+            border-radius: 3px;
+            margin-left: 10px;
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            text-indent: 0.3em;
+
+        }
+
+        .catae_select {
+            background-color: #E6E6E6;
+            border: solid 1px gray;
+            height: 40px;
+            width: 95%;
+            margin: auto;
+            border-radius: 3px;
+            margin-left: 10px;
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            text-indent: 0.3em;
+        }
+
+        .price_pro {
+            background-color: #E6E6E6;
+            border: solid 1px gray;
+            height: 40px;
+            width: 95%;
+            margin: auto;
+            border-radius: 3px;
+            margin-left: 10px;
+            margin-top: -15px;
+            font-size: 16px;
+            font-weight: bold;
+            text-indent: 0.3em;
+        }
+
+
+        .addres {
+            background-color: #E6E6E6;
+            border: solid 1px gray;
+            height: 40px;
+            width: 70%;
+            margin: auto;
+            border-radius: 3px;
+            margin-left: 10px;
+            margin-top: 15px;
+        }
+
+        .pick {
+            background-color: #E6E6E6;
+            border: solid 1px gray;
+            height: 40px;
+            width: 70%;
+            margin: auto;
+            border-radius: 3px;
+            margin-left: 10px;
+            margin-top: 15px;
+        }
+
+        input::placeholder {
+            font-size: 16px;
+            font-weight: bold;
+            position: relative;
+            left: 5px;
+            top: 2px;
+        }
+
+        textarea::placeholder {
+            font-size: 16px;
+            font-weight: bold;
+            position: relative;
+            left: 5px;
+            top: 5px;
+        }
+
+        .fa-chevron-down {
+            position: relative;
+            left: 365px;
+            bottom: 30px;
+            font-size: 20px;
+            color: gray;
+        }
+
+        .select-pop {
+            width: 380px;
+            height: 450px;
+            border-radius: 5px;
+            background-color: #FAFAFA;
+            margin-left: 10px;
+            margin-top: -35px;
+            z-index: 3;
+            position: relative;
+            display: none;
+
+        }
+
+        .select-pop>div {
+            font-size: 17px;
+            font-weight: bold;
+            margin-left: 5px;
+            margin-top: 15px;
+
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .adrs {
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #848484), color-stop(1, #848484));
+            background: -moz-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -webkit-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -o-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -ms-linear-gradient(top, #848484 5%, #848484 100%);
+            background: linear-gradient(to bottom, #848484 5%, #848484 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#848484',
+                endColorstr='#848484', GradientType=0);
+            background-color: #848484;
+            -moz-border-radius: 6px;
+            -webkit-border-radius: 6px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            display: inline-block;
+            cursor: pointer;
+            color: #ffffff;
+            font-family: Arial;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 12px 2px;
+            text-decoration: none;
+            position: relative;
+            top: 1px;
+
+        }
+
+        .adrs:hover {
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #848484), color-stop(1, #848484));
+            background: -moz-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -webkit-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -o-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -ms-linear-gradient(top, #848484 5%, #848484 100%);
+            background: linear-gradient(to bottom, #848484 5%, #848484 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#848484',
+                endColorstr='#848484', GradientType=0);
+            background-color: #848484;
+        }
+
+        .find {
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #848484), color-stop(1, #848484));
+            background: -moz-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -webkit-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -o-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -ms-linear-gradient(top, #848484 5%, #848484 100%);
+            background: linear-gradient(to bottom, #848484 5%, #848484 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#848484',
+                endColorstr='#848484', GradientType=0);
+            background-color: #848484;
+            -moz-border-radius: 6px;
+            -webkit-border-radius: 6px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            display: inline-block;
+            cursor: pointer;
+            color: #ffffff;
+            font-family: Arial;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 12px 17.5px;
+            text-decoration: none;
+            position: relative;
+            top: 1px;
+
+        }
+
+        .find:hover {
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #848484), color-stop(1, #848484));
+            background: -moz-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -webkit-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -o-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -ms-linear-gradient(top, #848484 5%, #848484 100%);
+            background: linear-gradient(to bottom, #848484 5%, #848484 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#848484',
+                endColorstr='#848484', GradientType=0);
+            background-color: #848484;
+        }
+
+        .background {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .con {
+            background-color: #E6E6E6;
+            border: solid 1px gray;
+            height: 80px;
+            width: 95%;
+            margin: auto;
+            border-radius: 3px;
+            margin-left: 10px;
+            margin-top: 15px;
+            resize: none;
+            overflow-x: hidden;
+            font-size: 16px;
+            font-weight: bold;
+            text-indent: 0.3em;
+
+        }
+
+        .success {
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #848484), color-stop(1, #848484));
+            background: -moz-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -webkit-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -o-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -ms-linear-gradient(top, #848484 5%, #848484 100%);
+            background: linear-gradient(to bottom, #848484 5%, #848484 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#848484',
+                endColorstr='#848484', GradientType=0);
+            background-color: #848484;
+            -moz-border-radius: 6px;
+            -webkit-border-radius: 6px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            display: inline-block;
+            cursor: pointer;
+            color: #ffffff;
+            font-family: Arial;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 15px 165px;
+            text-decoration: none;
+            margin-top: 50px;
+            margin-left: 5px;
+
+        }
+
+        .success:hover {
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #848484), color-stop(1, #848484));
+            background: -moz-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -webkit-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -o-linear-gradient(top, #848484 5%, #848484 100%);
+            background: -ms-linear-gradient(top, #848484 5%, #848484 100%);
+            background: linear-gradient(to bottom, #848484 5%, #848484 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#848484',
+                endColorstr='#848484', GradientType=0);
+            background-color: #848484;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap">
+        <div class="background">
+            <div class="header-line">
+                <div class="addrDiv">
+                    <a href="#" class="fas fa-arrow-left" onclick="history.back(-1); return false;"></a>
+                </div>
+                <div class="proup-name">
+                    <span>
+                        상품 등록하기
+                    </span>
+                </div>
+                <div class="pro_sucess">
+
+                </div>
+            </div>
+            <div class="contents-line">
+                <div class="img_up">
+                    <div class="img_but">
+                        <label for="uploadInputBox">
+                            <div class="main-photo" id="attach">
+                                <input id="uploadInputBox" style="display:none" class="but" type="file" name="filedata"
+                                    multiple />
+                                <i class="fas fa-camera"></i>
+                                <label class="photo-number">0/5</label>
+                            </div>
+                        </label>
+                        
+                        <div id="preview" name="preview" class="content1"></div>
+                   
+                    </div>
+
+                <form id="proRegi" method="post" enctype="multipart/form-data"
+                    role="form" action="15.164.188.135:8080/selling/uploadProduct2">
+                    <div class="product_name">
+                        
+                        <div class="product">
+                            <input type="text" class="proo_name" name="title" placeholder="상품명 입력">
+                        </div>
+                        <select id="u-name" class="form-control" value="DEMO"
+                     name="p_quality">
+                     <option value="중고">중고</option>
+                     <option value="중고+하자">중고+하자(하자가 있는 중고)</option>
+                     <option value="새물품">새물품(미사용)</option>
+                     <option value="새것+하자">새것+하자(새것이고 하자가 있음)</option>
+                     <option value="거의새것">거의새것(새것이고 하자가 없음</option>
+                  </select>
+                        <div>
+                            <input type="text" class="catae_select"  id="catae" placeholder="카테고리 선택" readonly> <i
+                                class="fas fa-chevron-down"></i>
+                            <input type="hidden" class="cate_code" name="cate_code" value="">
+                        </div>
+                        <div class="select-pop" id="pop">
+                            <div class="man" style="margin-bottom:10px;">남성의류</div>
+                            <div class="girl" style="margin-bottom:10px;"><span>여성의류</span></div>
+                            <div class="Electronic_products" style="margin-bottom:10px;"><span>전자제품</span></div>
+                            <div class="furniture" style="margin-bottom:10px;"><span>가구/인테리어</span></div>
+                            <div class="Baby" style="margin-bottom:10px;"><span>유아용품</span></div>
+                            <div class="sports" style="margin-bottom:10px;"><span>스포츠/레저</span></div>
+                            <div class="game" style="margin-bottom:10px;"><span>게임/취미</span></div>
+                            <div class="beauty" style="margin-bottom:10px;"><span>뷰티/미용</span></div>
+                            <div class="life" style="margin-bottom:10px;"><span>생활/가공품</span></div>
+                            <div class="animal" style="margin-bottom:10px;"><span>반려동물용품</span></div>
+                            <div class="book" style="margin-bottom:10px;"><span>도서/티켓/음반</span></div>
+                            <div class="stuff" style="margin-bottom:10px;"><span>기타/잡화</span></div>
+                        </div>
+                        
+
+
+                        <div>
+                            <input type="number"  name="price" class="price_pro" placeholder="가격입력">
+                        </div>
+
+
+                        <div>
+                            <textarea class="con" name="content" placeholder="내용입력"></textarea>
+
+
+
+                        </div>
+
+                        <div class="sell-addr">
+                            <input type="text" id="sample_addr" class="addres" name="addr" readonly>
+                            <input type="button" class="adrs" id="adrs"  value="거래지역 선택">
+                        </div>
+
+
+                        <div>
+                            <input type="text" id="pick" name="place_pick" class="pick" readonly>
+                            <button class="find">직플선택</button>
+                        </div>
+
+
+
+
+                    </div>
+
+                    <input type="submit" class="success" value="등록완료">
+                </form>
+                </div>
+
+                
+
+
+                <div id="myModal" class='bPop'>
+                    <div class="bPop modal-content">
+                        <iframe src="http://15.164.188.135:3000/api/daumJuso" id='daumIframe'
+                            style='display:none;'></iframe>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class='sendInputSet' style='display:none'>
+        <ul>
+
+        </ul>
+    </div>
+    <script src="js/index.js"></script>
+</body>
+<script>
+$(document).ready(function(){
+
+    $('.find').on('click', function(){
+        // json = {
+        //     title : $('.proo_name').val(),
+        //     content : $('.con').html(),
+        //     price : $('.price_pro').val(),
+        //     cate : $('#catae').val(),
+        //     cate_code : $('.cate_code').val(),
+        //     addr : $('#sample_addr').val(),
+        //     select : $('#u-name').val()
+        // }
+        // console.log(json);
+        // console.log(JSON.stringify(json));
+        // sessionStorage.setItem('tempJson', JSON.stringify(json));
+        window.location.href = 'zicpleList.html';
+        
+    });
+
+    var loop = window.setInterval(function(){
+        var result = sessionStorage.getItem('tempPick');
+        // var jjson = sessionStorage.getItem('tempJson');
+        // var json = {};
+        // if(jjson){
+        //     json = JSON.parse(jjson);
+        //     console.log(json);
+        //     $('.proo_name').val(json.title);
+        //     $('.con').html(json.content);
+        //     $('.price_pro').val(json.price);
+        //     $('#catae').val(json.cate);
+        //     $('.cate_code').val(json.cate_code);
+        //     $('#sample_addr').val(json.addr);
+        //     $('#u-name').val(json.select);
+        //     
+        // }
+        if(result){
+            console.log('선택한 직플 : ' + result);
+            
+            $('#pick').val(result);
+            sessionStorage.removeItem('tempPick');
+            clearInterval(loop);
+        }
+    }, 100);
+    
+})
+</script>
+
+<script>
+    //임의의 file object영역
+    var zeroMan = []; //이미지 url을 배열로 저장한다.
+    var previewIndex = 0; //이미지의 갯수.
+    let pickFileName = ''; //대표사진 파일명.
+
+    function sendAjaxProduction(){
+        var str;
+        $("ul li").each(function(i, obj) {
+                                    var jobj = $(obj);
+                                    console.dir(jobj);
+                                    console.log(jobj.data("filename"));
+                                    str += "<input type='hidden' name='uploadVOList["
+                                          + i
+                                          + "].uuid' value='"
+                                          + jobj.data("uuid")
+                                          + "'>";
+                                    str += "<input type='hidden' name='uploadVOList["
+                                          + i
+                                          + "].uploadPath' value='"
+                                          + jobj
+                                                .data("uploadpath")
+                                          + "'>";
+                                    str += "<input type='hidden' name='uploadVOList["
+                                          + i
+                                          + "].fileName' value='"
+                                          + jobj.data("filename")
+                                          + "'>";
+                                    str += "<input type='hidden' name='uploadVOList["
+                                          + i
+                                          + "].fileType' value='"
+                                          + jobj.data("filetype")
+                                          + "'>";
+                                    str += "<input type='hidden' name='uploadVOList["
+                                          + i
+                                          + "].rep' value='"
+                                          + jobj.data("rep") 
+                                          + "'>";
+
+                                    
+
+                                 });
+                                 console.log("결과 str : " + str);
+                                 var member = JSON.parse(sessionStorage.getItem('member'));
+                                 str += "<input type='hidden' name='m_num' value='"+member.m_num+"' >"
+                                $('form').append(str)
+    }
+
+
+    var reader  = new FileReader(); 
+    
+    //이미지 URL을 이용해 Blob 객체로 생성한다.
+    //해당 함수 내부적으로 promise가 사용된다.
+    function makeFileIntoBlob(_imagePath) {
+        // INSTALL PLUGIN - cordova plugin add cordova-plugin-file
+        if (cordova.platformId==('android')) {
+            return new Promise((resolve, reject) => {
+                window.resolveLocalFileSystemURL(_imagePath, (fileEntry) => {
+                    fileEntry.file((resFile) => {
+                        var reader = new FileReader();
+                        //reader.onloadend = function(evt) => {
+                        reader.onloadend = function(evt) {
+                            var imgBlob = new Blob([evt.target.result], { type: 'image/jpeg' });
+                            imgBlob.name = 'sample.jpg';
+                            resolve(imgBlob);
+                        };
+                        reader.onerror = (e) => {
+                            console.log('Failed file read: ' + e.toString());
+                            reject(e);
+                        };
+                        reader.readAsArrayBuffer(resFile);
+                    });
+                });
+            });
+        } else {
+            return fetch(_imagePath).then((_response) => {
+                return _response.blob();
+            }).then((_blob) => {
+                return _blob;
+            }).catch((_error) => {
+                alert(JSON.stringify(_error.message));
+            });
+        }
+    }
+
+    // Blob 객체를 File 객체로 변환.
+    function blob2file(blobData, goodfilename) {
+        const fd = new FormData();
+        fd.set('a', blobData, goodfilename);
+        console.log('////////////////////////////////////////////////////////////');
+        console.log('////////////////////////////////////////////////////////////');
+        console.log(blobData, goodfilename);
+        console.log('////////////////////////////////////////////////////////////');
+        console.log('////////////////////////////////////////////////////////////');
+        return fd.get('a');
+    }
+
+    // FormData를 서버로 전송
+    function sendAjaxImg(fd, repPick){
+                console.log('ajax보낼꺼야')
+                $.ajax({
+                        type: "POST",
+                        enctype: 'multipart/form-data',
+                        url: "http://15.164.188.135:8080/uploadAjaxAction",
+                        data: fd,
+                        processData: false,
+                        contentType: false,
+                        cache: false,  
+                        success: (data) => {
+                            var str;
+                            console.log(data);
+                            var preBox = $('.preview-box');
+                            $(data).each(function(i,obj){
+                                    var uuid = "/s_" + obj.uuid;
+                                    var uploadPath = obj.uploadPath;
+                                    var fileName = "_" + obj.fileName;
+                                    var temp = obj.temp + "/";
+                                    var fileTempCallPath = encodeURIComponent(temp
+                                        + uploadPath + uuid + fileName);
+                                    console.log('obj rep : ' + $((preBox)[i]).data('rep'));
+                                    console.log(obj);
+                                    console.log('obj uuid : ' + uuid)
+                                    console.log('obj path : ' + uploadPath)
+                                    console.log('obj name : ' + fileName)
+                                    console.log('obj temp : ' + temp)
+                                    console.log('obj fileTempCallPath' + fileTempCallPath);
+                                    console.log(obj.fileName + ' 파일비교 '+ pickFileName + ' 결과는 ' + obj.fileName == pickFileName);
+                                    if(obj.fileName == pickFileName){
+                                        str += "<li data-uuid='"+obj.uuid+"' data-uploadPath='"+obj.uploadPath+"' data-fileName='"+obj.fileName+"' data-fileType='"+obj.fileType+"'"
+                                            + "data-rep=1>"+
+                                            + "<span data-file=\'"+fileTempCallPath+"\' data-type='image' > x </span>"
+                                            + "</li>"; 
+                                    } else {
+                                        str += "<li data-uuid='"+obj.uuid+"' data-uploadPath='"+obj.uploadPath+"' data-fileName='"+obj.fileName+"' data-fileType='"+obj.fileType+"'"
+                                            + "data-rep=0>"+
+                                            + "<span data-file=\'"+fileTempCallPath+"\' data-type='image' > x </span>"
+                                            + "</li>"; 
+                                    }
+                                        
+                                    
+                            });
+                            console.log("이미지 업로드 성공");
+                            $('ul').append(str);
+                            var Promise_arr2 = [];
+                            var b = new Promise(function (resolve, reject) {
+                                console.log('히히 내가 잘못했어')
+                                sendAjaxProduction();  //li태그의 정보를 이용 form 안에 input[hidden].val(li정보들) append한다.
+                                resolve();
+                            })
+                            Promise_arr2.push(b);
+                            Promise.all(Promise_arr2).then(function(result){///promise 배열 전체가 수행이 끝날때까지 대기 후 then()실행.
+                                
+                                console.log('히히 마무리야')
+                                $('form').submit(); //ajax통신으로 서버에 전송한다.
+                            }).then(function(){
+                                console.log('제발이제그만')
+                                console.log('제발이제그만')
+                                console.log('제발이제그만')
+                                console.log('제발이제그만')
+                                console.log('제발이제그만')
+                            }) ;
+
+                        },
+                        error: function(xhr, status, error) {
+                            alert(xhr.responseText);
+                            console.log(xhr);
+                            console.log(status);
+                            console.log(error);
+                        }
+                });
+    }
+
+    //promise 배열생성.
+    //0.반복문 시작.
+    //1.url을 이용해 파일명을 추출.
+    //2.배열에 함수makeFileIntoBlob(url-> blob)실행, 
+            //    함수blob2file(blob -> file) 실행, 
+            //    FormData에 file을 append하는 promise 객체를 생성 및 추가하고 resolve(formdata). 실행.
+    //3. 반복문이 종료되면 Promise.all(promise배열)을 통해 배열내 모든 promise 객체가 성공적으로 완료된 후 then() 함수를 통해 Ajax함수 실행.
+    function sendImgtoFile(fd){
+        var arr = []; // promise 객체들을 저장할 배열.
+        let namelist = []; // 파일의 이름을 저장할 배열.
+        var z = 0;
+        var ii = 0;
+        
+
+        
+        function forEachPromise(items, fn) {  ///
+            console.log('forEachPromise(items, fn) {');
+            return items.reduce(function (promise, item) { // 배열.reduce를 통해 배열의 각 원소를 변수 item에 담아 순차적으로 첫번째인수 promise객체를 생성 및 실행한다.
+                console.log('return items.reduce(function (promise, item) {');
+                return promise.then(function () {//promise객체의 별 다른 수행이 없으므로 바로 promise.then 블록이 실행되며 forEachPromise(배열, 실행함수-logItem)의 두번째 매개변수인 함수 logItem을 실행하는데 이때 매개변수로 배열의 원소인 item을 사용한다.
+                    console.log('return promise.then(function () {');
+                    return fn(item);//함수 logItem이 실행되며 매개변수로 넘어온 파일URL 배열의 원소값인 각 파일URL을 이용해 file객체로 변경하는 과정을 진행하고 마지막에 인덱스 값 ii를 1증가 함과 동시에 reduce의 다음을 수행하기 위해 resolve() 해준다.
+                });
+            }, Promise.resolve()); // 배열의 각 원소를 가지고 순차적으로 logItem을 실행하고 마지막 원소의 처리가 끝나면 resolve한다. 그 다음 동작인  forEachPromise.then()의 실행이 이루어진다.
+        }
+
+        function logItem(item){
+            console.log('function logItem(item){')
+            return new Promise((resolve,reject) => {
+                    fileURL = item;
+                    var Rname = fileURL.substr(fileURL.lastIndexOf('/') + 1);
+                    console.log(ii + '번째 프로미스 체인 실행입니다.');console.log(ii + '번째 프로미스 체인 실행입니다.');console.log(ii + '번째 프로미스 체인 실행입니다.');console.log(ii + '번째 프로미스 체인 실행입니다.');console.log(ii + '번째 프로미스 체인 실행입니다.');console.log(ii + '번째 프로미스 체인 실행입니다.');
+                    console.log('파일URL  '+fileURL);
+                    fileURL.substr(fileURL.lastIndexOf('/') + 1);
+                    namelist.push(fileURL.substr(fileURL.lastIndexOf('/') + 1));
+                    console.log('파일name['+ii+'] : '+namelist[ii]);
+                    arr.push(new Promise(function (resolve, reject) {
+                                    makeFileIntoBlob(fileURL).then(blob => {
+                                        console.log('blob : '+blob);
+                                        console.log('파일이름리스트['+ii+']'+Rname);
+                                        file = blob2file(blob,Rname);
+                                        console.log(file);
+                                        fd.append("uploadFile", file);
+                                        console.log((ii+1) + '번째 fd.append 완료되었어');
+                                        resolve(fd);
+                                    });
+                                }));
+                    ii++; //인덱스 1증가.
+                    item++; //의미없음.
+                    resolve();
+            });
+        }
+
+forEachPromise(zeroMan, logItem).then(()=>{
+    console.log('promise의 반복문 처리가 끝났다. reduce함수를 활용하였다.');
+    Promise.all(arr).then(function(result){///promise 배열 전체가 수행이 끝날때까지 대기 후 then()실행.
+                //매개변수로 넘어온 result는 promise배열의 각 원소promise들의 resolve한 값의 배열이다.
+                var i = result.length-1;
+                sendAjaxImg(result[i]);
+                // 위 코드에선 사실상 마지막 원소promise가 resolve한 formData만 필요하므로
+                // 해당 formData를 서버로 전송한다.
+    }) ;
+})
+            
+    }
+
+
+    
+    $(document).ready(function () {
+        let repPick;
+        $(document).on("click",".thumbnail",function(e){ 
+            
+            var imgDiv = $(e.target).parent();
+            $('.preview-box').each(function(i, previews){
+                    $(previews).attr("data-rep", "0");
+                    $('.capteen').remove();
+                    if(i == imgDiv.find('.preview-inputs').val()){
+                        repPick = i;
+                        console.log('헤헤히히히헤헿헤히헿')
+                    }
+                    console.log(i + '   ~~   ' +imgDiv.find('.preview-inputs').val() );
+                    console.log(i == imgDiv.find('.preview-inputs').val());
+                }
+            );
+            console.log(repPick);
+            srcsrcsrc  = e.target.src;
+            pickFileName = srcsrcsrc.substr(srcsrcsrc.lastIndexOf('/') + 1);
+            console.log(pickFileName);
+            imgDiv.attr("data-rep", "1");
+            imgDiv.prepend('<div class="capteen">대표이미지</div>');
+            
+            
+        });
+        $('form').submit(function(event) {
+                event.preventDefault();
+                var formData = $('form').serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://15.164.188.135:8080/selling/uploadProduct2',
+                    data: formData,
+                    success: function(){
+                        location.href = "index.html";
+                    },
+                    error : function(err){
+                        location.href = "index.html";
+                    }
+
+                });
+            // TODO
+        });
+
+
+
+        //전송.
+        $('.success').on('click', function (e) {
+            e.preventDefault();
+            let check = [ '|대표사진| ', '|제목| ', '|내용| ', '|가격| ',
+                           '|거래지역| ' ];//미작성된 부분 알려주기 위해. 작성이 된다면 작성된 부분은 ''으로 변경됨.
+                     console.log("submit clicked");
+                     var allInputText = '//제목 : ' + $('input[name=title]').val()+'// 내용 : ' +$('input[name=content]').val() + '// 가격 : ' +$('input[name=price]').val() + ' // 주소 : ' + $('input[name=addr]').val()
+                    alert(allInputText);
+                     var check_msg = '';
+                     check = [ '|대표사진| ', '|제목| ', '|내용| ', '|가격| ',
+                           '|거래지역| ' ];
+                     if ($('.capteen').length != 0) {
+                        check[0] = '';
+                     }
+                     if ($('input[name=title]').val() != '') {//제목이 있다면 에러메시지 없앤다.
+                        check[1] = '';
+                     }
+                     if ($('.con').val() != '') {//내용이 있다면 에러메시지 없앤다.
+                        check[2] = '';
+                     }
+                     if ($('input[name=price]').val() != '') {//가격이 있다면 에러메시지 없앤다.
+                        check[3] = '';
+                     }
+                     if ($('input[name=addr]').val() != '') {//주소가 있다면 에러메시지 없앤다.
+                        check[4] = '';
+                     }
+
+                     for (var i = 0; i < check.length; i++) {//에러메시지들을 통합한다.
+                        check_msg += check[i];
+                     }
+                     console.log(check_msg);
+                     if (check_msg != '') {//만약 에러메시지가 남아있다면
+                        alert('다음 요소들을 작성해 주시길 바랍니다. \n ' + check_msg);//에러메시지 보여주기.
+
+                        return false;
+                     }
+
+
+
+            console.log('클릭되었어');console.log('클릭되었어');console.log('클릭되었어');console.log('클릭되었어');
+            var fileURL = '';
+            var file;
+            var fd = new FormData();
+            var Promise_arr = [];
+
+            sendImgtoFile(fd, repPick); // 파일을 업로드 후 서버에 입력 값들 과 이미지 경로를 insert한다.
+        });
+
+        // <input type=file multiple> 태그 기능 구현 - imagePicker 라이브러리 활용. 해당 라이브러리는 파일URL을 반환한다.
+        $('#attach input[type=file]').click(function (e) {
+            e.preventDefault();
+            window.plugins.imagePicker.getPictures(
+                function (results) {
+                    for (var i = 0; i < results.length; i++) {
+                        var imgNum = previewIndex++;
+                        if (previewIndex >= 6) {
+                            alert('이미지 최대 갯수 초과하셨습니다.');
+                            return false;
+                        }
+                        zeroMan[i] = results[i];
+                        $(".photo-number").text((imgNum + 1) + "/5");
+                        console.log('Image URI: ' + results[i]);
+                        $("#preview")
+                            .append(
+                                "<div class=\"preview-box\">"
+                                + "<div class=\"delete\">제거하기</div>"
+                                + "<img class=\"thumbnail\" src=\"" + results[i] + "\"\/>"
+                                + "<input class=\"preview-inputs\" type=\"hidden\" value=\"" + imgNum + "\">"
+                                + "</div>");
+                    }
+                }, function (error) {
+                    console.log('Error: ' + error);
+                }, {
+                    maximumImagesCount: 5
+                }
+            );
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#catae").click(function () {
+            $("#pop").toggle();
+        })
+    })
+</script>
+
+<div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
+    <img src="http://t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer"
+        style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()"
+        alt="닫기 버튼">
+</div>
+
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script>
+    $(function () {
+        $(".background").css('height', window.innerHeight);
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('.man').click(function () {
+            $('#catae').val($('.man').text());
+            $('.cate_code').val('man');
+            $('#pop').hide();
+        });
+
+        $('.girl').click(function () {
+            $('#catae').val($('.girl').text());
+            $('.cate_code').val('woman');
+            $('#pop').hide();
+        });
+
+        $('.Electronic_products').click(function () {
+            $('#catae').val($('.Electronic_products').text());
+            $('.cate_code').val('elect');
+            $('#pop').hide();
+        });
+
+        $('.furniture').click(function () {
+            $('#catae').val($('.furniture').text());
+            $('.cate_code').val('furniture');
+            $('#pop').hide();
+        });
+
+        $('.Baby').click(function () {
+            $('#catae').val($('.Baby').text());
+            $('.cate_code').val('baby');
+            $('#pop').hide();
+        });
+
+        $('.sports').click(function () {
+            $('#catae').val($('.sports').text());
+            $('.cate_code').val('sport');
+            $('#pop').hide();
+        });
+
+        $('.game').click(function () {
+            $('#catae').val($('.game').text());
+            $('.cate_code').val('hobby');
+            $('#pop').hide();
+        });
+
+        $('.beauty').click(function () {
+            $('#catae').val($('.beauty').text());
+            $('.cate_code').val('beauty');
+            $('#pop').hide();
+        });
+
+        $('.life').click(function () {
+            $('#catae').val($('.life').text());
+            $('.cate_code').val('life');
+            $('#pop').hide();
+        });
+
+        $('.animal').click(function () {
+            $('#catae').val($('.animal').text());
+            $('.cate_code').val('animal');
+            $('#pop').hide();
+        });
+
+        $('.book').click(function () {
+            $('#catae').val($('.book').text());
+            $('.cate_code').val('book');
+            $('#pop').hide();
+        });
+
+        $('.stuff').click(function () {
+            $('#catae').val($('.stuff').text());
+            $('.cate_code').val('else');
+            $('#pop').hide();
+        });
+    });
+
+
+
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#adrs').click(function () {
+            document.getElementById('daumIframe').src += '';
+            $('#myModal').bPopup({
+                modalClose: true,
+                positionStyle: 'fixed',
+                position: [10, 100]
+            }, function () {
+                $('#daumIframe').css('display', 'block');
+                var setInter = setInterval(function () {
+                    $.ajax({
+                        url: 'http://15.164.188.135:3000/api/daumJuso/mobile',
+                        type: 'get',
+                        success: function (data) {
+                            if (data) {
+                                $('#myModal').bPopup().close();
+                                $('#sample_addr').val(data.fullAddr);
+                                $('#daumIframe').css('display', 'none');
+                                clearInterval(setInter);
+                            } else {
+                                
+                            }
+                        }, error: function (err) {
+                            console.log(err);
+                        }
+                    });
+                }, 1000);
+            });
+        });
+    });
+</script>
+
+<script>
+
+    /*** 이미지 제거.
+    ****/
+
+    $(document).ready(function () {
+        $(document).on("click",".delete",function(e){ 
+            var a = $(e.target).parent().find('.preview-inputs').val(); //클릭한 이미지의 인덱스를 구한다.
+            $(e.target).parent().remove();
+            previewIndex--;
+            var i = $('.preview-box img').length;
+            $(".photo-number").text((i) + "/5");
+
+            console.log('배열제거전', zeroMan);
+            zeroMan.splice(a, 1); //url 배열인 zeroMan에서 클릭한 이미지의 url을 제거한다.
+            console.log('배열제거후', zeroMan);
+        });
+    });
+</script>
+
+
+
+
+</html>

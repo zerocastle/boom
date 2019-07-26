@@ -28,7 +28,7 @@
                 if (seller != null && buyer != null) {
                     console.log("qrTokens are not null");
                     $.ajax({
-                        url: "http://39.127.7.47:3000/api/push/qrToken",
+                        url: "http://15.164.188.135:3000/api/push/qrToken",
                         dataType: 'json',
                         type: 'POST',
                         data: {
@@ -65,7 +65,7 @@
             /**직플레이스 part_name과 상품번호로 해당 직플레이스 파트너의 닉네임값과 거래 상태를 가져오기 위한 ajax 통신.*/
             $.ajax({
                 type: 'post',
-                url: 'http://39.127.7.47:3000/api/QRpartner',//QRpartner.js
+                url: 'http://15.164.188.135:3000/api/QRpartner',//QRpartner.js
                 dataType: 'json',
                 data: {
                     pro_num: '<%=pro_num%>', //상품 번호..?       
@@ -75,7 +75,7 @@
                     //채팅방넘버불러오기
                     $.ajax({
                     type: 'post',
-                    url: 'http://39.127.7.47:3000/api/QRpartner/getRoomid',//QRpartner.js/inAccept
+                    url: 'http://15.164.188.135:3000/api/QRpartner/getRoomid',//QRpartner.js/inAccept
                     dataType: 'json',
                     data: {
                         pro_num: '<%=pro_num%>', //상품 번호의 state_msg를 2로 바꾼다.       
@@ -145,7 +145,7 @@
                 socket.emit('inprod', room_id, '상품이 입고 되었습니다.');
                 $.ajax({
                     type: 'post',
-                    url: 'http://39.127.7.47:3000/api/QRpartner/accept',//QRpartner.js/inAccept
+                    url: 'http://15.164.188.135:3000/api/QRpartner/accept',//QRpartner.js/inAccept
                     dataType: 'json',
                     data: {
                         pro_num: '<%=pro_num%>', //상품 번호..?       
@@ -178,7 +178,7 @@
                 socket.emit('inprod', room_id, '상품이 출고 되었습니다.');
                 $.ajax({
                     type: 'post',
-                    url: 'http://39.127.7.47:3000/api/QRpartner/accept',//QRpartner.js/inAccept
+                    url: 'http://15.164.188.135:3000/api/QRpartner/accept',//QRpartner.js/inAccept
                     dataType: 'json',
                     data: {
                         pro_num: '<%=pro_num%>', //상품 번호의 state_msg를 2로 바꾼다.       

@@ -144,6 +144,7 @@ function fn_movePage(val) {
 				<div class="card-body">
 					<h3>판매 내역</h3>
 					<hr>
+<<<<<<< Updated upstream
              <div class="table-responsive">
                 <table class="table table-hover" data-addclass-on-xs="table-sm">
                   <thead class="thead-light">
@@ -174,6 +175,38 @@ function fn_movePage(val) {
                   </tbody>
                 </table>
               </div>
+=======
+					<div class="table-responsive">
+						<table class="table table-hover" data-addclass-on-xs="table-sm">
+							<thead class="thead-light">
+								<tr>
+									<th scope="col">가맹점코드</th>
+									<th scope="col">상품번호</th>
+									<th scope="col">카테고리</th>
+									<th scope="col">상품 이름</th>
+									<th scope="col">상품 상태</th>
+									<th scope="col">상품 가격</th>
+									<th scope="col">판매자</th>
+									<th scope="col" class="text-right">결제시간</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach items="${dude}" var="list">
+									<tr>
+										<th scope="row"><span class="badge badge-warning rounded">${list.merchant_uid }</span></th>
+										<td class="text-right">${list.pro_num}</td>
+										<td>${list.cate_code}</td>
+				                      	<td>${list.title }</td>
+				                      	<td>${list.quality}</td>
+				                      	<td>${list.price}</td>
+				                      	<td>${list.buyer_name}</td>
+				                      	<td class="text-right">${list.create_date}</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+>>>>>>> Stashed changes
 				</div>
 			</div>
 		</div>

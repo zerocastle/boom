@@ -434,7 +434,11 @@ transform-origin: top left;
     
     <div id="myModal" class='bPop'>
         <div class="bPop modal-content">
+<<<<<<< Updated upstream
             <iframe src="http://39.127.7.51:3000/api/daumJuso" id='daumIframe' style='display:none;'></iframe>
+=======
+            <iframe src="http://15.164.188.135:3000/api/daumJuso" id='daumIframe' style='display:none;'></iframe>
+>>>>>>> Stashed changes
         </div>
 
     </div>
@@ -453,7 +457,11 @@ transform-origin: top left;
             $('#daumIframe').css('display', 'block');
             var setInter = setInterval(function () {
                 $.ajax({
+<<<<<<< Updated upstream
                     url: 'http://39.127.7.51:3000/api/daumJuso/mobile',
+=======
+                    url: 'http://15.164.188.135:3000/api/daumJuso/mobile',
+>>>>>>> Stashed changes
                     type: 'get',
                     success: function (data) {
                         /*
@@ -509,7 +517,7 @@ transform-origin: top left;
 
             $.ajax({
                 type: 'POST',
-                url: 'http://39.127.7.49:8080/app/partner/partnerRegister',
+                url: 'http://15.164.188.135:8080/app/partner/partnerRegister',
                 data: JSON.stringify(data),
                 contentType : "application/json; charset=UTF-8",
                 success: function (data) {

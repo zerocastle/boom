@@ -627,7 +627,11 @@ height:100%;
 
             <div id="myModal" class='bPop'>
                 <div class="bPop modal-content">
+<<<<<<< Updated upstream
                   <iframe src="http://39.127.7.51:3000/api/daumJuso"id='daumIframe' style='display:none;'></iframe>
+=======
+                  <iframe src="http://15.164.188.135:3000/api/daumJuso"id='daumIframe' style='display:none;'></iframe>
+>>>>>>> Stashed changes
                 </div>
     
         </div>
@@ -727,7 +731,11 @@ height:100%;
                contentType: false,
                cache: false,
                timeout: 600000,
+<<<<<<< Updated upstream
                url: '/imageupload',
+=======
+               url: 'http://15.164.188.135:8080/uploadAjaxAction',
+>>>>>>> Stashed changes
                dataType: 'JSON',
                data: formData,
                success: function (result) {
@@ -1000,7 +1008,11 @@ $(document).ready(function(){
       $('#daumIframe').css('display','block');
       var setInter = setInterval(function() {
           $.ajax({
+<<<<<<< Updated upstream
               url: 'http://39.127.7.51:3000/api/daumJuso/mobile',
+=======
+              url: 'http://15.164.188.135:3000/api/daumJuso/mobile',
+>>>>>>> Stashed changes
               type : 'get',
               success : function(data){
                 if(data){

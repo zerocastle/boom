@@ -353,6 +353,7 @@ color:black !important;
 
 </section>
 
+<<<<<<< Updated upstream
 <script>
 $(document).ready(function() {
     
@@ -374,6 +375,27 @@ $(document).ready(function() {
                     $('.partner').append(
                         "<button id='scan' class='ui-btn ui-shadow ui-corner-all'>직플파트너용 QR스캐너</button>"
                     )
+=======
+            startFoo();
+            $.ajax({
+                type: "POST",
+                data: query,
+                url: "http://15.164.188.135:8080/app/myPageList/nick",
+                contentType: "application/json; charset=UTF-8",
+                success: function (data) {
+                    console.log(data);
+                    console.log(data.nickname);
+                    $('.profile-name').append(data.nickname);
+                    $('.profile-email').append(data.email);
+                   
+                    if (data.partner_signal >= 1) {
+                        $('.partner').append(
+                            "<button id='scan' class='ui-btn ui-shadow ui-corner-all'>직플파트너용 QR스캐너</button>"
+                        )
+                    }
+                }, error: function (err) {
+                    console.log(err);
+>>>>>>> Stashed changes
                 }
             },error : function(err){
                 console.log(err);

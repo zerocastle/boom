@@ -21,9 +21,15 @@ var road_and_QR = function () {
     var muid = $(".qrcode")[i].innerHTML;
     console.log(muid);
     var qrcode = new QRCode(document.getElementsByClassName("qrcode")[i], {
+<<<<<<< Updated upstream
       text: "http://39.127.7.51:3000/testQR?muid=" + muid + "&Tname=" + Tname, ///주의!! 직플파트너의 닉네임이 노드서버에서 쿼리스트링의 변수 'nickname'에 더해진다.
       width: 250,
       height: 250,
+=======
+      text: "http://15.164.188.135:3000/testQR?muid=" + muid + "&Tname=" + Tname, ///주의!! 직플파트너의 닉네임이 노드서버에서 쿼리스트링의 변수 'nickname'에 더해진다.
+      width: 170,
+      height: 170,
+>>>>>>> Stashed changes
       colorDark: "#000000",
       colorLight: "#ffffff",
       correctLevel: QRCode.CorrectLevel.H
@@ -43,7 +49,11 @@ var sendToken = function (msg, title, sender) {
   if (otherToken != null) {
     console.log("other's Token is not null");
     $.ajax({
+<<<<<<< Updated upstream
       url: "http://39.127.7.51:3000/api/push",
+=======
+      url: "http://15.164.188.135:3000/api/push",
+>>>>>>> Stashed changes
       dataType: 'json',
       type: 'POST',
       data: {
@@ -82,11 +92,56 @@ var other = '';
 
 $('#set_date').bootstrapMaterialDatePicker({ format: 'YYYY/MM/DD HH:mm', minDate: new Date() });//캘린더 - datePicker를 달아준다.
 $(document).ready(function () {
+<<<<<<< Updated upstream
 
 
 
 
 
+=======
+  $('.messages').scrollTop(99999999); // 스크롤 가장아래로 내림
+  $.ajax({
+    url : 'http://15.164.188.135:3000/otherImage',
+    type:'post',
+    data : {
+              room_id : num,
+              nickname : Tname
+            },
+    dataType:'json',
+    success:function(data){
+      console.log(data);
+      $('.contact-profile img').attr('src', 'http://15.164.188.135:8080/resources/'  + data.img);
+      $('.contact-profile p').prepend(data.nickname);
+      $('.contact-profile p span').append(data.title);
+    },error : function(err){
+
+    }
+  });
+  $.ajax({
+    url : 'http://15.164.188.135:3000/whatZicple',
+    type : 'post',
+    data : {room_id : num },
+    success : function(data){
+      var place_pick = data.place_pick;
+      if(place_pick+''!=''){//선정된 직플이 있다면
+        place_pick = place_pick+'';
+        var zicpleSum = [];
+        zicpleSum = place_pick.split('-');
+        var part_name = zicpleSum[0];
+        var road = zicpleSum[1];
+        var jibun = zicpleSum[2];
+        var menu = "직플레이스 : <b>"+part_name+"</b><br><addr>"+road+"<br>"+jibun+"</addr><br><button id='updateZicpleB' class='send menu send_addr plus_send' style='margin-left:7px; font-weight:bold;'>다시 선정하기</button>"
+        $('#updateZicpleA').append(menu);  
+      }else {
+          var menu = "<b>직플레이스가 없습니다.</b><br><addr><br></addr><br><button id='updateZicpleB' class='send menu send_addr plus_send' style='margin-left:7px; font-weight:bold;'>선정하기</button>"
+          $('#updateZicpleA').append(menu);  
+      }
+       
+    }, error : function(err){
+      console.log(err);
+    }
+  })
+>>>>>>> Stashed changes
   $(document).on("click",'.jumsu',  function () {
     
     var sender = $(this).parent().parent().find('p').text();
@@ -105,7 +160,11 @@ $(document).ready(function () {
     };
     $.ajax({
       type: 'POST',
+<<<<<<< Updated upstream
       url: 'http://39.127.7.51:3000/jumsu',
+=======
+      url: 'http://15.164.188.135:3000/jumsu',
+>>>>>>> Stashed changes
       data: data,
       success: function (data) {
         alert('success');
@@ -148,7 +207,11 @@ $(document).ready(function () {
   console.log("other's nickname is : " + other);
   $.ajax({
     type: 'post',
+<<<<<<< Updated upstream
     url: 'http://39.127.7.51:3000/api/push/getToken',
+=======
+    url: 'http://15.164.188.135:3000/api/push/getToken',
+>>>>>>> Stashed changes
     data: { nickname: other },
     success: function (result) {
       console.log(result);
@@ -184,7 +247,11 @@ $(document).ready(function () {
       $('#daumIframe').css('display', 'block');
       var setInter = setInterval(function () {
         $.ajax({
+<<<<<<< Updated upstream
           url: 'http://39.127.7.51:3000/api/daumJuso/mobile',
+=======
+          url: 'http://15.164.188.135:3000/api/daumJuso/mobile',
+>>>>>>> Stashed changes
           type: 'get',
           success: function (data) {
 
@@ -214,7 +281,11 @@ $(document).ready(function () {
   var buyer = $.urlParam('buyer');
   var pro_num = $.urlParam('pro_num');
   var mobile = $.urlParam('mobile');
+<<<<<<< Updated upstream
   var reqUrl = 'http://39.127.7.51:3000/roomchat?room_id=' + room_id + '&talker=' + talker + '&seller=' + seller + '&buyer=' + buyer + '&pro_num=' + pro_num + '&mobile=' + mobile + '';
+=======
+  var reqUrl = 'http://15.164.188.135:3000/roomchat?room_id=' + room_id + '&talker=' + talker + '&seller=' + seller + '&buyer=' + buyer + '&pro_num=' + pro_num + '&mobile=' + mobile + '';
+>>>>>>> Stashed changes
   var Pdata = '서버응답이되는지보기위한변수입니다.'
   $.ajax({
     //방번호, 구매자판매자중 하나라도 null이라면 talker=out,판매자,구매자,상품번호,모바일여부(모바일은 서버단에서 메시지목록을 던져주고 PC는 페이지를 넘겨준다.)
@@ -338,7 +409,11 @@ $('#plusbtn').on('click', function () {
   $('.ui.sidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
 });
 var a = function (socket2) {
+<<<<<<< Updated upstream
   socket2 = io.connect('http://39.127.7.51:3000');
+=======
+  socket2 = io.connect('http://15.164.188.135:3000');
+>>>>>>> Stashed changes
   return func_socket(socket2);
 }
 var func_socket = function (socket2) {
@@ -512,7 +587,11 @@ $('#buy').click(function () {
   //Nodejs 서버에 ajax요청을 한다.
   $.ajax({
     type: 'post',
+<<<<<<< Updated upstream
     url: 'http://39.127.7.51:3000/payCheck',
+=======
+    url: 'http://15.164.188.135:3000/payCheck',
+>>>>>>> Stashed changes
     data: {
       pro_num: $('#bpro_num').text()//상품번호를 전달.
     },

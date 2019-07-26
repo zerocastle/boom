@@ -191,7 +191,11 @@
 
             $.ajax({
                 type: 'get',
+<<<<<<< Updated upstream
                 url: 'http://39.127.7.51:8080/app/myPageList/other/' + name,
+=======
+                url: 'http://15.164.188.135:8080/app/myPageList/other/' + name,
+>>>>>>> Stashed changes
                 contentType: "application/json; charset=UTF-8",
                 success: function (data) {
                     console.log(data);
@@ -201,7 +205,11 @@
                     $('.other-name').append(data.nickname);
                     $.ajax({
                         type: 'post',
+<<<<<<< Updated upstream
                         url: 'http://39.127.7.51:8080/app/myPageList/otherProductCount',
+=======
+                        url: 'http://15.164.188.135:8080/app/myPageList/otherProductCount',
+>>>>>>> Stashed changes
                         data: JSON.stringify(other),
                         contentType: "application/json; charset=UTF-8",
                         async: false,
@@ -216,7 +224,11 @@
 
                     $.ajax({
                         type: 'post',
+<<<<<<< Updated upstream
                         url: 'http://39.127.7.51:8080/app/myPageList/Product',
+=======
+                        url: 'http://15.164.188.135:8080/app/myPageList/Product',
+>>>>>>> Stashed changes
                         data: JSON.stringify(other),
                         contentType: "application/json; charset=UTF-8",
                         async: false,
@@ -242,7 +254,11 @@
                                 console.log(data[i].uploadpath.replace(/\\/g, '/'));
                                 console.log(data[i].uuid);
                                 console.log(data[i].filename);
+<<<<<<< Updated upstream
                                 image[i].css({ "background-image": "url('http://39.127.7.51:8080/resources/" + data[i].uploadpath.replace(/\\/g, '/') + "/" + data[i].uuid + "_" + data[i].filename + "')" });
+=======
+                                image[i].css({ "background-image": "url('http://15.164.188.135:8080/resources/" + data[i].uploadpath.replace(/\\/g, '/') + "/" + data[i].uuid + "_" + data[i].filename + "')" });
+>>>>>>> Stashed changes
                                 image[i].css({ "background-position": "center center" });
                                 image[i].css({ "object-fit": "cover" });
                                 image[i].css({ "object-position": "top" });
@@ -270,7 +286,11 @@
                                     }
                                     $.ajax({
                                         type: 'post',
+<<<<<<< Updated upstream
                                         url: 'http://39.127.7.51:8080/app/myPageList/ProductDelete',
+=======
+                                        url: 'http://15.164.188.135:8080/app/myPageList/ProductDelete',
+>>>>>>> Stashed changes
                                         data: JSON.stringify(product),
                                         contentType: "application/json; charset=UTF-8",
                                         async: false,

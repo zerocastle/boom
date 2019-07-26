@@ -759,6 +759,15 @@
 
 <body>
   <div id='talk'>
+<<<<<<< Updated upstream
+=======
+      <div id="myModal" class='bPop'>
+          <div class="bPop modal-content">
+            <iframe src="http://15.164.188.135:8080/partner/GetZicpleList/"id='zicpleIframe' style='display:none;' width="360" height="400" scrolling='no'></iframe>
+          </div>
+
+      </div>
+>>>>>>> Stashed changes
       <div id="frame">
           <% var list = result%>
           <% var date = datetime
@@ -766,7 +775,11 @@
           %>
           <div class="content">
               <div class="contact-profile">
+<<<<<<< Updated upstream
                   <img src="http://39.127.7.47:8080/resources/" alt="" style="margin-left: 30px;" />
+=======
+                  <img src="http://15.164.188.135:8080/resources/" width="40px" height="45px" alt="" style="margin-left: 30px;" />
+>>>>>>> Stashed changes
                   <p style="font-weight: bolder; font-size: 18px; line-height: 60px;">
                   <span style="font-size: 14px; margin-left:10px"><%=jprod.title%></span>
                   </p>
@@ -799,7 +812,7 @@
         //// 상대방 이미지 불러오기.
       $(document).ready(function(){
         //(select uploadPath  || '/' || uuid ||'_'|| fileName from member where m_num = c.buyer_num) img
-        // http://39.127.7.47:8080/resources/  + img
+        // http://15.164.188.135:8080/resources/  + img
         $.ajax({
             url : '/otherImage',
             type:'post',
@@ -810,7 +823,7 @@
             dataType:'json',
             success:function(data){
               console.log(data);
-              $('.contact-profile img').attr('src', 'http://39.127.7.47:8080/resources/'  + data.img);
+              $('.contact-profile img').attr('src', 'http://15.164.188.135:8080/resources/'  + data.img);
               $('.contact-profile p').prepend(data.nickname);
             
             },error : function(err){
@@ -1022,7 +1035,11 @@ var subDate;
         var muid = $(".qrcode")[i].innerHTML;
         console.log(muid);
         var qrcode = new QRCode(document.getElementsByClassName("qrcode")[i], {
+<<<<<<< Updated upstream
           text: "http://39.127.7.47:3000/testQR?muid=" + muid + "&Tname=" + '<%=nickname%>',  ///주의!! 직플파트너의 닉네임이 노드서버에서 쿼리스트링의 변수 'nickname'에 더해진다.,
+=======
+          text: "http://15.164.188.135:3000/testQR?muid=" + muid + "&Tname=" + '<%=nickname%>',  ///주의!! 직플파트너의 닉네임이 노드서버에서 쿼리스트링의 변수 'nickname'에 더해진다.
+>>>>>>> Stashed changes
           width: 350,
           height: 350,
           colorDark: "#000000",

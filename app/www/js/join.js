@@ -89,7 +89,11 @@ $(document).ready(function() {
             });
             $.ajax({
                 type : 'post',
+<<<<<<< Updated upstream
                 url : 'http://39.127.7.51:8080/app/mnickNameCheck',
+=======
+                url : 'http://15.164.188.135:8080/app/mnickNameCheck',
+>>>>>>> Stashed changes
                 data : query,
                 contentType : 'application/json;charset=utf-8',
                 success : function (data){
@@ -170,7 +174,11 @@ $(document).ready(function() {
 
         $.ajax({
             type : 'post',
+<<<<<<< Updated upstream
             url : 'http://39.127.7.48:8080/app/mregister',
+=======
+            url : 'http://15.164.188.135:8080/app/mregister',
+>>>>>>> Stashed changes
             data : joindata,
             contentType : "application/json; charset=UTF-8",
             success : function(result){

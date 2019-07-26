@@ -14,7 +14,7 @@ $(document).ready(function () {
      console.log(data);
      for(var i = 0; i < data.length; i++){
          $('.pro').append('<div class="imgess">'
-         +'<img class="pro-img" src="http://39.127.7.47:8080/resources/'+data[i].uploadPath+'/s_'+data[i].uuid+'_'+data[i].fileName+' " width="90px;" height="85px;"/>'
+         +'<img class="pro-img" src="http://15.164.188.135:8080/resources/'+data[i].uploadPath+'/s_'+data[i].uuid+'_'+data[i].fileName+' " width="90px;" height="85px;"/>'
          +'</div>'
          //다른 개행
          +'<div class="img-name">'
@@ -45,7 +45,7 @@ $(document).ready(function () {
       } else {
           place_signal =  "<div class='badge badge-warning'>직거래</div>";
       }
-         /*'<img class="pro-img" src="http://39.127.7.47:8080/resources/'+data[i].uploadPath+'/s_'+data[i].uuid+'_'+data[i].fileName+' " width="90px;" height="85px;"/>'*/
+         /*'<img class="pro-img" src="http://15.164.188.135:8080/resources/'+data[i].uploadPath+'/s_'+data[i].uuid+'_'+data[i].fileName+' " width="90px;" height="85px;"/>'*/
   
          $('.pro').append('<div class="content-wrap"><div class="imgess">'
          +'<img  class="pro-img" src="http://15.164.188.135/resources/'+result[i].uploadPath+'/s_'+result[i].uuid+'_'+result[i].fileName+' " width="90px;" height="85px;"></div>'

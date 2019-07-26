@@ -67,7 +67,11 @@ li{
            
             $.ajax({
                 type : 'get',
+<<<<<<< Updated upstream
                 url : 'http://39.127.7.51:3000/jackchat?mobile=1&nickname='+temp.nickname,
+=======
+                url : 'http://15.164.188.135:3000/jackchat?mobile=1&nickname='+temp.nickname,
+>>>>>>> Stashed changes
                 data : {jdata : temp},
                 dataType : 'json',
                 contentType : "application/json; charset=UTF-8",
@@ -94,7 +98,13 @@ li{
                             $('ul').append('<ol><a href='+urlStr+'>'+jsondata.room_title+'</a>//상대방이 직톡방을 나갔습니다.')
                         } else {
                             urlStr = 'chatRoom.html?room_id='+jsondata.room_id+'&talker=in&seller='+jsondata.seller+'&buyer='+jsondata.buyer+'&pro_num='+jsondata.pro_num+'&mobile=1';
+<<<<<<< Updated upstream
                             $('ul').append('<ol>No.'+jsondata.room_id+' 직톡방 : <a href='+urlStr+'>'+jsondata.room_title+'</a>//구매자 : '+jsondata.buyer+', 판매자 : '+jsondata.seller+'')
+=======
+                            var longLi = '<li class="p-2"><a href="'+urlStr+'"><div class="img-div"><img class="MemberImg" src="http://15.164.188.135:8080/resources/'+jsondata.img+'" alt="sunil"></div><div class="text-small"><div>'+selectTag+'</div><div class="text-product"><span class="last-message text-muted">상품명 : '+jsondata.room_title+'</span></div></div><div class="chat-footer"><span class="text-muted float-right"><i class="fas fa-mail-reply" aria-hidden="true"></i></span></div></a></li>';
+                        
+                            $('ul').append(longLi);
+>>>>>>> Stashed changes
                         }
                         
                     }
