@@ -15,7 +15,7 @@
     "express-session": "^1.15.6",
     "fcm-node": "^1.4.1",
     "http-errors": "~1.6.2",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "morgan": "~1.9.0",
     "oracledb": "^3.1.2",
     "redis": "^2.8.0",
